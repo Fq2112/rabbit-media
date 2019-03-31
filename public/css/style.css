@@ -369,7 +369,7 @@ a:hover {
 
 .site-navbar .site-navigation .site-menu > li {
     display: inline-block;
-    padding: 10px 5px;
+    /*padding: 10px 5px;*/
 }
 
 .site-navbar .site-navigation .site-menu > li > a {
@@ -1581,6 +1581,7 @@ a:hover {
     text-transform: uppercase;
     font-size: 11px;
     letter-spacing: .1em;
+    font-weight: 900;
 }
 
 .swiper-container .btn-outline-white:hover {
@@ -1630,4 +1631,50 @@ a:hover {
 
 #lightgallery .item {
     margin-bottom: 30px;
+}
+
+.logotype {
+    -webkit-transition: all .3s ease-in-out;
+    -moz-transition: all .3s ease-in-out;
+    transition: all .3s ease-in-out;
+}
+
+.logotype:hover {
+    -webkit-transition: all .3s ease-in-out;
+    -moz-transition: all .3s ease-in-out;
+    transition: all .3s ease-in-out;
+}
+
+.progress {
+    position: fixed;
+    margin-bottom: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    border-radius: 0;
+    z-index: 20;
+}
+
+.progress .bar {
+    height: 100%;
+    width: 10%;
+    background: #592f83;
+    transition: background 0.15s ease;
+}
+
+.avatar img {
+    width: 40px;
+    margin-right: .5em;
+    border-radius: 100%;
+    -webkit-transition: all .3s ease-in-out;
+    -moz-transition: all .3s ease-in-out;
+    transition: all .3s ease-in-out;
+}
+
+.avatar:hover img {
+    border: 1px solid #592f83;
+    -webkit-transition: all .3s ease-in-out;
+    -moz-transition: all .3s ease-in-out;
+    transition: all .3s ease-in-out;
 }

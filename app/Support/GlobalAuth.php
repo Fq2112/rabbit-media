@@ -27,7 +27,7 @@ class GlobalAuth
             $user = User::where('email', $credentials['email'])->first();
             if ($user->status == false) {
                 return back()->withInput(Input::all())->with([
-                    'inactive' => 'Your account has not been activated! Please activate first.'
+                    'inactive' => 'Akun Anda belum aktif! Silahkan aktivasi akun Anda terlebih dahulu.'
                 ]);
             } else {
                 $guard = 'web';

@@ -21,7 +21,12 @@
 
     <link rel="stylesheet" href="{{asset('css/lightgallery.min.css')}}">
 
+    <!-- Bootstrap  -->
     <link rel="stylesheet" href="{{asset('css/bootstrap-datepicker.css')}}">
+    <link rel="stylesheet" href="{{asset('css/bootstrap-datetimepicker.css')}}">
+    <link rel="stylesheet" href="{{asset('css/bootstrap-select.css')}}">
+    <link rel="stylesheet" href="{{asset('css/bootstrap-toggle.css')}}">
+    <link rel="stylesheet" href="{{asset('css/daterangepicker.css')}}">
 
     <link rel="stylesheet" href="{{asset('fonts/flaticon/font/flaticon.css')}}">
 
@@ -32,8 +37,8 @@
     <link rel="stylesheet" href="{{asset('css/style.css')}}">
 
     <!-- SweetAlert2 -->
-    <link rel="stylesheet" href="{{asset('sweetalert2/sweetalert2.min.css')}}">
-    <script src="{{asset('sweetalert2/sweetalert2.min.js')}}"></script>
+    <link rel="stylesheet" href="{{asset('vendors/sweetalert2/sweetalert2.min.css')}}">
+    <script src="{{asset('vendors/sweetalert2/sweetalert2.min.js')}}"></script>
     <!-- Modal -->
     <script src="{{ asset('js/modal.js') }}"></script>
     <link rel="stylesheet" href="{{asset('css/modal.css')}}">
@@ -42,37 +47,6 @@
     <!-- scroll to top -->
     <link rel="stylesheet" href="{{asset('css/scroll-to-top.css')}}">
 
-    <style>
-        .logotype {
-            -webkit-transition: all .3s ease-in-out;
-            -moz-transition: all .3s ease-in-out;
-            transition: all .3s ease-in-out;
-        }
-
-        .logotype:hover {
-            -webkit-transition: all .3s ease-in-out;
-            -moz-transition: all .3s ease-in-out;
-            transition: all .3s ease-in-out;
-        }
-
-        .progress {
-            position: fixed;
-            margin-bottom: 0;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            border-radius: 0;
-            z-index: 20;
-        }
-
-        .progress .bar {
-            height: 100%;
-            width: 10%;
-            background: #592f83;
-            transition: background 0.15s ease;
-        }
-    </style>
     @stack('styles')
 
     <script src='https://www.google.com/recaptcha/api.js?onload=recaptchaCallback&render=explicit' async defer></script>
@@ -102,33 +76,8 @@
                         </a>
                     </h1>
                 </div>
-                <div class="col-10 col-md-8 d-none d-xl-block" data-aos="fade-down">
-                    <nav class="site-navigation position-relative text-right text-lg-center" role="navigation">
-                        <ul class="site-menu js-clone-nav mx-auto d-none d-lg-block">
-                            <li class="active"><a href="{{route('home')}}">Home</a></li>
-                            <li class="has-children">
-                                <a href="single.html">Portfolios</a>
-                                <ul class="dropdown">
-                                    @foreach(\App\Models\JenisPortofolio::orderBy('nama')->get() as $row)
-                                        <li><a href="#">{{$row->nama}}</a></li>
-                                    @endforeach
-                                </ul>
-                            </li>
-                            <li class="has-children">
-                                <a href="services.html">Services</a>
-                                <ul class="dropdown">
-                                    @foreach(\App\Models\JenisLayanan::orderBy('nama')->get() as $row)
-                                        <li><a href="#">{{$row->nama}}</a></li>
-                                    @endforeach
-                                </ul>
-                            </li>
-                            <li><a href="about.html">Feedback</a></li>
-                            <li><a href="contact.html">About Us</a></li>
-                            <li><a href="javascript:void(0)" data-toggle="modal"
-                                   onclick="openRegisterModal();" style="font-weight: 900;">Sign Up/In</a></li>
-                        </ul>
-                    </nav>
-                </div>
+
+                @include('layouts.partials._headerMenu')
 
                 <div class="col-6 col-xl-2 text-right" data-aos="fade-down">
                     <div class="d-none d-xl-inline-block">
@@ -160,8 +109,8 @@
         <div class="container-fluid">
             <p>
                 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                &copy;&nbsp;{{now()->format('Y')}} Rabbit Media. All rights reserved.<br>
-                Designed by <a href="http://rabbit-media.net" target="_blank">Rabbit Media</a>. This template is made by
+                &copy;&nbsp;{{now()->format('Y')}} Rabbit Media – Digital Creative Service. All rights reserved.<br>
+                Designed by <a href="{{route('home')}}" target="_blank">Rabbit Media</a>. This template is made by
                 <a href="https://colorlib.com" target="_blank">Colorlib</a>
                 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
             </p>
@@ -181,22 +130,32 @@
 <script src="{{asset('js/jquery-ui.js')}}"></script>
 <script src="{{asset('js/popper.min.js')}}"></script>
 <script src="{{asset('js/bootstrap.min.js')}}"></script>
+<script src="{{asset('js/moment.js')}}"></script>
+<script src="{{asset('js/bootstrap-datepicker.min.js')}}"></script>
 <script src="{{asset('js/owl.carousel.min.js')}}"></script>
 <script src="{{asset('js/jquery.stellar.min.js')}}"></script>
 <script src="{{asset('js/jquery.countdown.min.js')}}"></script>
 <script src="{{asset('js/jquery.magnific-popup.min.js')}}"></script>
-<script src="{{asset('js/bootstrap-datepicker.min.js')}}"></script>
 <script src="{{asset('js/swiper.min.js')}}"></script>
 <script src="{{asset('js/aos.js')}}"></script>
 
 <script src="{{asset('js/picturefill.min.js')}}"></script>
 <script src="{{asset('js/lightgallery-all.min.js')}}"></script>
 <script src="{{asset('js/jquery.mousewheel.min.js')}}"></script>
-
 <script src="{{asset('js/main.js')}}"></script>
+<!-- Bootstrap -->
+<script src="{{asset('js/bootstrap-datetimepicker.min.js')}}"></script>
+<script src="{{asset('js/bootstrap-select.js')}}"></script>
+<script src="{{asset('js/bootstrap-toggle.js')}}"></script>
+<script src="{{asset('js/daterangepicker.js')}}"></script>
+<!-- Smooth scroll -->
+<script src="{{asset('js/smooth-scrollbar.min.js')}}"></script>
+<!-- TinyMCE -->
+<script src="{{asset('vendors/tinymce/tinymce.min.js')}}"></script>
 
 @include('layouts.partials._scripts')
 @include('layouts.partials._alert')
+@include('layouts.partials._confirm')
 @stack('scripts')
 </body>
 </html>

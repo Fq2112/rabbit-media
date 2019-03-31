@@ -52,11 +52,11 @@ class LoginController extends Controller
                 session()->forget('intended');
             }
 
-            return back()->with('signed', 'You`re now signed in.');
+            return back()->with('signed', 'Anda telah masuk.');
         }
 
         return back()->withInput(Input::all())->with([
-            'error' => 'Your email or password is incorrect.'
+            'error' => 'Email atau password Anda salah.'
         ]);
     }
 
@@ -72,6 +72,6 @@ class LoginController extends Controller
 
         GlobalAuth::logout();
 
-        return redirect()->route('home')->with('logout', 'You`re now signed out.');
+        return redirect()->route('home')->with('logout', 'Anda telah keluar.');
     }
 }

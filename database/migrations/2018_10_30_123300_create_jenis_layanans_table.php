@@ -15,6 +15,7 @@ class CreateJenisLayanansTable extends Migration
     {
         Schema::create('jenis_layanans', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('icon');
             $table->string('nama');
             $table->text('deskripsi');
             $table->timestamps();

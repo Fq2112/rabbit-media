@@ -43,5 +43,34 @@ return [
             'tolerance' => env('STRIPE_WEBHOOK_TOLERANCE', 300),
         ],
     ],
+    'facebook' => [
+        'client_id' => env('FB_CLIENT_ID'),
+        'client_secret' => env('FB_CLIENT_SECRET'),
+        'redirect' => env('FB_REDIRECT'),
+    ],
+
+    'google' => [
+        'client_id' => env('Google_CLIENT_ID'),
+        'client_secret' => env('Google_CLIENT_SECRET'),
+        'redirect' => env('Google_REDIRECT'),
+    ],
+
+    'twitter' => [
+        'client_id' => env('TW_CLIENT_ID'),
+        'client_secret' => env('TW_CLIENT_SECRET'),
+        'redirect' => env('TW_REDIRECT'),
+    ],
+
+    'github' => [
+        'client_id' => env('GIT_CLIENT_ID'),
+        'client_secret' => env('GIT_CLIENT_SECRET'),
+        'redirect' => env('GIT_REDIRECT'),
+    ],
+
+    'linkedin' => [
+        'client_id' => env('LinkedIn_CLIENT_ID'),
+        'client_secret' => env('LinkedIn_CLIENT_SECRET'),
+        'redirect' => env('LinkedIn_REDIRECT'),
+    ],
 
 ];

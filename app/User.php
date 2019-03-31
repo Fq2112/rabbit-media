@@ -4,9 +4,11 @@ namespace App;
 
 use App\Models\Feedback;
 use App\Models\Pemesanan;
+use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Support\Role;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -50,5 +52,30 @@ class User extends Authenticatable
     public function getPemesanan()
     {
         return $this->hasMany(Pemesanan::class, 'user_id');
+    }
+
+    /**
+     * Sends the password reset notification.
+     *
+     * @param string $token
+     *
+     * @return void
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new CustomPassword($token));
+    }
+}
+
+class CustomPassword extends ResetPassword
+{
+    public function toMail($notifiable)
+    {
+        return (new MailMessage)
+            ->from(env('MAIL_USERNAME'), 'Rabbit Media – Digital Creative Service')
+            ->subject('Rabbit Media Account: Reset Password')
+            ->line('Kami mengirimkan email ini karena kami menerima permintaan reset password.')
+            ->action('Reset Password', url(route('password.reset', $this->token, false)))
+            ->line('Apabila Anda tidak mengirimkan permintaan tersebut, silahkan abaikan email ini dan hubungi kami.');
     }
 }

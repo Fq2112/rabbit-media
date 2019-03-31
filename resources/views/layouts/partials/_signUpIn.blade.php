@@ -19,15 +19,16 @@
                                data-toggle="tooltip" data-title="Facebook" data-placement="top">
                                 <i class="fab fa-facebook-f fa-fw"></i>
                             </a>
-                            {{--<a id="linkedin_login" class="circle linkedin"
+                            <a id="linkedin_login" class="circle linkedin"
                                href="{{route('redirect', ['provider' => 'linkedin'])}}"
-                               data-toggle="tooltip" data-title="Linkedin" data-placement="top">
+                               data-toggle="tooltip" data-title="Linkedin" data-placement="bottom">
                                 <i class="fab fa-linkedin-in fa-fw"></i>
-                            </a>--}}
-                            <a class="circle twitter" href="{{route('redirect', ['provider' => 'twitter'])}}"
+                            </a>
+                            {{--<a id="twitter_login" class="circle twitter"
+                               href="{{route('redirect', ['provider' => 'twitter'])}}"
                                data-toggle="tooltip" data-title="Twitter" data-placement="bottom">
                                 <i class="fab fa-twitter fa-fw"></i>
-                            </a>
+                            </a>--}}
                             <a id="google_login" class="circle google"
                                href="{{route('redirect', ['provider' => 'google'])}}"
                                data-toggle="tooltip" data-title="Google+" data-placement="right">
@@ -61,14 +62,14 @@
                                 {{ csrf_field() }}
 
                                 <div class="row has-feedback">
-                                    <div class="col-lg-12">
+                                    <div class="col-12">
                                         <input class="form-control" type="email" placeholder="Email"
                                                name="email" value="{{ old('email') }}" required>
                                         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                                     </div>
                                 </div>
                                 <div class="row has-feedback">
-                                    <div class="col-lg-12">
+                                    <div class="col-12">
                                         <input id="log_password" class="form-control" type="password"
                                                placeholder="Password" name="password" minlength="6" required>
                                         <span class="glyphicon glyphicon-eye-open form-control-feedback"></span>
@@ -80,21 +81,21 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-lg-6 checkbox">
+                                    <div class="col-6 checkbox">
                                         <label>
                                             <input type="checkbox" name="remember" {{old('remember') ? 'checked' : ''}}
                                             style="position: relative"> Remember me
                                         </label>
                                     </div>
-                                    <div class="col-lg-6 text-right">
+                                    <div class="col-6 text-right">
                                         <a href="javascript:openEmailModal()">Forgot password?</a>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-lg-12" id="recaptcha-login"></div>
+                                    <div class="col-12" id="recaptcha-login"></div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-lg-12">
+                                    <div class="col-12">
                                         <input id="btn_login" class="btn btn-primary py-3 px-4 text-white btn-login"
                                                type="submit" value="SIGN IN" disabled>
                                     </div>
@@ -128,28 +129,28 @@
                                   action="{{ route('register') }}" id="form-register">
                                 {{ csrf_field() }}
                                 <div class="row has-feedback">
-                                    <div class="col-lg-12">
+                                    <div class="col-12">
                                         <input id="reg_name" type="text" placeholder="Full name"
                                                class="form-control" name="name" required>
                                         <span class="glyphicon glyphicon-user form-control-feedback"></span>
                                     </div>
                                 </div>
                                 <div class="row has-feedback">
-                                    <div class="col-lg-12">
+                                    <div class="col-12">
                                         <input id="reg_email" class="form-control" type="email"
                                                placeholder="Email" name="email" required>
                                         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                                     </div>
                                 </div>
                                 <div class="row has-feedback">
-                                    <div class="col-lg-12">
+                                    <div class="col-12">
                                         <input class="form-control" type="password" placeholder="Password"
                                                id="reg_password" name="password" minlength="6" required>
                                         <span class="glyphicon glyphicon-eye-open form-control-feedback"></span>
                                     </div>
                                 </div>
                                 <div class="row has-feedback">
-                                    <div class="col-lg-12">
+                                    <div class="col-12">
                                         <input class="form-control" type="password" placeholder="Retype password"
                                                id="reg_password_confirm" name="password_confirmation"
                                                minlength="6" required>
@@ -157,7 +158,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-lg-12" style="font-size: 15px;text-align: justify">
+                                    <div class="col-12" style="font-size: 15px;text-align: justify">
                                         <small>
                                             By continuing this, you acknowledge that you accept on Rabbit's
                                             <a href="#privacy-policy" target="_blank"
@@ -168,10 +169,10 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-lg-12" id="recaptcha-register"></div>
+                                    <div class="col-12" id="recaptcha-register"></div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-lg-12">
+                                    <div class="col-12">
                                         <input id="btn_register"
                                                class="btn btn-primary py-3 px-4 text-white btn-register"
                                                type="submit" value="CREATE ACCOUNT" disabled>
@@ -200,7 +201,7 @@
                                 {{ csrf_field() }}
 
                                 <div class="row {{ $errors->has('Email') ? ' has-error' : '' }} has-feedback">
-                                    <div class="col-lg-12">
+                                    <div class="col-12">
                                         <input class="form-control" type="email" placeholder="Email" name="email"
                                                value="{{ old('email') }}" required>
                                         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
@@ -212,7 +213,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-lg-12">
+                                    <div class="col-12">
                                         <input class="btn btn-primary py-2 px-4 text-white btn-login" type="submit"
                                                value="send password reset link">
                                     </div>
@@ -240,7 +241,7 @@
                                   ['token' => session('reset') ? session('reset')['token'] : old('token')])}}">
                                 {{ csrf_field() }}
                                 <div class="row {{ $errors->has('Email') ? ' has-error' : '' }} has-feedback">
-                                    <div class="col-lg-12">
+                                    <div class="col-12">
                                         <input class="form-control" type="email" placeholder="Email" name="email"
                                                value="{{ old('email') }}" required>
                                         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
@@ -252,7 +253,7 @@
                                     </div>
                                 </div>
                                 <div class="row {{ $errors->has('password') ? ' has-error' : '' }} has-feedback">
-                                    <div class="col-lg-12">
+                                    <div class="col-12">
                                         <input id="forg_password" class="form-control" type="password"
                                                placeholder="New Password" name="password" minlength="6" required>
                                         <span class="glyphicon glyphicon-eye-open form-control-feedback"></span>
@@ -264,7 +265,7 @@
                                     </div>
                                 </div>
                                 <div class="row {{ $errors->has('password_confirmation') ? ' has-error' : '' }} has-feedback">
-                                    <div class="col-lg-12">
+                                    <div class="col-12">
                                         <input id="forg_password_confirm" class="form-control" type="password"
                                                placeholder="Retype password" name="password_confirmation"
                                                minlength="6" onkeyup="return checkForgotPassword()" required>
@@ -272,7 +273,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-lg-12">
+                                    <div class="col-12">
                                         <input class="btn btn-primary py-2 px-4 text-white btn-login btn-password"
                                                type="submit" value="reset password">
                                     </div>

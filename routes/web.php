@@ -52,6 +52,11 @@ Route::group(['namespace' => 'Pages', 'prefix' => '/'], function () {
         'as' => 'home'
     ]);
 
+    Route::get('info', [
+        'uses' => 'UserController@info',
+        'as' => 'info'
+    ]);
+
     Route::get('about', [
         'uses' => 'UserController@about',
         'as' => 'about'

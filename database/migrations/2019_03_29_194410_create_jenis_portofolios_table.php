@@ -15,6 +15,7 @@ class CreateJenisPortofoliosTable extends Migration
     {
         Schema::create('jenis_portofolios', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('icon');
             $table->string('nama');
             $table->timestamps();
         });

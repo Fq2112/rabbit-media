@@ -17,8 +17,9 @@ class ActivationController extends Controller
             'status' => true,
             'verifyToken' => null
         ]);
+
         Auth::loginUsingId($user->id);
 
-        return back()->with('activated', 'You`re now signed in as Customer.');
+        return back()->with('activated', 'Anda telah masuk.');
     }
 }

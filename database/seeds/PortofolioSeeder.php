@@ -17,18 +17,22 @@ class PortofolioSeeder extends Seeder
         $faker = Factory::create('id_ID');
 
         JenisPortofolio::create([
+            'icon' => 'fa-snowman',
             'nama' => 'Animations',
         ]);
 
         JenisPortofolio::create([
+            'icon' => 'fa-palette',
             'nama' => 'Designs',
         ]);
 
         JenisPortofolio::create([
+            'icon' => 'fa-images',
             'nama' => 'Photos',
         ]);
 
         JenisPortofolio::create([
+            'icon' => 'fa-film',
             'nama' => 'Videos',
         ]);
 

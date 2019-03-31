@@ -34,9 +34,8 @@ class SocialAuthController extends Controller
             $checkUser = User::where('email', $userSocial->email)->first();
 
             if (!$checkUser) {
-
                 Storage::disk('local')
-                    ->put('public/users/' . $userSocial->getId() . ".jpg", file_get_contents($userSocial->getAvatar()));
+                    ->put('public/users/ava/' . $userSocial->getId() . ".jpg", file_get_contents($userSocial->getAvatar()));
 
                 $user = User::firstOrCreate([
                     'ava' => $userSocial->getId() . ".jpg",
@@ -50,15 +49,23 @@ class SocialAuthController extends Controller
                     'provider_id' => $userSocial->getId(),
                     'provider' => $provider
                 ]);
-                Auth::loginUsingId($user->id);
+
             } else {
-                Auth::loginUsingId($checkUser->id);
+                $user = $checkUser;
             }
 
-            return back()->with('signed', 'You`re now signed in as a Customer.');
+            if ($user->ava == "") {
+                Storage::disk('local')
+                    ->put('public/users/ava/' . $userSocial->getId() . ".jpg", file_get_contents($userSocial->getAvatar()));
+
+                $user->update(['ava' => $userSocial->getId() . ".jpg"]);
+            }
+            Auth::loginUsingId($user->id);
+
+            return redirect()->route('home')->with('signed', 'Anda telah masuk.');
 
         } catch (\Exception $e) {
-            return back()->with('unknown', 'Please, login/register with Rabbits account.');
+            return back()->with('unknown', 'Silahkan masuk/daftar dengan akun Rabbit Media.');
         }
     }
 }

@@ -187,8 +187,8 @@
                                             <td align="center" width="660">
                                                 <a name="Logo" style="display:block" href="{{route('home')}}"
                                                    target="_blank">
-                                                    <img src="http://i66.tinypic.com/2iux5ph.png" border="0"
-                                                         style="display:block;width: 40%;" class="logo"></a>
+                                                    <img src="https://cdn1.imggmi.com/uploads/2019/3/31/ce87edc5c38037e4f9a2c74dc80bc699-full.png"
+                                                         border="0" style="display:block;width: 40%;" class="logo"></a>
                                             </td>
                                         </tr>
                                         <tr>
@@ -215,7 +215,7 @@
                                         <tr>
                                             <td align="center" valign="top"
                                                 style="font-family:helvetica,arial,sans-serif; color:#646464; font-size:14px; line-height:22px;">
-                                                <span style="font-size:22px; font-weight:bold; line-height:26px;">You're almost done.</span>
+                                                <span style="font-size:22px; font-weight:bold; line-height:26px;">Anda hampir selesai.</span>
                                             </td>
                                         </tr>
                                         </tbody>
@@ -240,9 +240,9 @@
                                             <td align="center" valign="top" style="font-family:helvetica,arial,sans-serif;
                 color:#646464; font-size:16px; line-height:22px;
                 padding-left:20px; padding-right:20px" class="body">
-                                                To finish this step, we just need to make sure <br>this e-mail address:
-                                                <strong>{{$user->email}}</strong> belongs to you. Click the link below
-                                                to activate your account.
+                                                Untuk mengakhiri prosedur ini, kami hanya perlu memastikan bahwa<br>
+                                                alamat email: <strong>{{$user->email}}</strong> adalah milik Anda.
+                                                Klik tautan di bawah untuk mengaktifkan akun Anda.
                                             </td>
                                         </tr>
                                         </tbody>
@@ -270,8 +270,8 @@
                                             <td align="center" width="600" class="full-width"
                                                 style="padding-left: 20px; padding-right:20px" valign="top">
                                                 <a class="zoom" id="activate"
-                                                   href="{{route('activate',['verifyToken' => $user->verifyToken, 'email' => $user->email])}}"
-                                                   target="_blank">ACTIVATE</a>
+                                                   href="{{route('activate',['verifyToken' => $user->verifyToken,
+                                                   'email' => $user->email])}}" target="_blank">ACTIVATE</a>
                                             </td>
                                         </tr>
                                         </tbody>
@@ -323,7 +323,7 @@
                                                         <td align="center"><span class="pw-note" style="font-family: helvetica, arial;
                                                          font-size: 15px;
                                                          line-height: 22px;
-                                                         display: block;">SISKA doesn't make you remember yet another password. Just click the link and you’re in.<br>No password. Ever.</span>
+                                                         display: block;">Kami tidak membuat Anda mengingat password lain. Cukup klik tautan dan Anda akan masuk.<br>Tidak ada password lain, tidak akan pernah ada.</span>
                                                         </td>
                                                     </tr>
 
@@ -402,12 +402,12 @@
                                         <tbody>
                                         <tr>
                                             <td valign="top" width="20" class="hide">&nbsp;</td>
-                                            <td align="center" valign="top" width="660" bgcolor="#1a1c21"><a
-                                                        name="Logo_1" style="display:block;"
-                                                        href="{{route('home')}}" target="_blank"><img
-                                                            src="http://i64.tinypic.com/2qn8tfp.png" alt="logo"
-                                                            border="0"
-                                                            style="display:block;width: 15%;"></a>
+                                            <td align="center" valign="top" width="660" bgcolor="#1a1c21">
+                                                <a name="Logo_1" style="display:block;" href="{{route('home')}}"
+                                                   target="_blank">
+                                                    <img src="https://cdn1.imggmi.com/uploads/2019/3/31/9351b2d132efd335ceae6c6e492fc93d-full.png"
+                                                         alt="logo"
+                                                         border="0" style="display:block;width: 15%;"></a>
                                             </td>
                                             <td valign="top" width="20" class="hide">&nbsp;</td>
                                         </tr>
@@ -436,7 +436,7 @@
                                                     <td valign="top" width="20" class="hide">&nbsp;</td>
                                                     <td align="center" valign="top" width="660" bgcolor="#1a1c21">
                                                         <div style="font-family:Helvetica, arial,helv,sans-serif;font-size:12px;color:#F9F9F9;">
-                                                            Download our app here, free!
+                                                            Unduh aplikasi kami disini, GRATIS!
                                                         </div>
                                                     </td>
                                                     <td valign="top" width="20" class="hide">&nbsp;</td>
@@ -493,7 +493,7 @@
                                         <tr>
                                             <td align="center" valign="top" width="660" bgcolor="#1a1c21"
                                                 style="font-family:Helvetica, arial,helv,sans-serif;font-size:12px;color:#F9F9F9;">
-                                                Keep in touch with us :)
+                                                Tetap berhubungan dengan kami :)
                                             </td>
                                         </tr>
                                         <tr>
@@ -508,7 +508,7 @@
                                                                 <tbody>
                                                                 <tr>
                                                                     <td align="center"><a
-                                                                                href="https://www.facebook.com/siskaku"
+                                                                                href="https://fb.com/RabbitMedia"
                                                                                 name="Facebook" target="_blank"><img
                                                                                     class="social-icons"
                                                                                     src="https://cdn.shazam.com/shazamauth/facebook.jpg"
@@ -517,7 +517,7 @@
                                                                                     alt="Facebook"></a>
                                                                     </td>
                                                                     <td>
-                                                                        <a href="https://twitter.com/siskaku"
+                                                                        <a href="https://twitter.com/RabbitMediaID"
                                                                            name="Twitter" target="_blank"><img
                                                                                     class="social-icons"
                                                                                     src="https://cdn.shazam.com/shazamauth/twitter.jpg"
@@ -526,7 +526,7 @@
                                                                                     alt="Twitter"></a>
                                                                     </td>
                                                                     <td>
-                                                                        <a href="https://www.instagram.com/siskaku/"
+                                                                        <a href="https://instagram.com/rabbit.media"
                                                                            name="Instagram" target="_blank"><img
                                                                                     class="social-icons"
                                                                                     src="https://cdn.shazam.com/shazamauth/instagram.jpg"
@@ -574,13 +574,13 @@
                                                                         style="font-family:Helvetica, arial,helv,sans-serif;font-size:16px;color:#F9F9F9; font-weight:bold;"
                                                                         bgcolor="#1a1c21">
                                                                         <a name="Privacy Policy"
-                                                                           href="#privacy-policy"
+                                                                           href="{{route('info')}}#privacy-policy"
                                                                            class="footerlinks"
                                                                            style="color:#F9F9F9; text-decoration:none;"
                                                                            target="_blank">Privacy Policy</a>&nbsp;&nbsp;&nbsp;&nbsp;
                                                                         <a name="Terms" class="footerlinks"
                                                                            style="color:#F9F9F9; text-decoration:none;"
-                                                                           href="#terms-conditions"
+                                                                           href="{{route('info')}}#terms-conditions"
                                                                            target="_blank">Terms of Service</a>
                                                                     </td>
                                                                 </tr>
@@ -661,18 +661,18 @@
                                                                     <td align="center" class="footer-padding"
                                                                         style="font-family:Helvetica, arial,helv,sans-serif;font-size:10px; color:#949494; font-weight:bold; padding-left:20px; padding-right:20px"
                                                                         bgcolor="#1a1c21">
-                                                                        This is an automatically generated notification
-                                                                        - please do not reply to this message. You are
-                                                                        receiving this email to complete the
-                                                                        registration initiated on the SISKA
-                                                                        application; if you did not enter your email
-                                                                        address in SISKA then you can either ignore
-                                                                        this message or contact info@karir.org for
-                                                                        more information. <br><br> SISKA is incorporated
-                                                                        in
-                                                                        Indonesia under company number
-                                                                        <span class="appleLinksWhite">+62318672552</span>.
-                                                                        <span class="appleLinksWhite">Copyright © 2018 SISKA - Sistem Informasi Karier. All rights reserved. Ketintang, Gayungan, Ketintang, Gayungan, Surabaya, Jawa Timur — 60231.</span>
+                                                                        Ini adalah pemberitahuan yang dibuat secara
+                                                                        otomatis - tolong jangan balas pesan ini. Anda
+                                                                        menerima email ini untuk menyelesaikan
+                                                                        pendaftaran yang dimulai pada aplikasi Rabbit
+                                                                        Media; jika Anda tidak memasukkan alamat email
+                                                                        Anda di situs Rabbit Media maka Anda dapat
+                                                                        mengabaikan pesan ini atau menghubungi
+                                                                        info@rabbit-media.net untuk informasi lebih
+                                                                        lanjut.<br><br>Rabbit Media didirikan di
+                                                                        Indonesia dengan nomor perusahaan
+                                                                        <span class="appleLinksWhite">+62315667102</span>.
+                                                                        <span class="appleLinksWhite">© {{now()->format('Y')}} Rabbit Media – Digital Creative Service. All rights reserved.  JL. Dukuh Kupang Timur XX, Kav. 788, Kompleks Diponggo, Pakis, Surabaya — 60265.</span>
                                                                         <br>
                                                                         <div id="stat-div"
                                                                              style="visibility:hidden !important;"

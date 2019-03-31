@@ -17,7 +17,12 @@ class UserController extends Controller
     {
         $portofolios = Portofolio::orderByDesc('id')->take(10)->get();
 
-        return view('pages.user.beranda', compact('portofolios'));
+        return view('pages.beranda', compact('portofolios'));
+    }
+
+    public function info()
+    {
+        return view('pages.info');
     }
 
     public function about()

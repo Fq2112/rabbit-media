@@ -19,7 +19,6 @@ class AdminSeeder extends Seeder
         foreach (Role::ALL as $role) {
             if ($role == Role::ROOT) {
                 Admin::create([
-                    'ava' => 'avatar.png',
                     'name' => 'Rabbit Media',
                     'email' => 'rm.rabbitmedia@gmail.com',
                     'password' => bcrypt('secret'),
@@ -29,7 +28,6 @@ class AdminSeeder extends Seeder
             } elseif ($role == Role::STAFF_DESAIN) {
                 for ($c = 0; $c < (($role == Role::STAFF_DESAIN) ? 3 : 1); $c++) {
                     Admin::create([
-                        'ava' => 'avatar.png',
                         'name' => $faker->firstName . ' ' . $faker->lastName,
                         'email' => $faker->unique()->safeEmail,
                         'password' => bcrypt('secret'),
@@ -40,7 +38,6 @@ class AdminSeeder extends Seeder
             } elseif ($role == Role::STAFF_VIDEO) {
                 for ($c = 0; $c < (($role == Role::STAFF_VIDEO) ? 3 : 1); $c++) {
                     Admin::create([
-                        'ava' => 'avatar.png',
                         'name' => $faker->firstName . ' ' . $faker->lastName,
                         'email' => $faker->unique()->safeEmail,
                         'password' => bcrypt('secret'),
@@ -51,7 +48,6 @@ class AdminSeeder extends Seeder
             } elseif ($role == Role::STAFF_FOTO) {
                 for ($c = 0; $c < (($role == Role::STAFF_FOTO) ? 3 : 1); $c++) {
                     Admin::create([
-                        'ava' => 'avatar.png',
                         'name' => $faker->firstName . ' ' . $faker->lastName,
                         'email' => $faker->unique()->safeEmail,
                         'password' => bcrypt('secret'),
