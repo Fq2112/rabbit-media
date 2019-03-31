@@ -201,7 +201,7 @@
         var docHeight = $(document).height();
         var windowHeight = $(window).height();
         var progress = (windowScrollTop / (docHeight - windowHeight)) * 100;
-        var $bgColor = progress > 99 ? '#592f83' : '#ab59ff';
+        var $bgColor = progress > 99 ? '#312855' : '#592f83';
         var $textColor = progress > 99 ? '#fff' : '#333';
 
         $('.progress .bar').width(progress + '%').css({backgroundColor: $bgColor});
@@ -219,9 +219,9 @@
             whatsapp: "+628563094333",
             line: "//line.me/ti/p/fqnkk",
             call_to_action: "Contact us",
-            button_color: "#932C8B",
+            button_color: "#592f83",
             position: "right",
-            order: "whatsapp,line",
+            order: "line,whatsapp",
         };
         var proto = document.location.protocol, host = "whatshelp.io", url = proto + "//static." + host;
         var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = url + '/widget-send-button/js/init.js';

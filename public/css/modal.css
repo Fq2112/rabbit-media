@@ -85,13 +85,16 @@
     animation-name: shake;
 }
 
+.login .modal-header {
+    padding: .5rem 1rem;
+}
+
 .login .modal-dialog {
     width: 350px;
 }
 
 .login .modal-footer a {
     text-decoration: none;
-    color: #FA5555;
 }
 
 .login .modal-footer {
@@ -101,13 +104,10 @@
 }
 
 .login .modal-header button {
-    border: 0 none;
-    padding: 15px 15px 15px;
-    /*padding: 11px 15px;*/
-}
-
-.login .modal-body {
-    /*     background-color: #eeeeee; */
+    font-size: 35px;
+    color: #333;
+    padding: 0;
+    margin: 0;
 }
 
 .login .division {
@@ -154,6 +154,7 @@
     padding: 15px;
     width: 60px;
     height: 60px;
+    font-size: 20px;
 }
 
 .login .social .circle .fa {
@@ -211,20 +212,8 @@
 }
 
 .login .btn-login, .registerBox .btn-register {
-    background-color: #00ADB5;
-    border-color: #00ADB5;
-    border-width: 0;
-    color: #FFFFFF;
-    display: block;
-    margin: 0 auto;
-    padding: 15px 0;
     text-transform: uppercase;
     width: 100%;
-}
-
-.login .btn-login:hover, .registerBox .btn-register:hover {
-    background-color: #00A4E4;
-    color: #FFFFFF;
 }
 
 .login .form-control {
