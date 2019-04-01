@@ -8,21 +8,20 @@
 
 namespace App\Support;
 
-
 class Role
 {
     const ROOT = 'root';
 
-    const STAFF_FOTO = 'staff foto';
+    const PHOTOGRAPHER = 'photographer';
 
-    const STAFF_VIDEO = 'staff video';
+    const VIDEOGRAPHER = 'videographer';
 
-    const STAFF_DESAIN = 'staff desain';
+    const DESIGNER = 'designer';
 
     const ALL = [
-        Role::STAFF_DESAIN,
-        Role::STAFF_VIDEO,
-        Role::STAFF_FOTO,
+        Role::DESIGNER,
+        Role::VIDEOGRAPHER,
+        Role::PHOTOGRAPHER,
         Role::ROOT
     ];
 

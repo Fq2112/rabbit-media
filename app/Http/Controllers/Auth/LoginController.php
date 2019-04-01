@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Support\Facades\GlobalAuth;
 use Illuminate\Support\Facades\Input;
@@ -21,12 +22,20 @@ class LoginController extends Controller
     |
     */
     use AuthenticatesUsers;
+
     /**
      * Where to redirect users after login.
      *
-     * @var string
+     * @return \Illuminate\Http\RedirectResponse
      */
-    protected $redirectTo = '/';
+    public function redirectTo()
+    {
+        if (Auth::guard('admin')->check()) {
+            return redirect()->route('home-admin')->with('signed', 'Anda telah masuk.');
+        }
+
+        return back()->with('signed', 'Anda telah masuk.');
+    }
 
     /**
      * Create a new controller instance.
@@ -48,11 +57,11 @@ class LoginController extends Controller
     {
         if (GlobalAuth::login(['email' => $request->email, 'password' => $request->password])) {
             if (session()->has('intended')) {
-                $this->redirectTo = session('intended');
+//                $this->redirectTo = session('intended');
                 session()->forget('intended');
             }
 
-            return back()->with('signed', 'Anda telah masuk.');
+            return $this->redirectTo();
         }
 
         return back()->withInput(Input::all())->with([

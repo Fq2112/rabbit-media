@@ -25,8 +25,8 @@ class AdminSeeder extends Seeder
                     'remember_token' => str_random(10),
                     'role' => $role,
                 ]);
-            } elseif ($role == Role::STAFF_DESAIN) {
-                for ($c = 0; $c < (($role == Role::STAFF_DESAIN) ? 3 : 1); $c++) {
+            } elseif ($role == Role::DESIGNER) {
+                for ($c = 0; $c < (($role == Role::DESIGNER) ? 3 : 1); $c++) {
                     Admin::create([
                         'name' => $faker->firstName . ' ' . $faker->lastName,
                         'email' => $faker->unique()->safeEmail,
@@ -35,8 +35,8 @@ class AdminSeeder extends Seeder
                         'role' => $role,
                     ]);
                 }
-            } elseif ($role == Role::STAFF_VIDEO) {
-                for ($c = 0; $c < (($role == Role::STAFF_VIDEO) ? 3 : 1); $c++) {
+            } elseif ($role == Role::VIDEOGRAPHER) {
+                for ($c = 0; $c < (($role == Role::VIDEOGRAPHER) ? 3 : 1); $c++) {
                     Admin::create([
                         'name' => $faker->firstName . ' ' . $faker->lastName,
                         'email' => $faker->unique()->safeEmail,
@@ -45,8 +45,8 @@ class AdminSeeder extends Seeder
                         'role' => $role,
                     ]);
                 }
-            } elseif ($role == Role::STAFF_FOTO) {
-                for ($c = 0; $c < (($role == Role::STAFF_FOTO) ? 3 : 1); $c++) {
+            } elseif ($role == Role::PHOTOGRAPHER) {
+                for ($c = 0; $c < (($role == Role::PHOTOGRAPHER) ? 3 : 1); $c++) {
                     Admin::create([
                         'name' => $faker->firstName . ' ' . $faker->lastName,
                         'email' => $faker->unique()->safeEmail,

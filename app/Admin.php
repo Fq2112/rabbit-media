@@ -42,19 +42,19 @@ class Admin extends Authenticatable
      * Check whether this user is admin or not
      * @return bool
      */
-    public function isStaffFoto()
+    public function isPhotographer()
     {
-        return ($this->role == Role::STAFF_FOTO);
+        return ($this->role == Role::PHOTOGRAPHER);
     }
 
-    public function isStaffVideo()
+    public function isVideographer()
     {
-        return ($this->role == Role::STAFF_VIDEO);
+        return ($this->role == Role::VIDEOGRAPHER);
     }
 
-    public function isStaffDesain()
+    public function isDesigner()
     {
-        return ($this->role == Role::STAFF_DESAIN);
+        return ($this->role == Role::DESIGNER);
     }
 
     /**
