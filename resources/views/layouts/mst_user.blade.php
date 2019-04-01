@@ -46,7 +46,20 @@
     <link rel="stylesheet" href="{{asset('css/loading.css')}}">
     <!-- scroll to top -->
     <link rel="stylesheet" href="{{asset('css/scroll-to-top.css')}}">
+    <!-- download card -->
+    <link rel="stylesheet" href="{{asset('css/downloadCard-gridList.css')}}">
+    <style>
+        @if(\Illuminate\Support\Facades\Request::is('/*'))
+        .to-top {
+            left: 1%;
+        }
 
+        @else
+        .to-top {
+            right: 1%;
+        }
+        @endif
+    </style>
     @stack('styles')
 
     <script src='https://www.google.com/recaptcha/api.js?onload=recaptchaCallback&render=explicit' async defer></script>
@@ -64,7 +77,8 @@
         <div class="site-mobile-menu-body"></div>
     </div>
 
-    <header class="site-navbar py-3" role="banner">
+    <header class="site-navbar py-3 {{\Illuminate\Support\Facades\Request::is('/*') ? '' : 'border-bottom'}}"
+            role="banner">
         <div class="container-fluid">
             <div class="row align-items-center">
                 <div class="col-6 col-xl-2" data-aos="fade-down">
@@ -106,12 +120,17 @@
     @yield('content')
 
     <div class="footer py-4">
-        <div class="container-fluid">
+        <div class="container-fluid {{\Illuminate\Support\Facades\Request::is('/*') ? '' : 'text-center'}}">
             <p>
                 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                 &copy;&nbsp;{{now()->format('Y')}} Rabbit Media – Digital Creative Service. All rights reserved.<br>
                 Designed by <a href="{{route('home')}}" target="_blank">Rabbit Media</a>. This template is made by
-                <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                <a href="https://colorlib.com" target="_blank">Colorlib</a>.<br>
+                <a href="{{route('info')}}#privacy-policy" target="_blank">Privacy Policy</a><strong> &middot; </strong>
+                <a href="{{route('info')}}#terms-conditions" target="_blank">Terms & Conditions</a><strong>
+                    &middot; </strong>
+                <a href="{{route('info')}}#team" target="_blank">Get in Touch</a><strong> &middot; </strong>
+                <a href="{{route('info')}}#faqs" target="_blank">FAQ</a>
                 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
             </p>
         </div>
@@ -141,6 +160,7 @@
 
 <script src="{{asset('js/picturefill.min.js')}}"></script>
 <script src="{{asset('js/lightgallery-all.min.js')}}"></script>
+<script src="{{asset('js/lg-video.min.js')}}"></script>
 <script src="{{asset('js/jquery.mousewheel.min.js')}}"></script>
 <script src="{{asset('js/main.js')}}"></script>
 <!-- Bootstrap -->
@@ -148,6 +168,9 @@
 <script src="{{asset('js/bootstrap-select.js')}}"></script>
 <script src="{{asset('js/bootstrap-toggle.js')}}"></script>
 <script src="{{asset('js/daterangepicker.js')}}"></script>
+<!-- Masonry Responsive Grid -->
+<script src="{{asset('js/masonry.pkgd.min.js')}}"></script>
+<script src="{{asset('js/imagesloaded.pkgd.min.js')}}"></script>
 <!-- Smooth scroll -->
 <script src="{{asset('js/smooth-scrollbar.min.js')}}"></script>
 <!-- TinyMCE -->

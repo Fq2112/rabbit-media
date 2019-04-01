@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Galeri;
 use App\Models\JenisPortofolio;
 use App\Models\Portofolio;
 use Illuminate\Database\Seeder;
@@ -36,47 +37,64 @@ class PortofolioSeeder extends Seeder
             'nama' => 'Videos',
         ]);
 
-        $i1 = 1;
-        for ($c = 0; $c < 2; $c++) {
+        $x1 = 1;
+        for ($c = 0; $c < 5; $c++) {
             Portofolio::create([
                 'jenis_id' => 1,
-                'nama' => $faker->words(rand(1, 3), true),
+                'nama' => 'Portfolio ' . $x1++,
                 'deskripsi' => $faker->sentence,
-                'cover' => 'img_' . $i1++ . '.jpg',
-                'photos' => ['photo1.jpg', 'photo2.jpg', 'photo3.jpg', 'photo4.jpg', 'photo5.jpg'],
-                'videos' => ['video1.mp4', 'video2.mp4', 'video3.mp4', 'video4.mp4', 'video5.mp4']
+                'cover' => 'img_' . rand(1, 7) . '.jpg',
             ]);
         }
 
-        $i2 = 3;
-        for ($c = 0; $c < 2; $c++) {
+        $x2 = 6;
+        for ($c = 0; $c < 10; $c++) {
             Portofolio::create([
                 'jenis_id' => 2,
-                'nama' => $faker->words(rand(1, 3), true),
+                'nama' => 'Portfolio ' . $x2++,
                 'deskripsi' => $faker->sentence,
-                'cover' => 'img_' . $i2++ . '.jpg',
-                'photos' => ['photo1.jpg', 'photo2.jpg', 'photo3.jpg', 'photo4.jpg', 'photo5.jpg'],
+                'cover' => 'img_' . rand(1, 7) . '.jpg',
             ]);
         }
 
-        $i3 = 5;
-        for ($c = 0; $c < 2; $c++) {
+        $x3 = 16;
+        for ($c = 0; $c < 15; $c++) {
             Portofolio::create([
                 'jenis_id' => 3,
-                'nama' => $faker->words(rand(1, 3), true),
+                'nama' => 'Portfolio ' . $x3++,
                 'deskripsi' => $faker->sentence,
-                'cover' => 'img_' . $i3++ . '.jpg',
-                'photos' => ['photo1.jpg', 'photo2.jpg', 'photo3.jpg', 'photo4.jpg', 'photo5.jpg'],
+                'cover' => 'img_' . rand(1, 7) . '.jpg',
             ]);
         }
 
-        for ($c = 0; $c < 1; $c++) {
+        $x4 = 31;
+        for ($c = 0; $c < 20; $c++) {
             Portofolio::create([
                 'jenis_id' => 4,
-                'nama' => $faker->words(rand(1, 3), true),
+                'nama' => 'Portfolio ' . $x4++,
                 'deskripsi' => $faker->sentence,
-                'cover' => 'img_7.jpg',
-                'videos' => ['video1.mp4', 'video2.mp4', 'video3.mp4', 'video4.mp4', 'video5.mp4']
+                'cover' => 'img_' . rand(1, 7) . '.jpg',
+            ]);
+        }
+
+        $x = 1;
+        for ($c = 0; $c < 250; $c++) {
+            Galeri::create([
+                'portofolio_id' => rand(Portofolio::min('id'), Portofolio::max('id')),
+                'nama' => 'Gallery ' . $x++,
+                'deskripsi' => $faker->sentence,
+                'photo' => 'nature_big_' . rand(1, 9) . '.jpg',
+            ]);
+        }
+
+        $y = 1;
+        for ($c = 0; $c < 250; $c++) {
+            Galeri::create([
+                'portofolio_id' => rand(Portofolio::min('id'), Portofolio::max('id')),
+                'nama' => 'Gallery ' . $y++,
+                'deskripsi' => $faker->sentence,
+                'video' => 'https://youtu.be/3-RsRaScPjE',
+                'thumbnail' => 'nature_big_' . rand(1, 9) . '.jpg',
             ]);
         }
     }

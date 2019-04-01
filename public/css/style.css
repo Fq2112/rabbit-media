@@ -1630,7 +1630,7 @@ a:hover {
 }
 
 #lightgallery .item {
-    margin-bottom: 30px;
+    margin-bottom: 16px;
 }
 
 .logotype {
@@ -1677,4 +1677,11 @@ a:hover {
     -webkit-transition: all .3s ease-in-out;
     -moz-transition: all .3s ease-in-out;
     transition: all .3s ease-in-out;
+}
+
+.footer strong {
+    font-size: 23px;
+    text-shadow: 0 0 4px #592f83;
+    color: #312855;
+    line-height: 0;
 }

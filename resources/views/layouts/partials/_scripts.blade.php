@@ -3,7 +3,12 @@
     $(function () {
         Scrollbar.initAll();
 
-        $('#lightgallery').lightGallery();
+        $('#lightgallery').lightGallery({
+            loadYoutubeThumbnail: true,
+            youtubeThumbSize: 'default',
+        });
+
+        $('.grid').masonry();
 
         $('[data-toggle="tooltip"]').tooltip();
         $('[data-toggle="popover"]').popover();
@@ -261,7 +266,7 @@
             line: "//line.me/ti/p/fqnkk",
             call_to_action: "Contact us",
             button_color: "#592f83",
-            position: "right",
+            position: "{{\Illuminate\Support\Facades\Request::is('/*') ? 'right' : 'left'}}",
             order: "line,whatsapp",
         };
         var proto = document.location.protocol, host = "whatshelp.io", url = proto + "//static." + host;
@@ -269,4 +274,5 @@
         s.onload = function () { WhWidgetSendButton.init(host, proto, options); };
         var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x);
     })();
+
 </script>

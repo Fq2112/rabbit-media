@@ -1,9 +1,10 @@
 <div class="col-10 col-md-8 d-none d-xl-block" data-aos="fade-down">
     <nav class="site-navigation position-relative text-right text-lg-center" role="navigation">
         <ul class="site-menu js-clone-nav mx-auto d-none d-lg-block">
-            <li class="active"><a href="{{route('home')}}">Home</a></li>
-            <li class="has-children">
-                <a href="single.html">Portfolios</a>
+            <li class="{{\Illuminate\Support\Facades\Request::is('/*') ? 'active' : ''}}">
+                <a href="{{route('home')}}">Home</a></li>
+            <li class="has-children {{\Illuminate\Support\Facades\Request::is('portfolios*') ? 'active' : ''}}">
+                <a href="{{route('show.portfolio')}}">Portfolios</a>
                 <ul class="dropdown">
                     @foreach(\App\Models\JenisPortofolio::orderBy('nama')->get() as $row)
                         <li><a href="#"><i class="fa {{$row->icon}}" style="margin-right: 8px"></i>{{$row->nama}}</a>
@@ -11,8 +12,8 @@
                     @endforeach
                 </ul>
             </li>
-            <li class="has-children">
-                <a href="services.html">Services</a>
+            <li class="has-children {{\Illuminate\Support\Facades\Request::is('services*') ? 'active' : ''}}">
+                <a href="#">Services</a>
                 <ul class="dropdown">
                     @foreach(\App\Models\JenisLayanan::orderBy('nama')->get() as $row)
                         <li><a href="#"><i class="fa {{$row->icon}}" style="margin-right: 8px"></i>{{$row->nama}}</a>
@@ -20,8 +21,10 @@
                     @endforeach
                 </ul>
             </li>
-            <li><a href="about.html">Feedback</a></li>
-            <li><a href="contact.html">About Us</a></li>
+            <li class="{{\Illuminate\Support\Facades\Request::is('feedback*') ? 'active' : ''}}">
+                <a href="{{route('feedback')}}">Feedback</a></li>
+            <li class="{{\Illuminate\Support\Facades\Request::is('about*') ? 'active' : ''}}">
+                <a href="{{route('about')}}">About Us</a></li>
             @if(Auth::check() || Auth::guard('admin')->check())
                 <li class="has-children avatar">
                     <a href="#" style="font-weight: 900;">

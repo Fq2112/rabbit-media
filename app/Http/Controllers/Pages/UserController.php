@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Pages;
 
+use App\Models\JenisPortofolio;
 use App\Models\layanan;
 use App\Models\Pemesanan;
 use App\Models\Portofolio;
@@ -15,9 +16,24 @@ class UserController extends Controller
 {
     public function index()
     {
-        $portofolios = Portofolio::orderByDesc('id')->take(10)->get();
+        $portofolios = Portofolio::take(12)->get()->shuffle()->all();
 
         return view('pages.beranda', compact('portofolios'));
+    }
+
+    public function showPortfolio()
+    {
+        $types = JenisPortofolio::orderBy('nama')->get();
+        $portfolios = Portofolio::orderByDesc('id')->get();
+
+        return view('pages.portofolio', compact('portfolios', 'types'));
+    }
+
+    public function showPortfolioGalleries($jenis, $id)
+    {
+        $data = Portofolio::find(decrypt($id));
+
+        return view('pages.portofolio-galeri', compact('data', 'jenis'));
     }
 
     public function info()
@@ -28,12 +44,6 @@ class UserController extends Controller
     public function about()
     {
         return view('pages.user.about');
-    }
-
-    public function portfolio()
-    {
-        $portfolios = Portfolio::orderBy('id', 'desc')->get();
-        return view('pages.user.portfolio', compact('portfolios'));
     }
 
     public function detailService($id)

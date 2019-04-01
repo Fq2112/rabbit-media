@@ -16,6 +16,20 @@ Route::group(['namespace' => 'Pages', 'prefix' => '/'], function () {
         'as' => 'home'
     ]);
 
+    Route::group(['prefix' => 'portfolios'], function () {
+
+        Route::get('/', [
+            'uses' => 'UserController@showPortfolio',
+            'as' => 'show.portfolio'
+        ]);
+
+        Route::get('{jenis}/{id}', [
+            'uses' => 'UserController@showPortfolioGalleries',
+            'as' => 'show.portfolio.gallery'
+        ]);
+
+    });
+
     Route::get('info', [
         'uses' => 'UserController@info',
         'as' => 'info'
@@ -26,10 +40,6 @@ Route::group(['namespace' => 'Pages', 'prefix' => '/'], function () {
         'as' => 'about'
     ]);
 
-    Route::get('portfolio', [
-        'uses' => 'UserController@portfolio',
-        'as' => 'portfolio'
-    ]);
 
     Route::get('order', [
         'uses' => 'UserController@order',
