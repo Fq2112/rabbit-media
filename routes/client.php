@@ -23,6 +23,11 @@ Route::group(['namespace' => 'Pages', 'prefix' => '/'], function () {
             'as' => 'show.portfolio'
         ]);
 
+        Route::get('data', [
+            'uses' => 'UserController@getPortfolios',
+            'as' => 'get.portfolios'
+        ]);
+
         Route::get('{jenis}/{id}', [
             'uses' => 'UserController@showPortfolioGalleries',
             'as' => 'show.portfolio.gallery'

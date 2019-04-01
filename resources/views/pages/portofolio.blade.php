@@ -1,7 +1,6 @@
 @extends('layouts.mst_user')
 @section('title', 'Portfolios | Rabbit Media – Digital Creative Service')
 @push('styles')
-    <link rel="stylesheet" href="{{asset('css/myPagination.css')}}">
     <style>
         #tabs .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
             color: #592f83 !important;
@@ -82,95 +81,45 @@
                     <div class="row mb-5">
                         <div class="col-12 ">
                             <h3 class="site-section-heading text-center">Portfolios</h3>
-                            <h5 class="text-center">Kumpulan karya terbaik dari Rabbit's | Capture and bring your moment
-                                with us!</h5>
+                            <h5 class="text-center">Capture and bring your moment with us!</h5>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="row justify-content-center" id="tabs">
-                <nav class="col-10">
-                    <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
-                        <a class="nav-item nav-link show active" style="color: #495057" id="tabList-all"
-                           data-toggle="tab"
-                           href="#tabContent-all" role="tab" aria-controls="nav-home" aria-selected="true">Show All</a>
-                        @foreach($types as $row)
-                            <a class="nav-item nav-link" onclick="filterPortfolio('{{$row->id}}')"
-                               style="color: #495057"
-                               id="tabList-{{$row->id}}" data-toggle="tab" href="#tabContent-{{$row->id}}"
-                               role="tab" aria-controls="nav-home" aria-selected="true">{{$row->nama}}</a>
-                        @endforeach
-                    </div>
-                </nav>
-                <div class="col-11 tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
-                    <div class="tab-pane fade show active" role="tabpanel" id="tabContent-all"
-                         aria-labelledby="nav-home-tab" style="margin-left: -1.5rem;">
-                        <div class="row grid">
-                            @foreach($portfolios as $row)
-                                <div class="col-3 item grid-item" data-aos="fade">
-                                    <article class="download-card Card">
-                                        <a href="{{route('show.portfolio.gallery', ['jenis' =>
-                                        strtolower($row->getJenisPortofolio->nama), 'id' => encrypt($row->id)])}}">
-                                            <div class="download-card__icon-box">
-                                                <img src="{{$row->cover == 'img_1.jpg' || $row->cover == 'img_2.jpg' ||
-                                                $row->cover == 'img_3.jpg' || $row->cover == 'img_4.jpg' ||
-                                                $row->cover == 'img_5.jpg' || $row->cover == 'img_6.jpg' ||
-                                                $row->cover == 'img_7.jpg' ? asset('images/'.$row->cover) :
-                                                asset('storage/portofolio/'.strtolower(str_replace
-                                                (' ', '_', $row->getJenisPortofolio->nama).'/'.$row->id.'/'.$row->cover))}}"
-                                                     alt="Cover" class="img-fluid">
-                                            </div>
-                                        </a>
-                                        <div class="Card-thumbnailOverlay">
-                                            <div class="text-center">
-                                                <h2 class="mb-3">{{ucwords($row->nama)}}</h2>
-                                                <a href="{{route('show.portfolio.gallery', ['jenis' => strtolower($row
-                                                ->getJenisPortofolio->nama), 'id' => encrypt($row->id)])}}"
-                                                   class="Card-Btn">
-                                                    <strong>{{count($row->getGaleri) . ' footage'}}</strong>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </article>
-                                </div>
+                <div class="col-11">
+                    <nav>
+                        <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                            <a class="nav-item nav-link show active" style="color: #495057" id="tabList-all"
+                               data-toggle="tab" href="#tabContent-all" role="tab" aria-controls="nav-home"
+                               aria-selected="true" onclick="filterPortfolio('all', 'all')">Show All</a>
+                            @foreach($types as $row)
+                                <a class="nav-item nav-link" onclick="filterPortfolio('{{$row->id}}',
+                                        '{{strtolower(str_replace(' ', '_', $row->nama))}}')"
+                                   style="color: #495057" id="tabList-{{$row->id}}" data-toggle="tab"
+                                   href="#tabContent-{{$row->id}}" role="tab" aria-controls="nav-home"
+                                   aria-selected="true">{{$row->nama}}</a>
                             @endforeach
+                            <form id="form-loadPortfolio">
+                                <input type="hidden" name="q" id="jenis">
+                                <input type="hidden" id="jenis_nama">
+                            </form>
                         </div>
-                    </div>
-                    @foreach($types as $row)
-                        <div class="tab-pane fade" role="tabpanel" id="tabContent-{{$row->id}}"
-                             aria-labelledby="nav-home-tab" style="margin-left: -1.5rem;">
-                            <div class="row grid">
-                                @foreach($row->getPortofolio as $row)
-                                    <div class="col-3 item grid-item" data-aos="fade">
-                                        <article class="download-card Card">
-                                            <a href="{{route('show.portfolio.gallery', ['jenis' =>
-                                            strtolower($row->getJenisPortofolio->nama), 'id' => encrypt($row->id)])}}">
-                                                <div class="download-card__icon-box">
-                                                    <img src="{{$row->cover == 'img_1.jpg' || $row->cover == 'img_2.jpg' ||
-                                                    $row->cover == 'img_3.jpg' || $row->cover == 'img_4.jpg' ||
-                                                    $row->cover == 'img_5.jpg' || $row->cover == 'img_6.jpg' ||
-                                                    $row->cover == 'img_7.jpg' ? asset('images/'.$row->cover) :
-                                                    asset('storage/portofolio/'.strtolower(str_replace
-                                                    (' ', '_', $row->getJenisPortofolio->nama).'/'.$row->id.'/'.$row->cover))}}"
-                                                         alt="Cover" class="img-fluid">
-                                                </div>
-                                            </a>
-                                            <div class="Card-thumbnailOverlay">
-                                                <div class="text-center">
-                                                    <h2 class="mb-3">{{ucwords($row->nama)}}</h2>
-                                                    <a href="{{route('show.portfolio.gallery', ['jenis' => strtolower
-                                                    ($row->getJenisPortofolio->nama), 'id' => encrypt($row->id)])}}"
-                                                       class="Card-Btn">
-                                                        <strong>{{count($row->getGaleri) . ' footage'}}</strong>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </article>
-                                    </div>
-                                @endforeach
+                    </nav>
+                    <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
+                        <div class="tab-pane fade" role="tabpanel" aria-labelledby="nav-home-tab"
+                             style="margin-left: -1.5rem;">
+                            <div class="text-center">
+                                <img src="{{asset('images/loading.gif')}}" id="image" class="img-fluid ld ld-fade">
+                            </div>
+                            <div class="row" id="search-result"></div>
+                            <div class="row">
+                                <div class="col-12 myPagination">
+                                    <ul class="pagination justify-content-end" style="margin-right: -1em;"></ul>
+                                </div>
                             </div>
                         </div>
-                    @endforeach
+                    </div>
                 </div>
             </div>
         </div>
@@ -178,12 +127,207 @@
 @endsection
 @push('scripts')
     <script>
-        function filterPortfolio(id) {
+        var last_page;
+
+        $(function () {
+            $('#image').hide();
+            $('#search-result').show();
+            $('.myPagination').show();
+            $("#tabList-" + window.location.hash).addClass('show active');
+            $("#tabContent-" + window.location.hash).addClass('show active');
+
+            @if($keyword != '')
+            $("#tabList-{{$keyword}}").click();
+            @else
+            $("#tabList-all").click();
+            @endif
+        });
+
+        function filterPortfolio(id, nama) {
             $("#nav-tab a").removeClass('show active');
-            $("#nav-tabContent .tab-pane").removeClass('show active');
+            $("#nav-tabContent .tab-pane").addClass('show active');
 
             $("#tabList-" + id).addClass('show active');
-            $("#tabContent-" + id).addClass('show active');
+
+            $("#jenis").val(id);
+            $("#jenis_nama").val(nama);
+            loadPortfolios();
+        }
+
+        function loadPortfolios() {
+            clearTimeout(this.delay);
+            this.delay = setTimeout(function () {
+                $.ajax({
+                    url: "{{route('get.portfolios')}}",
+                    type: "GET",
+                    data: $("#form-loadPortfolio").serialize(),
+                    beforeSend: function () {
+                        $('#image').show();
+                        $('#search-result, .myPagination').hide();
+                    },
+                    complete: function () {
+                        $('#image').hide();
+                        $('#search-result, .myPagination').show();
+                    },
+                    success: function (data) {
+                        successLoad(data);
+                    },
+                    error: function () {
+                        swal({
+                            title: 'Portfolios',
+                            text: 'Data tidak ditemukan!',
+                            type: 'error',
+                            timer: '1500'
+                        })
+                    }
+                });
+            }.bind(this), 800);
+
+            return false;
+        }
+
+        $('.myPagination ul').on('click', 'li', function () {
+            $(window).scrollTop(0);
+
+            page = $(this).children().text();
+            active = $(this).parents("ul").find('.active').eq(0).text();
+            hellip_prev = $(this).closest('.hellip_prev').next().find('a').text();
+            hellip_next = $(this).closest('.hellip_next').prev().find('a').text();
+
+            if (page > 0) {
+                $url = "{{url('/portfolios/data')}}" + '?page=' + page;
+            }
+            if ($(this).hasClass('prev')) {
+                $url = "{{url('/portfolios/data')}}" + '?page=' + parseInt(active - 1);
+            }
+            if ($(this).hasClass('next')) {
+                $url = "{{url('/portfolios/data')}}" + '?page=' + parseInt(+active + +1);
+            }
+            if ($(this).hasClass('hellip_prev')) {
+                $url = "{{url('/portfolios/data')}}" + '?page=' + parseInt(hellip_prev - 1);
+                page = parseInt(hellip_prev - 1);
+            }
+            if ($(this).hasClass('hellip_next')) {
+                $url = "{{url('/portfolios/data')}}" + '?page=' + parseInt(+hellip_next + +1);
+                page = parseInt(+hellip_next + +1);
+            }
+            if ($(this).hasClass('first')) {
+                $url = "{{url('/portfolios/data')}}" + '?page=1';
+            }
+            if ($(this).hasClass('last')) {
+                $url = "{{url('/portfolios/data')}}" + '?page=' + last_page;
+            }
+
+            clearTimeout(this.delay);
+            this.delay = setTimeout(function () {
+                $.ajax({
+                    url: $url,
+                    type: "GET",
+                    data: $("#form-loadPortfolio").serialize(),
+                    beforeSend: function () {
+                        $('#image').show();
+                        $('#search-result, .myPagination').hide();
+                    },
+                    complete: function () {
+                        $('#image').hide();
+                        $('#search-result, .myPagination').show();
+                    },
+                    success: function (data) {
+                        successLoad(data, page);
+                    },
+                    error: function () {
+                        swal({
+                            title: 'Portfolios',
+                            text: 'Data tidak ditemukan!',
+                            type: 'error',
+                            timer: '1500'
+                        })
+                    }
+                });
+            }.bind(this), 800);
+
+            return false;
+        });
+
+        function successLoad(data, page) {
+            var $result = '', pagination = '', $page = '';
+
+            $.each(data.data, function (i, val) {
+                $result +=
+                    '<div class="col-3 item">' +
+                    '<article class="download-card Card">' +
+                    '<a href="/portfolios/' + val.jenis + '/' + val.enc_id + '">' +
+                    '<div class="download-card__icon-box">' +
+                    '<img src="' + val.cover + '"' +
+                    'alt="Cover" class="img-fluid"></div></a>' +
+                    '<div class="Card-thumbnailOverlay">' +
+                    '<div class="text-center">' +
+                    '<h2 class="mb-3" style="text-transform: uppercase">' + val.nama + '</h2>' +
+                    '<a href="/portfolios/' + val.jenis + '/' + val.enc_id + '" class="Card-Btn">' +
+                    '<strong>' + val.galleries + ' footage</strong>' +
+                    '</a></div></div></article></div>';
+            });
+            $("#search-result").empty().append($result);
+
+            if (data.last_page > 1) {
+                if (data.current_page > 4) {
+                    pagination += '<li class="page-item first">' +
+                        '<a class="page-link" href="' + data.first_page_url + '">' +
+                        '<i class="fa fa-angle-double-left"></i></a></li>';
+                }
+
+                if ($.trim(data.prev_page_url)) {
+                    pagination += '<li class="page-item prev">' +
+                        '<a class="page-link" href="' + data.prev_page_url + '" rel="prev">' +
+                        '<i class="fa fa-angle-left"></i></a></li>';
+                } else {
+                    pagination += '<li class="page-item disabled">' +
+                        '<span class="page-link"><i class="fa fa-angle-left"></i></span></li>';
+                }
+
+                if (data.current_page > 4) {
+                    pagination += '<li class="page-item hellip_prev">' +
+                        '<a class="page-link" style="cursor: pointer">&hellip;</a></li>'
+                }
+
+                for ($i = 1; $i <= data.last_page; $i++) {
+                    if ($i >= data.current_page - 3 && $i <= data.current_page + 3) {
+                        if (data.current_page == $i) {
+                            pagination += '<li class="page-item active"><span class="page-link">' + $i + '</span></li>'
+                        } else {
+                            pagination += '<li class="page-item">' +
+                                '<a class="page-link" style="cursor: pointer">' + $i + '</a></li>'
+                        }
+                    }
+                }
+
+                if (data.current_page < data.last_page - 3) {
+                    pagination += '<li class="page-item hellip_next">' +
+                        '<a class="page-link" style="cursor: pointer">&hellip;</a></li>'
+                }
+
+                if ($.trim(data.next_page_url)) {
+                    pagination += '<li class="page-item next">' +
+                        '<a class="page-link" href="' + data.next_page_url + '" rel="next">' +
+                        '<i class="fa fa-angle-right"></i></a></li>';
+                } else {
+                    pagination += '<li class="page-item disabled">' +
+                        '<span class="page-link"><i class="fa fa-angle-right"></i></span></li>';
+                }
+
+                if (data.current_page < data.last_page - 3) {
+                    pagination += '<li class="page-item last">' +
+                        '<a class="page-link" href="' + data.last_page_url + '">' +
+                        '<i class="fa fa-angle-double-right"></i></a></li>';
+                }
+            }
+            $('.myPagination ul').html(pagination);
+
+            if (page != "" && page != undefined) {
+                $page = '&page=' + page;
+            }
+            window.history.replaceState("", "", '{{url('/portfolios')}}?q=' + $("#jenis_nama").val() + $page);
+            return false;
         }
     </script>
 @endpush

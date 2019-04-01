@@ -4,11 +4,11 @@
             <li class="{{\Illuminate\Support\Facades\Request::is('/*') ? 'active' : ''}}">
                 <a href="{{route('home')}}">Home</a></li>
             <li class="has-children {{\Illuminate\Support\Facades\Request::is('portfolios*') ? 'active' : ''}}">
-                <a href="{{route('show.portfolio')}}">Portfolios</a>
+                <a href="{{route('show.portfolio')}}?q=all">Portfolios</a>
                 <ul class="dropdown">
                     @foreach(\App\Models\JenisPortofolio::orderBy('nama')->get() as $row)
-                        <li><a href="#"><i class="fa {{$row->icon}}" style="margin-right: 8px"></i>{{$row->nama}}</a>
-                        </li>
+                        <li><a href="{{route('show.portfolio')}}?q={{$row->id}}">
+                                <i class="fa {{$row->icon}}" style="margin-right: 8px"></i>{{$row->nama}}</a></li>
                     @endforeach
                 </ul>
             </li>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Pages;
 
+use App\Models\Galeri;
 use App\Models\JenisPortofolio;
 use App\Models\layanan;
 use App\Models\Pemesanan;
@@ -21,12 +22,42 @@ class UserController extends Controller
         return view('pages.beranda', compact('portofolios'));
     }
 
-    public function showPortfolio()
+    public function showPortfolio(Request $request)
     {
         $types = JenisPortofolio::orderBy('nama')->get();
         $portfolios = Portofolio::orderByDesc('id')->get();
+        $keyword = $request->q;
+        $page = $request->page;
 
-        return view('pages.portofolio', compact('portfolios', 'types'));
+        return view('pages.portofolio', compact('portfolios', 'types', 'keyword', 'page'));
+    }
+
+    public function getPortfolios(Request $request)
+    {
+        if ($request->q == 'all') {
+            $portfolios = Portofolio::orderByDesc('id')->paginate(12)->toArray();
+        } else {
+            $portfolios = Portofolio::orderByDesc('id')->where('jenis_id', $request->q)->paginate(20)->toArray();
+        }
+
+        $i = 0;
+        foreach ($portfolios['data'] as $portfolio) {
+            $galleries = array('galleries' => Galeri::where('portofolio_id', $portfolio['id'])->count());
+            $jenis = array('jenis' => strtolower(JenisPortofolio::find($portfolio['jenis_id'])->nama));
+            $encrypt = array('enc_id' => encrypt($portfolio['id']));
+            $cover = array('cover' => $portfolio['cover'] == 'img_1.jpg' || $portfolio['cover'] == 'img_2.jpg' ||
+            $portfolio['cover'] == 'img_3.jpg' || $portfolio['cover'] == 'img_4.jpg' ||
+            $portfolio['cover'] == 'img_5.jpg' || $portfolio['cover'] == 'img_6.jpg' ||
+            $portfolio['cover'] == 'img_7.jpg' ? asset('images/' . $portfolio['cover']) :
+                asset('storage/portofolio/' . strtolower(str_replace
+                        (' ', '_', JenisPortofolio::find($portfolio['jenis_id'])->nama)
+                        . '/' . $portfolio['id'] . '/' . $portfolio['cover'])));
+
+            $portfolios['data'][$i] = array_replace($jenis, $portfolios['data'][$i], $galleries, $encrypt, $cover);
+            $i = $i + 1;
+        }
+
+        return $portfolios;
     }
 
     public function showPortfolioGalleries($jenis, $id)
