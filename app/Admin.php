@@ -74,11 +74,10 @@ class CustomPasswordAdmin extends ResetPassword
 {
     public function toMail($notifiable)
     {
+        $data = $this->token;
         return (new MailMessage)
             ->from(env('MAIL_USERNAME'), 'Rabbit Media – Digital Creative Service')
             ->subject('Rabbit Media Account: Admin Reset Password')
-            ->line('Kami mengirimkan email ini karena kami menerima permintaan reset password.')
-            ->action('Reset Password', url(route('password.reset', $this->token, false)))
-            ->line('Apabila Anda tidak mengirimkan permintaan tersebut, silahkan abaikan email ini dan hubungi kami.');
+            ->view('emails.auth.reset', compact('data'));
     }
 }

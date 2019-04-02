@@ -203,11 +203,11 @@
                                                 <div style="font-size:30px;line-height:29px;">&nbsp;</div>
                                             </td>
                                         </tr>
-                                        <tr>
+                                        {{--<tr>
                                             <td align="center" width="660">
                                                 <img src="http://i65.tinypic.com/1r2i4m.jpg"
                                                      style="display: block;width: 70%" border="0"></td>
-                                        </tr>
+                                        </tr>--}}
                                         <tr>
                                             <td>
                                                 <div style="font-size:30px;line-height:30px;">&nbsp;</div>
@@ -216,7 +216,7 @@
                                         <tr>
                                             <td align="center" valign="top"
                                                 style="font-family:helvetica,arial,sans-serif; color:#646464; font-size:14px; line-height:22px;">
-                                                <span style="font-size:22px; font-weight:bold; line-height:26px;">Anda hampir selesai.</span>
+                                                <span style="font-size:22px; font-weight:bold; line-height:26px;">Hello!</span>
                                             </td>
                                         </tr>
                                         </tbody>
@@ -241,9 +241,9 @@
                                             <td align="center" valign="top" style="font-family:helvetica,arial,sans-serif;
                 color:#646464; font-size:16px; line-height:22px;
                 padding-left:20px; padding-right:20px" class="body">
-                                                Untuk mengakhiri prosedur ini, kami hanya perlu memastikan bahwa<br>
-                                                alamat email: <strong>{{$user->email}}</strong> adalah milik Anda.
-                                                Klik tautan di bawah untuk mengaktifkan akun Anda.
+                                                Kami mengirimkan email ini karena kami menerima permintaan reset
+                                                password. Apabila Anda tidak mengirimkan permintaan tersebut, silahkan
+                                                abaikan email ini dan hubungi kami.
                                             </td>
                                         </tr>
                                         </tbody>
@@ -262,7 +262,6 @@
                                         </tbody>
                                     </table>
 
-
                                     <table width="660" border="0" align="center" cellspacing="0" cellpadding="0"
                                            bgcolor="#FFFFFF" class="full-width">
                                         <tbody>
@@ -271,13 +270,12 @@
                                             <td align="center" width="600" class="full-width"
                                                 style="padding-left: 20px; padding-right:20px" valign="top">
                                                 <a class="zoom" id="activate"
-                                                   href="{{route('activate',['verifyToken' => $user->verifyToken,
-                                                   'email' => $user->email])}}" target="_blank">ACTIVATE</a>
+                                                   href="{{url(route('password.reset', $data, false))}}"
+                                                   target="_blank">RESET PASSWORD</a>
                                             </td>
                                         </tr>
                                         </tbody>
                                     </table>
-
 
                                     <table width="660" border="0" align="center" cellspacing="0" cellpadding="0"
                                            bgcolor="#FFFFFF" class="full-width">
@@ -309,7 +307,7 @@
                                                     <tr>
                                                         <td align="center">
                        <span style="font-family : helvetica, arial; font-weight : bold; font-size: 16px; ">
-                            Where is my password?
+                            Where is my new password?
                         </span>
                                                         </td>
                                                     </tr>
@@ -321,10 +319,14 @@
                                                     </tr>
 
                                                     <tr>
-                                                        <td align="center"><span class="pw-note" style="font-family: helvetica, arial;
+                                                        <td align="center">
+                                                            <span class="pw-note" style="font-family: helvetica, arial;
                                                          font-size: 15px;
                                                          line-height: 22px;
-                                                         display: block;">Kami tidak membuat Anda mengingat password lain. Cukup klik tautan dan Anda akan masuk.<br>Tidak ada password lain, tidak akan pernah ada.</span>
+                                                         display: block;">
+                                                                Kami tidak akan membuat Anda mengingat password lain
+                                                                atau kode tertentu.<br>Cukup klik tautan dan masukkan
+                                                                password baru sesuai dengan yang Anda inginkan.</span>
                                                         </td>
                                                     </tr>
 
