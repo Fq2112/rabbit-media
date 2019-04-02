@@ -18,7 +18,7 @@ class CreateFeedbackTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')
                 ->onUpdate('CASCADE')->onDelete('CASCADE');
-            $table->integer('rate');
+            $table->decimal('rate', 8, 1);
             $table->text('comment');
             $table->timestamps();
         });

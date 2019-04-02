@@ -4,7 +4,7 @@
     <div class="container-fluid" data-aos="fade" data-aos-delay="500">
         <div class="swiper-container images-carousel">
             <div class="swiper-wrapper">
-                @foreach($portofolios as $row)
+                @foreach($portfolios as $row)
                     <div class="swiper-slide">
                         <div class="image-wrap">
                             <div class="image-info">

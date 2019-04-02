@@ -31,7 +31,7 @@ class UserSeeder extends Seeder
 
             Feedback::create([
                 'user_id' => $user->id,
-                'rate' => rand(1, 5),
+                'rate' => $faker->randomFloat(8, 0.5, 5),
                 'comment' => $faker->sentence
             ]);
 

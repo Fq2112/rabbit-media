@@ -17,9 +17,9 @@ class UserController extends Controller
 {
     public function index()
     {
-        $portofolios = Portofolio::take(12)->get()->shuffle()->all();
+        $portfolios = Portofolio::take(12)->get()->shuffle()->all();
 
-        return view('pages.beranda', compact('portofolios'));
+        return view('pages.beranda', compact('portfolios'));
     }
 
     public function showPortfolio(Request $request)
@@ -65,6 +65,13 @@ class UserController extends Controller
         $data = Portofolio::find(decrypt($id));
 
         return view('pages.portofolio-galeri', compact('data', 'jenis'));
+    }
+
+    public function feedback()
+    {
+        $portfolios = Portofolio::take(12)->get()->shuffle()->all();
+
+        return view('pages.feedback', compact('portfolios'));
     }
 
     public function info()
@@ -114,16 +121,6 @@ class UserController extends Controller
             'description' => $request->description
         ]);
         return redirect()->route('home')->withSuccess('Wait for any further confirmation from us via email/phone. Thanks for using our services! :)');
-    }
-
-    public function contact()
-    {
-        return view('pages.user.contact');
-    }
-
-    public function feedback()
-    {
-        return view('pages.user.feedback');
     }
 
     public function postFeedback(Request $request)
