@@ -90,19 +90,20 @@
                 <div class="col-11">
                     <nav>
                         <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
-                            <a class="nav-item nav-link show active" style="color: #495057" id="tabList-all"
+                            <a class="nav-item nav-link" style="color: #495057" id="tabList-all"
                                data-toggle="tab" href="#tabContent-all" role="tab" aria-controls="nav-home"
-                               aria-selected="true" onclick="filterPortfolio('all', 'all')">Show All</a>
+                               aria-selected="true" onclick="filterPortfolio('all')">
+                                Show All&ensp;<span class="badge badge-secondary">{{count($portfolios)}}</span></a>
                             @foreach($types as $row)
-                                <a class="nav-item nav-link" onclick="filterPortfolio('{{$row->id}}',
-                                        '{{strtolower(str_replace(' ', '_', $row->nama))}}')"
-                                   style="color: #495057" id="tabList-{{$row->id}}" data-toggle="tab"
-                                   href="#tabContent-{{$row->id}}" role="tab" aria-controls="nav-home"
-                                   aria-selected="true">{{$row->nama}}</a>
+                                <a class="nav-item nav-link" onclick="filterPortfolio('{{$row->id}}')"
+                                   style="color: #495057"
+                                   id="tabList-{{$row->id}}" data-toggle="tab" href="#tabContent-{{$row->id}}"
+                                   role="tab" aria-controls="nav-home" aria-selected="true">
+                                    {{$row->nama}}&ensp;<span class="badge badge-secondary">{{count($row
+                                    ->getPortofolio)}}</span></a>
                             @endforeach
                             <form id="form-loadPortfolio">
                                 <input type="hidden" name="q" id="jenis">
-                                <input type="hidden" id="jenis_nama">
                             </form>
                         </div>
                     </nav>
@@ -138,19 +139,22 @@
 
             @if($keyword != '')
             $("#tabList-{{$keyword}}").click();
+            $("#tabList-{{$keyword}} span").addClass('badge-primary').removeClass('badge-secondary');
             @else
             $("#tabList-all").click();
+            $("#tabList-all span").addClass('badge-primary').removeClass('badge-secondary');
             @endif
         });
 
-        function filterPortfolio(id, nama) {
+        function filterPortfolio(id) {
             $("#nav-tab a").removeClass('show active');
+            $("#nav-tab a span").removeClass('badge-primary').addClass('badge-secondary');
             $("#nav-tabContent .tab-pane").addClass('show active');
 
             $("#tabList-" + id).addClass('show active');
+            $("#tabList-" + id + " span").addClass('badge-primary').removeClass('badge-secondary');
 
             $("#jenis").val(id);
-            $("#jenis_nama").val(nama);
             loadPortfolios();
         }
 
@@ -256,14 +260,14 @@
                 $result +=
                     '<div class="col-3 item">' +
                     '<article class="download-card Card">' +
-                    '<a href="/portfolios/' + val.jenis + '/' + val.enc_id + '">' +
+                    '<a href="{{url('/portfolios')}}/' + val.jenis + '/' + val.enc_id + '">' +
                     '<div class="download-card__icon-box">' +
                     '<img src="' + val.cover + '"' +
                     'alt="Cover" class="img-fluid"></div></a>' +
                     '<div class="Card-thumbnailOverlay">' +
                     '<div class="text-center">' +
                     '<h2 class="mb-3" style="text-transform: uppercase">' + val.nama + '</h2>' +
-                    '<a href="/portfolios/' + val.jenis + '/' + val.enc_id + '" class="Card-Btn">' +
+                    '<a href="{{url('/portfolios')}}/' + val.jenis + '/' + val.enc_id + '" class="Card-Btn">' +
                     '<strong>' + val.galleries + ' footage</strong>' +
                     '</a></div></div></article></div>';
             });
@@ -326,7 +330,7 @@
             if (page != "" && page != undefined) {
                 $page = '&page=' + page;
             }
-            window.history.replaceState("", "", '{{url('/portfolios')}}?q=' + $("#jenis_nama").val() + $page);
+            window.history.replaceState("", "", '{{url('/portfolios')}}?q=' + $("#jenis").val() + $page);
             return false;
         }
     </script>
