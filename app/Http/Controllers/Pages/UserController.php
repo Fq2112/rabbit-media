@@ -11,10 +11,16 @@ use App\Models\Feedback;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')->only('postFeedback');
+    }
+
     public function index()
     {
         $portfolios = Portofolio::take(12)->get()->shuffle()->all();
@@ -69,9 +75,32 @@ class UserController extends Controller
 
     public function feedback()
     {
-        $portfolios = Portofolio::take(12)->get()->shuffle()->all();
+        $feedback = Feedback::where('rate', '>', 2)->orderByDesc('id')->get();
 
-        return view('pages.feedback', compact('portfolios'));
+        return view('pages.feedback', compact('portfolios', 'feedback'));
+    }
+
+    public function postFeedback(Request $request)
+    {
+        if ($request->check_form == 'create') {
+            Feedback::create([
+                'user_id' => Auth::id(),
+                'rate' => $request->rating,
+                'comment' => $request->comment,
+            ]);
+
+            return back()->with('update', 'Terima kasih ' . Auth::user()->name . ' atas ulasannya! ' .
+                'Dengan begitu kami dapat berpotensi menjadi perusahaan yang lebih baik lagi.');
+
+        } else {
+            $find = Feedback::find($request->check_form);
+            $find->update([
+                'rate' => $request->rating,
+                'comment' => $request->comment,
+            ]);
+
+            return back()->with('update', 'Ulasan Anda berhasil diperbarui!');
+        }
     }
 
     public function info()
@@ -121,11 +150,5 @@ class UserController extends Controller
             'description' => $request->description
         ]);
         return redirect()->route('home')->withSuccess('Wait for any further confirmation from us via email/phone. Thanks for using our services! :)');
-    }
-
-    public function postFeedback(Request $request)
-    {
-        Feedback::create($request->all());
-        return view('pages.user.beranda')->withSuccess('Thanks for reviewing us! Because of it, we`re potentially become a better company :)');
     }
 }

@@ -72,7 +72,8 @@
                                     <div class="col-12">
                                         <input id="log_password" class="form-control" type="password"
                                                placeholder="Password" name="password" minlength="6" required>
-                                        <span class="glyphicon glyphicon-eye-open form-control-feedback"></span>
+                                        <span class="glyphicon glyphicon-eye-open form-control-feedback"
+                                              style="pointer-events: all;cursor: pointer"></span>
                                         <span class="help-block">
                                             @if(session('error'))
                                                 <strong>{{ $errors->first('password') }}</strong>
@@ -146,7 +147,8 @@
                                     <div class="col-12">
                                         <input class="form-control" type="password" placeholder="Password"
                                                id="reg_password" name="password" minlength="6" required>
-                                        <span class="glyphicon glyphicon-eye-open form-control-feedback"></span>
+                                        <span class="glyphicon glyphicon-eye-open form-control-feedback"
+                                              style="pointer-events: all;cursor: pointer"></span>
                                     </div>
                                 </div>
                                 <div class="row has-feedback">
@@ -154,7 +156,8 @@
                                         <input class="form-control" type="password" placeholder="Retype password"
                                                id="reg_password_confirm" name="password_confirmation"
                                                minlength="6" required>
-                                        <span class="glyphicon glyphicon-eye-open form-control-feedback"></span>
+                                        <span class="glyphicon glyphicon-eye-open form-control-feedback"
+                                              style="pointer-events: all;cursor: pointer"></span>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -256,7 +259,8 @@
                                     <div class="col-12">
                                         <input id="forg_password" class="form-control" type="password"
                                                placeholder="New Password" name="password" minlength="6" required>
-                                        <span class="glyphicon glyphicon-eye-open form-control-feedback"></span>
+                                        <span class="glyphicon glyphicon-eye-open form-control-feedback"
+                                              style="pointer-events: all;cursor: pointer"></span>
                                         @if ($errors->has('password'))
                                             <span class="help-block">
                                                 <strong>{{ $errors->first('password') }}</strong>
@@ -269,7 +273,8 @@
                                         <input id="forg_password_confirm" class="form-control" type="password"
                                                placeholder="Retype password" name="password_confirmation"
                                                minlength="6" onkeyup="return checkForgotPassword()" required>
-                                        <span class="glyphicon glyphicon-eye-open form-control-feedback"></span>
+                                        <span class="glyphicon glyphicon-eye-open form-control-feedback"
+                                              style="pointer-events: all;cursor: pointer"></span>
                                     </div>
                                 </div>
                                 <div class="row">

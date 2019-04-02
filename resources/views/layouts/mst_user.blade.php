@@ -13,6 +13,8 @@
 
     <link rel="stylesheet" type="text/css" href="{{asset('fonts/fontawesome/css/all.css')}}">
 
+    <link rel="stylesheet" type="text/css" href="{{asset('css/glyphicons.css')}}">
+
     <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('css/magnific-popup.css')}}">
     <link rel="stylesheet" href="{{asset('css/jquery-ui.css')}}">
@@ -59,6 +61,13 @@
             right: 1%;
         }
         @endif
+
+        .form-control-feedback {
+            position: absolute;
+            top: 1em;
+            right: 2em;
+            pointer-events: none;
+        }
     </style>
     @stack('styles')
 
