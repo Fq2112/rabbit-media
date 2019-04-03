@@ -140,7 +140,6 @@
                 <a href="{{route('info')}}#privacy-policy" target="_blank">Privacy Policy</a><strong> &middot; </strong>
                 <a href="{{route('info')}}#terms-conditions" target="_blank">Terms & Conditions</a><strong>
                     &middot; </strong>
-                <a href="{{route('info')}}#team" target="_blank">Get in Touch</a><strong> &middot; </strong>
                 <a href="{{route('info')}}#faqs" target="_blank">FAQ</a>
                 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
             </p>
@@ -182,6 +181,8 @@
 <!-- Masonry Responsive Grid -->
 <script src="{{asset('js/masonry.pkgd.min.js')}}"></script>
 <script src="{{asset('js/imagesloaded.pkgd.min.js')}}"></script>
+<!-- jQuery Slick -->
+<script src="{{asset('js/jquery.slickwrap.js')}}"></script>
 <!-- Smooth scroll -->
 <script src="{{asset('js/smooth-scrollbar.min.js')}}"></script>
 <!-- TinyMCE -->

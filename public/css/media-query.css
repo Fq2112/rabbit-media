@@ -10,6 +10,14 @@
     .reviews .rate i {
         font-size: 100%;
     }
+
+    .tagline .quote-container {
+        padding-left: 22rem;
+    }
+
+    .tagline blockquote {
+        font-size: 23px;
+    }
 }
 
 /*
@@ -23,6 +31,14 @@
 
     .reviews .rate i {
         font-size: 100%;
+    }
+
+    .tagline .quote-container {
+        padding-left: 22rem;
+    }
+
+    .tagline blockquote {
+        font-size: 23px;
     }
 }
 
@@ -38,6 +54,14 @@
     .reviews .rate i {
         font-size: 100%;
     }
+
+    .tagline .quote-container {
+        padding-left: 22rem;
+    }
+
+    .tagline blockquote {
+        font-size: 23px;
+    }
 }
 
 /*
@@ -51,6 +75,14 @@
 
     .reviews .rate i {
         font-size: 68%;
+    }
+
+    .tagline .quote-container {
+        padding-left: 0;
+    }
+
+    .tagline blockquote {
+        font-size: 23px;
     }
 }
 
@@ -66,6 +98,14 @@
     .reviews .rate i {
         font-size: 59%;
     }
+
+    .tagline .quote-container {
+        padding-left: 33rem;
+    }
+
+    .tagline blockquote {
+        font-size: 23px;
+    }
 }
 
 /*
@@ -80,6 +120,14 @@
     .reviews .rate i {
         font-size: 59%;
     }
+
+    .tagline .quote-container {
+        padding-left: 0;
+    }
+
+    .tagline blockquote {
+        font-size: 23px;
+    }
 }
 
 /*
@@ -93,5 +141,13 @@
 
     .reviews .rate i {
         font-size: 48%;
+    }
+
+    .tagline .quote-container {
+        padding-left: 0;
+    }
+
+    .tagline blockquote {
+        font-size: 19px;
     }
 }

@@ -1,0 +1,52 @@
+.wrapReady {
+    float: left;
+    padding: 1rem;
+}
+
+.tagline {
+    font-size: 16px;
+    position: relative;
+}
+
+.tagline blockquote {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    background: none;
+    color: gray;
+    font-style: italic;
+    font-weight: 600;
+    line-height: 1.4 !important;
+    margin: 0;
+    position: relative;
+    text-shadow: 0 1px white;
+    z-index: 600;
+}
+
+.tagline blockquote * {
+    box-sizing: border-box;
+}
+
+.tagline blockquote p {
+    color: #75808a;
+    line-height: 1.4 !important;
+}
+
+.tagline blockquote p:first-child:before {
+    font-family: Georgia, serif;
+    content: '\201C';
+    color: #592f83;
+    font-size: 7.5em;
+    font-weight: 700;
+    opacity: .3;
+    position: absolute;
+    top: -.4em;
+    left: -.2em;
+    text-shadow: none;
+    z-index: -300;
+}
+
+.tagline.right .quote-container {
+    padding-left: 0;
+    padding-right: 160px;
+}

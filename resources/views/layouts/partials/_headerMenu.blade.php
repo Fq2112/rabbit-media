@@ -21,10 +21,10 @@
                     @endforeach
                 </ul>
             </li>
-            <li class="{{\Illuminate\Support\Facades\Request::is('feedback*') ? 'active' : ''}}">
-                <a href="{{route('feedback')}}">Feedback</a></li>
             <li class="{{\Illuminate\Support\Facades\Request::is('about*') ? 'active' : ''}}">
                 <a href="{{route('about')}}">About Us</a></li>
+            <li class="{{\Illuminate\Support\Facades\Request::is('feedback*') ? 'active' : ''}}">
+                <a href="{{route('feedback')}}">Feedback</a></li>
             @if(Auth::check() || Auth::guard('admin')->check())
                 <li class="has-children avatar">
                     <a href="#" style="font-weight: 900;">

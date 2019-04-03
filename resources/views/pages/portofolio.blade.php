@@ -81,7 +81,8 @@
                     <div class="row mb-5">
                         <div class="col-12 ">
                             <h3 class="site-section-heading text-center">Portfolios</h3>
-                            <h5 class="text-center">Capture and bring your moment with us!</h5>
+                            <h5 class="text-center"><em><strong>Capture and Bring your Moment with Us!</strong></em>
+                            </h5>
                         </div>
                     </div>
                 </div>
@@ -258,7 +259,7 @@
 
             $.each(data.data, function (i, val) {
                 $result +=
-                    '<div class="col-3 item">' +
+                    '<div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 item">' +
                     '<article class="download-card Card">' +
                     '<a href="{{url('/portfolios')}}/' + val.jenis + '/' + val.enc_id + '">' +
                     '<div class="download-card__icon-box">' +

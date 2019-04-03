@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Pages;
 
+use App\Admin;
+use App\Models\About;
 use App\Models\Galeri;
 use App\Models\JenisPortofolio;
 use App\Models\layanan;
 use App\Models\Pemesanan;
 use App\Models\Portofolio;
 use App\Models\Feedback;
+use App\Support\Role;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -73,6 +76,14 @@ class UserController extends Controller
         return view('pages.portofolio-galeri', compact('data', 'jenis'));
     }
 
+    public function about()
+    {
+        $about = About::first();
+        $crews = Admin::where('role', '!=', Role::ROOT)->orderBy('role')->get();
+
+        return view('pages.about', compact('about', 'crews'));
+    }
+
     public function feedback()
     {
         $feedback = Feedback::orderByDesc('id')->get();
@@ -112,11 +123,6 @@ class UserController extends Controller
     public function info()
     {
         return view('pages.info');
-    }
-
-    public function about()
-    {
-        return view('pages.user.about');
     }
 
     public function detailService($id)

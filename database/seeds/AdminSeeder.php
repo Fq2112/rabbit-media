@@ -33,6 +33,11 @@ class AdminSeeder extends Seeder
                         'password' => bcrypt('secret'),
                         'remember_token' => str_random(10),
                         'role' => $role,
+                        'deskripsi' => $faker->sentence,
+                        'facebook' => strtolower($faker->firstName . '.' . $faker->lastName),
+                        'twitter' => strtolower($faker->firstName . '.' . $faker->lastName),
+                        'instagram' => strtolower($faker->firstName . '.' . $faker->lastName),
+                        'whatsapp' => '+628563094' . rand(100, 999)
                     ]);
                 }
             } elseif ($role == Role::VIDEOGRAPHER) {
@@ -43,6 +48,11 @@ class AdminSeeder extends Seeder
                         'password' => bcrypt('secret'),
                         'remember_token' => str_random(10),
                         'role' => $role,
+                        'deskripsi' => $faker->sentence,
+                        'facebook' => strtolower($faker->firstName . '.' . $faker->lastName),
+                        'twitter' => strtolower($faker->firstName . '.' . $faker->lastName),
+                        'instagram' => strtolower($faker->firstName . '.' . $faker->lastName),
+                        'whatsapp' => '+628563094' . rand(100, 999)
                     ]);
                 }
             } elseif ($role == Role::PHOTOGRAPHER) {
@@ -53,6 +63,11 @@ class AdminSeeder extends Seeder
                         'password' => bcrypt('secret'),
                         'remember_token' => str_random(10),
                         'role' => $role,
+                        'deskripsi' => $faker->sentence,
+                        'facebook' => strtolower($faker->firstName . '.' . $faker->lastName),
+                        'twitter' => strtolower($faker->firstName . '.' . $faker->lastName),
+                        'instagram' => strtolower($faker->firstName . '.' . $faker->lastName),
+                        'whatsapp' => '+628563094' . rand(100, 999)
                     ]);
                 }
             }
