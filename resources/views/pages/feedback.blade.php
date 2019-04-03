@@ -8,21 +8,180 @@
         <div class="container-fluid">
             <div class="row justify-content-center">
                 <div class="col-md-7">
-                    <div class="row mb-5">
+                    <div class="row mb-4">
                         <div class="col-12">
                             <h3 class="site-section-heading text-center">Feedback</h3>
                             <h5 class="text-center">Beri kami ulasan dengan membagikan pengalaman Anda tentang
                                 layanan kami!</h5>
                         </div>
-                        <div class="col-12 text-center">
-                            <button onclick="feedbackModal()" type="button" class="btn btn-outline-primary">
-                                @auth
-                                    <i class="fa fa-edit"></i>&ensp;{{\App\Models\Feedback::where('user_id', Auth::id())
-                                    ->count() > 0 ? 'Sunting' : 'Tulis'}} Ulasan
-                                @else
-                                    <i class="fa fa-edit"></i>&ensp;Tulis Ulasan
-                                @endauth
-                            </button>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 average text-center">
+                            <div class="row score">
+                                <div class="col">
+                                    {{number_format($average, 1, '.', '')}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    {{count($feedback)}} ulasan
+                                </div>
+                            </div>
+                            <div class="row rate">
+                                <div class="col">
+                                    @if(round($average * 2) / 2 == 1)
+                                        <i class="fa fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                    @elseif(round($average * 2) / 2 == 2)
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                    @elseif(round($average * 2) / 2 == 3)
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                    @elseif(round($average * 2) / 2 == 4)
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                    @elseif(round($average * 2) / 2 == 5)
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                    @elseif(round($average * 2) / 2 == 0.5)
+                                        <i class="fa fa-star-half-alt"></i>
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                    @elseif(round($average * 2) / 2 == 1.5)
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star-half-alt"></i>
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                    @elseif(round($average * 2) / 2 == 2.5)
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star-half-alt"></i>
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                    @elseif(round($average * 2) / 2 == 3.5)
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star-half-alt"></i>
+                                        <i class="far fa-star"></i>
+                                    @elseif(round($average * 2) / 2 == 4.5)
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star-half-alt"></i>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <button onclick="feedbackModal()" type="button"
+                                            class="btn btn-outline-primary btn-block">
+                                        @auth
+                                            <i class="fa fa-edit"></i>&ensp;{{\App\Models\Feedback::where
+                                            ('user_id', Auth::id())->count() > 0 ? 'Sunting' : 'Tulis'}} Ulasan
+                                        @else
+                                            <i class="fa fa-edit"></i>&ensp;Tulis Ulasan
+                                        @endauth
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 reviews text-right">
+                            <div class="row rate">
+                                <div class="col-3">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </div>
+                                <div class="col-9">
+                                    <div class="progress-reviews">
+                                        <div class="progress-bar progress-bar-striped progress-bar-animated"
+                                             role="progressbar" aria-valuenow="{{$star5}}" aria-valuemin="0"
+                                             aria-valuemax="100" style="width: {{$star5}}%" data-toggle="tooltip"
+                                             data-placement="right" title="{{$star5}}%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row rate">
+                                <div class="col-3">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </div>
+                                <div class="col-9">
+                                    <div class="progress-reviews">
+                                        <div class="progress-bar progress-bar-striped progress-bar-animated"
+                                             role="progressbar" aria-valuenow="{{$star4}}" aria-valuemin="0"
+                                             aria-valuemax="100" style="width: {{$star4}}%" data-toggle="tooltip"
+                                             data-placement="right" title="{{$star4}}%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row rate">
+                                <div class="col-3">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </div>
+                                <div class="col-9">
+                                    <div class="progress-reviews">
+                                        <div class="progress-bar progress-bar-striped progress-bar-animated"
+                                             role="progressbar" aria-valuenow="{{$star3}}" aria-valuemin="0"
+                                             aria-valuemax="100" style="width: {{$star3}}%" data-toggle="tooltip"
+                                             data-placement="right" title="{{$star3}}%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row rate">
+                                <div class="col-3">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </div>
+                                <div class="col-9">
+                                    <div class="progress-reviews">
+                                        <div class="progress-bar progress-bar-striped progress-bar-animated"
+                                             role="progressbar" aria-valuenow="{{$star2}}" aria-valuemin="0"
+                                             aria-valuemax="100" style="width: {{$star2}}%" data-toggle="tooltip"
+                                             data-placement="right" title="{{$star2}}%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row rate">
+                                <div class="col-3">
+                                    <i class="fa fa-star"></i>
+                                </div>
+                                <div class="col-9">
+                                    <div class="progress-reviews">
+                                        <div class="progress-bar progress-bar-striped progress-bar-animated"
+                                             role="progressbar" aria-valuenow="{{$star1}}" aria-valuemin="0"
+                                             aria-valuemax="100" style="width: {{$star1}}%" data-toggle="tooltip"
+                                             data-placement="right" title="{{$star1}}%"></div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -37,28 +196,28 @@
                                 <p class="testimonial-comment">
                                     @if($row->rate == 1)
                                         <i class="fa fa-star"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
                                     @elseif($row->rate == 2)
                                         <i class="fa fa-star"></i>
                                         <i class="fa fa-star"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
                                     @elseif($row->rate == 3)
                                         <i class="fa fa-star"></i>
                                         <i class="fa fa-star"></i>
                                         <i class="fa fa-star"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
                                     @elseif($row->rate == 4)
                                         <i class="fa fa-star"></i>
                                         <i class="fa fa-star"></i>
                                         <i class="fa fa-star"></i>
                                         <i class="fa fa-star"></i>
-                                        <i class="fa fa-star-o"></i>
+                                        <i class="far fa-star"></i>
                                     @elseif($row->rate == 5)
                                         <i class="fa fa-star"></i>
                                         <i class="fa fa-star"></i>
@@ -66,35 +225,35 @@
                                         <i class="fa fa-star"></i>
                                         <i class="fa fa-star"></i>
                                     @elseif($row->rate == 0.5)
-                                        <i class="fa fa-star-half-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
+                                        <i class="fa fa-star-half-alt"></i>
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
                                     @elseif($row->rate == 1.5)
                                         <i class="fa fa-star"></i>
-                                        <i class="fa fa-star-half-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
+                                        <i class="fa fa-star-half-alt"></i>
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
                                     @elseif($row->rate == 2.5)
                                         <i class="fa fa-star"></i>
                                         <i class="fa fa-star"></i>
-                                        <i class="fa fa-star-half-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
+                                        <i class="fa fa-star-half-alt"></i>
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
                                     @elseif($row->rate == 3.5)
                                         <i class="fa fa-star"></i>
                                         <i class="fa fa-star"></i>
                                         <i class="fa fa-star"></i>
-                                        <i class="fa fa-star-half-o"></i>
-                                        <i class="fa fa-star-o"></i>
+                                        <i class="fa fa-star-half-alt"></i>
+                                        <i class="far fa-star"></i>
                                     @elseif($row->rate == 4.5)
                                         <i class="fa fa-star"></i>
                                         <i class="fa fa-star"></i>
                                         <i class="fa fa-star"></i>
                                         <i class="fa fa-star"></i>
-                                        <i class="fa fa-star-half-o"></i>
+                                        <i class="fa fa-star-half-alt"></i>
                                     @endif
                                     <br><cite>&ldquo;{{$row->comment}}&rdquo;</cite>
                                 </p>

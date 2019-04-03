@@ -50,6 +50,8 @@
     <link rel="stylesheet" href="{{asset('css/scroll-to-top.css')}}">
     <!-- download card -->
     <link rel="stylesheet" href="{{asset('css/downloadCard-gridList.css')}}">
+    <!-- media-queries -->
+    <link rel="stylesheet" href="{{asset('css/media-query.css')}}">
     <style>
         @if(\Illuminate\Support\Facades\Request::is('/*'))
         .to-top {

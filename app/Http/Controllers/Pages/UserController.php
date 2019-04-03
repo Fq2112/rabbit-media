@@ -75,9 +75,16 @@ class UserController extends Controller
 
     public function feedback()
     {
-        $feedback = Feedback::where('rate', '>', 2)->orderByDesc('id')->get();
+        $feedback = Feedback::orderByDesc('id')->get();
+        $average = Feedback::avg('rate');
+        $star5 = Feedback::whereBetween('rate', [4.5, 5])->count() * 100 / count($feedback);
+        $star4 = Feedback::whereBetween('rate', [3.5, 4])->count() * 100 / count($feedback);
+        $star3 = Feedback::whereBetween('rate', [2.5, 3])->count() * 100 / count($feedback);
+        $star2 = Feedback::whereBetween('rate', [1.5, 2])->count() * 100 / count($feedback);
+        $star1 = Feedback::whereBetween('rate', [0.5, 1])->count() * 100 / count($feedback);
 
-        return view('pages.feedback', compact('portfolios', 'feedback'));
+        return view('pages.feedback', compact('portfolios', 'feedback', 'average',
+            'star5', 'star4', 'star3', 'star2', 'star1'));
     }
 
     public function postFeedback(Request $request)
@@ -93,8 +100,7 @@ class UserController extends Controller
                 'Dengan begitu kami dapat berpotensi menjadi perusahaan yang lebih baik lagi.');
 
         } else {
-            $find = Feedback::find($request->check_form);
-            $find->update([
+            Feedback::find($request->check_form)->update([
                 'rate' => $request->rating,
                 'comment' => $request->comment,
             ]);
