@@ -135,12 +135,11 @@
             <p>
                 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                 &copy;&nbsp;{{now()->format('Y')}} Rabbit Media – Digital Creative Service. All rights reserved.<br>
-                Designed by <a href="{{route('home')}}" target="_blank">Rabbit Media</a>. This template is made by
+                Designed by <a href="{{route('home')}}">Rabbit Media</a>. This template is made by
                 <a href="https://colorlib.com" target="_blank">Colorlib</a>.<br>
-                <a href="{{route('info')}}#privacy-policy" target="_blank">Privacy Policy</a><strong> &middot; </strong>
-                <a href="{{route('info')}}#terms-conditions" target="_blank">Terms & Conditions</a><strong>
-                    &middot; </strong>
-                <a href="{{route('info')}}#faqs" target="_blank">FAQ</a>
+                <a href="{{route('info')}}">Privacy Policy</a><strong> &middot; </strong>
+                <a href="{{route('info')}}">Terms & Conditions</a><strong> &middot; </strong>
+                <a href="{{route('faq')}}">FAQ</a>
                 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
             </p>
         </div>

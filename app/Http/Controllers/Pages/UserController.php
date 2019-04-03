@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Pages;
 
 use App\Admin;
 use App\Models\About;
+use App\Models\Faq;
 use App\Models\Galeri;
 use App\Models\JenisPortofolio;
 use App\Models\layanan;
@@ -29,6 +30,20 @@ class UserController extends Controller
         $portfolios = Portofolio::take(12)->get()->shuffle()->all();
 
         return view('pages.beranda', compact('portfolios'));
+    }
+
+    public function info()
+    {
+        $info = About::first();
+
+        return view('pages.info', compact('info'));
+    }
+
+    public function faq()
+    {
+        $faqs = Faq::all();
+
+        return view('pages.faq', compact('faqs'));
     }
 
     public function showPortfolio(Request $request)
@@ -76,6 +91,11 @@ class UserController extends Controller
         return view('pages.portofolio-galeri', compact('data', 'jenis'));
     }
 
+    public function showService()
+    {
+        return 'maintenance';
+    }
+
     public function about()
     {
         $about = About::first();
@@ -118,49 +138,5 @@ class UserController extends Controller
 
             return back()->with('update', 'Ulasan Anda berhasil diperbarui!');
         }
-    }
-
-    public function info()
-    {
-        return view('pages.info');
-    }
-
-    public function detailService($id)
-    {
-        $jenislayanan = layanan::find($id);
-        $layanans = layanan::where('jenislayanan_id', $jenislayanan->id)->get();
-        return view('pages.user.service', compact('jenislayanan', 'layanans'));
-    }
-
-    public function order()
-    {
-        $types = layanan::all();
-        $detail = null;
-        $user = User::all();
-        return view('pages.user.order', compact('types', 'detail', 'user'));
-    }
-
-    public function orderid(Request $request)
-    {
-
-        $detail = layanan::find(decrypt($request->id));
-        $types = layanan::all();
-        $user = User::all();
-        return view('pages.user.order', compact('types', 'detail', 'user'));
-    }
-
-    public function postOrder(Request $request)
-    {
-        $array = $request->toArray();
-//        dd($array);
-        Pemesanan::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'address' => $request->address,
-            'service' => $request->service,
-            'description' => $request->description
-        ]);
-        return redirect()->route('home')->withSuccess('Wait for any further confirmation from us via email/phone. Thanks for using our services! :)');
     }
 }

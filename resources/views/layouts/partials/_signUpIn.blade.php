@@ -164,10 +164,8 @@
                                     <div class="col-12" style="font-size: 15px;text-align: justify">
                                         <small>
                                             By continuing this, you acknowledge that you accept on Rabbit's
-                                            <a href="#privacy-policy" target="_blank"
-                                               style="text-decoration: none">Privacy Policies</a> and
-                                            <a href="#terms-conditions" target="_blank"
-                                               style="text-decoration: none">Terms & Conditions</a>.
+                                            <a href="{{route('info')}}" target="_blank">Privacy Policy</a> and
+                                            <a href="{{route('info')}}" target="_blank">Terms & Conditions</a>.
                                         </small>
                                     </div>
                                 </div>

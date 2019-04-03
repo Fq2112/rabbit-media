@@ -262,7 +262,7 @@
     <!-- WhatsHelp.io widget -->
     (function () {
         var options = {
-            whatsapp: "+628563094333",
+            whatsapp: "+6282234389870",
             line: "//line.me/ti/p/fqnkk",
             call_to_action: "Contact us",
             button_color: "#592f83",

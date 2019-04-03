@@ -16,6 +16,16 @@ Route::group(['namespace' => 'Pages', 'prefix' => '/'], function () {
         'as' => 'home'
     ]);
 
+    Route::get('info', [
+        'uses' => 'UserController@info',
+        'as' => 'info'
+    ]);
+
+    Route::get('faq', [
+        'uses' => 'UserController@faq',
+        'as' => 'faq'
+    ]);
+
     Route::group(['prefix' => 'portfolios'], function () {
 
         Route::get('/', [
@@ -35,30 +45,18 @@ Route::group(['namespace' => 'Pages', 'prefix' => '/'], function () {
 
     });
 
-    Route::get('info', [
-        'uses' => 'UserController@info',
-        'as' => 'info'
-    ]);
+    Route::group(['prefix' => 'services'], function () {
+
+        Route::get('/', [
+            'uses' => 'UserController@showService',
+            'as' => 'show.service'
+        ]);
+
+    });
 
     Route::get('about', [
         'uses' => 'UserController@about',
         'as' => 'about'
-    ]);
-
-
-    Route::get('order', [
-        'uses' => 'UserController@order',
-        'as' => 'order'
-    ]);
-
-    Route::get('order/{id}', [
-        'uses' => 'UserController@orderid',
-        'as' => 'order-id'
-    ]);
-
-    Route::get('service/{id}', [
-        'uses' => 'UserController@detailService',
-        'as' => 'detail.service'
     ]);
 
     Route::get('feedback', [
@@ -69,21 +67,6 @@ Route::group(['namespace' => 'Pages', 'prefix' => '/'], function () {
     Route::post('feedback', [
         'uses' => 'UserController@postFeedback',
         'as' => 'feedback.submit'
-    ]);
-
-    Route::get('contact', [
-        'uses' => 'UserController@contact',
-        'as' => 'contact'
-    ]);
-
-    Route::put('contact', [
-        'uses' => 'MailController@postContact',
-        'as' => 'contact.submit'
-    ]);
-
-    Route::post('order/save', [
-        'uses' => 'UserController@postOrder',
-        'as' => 'order.submit'
     ]);
 
 });
