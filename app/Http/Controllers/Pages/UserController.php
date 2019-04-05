@@ -6,6 +6,7 @@ use App\Admin;
 use App\Models\About;
 use App\Models\Faq;
 use App\Models\Galeri;
+use App\Models\JenisLayanan;
 use App\Models\JenisPortofolio;
 use App\Models\layanan;
 use App\Models\Pemesanan;
@@ -49,7 +50,6 @@ class UserController extends Controller
     public function showPortfolio(Request $request)
     {
         $types = JenisPortofolio::orderBy('nama')->get();
-        $portfolios = Portofolio::orderByDesc('id')->get();
         $keyword = $request->q;
         $page = $request->page;
 
@@ -67,7 +67,8 @@ class UserController extends Controller
         $i = 0;
         foreach ($portfolios['data'] as $portfolio) {
             $galleries = array('galleries' => Galeri::where('portofolio_id', $portfolio['id'])->count());
-            $jenis = array('jenis' => strtolower(JenisPortofolio::find($portfolio['jenis_id'])->nama));
+            $jenis = array('jenis' => strtolower(str_replace(' ', '-',
+                JenisPortofolio::find($portfolio['jenis_id'])->nama)));
             $encrypt = array('enc_id' => encrypt($portfolio['id']));
             $cover = array('cover' => $portfolio['cover'] == 'img_1.jpg' || $portfolio['cover'] == 'img_2.jpg' ||
             $portfolio['cover'] == 'img_3.jpg' || $portfolio['cover'] == 'img_4.jpg' ||
@@ -93,7 +94,16 @@ class UserController extends Controller
 
     public function showService()
     {
-        return 'maintenance';
+        $types = JenisLayanan::orderBy('nama')->get();
+
+        return view('pages.service', compact('types'));
+    }
+
+    public function showServicePricing($jenis, $id)
+    {
+        $data = JenisLayanan::find(decrypt($id));
+
+        return view('pages.service-plan', compact('data', 'jenis'));
     }
 
     public function about()
@@ -114,7 +124,7 @@ class UserController extends Controller
         $star2 = Feedback::whereBetween('rate', [1.5, 2])->count() * 100 / count($feedback);
         $star1 = Feedback::whereBetween('rate', [0.5, 1])->count() * 100 / count($feedback);
 
-        return view('pages.feedback', compact('portfolios', 'feedback', 'average',
+        return view('pages.feedback', compact('feedback', 'average',
             'star5', 'star4', 'star3', 'star2', 'star1'));
     }
 

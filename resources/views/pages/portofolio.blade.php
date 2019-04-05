@@ -14,63 +14,6 @@
             border-top-left-radius: .25rem;
             border-top-right-radius: .25rem;
         }
-
-        .image-wrap:before {
-            position: absolute;
-            content: "";
-            left: 0;
-            right: 0;
-            bottom: 0;
-            top: 0;
-            z-index: 1;
-            background: transparent;
-            -webkit-transition: .3s all ease;
-            -o-transition: .3s all ease;
-            transition: .3s all ease;
-        }
-
-        .image-wrap img {
-            position: relative;
-            -o-object-fit: cover;
-            object-fit: cover;
-            width: 100%;
-            height: 100%;
-        }
-
-        .image-wrap .image-info {
-            text-align: center;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            z-index: 2;
-            -webkit-transform: translate(-50%, -50%);
-            -ms-transform: translate(-50%, -50%);
-            transform: translate(-50%, -50%);
-        }
-
-        .image-wrap .image-info h2 {
-            color: #fff;
-        }
-
-        .image-wrap:hover:before {
-            background: rgba(0, 0, 0, 0.4);
-            content: "";
-        }
-
-        .btn-outline-white {
-            border-color: #fff;
-            color: #fff;
-            border-width: 2px;
-            text-transform: uppercase;
-            font-size: 11px;
-            letter-spacing: .1em;
-            font-weight: 900;
-        }
-
-        .btn-outline-white:hover {
-            background: #fff;
-            color: #000;
-        }
     </style>
 @endpush
 @section('content')
@@ -81,8 +24,7 @@
                     <div class="row mb-5">
                         <div class="col-12 ">
                             <h3 class="site-section-heading text-center">Portfolios</h3>
-                            <h5 class="text-center"><em><strong>Capture and Bring your Moment with Us!</strong></em>
-                            </h5>
+                            <h5 class="text-center">Inilah cara kami mengabadikan momen bahagia Anda!</h5>
                         </div>
                     </div>
                 </div>
@@ -94,14 +36,15 @@
                             <a class="nav-item nav-link" style="color: #495057" id="tabList-all"
                                data-toggle="tab" href="#tabContent-all" role="tab" aria-controls="nav-home"
                                aria-selected="true" onclick="filterPortfolio('all')">
-                                Show All&ensp;<span class="badge badge-secondary">{{count($portfolios)}}</span></a>
+                                <i class="fa fa-sort-alpha-up"></i>&ensp;Show All&ensp;<span
+                                        class="badge badge-secondary">{{\App\Models\Portofolio::count()}}</span></a>
                             @foreach($types as $row)
                                 <a class="nav-item nav-link" onclick="filterPortfolio('{{$row->id}}')"
                                    style="color: #495057"
                                    id="tabList-{{$row->id}}" data-toggle="tab" href="#tabContent-{{$row->id}}"
                                    role="tab" aria-controls="nav-home" aria-selected="true">
-                                    {{$row->nama}}&ensp;<span class="badge badge-secondary">{{count($row
-                                    ->getPortofolio)}}</span></a>
+                                    <i class="{{$row->icon}}"></i>&ensp;{{$row->nama}}&ensp;<span
+                                            class="badge badge-secondary">{{count($row->getPortofolio)}}</span></a>
                             @endforeach
                             <form id="form-loadPortfolio">
                                 <input type="hidden" name="q" id="jenis">
@@ -261,14 +204,14 @@
                 $result +=
                     '<div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 item">' +
                     '<article class="download-card Card">' +
-                    '<a href="{{url('/portfolios')}}/' + val.jenis + '/' + val.enc_id + '">' +
+                    '<a href="{{url('/portfolios')}}/' + val.jenis + '/' + val.enc_id + '/galleries">' +
                     '<div class="download-card__icon-box">' +
                     '<img src="' + val.cover + '"' +
                     'alt="Cover" class="img-fluid"></div></a>' +
                     '<div class="Card-thumbnailOverlay">' +
                     '<div class="text-center">' +
                     '<h2 class="mb-3" style="text-transform: uppercase">' + val.nama + '</h2>' +
-                    '<a href="{{url('/portfolios')}}/' + val.jenis + '/' + val.enc_id + '" class="Card-Btn">' +
+                    '<a href="{{url('/portfolios')}}/' + val.jenis + '/' + val.enc_id + '/galleries" class="Card-Btn">' +
                     '<strong>' + val.galleries + ' footage</strong>' +
                     '</a></div></div></article></div>';
             });

@@ -17,37 +17,43 @@ class LayananSeeder extends Seeder
         $faker = Factory::create('id_ID');
 
         JenisLayanan::create([
-            'icon' => 'fa-print',
+            'icon' => 'fa fa-print',
+            'icon_code' => '\f02f',
             'nama' => 'Digital Offset',
             'deskripsi' => $faker->sentence
         ]);
 
         JenisLayanan::create([
-            'icon' => 'fa-laptop',
+            'icon' => 'fa fa-laptop',
+            'icon_code' => '\f109',
             'nama' => 'Graphic Design',
             'deskripsi' => $faker->sentence
         ]);
 
         JenisLayanan::create([
-            'icon' => 'fa-laptop-code',
+            'icon' => 'fab fa-codepen',
+            'icon_code' => '\f1cb',
             'nama' => 'Mockup Design',
             'deskripsi' => $faker->sentence
         ]);
 
         JenisLayanan::create([
-            'icon' => 'fa-camera',
+            'icon' => 'fa fa-camera',
+            'icon_code' => '\f030',
             'nama' => 'Photography',
             'deskripsi' => $faker->sentence
         ]);
 
         JenisLayanan::create([
-            'icon' => 'fa-video',
+            'icon' => 'fa fa-video',
+            'icon_code' => '\f03d',
             'nama' => 'Videography',
             'deskripsi' => $faker->sentence
         ]);
 
         JenisLayanan::create([
-            'icon' => 'fa-venus-mars',
+            'icon' => 'fa fa-venus-mars',
+            'icon_code' => '\f228',
             'nama' => 'Wedding',
             'deskripsi' => $faker->sentence
         ]);

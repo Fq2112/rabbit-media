@@ -38,7 +38,7 @@ Route::group(['namespace' => 'Pages', 'prefix' => '/'], function () {
             'as' => 'get.portfolios'
         ]);
 
-        Route::get('{jenis}/{id}', [
+        Route::get('{jenis}/{id}/galleries', [
             'uses' => 'UserController@showPortfolioGalleries',
             'as' => 'show.portfolio.gallery'
         ]);
@@ -50,6 +50,11 @@ Route::group(['namespace' => 'Pages', 'prefix' => '/'], function () {
         Route::get('/', [
             'uses' => 'UserController@showService',
             'as' => 'show.service'
+        ]);
+
+        Route::get('{jenis}/{id}/pricing', [
+            'uses' => 'UserController@showServicePricing',
+            'as' => 'show.service.pricing'
         ]);
 
     });

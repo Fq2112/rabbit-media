@@ -13,17 +13,21 @@
                     </div>
                 </div>
             </div>
-            <div class="row grid" id="lightgallery">
-                @foreach($data->getGaleri as $row)
-                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 item grid-item" data-aos="fade" data-src="{{$row->photo != "" ?
-                    asset('images/big-images/'.$row->photo) : $row->video}}"
-                         data-sub-html="<h4>{{$row->nama}}</h4><p>{{$row->deskripsi}}</p>">
-                        <a href="#">
-                            <img src="{{$row->photo != "" ? asset('images/big-images/'.$row->photo) :
-                            asset('images/big-images/'.$row->thumbnail)}}" alt="Thumbnail" class="img-fluid">
-                        </a>
+            <div class="row justify-content-center">
+                <div class="col-11">
+                    <div class="row grid" id="lightgallery">
+                        @foreach($data->getGaleri as $row)
+                            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 item grid-item" data-aos="fade"
+                                 data-src="{{$row->photo!="" ? asset('images/big-images/'.$row->photo) : $row->video}}"
+                                 data-sub-html="<h4>{{$row->nama}}</h4><p>{{$row->deskripsi}}</p>">
+                                <a href="#">
+                                    <img src="{{$row->photo != "" ? asset('images/big-images/'.$row->photo) :
+                                    asset('images/big-images/'.$row->thumbnail)}}" alt="Thumbnail" class="img-fluid">
+                                </a>
+                            </div>
+                        @endforeach
                     </div>
-                @endforeach
+                </div>
             </div>
         </div>
     </div>

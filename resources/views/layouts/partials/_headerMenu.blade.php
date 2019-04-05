@@ -4,20 +4,21 @@
             <li class="{{\Illuminate\Support\Facades\Request::is('/*') ? 'active' : ''}}">
                 <a href="{{route('home')}}">Home</a></li>
             <li class="has-children {{\Illuminate\Support\Facades\Request::is('portfolios*') ? 'active' : ''}}">
-                <a href="{{route('show.portfolio')}}?q=all">Portfolios</a>
+                <a href="{{route('show.portfolio')}}">Portfolios</a>
                 <ul class="dropdown">
                     @foreach(\App\Models\JenisPortofolio::orderBy('nama')->get() as $row)
                         <li><a href="{{route('show.portfolio')}}?q={{$row->id}}">
-                                <i class="fa {{$row->icon}}" style="margin-right: 8px"></i>{{$row->nama}}</a></li>
+                                <i class="{{$row->icon}}" style="margin-right: 8px"></i>{{$row->nama}}</a></li>
                     @endforeach
                 </ul>
             </li>
             <li class="has-children {{\Illuminate\Support\Facades\Request::is('services*') ? 'active' : ''}}">
-                <a href="#">Services</a>
+                <a href="{{route('show.service')}}">Services</a>
                 <ul class="dropdown">
                     @foreach(\App\Models\JenisLayanan::orderBy('nama')->get() as $row)
-                        <li><a href="#"><i class="fa {{$row->icon}}" style="margin-right: 8px"></i>{{$row->nama}}</a>
-                        </li>
+                        <li><a href="{{route('show.service.pricing', ['jenis' => strtolower(str_replace
+                        (' ', '-', $row->nama)), 'id' =>encrypt($row->id)])}}">
+                                <i class="{{$row->icon}}" style="margin-right: 8px"></i>{{$row->nama}}</a></li>
                     @endforeach
                 </ul>
             </li>
