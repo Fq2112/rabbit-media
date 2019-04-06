@@ -16,6 +16,11 @@ Route::group(['namespace' => 'Pages', 'prefix' => '/'], function () {
         'as' => 'home'
     ]);
 
+    Route::get('about', [
+        'uses' => 'UserController@about',
+        'as' => 'about'
+    ]);
+
     Route::get('info', [
         'uses' => 'UserController@info',
         'as' => 'info'
@@ -59,19 +64,58 @@ Route::group(['namespace' => 'Pages', 'prefix' => '/'], function () {
 
     });
 
-    Route::get('about', [
-        'uses' => 'UserController@about',
-        'as' => 'about'
-    ]);
+    Route::group(['prefix' => 'feedback'], function () {
 
-    Route::get('feedback', [
-        'uses' => 'UserController@feedback',
-        'as' => 'feedback'
-    ]);
+        Route::get('/', [
+            'uses' => 'UserController@feedback',
+            'as' => 'feedback'
+        ]);
 
-    Route::post('feedback', [
-        'uses' => 'UserController@postFeedback',
-        'as' => 'feedback.submit'
-    ]);
+        Route::post('submit', [
+            'middleware' => 'auth',
+            'uses' => 'UserController@postFeedback',
+            'as' => 'feedback.submit'
+        ]);
+
+        Route::get('{id}/delete', [
+            'middleware' => 'auth',
+            'uses' => 'UserController@deleteFeedback',
+            'as' => 'feedback.delete'
+        ]);
+
+    });
+
+    Route::group(['prefix' => 'account', 'namespace' => 'Client', 'middleware' => 'auth'], function () {
+
+        Route::get('profile', [
+            'uses' => 'AccountController@editProfile',
+            'as' => 'client.edit.profile'
+        ]);
+
+        Route::put('profile/update', [
+            'uses' => 'AccountController@updateProfile',
+            'as' => 'client.update.profile'
+        ]);
+
+        Route::get('settings', [
+            'uses' => 'AccountController@accountSettings',
+            'as' => 'client.settings'
+        ]);
+
+        Route::put('settings/update', [
+            'uses' => 'AccountController@updateAccount',
+            'as' => 'client.update.settings'
+        ]);
+
+        Route::group(['prefix' => 'dashboard'], function () {
+
+            Route::get('order_status', [
+                'uses' => 'ClientController@showDashboard',
+                'as' => 'client.dashboard'
+            ]);
+
+        });
+
+    });
 
 });

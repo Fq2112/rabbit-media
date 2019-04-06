@@ -8,29 +8,28 @@ use App\Models\Faq;
 use App\Models\Galeri;
 use App\Models\JenisLayanan;
 use App\Models\JenisPortofolio;
-use App\Models\layanan;
-use App\Models\Pemesanan;
 use App\Models\Portofolio;
 use App\Models\Feedback;
 use App\Support\Role;
-use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth')->only('postFeedback');
-    }
-
     public function index()
     {
         $portfolios = Portofolio::take(12)->get()->shuffle()->all();
 
         return view('pages.beranda', compact('portfolios'));
+    }
+
+    public function about()
+    {
+        $about = About::first();
+        $crews = Admin::where('role', '!=', Role::ROOT)->orderBy('role')->get();
+
+        return view('pages.about', compact('about', 'crews'));
     }
 
     public function info()
@@ -106,23 +105,20 @@ class UserController extends Controller
         return view('pages.service-plan', compact('data', 'jenis'));
     }
 
-    public function about()
-    {
-        $about = About::first();
-        $crews = Admin::where('role', '!=', Role::ROOT)->orderBy('role')->get();
-
-        return view('pages.about', compact('about', 'crews'));
-    }
-
     public function feedback()
     {
         $feedback = Feedback::orderByDesc('id')->get();
         $average = Feedback::avg('rate');
-        $star5 = Feedback::whereBetween('rate', [4.5, 5])->count() * 100 / count($feedback);
-        $star4 = Feedback::whereBetween('rate', [3.5, 4])->count() * 100 / count($feedback);
-        $star3 = Feedback::whereBetween('rate', [2.5, 3])->count() * 100 / count($feedback);
-        $star2 = Feedback::whereBetween('rate', [1.5, 2])->count() * 100 / count($feedback);
-        $star1 = Feedback::whereBetween('rate', [0.5, 1])->count() * 100 / count($feedback);
+        $star5 = number_format(Feedback::whereBetween('rate', [4.5, 5])->count() * 100 / count($feedback),
+            2, '.', ',');
+        $star4 = number_format(Feedback::whereBetween('rate', [3.5, 4])->count() * 100 / count($feedback),
+            2, '.', ',');
+        $star3 = number_format(Feedback::whereBetween('rate', [2.5, 3])->count() * 100 / count($feedback),
+            2, '.', ',');
+        $star2 = number_format(Feedback::whereBetween('rate', [1.5, 2])->count() * 100 / count($feedback),
+            2, '.', ',');
+        $star1 = number_format(Feedback::whereBetween('rate', [0.5, 1])->count() * 100 / count($feedback),
+            2, '.', ',');
 
         return view('pages.feedback', compact('feedback', 'average',
             'star5', 'star4', 'star3', 'star2', 'star1'));
@@ -148,5 +144,12 @@ class UserController extends Controller
 
             return back()->with('update', 'Ulasan Anda berhasil diperbarui!');
         }
+    }
+
+    public function deleteFeedback($id)
+    {
+        Feedback::destroy(decrypt($id));
+
+        return back()->with('delete', 'Ulasan Anda berhasil dihapus!');
     }
 }

@@ -338,9 +338,13 @@
                             </div>
                         </div>
                         <div class="modal-footer">
+                            @if($find != "")
+                                <a href="{{route('feedback.delete',['id' => encrypt($find->id)])}}"
+                                   class="btn btn-light delete-data">Delete</a>
+                            @endif
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                            <button type="submit"
-                                    class="btn btn-primary">{{$find != "" ? 'Save Changes' : 'Submit'}}</button>
+                            <button type="submit" class="btn btn-primary">{{$find != "" ? 'Save Changes' : 'Submit'}}
+                            </button>
                         </div>
                     </form>
                 </div>

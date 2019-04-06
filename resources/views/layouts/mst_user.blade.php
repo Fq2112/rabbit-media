@@ -159,7 +159,6 @@
 <script src="{{asset('js/popper.min.js')}}"></script>
 <script src="{{asset('js/bootstrap.min.js')}}"></script>
 <script src="{{asset('js/moment.js')}}"></script>
-<script src="{{asset('js/bootstrap-datepicker.min.js')}}"></script>
 <script src="{{asset('js/owl.carousel.min.js')}}"></script>
 <script src="{{asset('js/jquery.stellar.min.js')}}"></script>
 <script src="{{asset('js/jquery.countdown.min.js')}}"></script>
@@ -173,6 +172,7 @@
 <script src="{{asset('js/jquery.mousewheel.min.js')}}"></script>
 <script src="{{asset('js/main.js')}}"></script>
 <!-- Bootstrap -->
+<script src="{{asset('js/bootstrap-datepicker.js')}}"></script>
 <script src="{{asset('js/bootstrap-datetimepicker.min.js')}}"></script>
 <script src="{{asset('js/bootstrap-select.js')}}"></script>
 <script src="{{asset('js/bootstrap-toggle.js')}}"></script>

@@ -21,12 +21,16 @@ class UserSeeder extends Seeder
         for ($c = 0; $c < 80; $c++) {
             $user = User::create([
                 'name' => $faker->firstName . ' ' . $faker->lastName,
-                'alamat' => $faker->address,
-                'no_telp' => $faker->phoneNumber,
                 'email' => $faker->unique()->safeEmail,
                 'password' => bcrypt('secret'),
                 'remember_token' => str_random(10),
                 'status' => true,
+                'jk' => rand(0, 1) ? 'male' : 'female',
+                'tgl_lahir' => $faker->date('Y-m-d', '2000-12-30'),
+                'no_telp' => $faker->phoneNumber,
+                'alamat' => $faker->address,
+                'lat' => $faker->latitude,
+                'long' => $faker->longitude,
             ]);
 
             Pemesanan::create([

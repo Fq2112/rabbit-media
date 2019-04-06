@@ -70,15 +70,15 @@
                                 </div>
                                 <div class="row has-feedback">
                                     <div class="col-12">
-                                        <input id="log_password" class="form-control" type="password"
+                                        <input id="log_password" type="password"
+                                               class="form-control {{session('error') ? 'is-invalid' : ''}}"
                                                placeholder="Password" name="password" minlength="6" required>
                                         <span class="glyphicon glyphicon-eye-open form-control-feedback"
                                               style="pointer-events: all;cursor: pointer"></span>
-                                        <span class="help-block">
-                                            @if(session('error'))
-                                                <strong>{{ $errors->first('password') }}</strong>
-                                            @endif
-                                        </span>
+                                        @if(session('error'))
+                                            <span class="invalid-feedback" style="display: block">
+                                                <strong>{{ $errors->first('password') }}</strong></span>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="row">
@@ -201,13 +201,14 @@
                                   action="{{ route('password.email') }}">
                                 {{ csrf_field() }}
 
-                                <div class="row {{ $errors->has('Email') ? ' has-error' : '' }} has-feedback">
+                                <div class="row {{ $errors->has('Email') ? ' has-danger' : '' }} has-feedback">
                                     <div class="col-12">
-                                        <input class="form-control" type="email" placeholder="Email" name="email"
+                                        <input class="form-control {{$errors->has('email') ? 'is-invalid' : ''}}"
+                                               type="email" placeholder="Email" name="email"
                                                value="{{ old('email') }}" required>
                                         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                                         @if ($errors->has('email'))
-                                            <span class="help-block">
+                                            <span class="invalid-feedback" style="display: block">
                                                 <strong>{{ $errors->first('email') }}</strong>
                                             </span>
                                         @endif
@@ -241,32 +242,34 @@
                                   action="{{route('password.request',
                                   ['token' => session('reset') ? session('reset')['token'] : old('token')])}}">
                                 {{ csrf_field() }}
-                                <div class="row {{ $errors->has('Email') ? ' has-error' : '' }} has-feedback">
+                                <div class="row {{ $errors->has('Email') ? ' has-danger' : '' }} has-feedback">
                                     <div class="col-12">
-                                        <input class="form-control" type="email" placeholder="Email" name="email"
+                                        <input class="form-control {{$errors->has('email') ? 'is-invalid' : ''}}"
+                                               type="email" placeholder="Email" name="email"
                                                value="{{ old('email') }}" required>
                                         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                                         @if ($errors->has('email'))
-                                            <span class="help-block">
+                                            <span class="invalid-feedback" style="display: block">
                                                 <strong>{{ $errors->first('email') }}</strong>
                                             </span>
                                         @endif
                                     </div>
                                 </div>
-                                <div class="row {{ $errors->has('password') ? ' has-error' : '' }} has-feedback">
+                                <div class="row {{ $errors->has('password') ? ' has-danger' : '' }} has-feedback">
                                     <div class="col-12">
-                                        <input id="forg_password" class="form-control" type="password"
+                                        <input id="forg_password" type="password"
+                                               class="form-control {{$errors->has('password') ? 'is-invalid' : ''}}"
                                                placeholder="New Password" name="password" minlength="6" required>
                                         <span class="glyphicon glyphicon-eye-open form-control-feedback"
                                               style="pointer-events: all;cursor: pointer"></span>
                                         @if ($errors->has('password'))
-                                            <span class="help-block">
+                                            <span class="invalid-feedback" style="display: block">
                                                 <strong>{{ $errors->first('password') }}</strong>
                                             </span>
                                         @endif
                                     </div>
                                 </div>
-                                <div class="row {{ $errors->has('password_confirmation') ? ' has-error' : '' }} has-feedback">
+                                <div class="row {{ $errors->has('password_confirmation') ? ' has-danger' : '' }} has-feedback">
                                     <div class="col-12">
                                         <input id="forg_password_confirm" class="form-control" type="password"
                                                placeholder="Retype password" name="password_confirmation"
