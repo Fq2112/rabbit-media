@@ -2,10 +2,10 @@
 @extends('layouts.auth.mst_client')
 @section('inner-content')
     <div class="row">
-        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 text-center" data-aos="fade">
+        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 text-center" data-aos="fade-right">
             @include('layouts.partials.auth._form_ava-client')
         </div>
-        <div class="col-xl-8 col-lg-8 col-md-6 col-sm-12" data-aos="fade">
+        <div class="col-xl-8 col-lg-8 col-md-6 col-sm-12" data-aos="fade-left">
             <div class="card">
                 <form class="form-horizontal" role="form" method="POST" id="form-password">
                     {{ csrf_field() }}

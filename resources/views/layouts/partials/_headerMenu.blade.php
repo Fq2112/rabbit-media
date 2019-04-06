@@ -20,7 +20,7 @@
                 <a href="{{route('feedback')}}">Feedback</a></li>
             @if(Auth::check() || Auth::guard('admin')->check())
                 <li class="has-children avatar">
-                    <a href="#" style="font-weight: 900;">
+                    <a href="javascript:void(0)" style="font-weight: 900;">
                         @if(Auth::check())
                             <img class="img-thumbnail show_ava" src="{{Auth::user()->ava != "" ?
                             asset('storage/users/ava/'.Auth::user()->ava) :

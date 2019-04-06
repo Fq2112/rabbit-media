@@ -5,16 +5,17 @@
     <link rel="stylesheet" href="{{asset('css/about.css')}}">
 @endpush
 @section('content')
-    <div class="site-section" data-aos="fade">
+    <div class="site-section">
         <div class="container-fluid">
             <div class="row justify-content-center">
                 <div class="col-md-7">
                     <div class="row mb-5">
                         <div class="col-12">
-                            <h3 class="site-section-heading text-center">About Us</h3>
+                            <h3 class="site-section-heading text-center" data-aos="fade-right">About Us</h3>
+                            <h5 class="text-center" data-aos="fade-left">Rabbit Media – Digital Creative Service</h5>
                         </div>
                     </div>
-                    <div class="row mb-5">
+                    <div class="row mb-5" data-aos="fade-down">
                         <div class="col">
                             <img src="{{asset('images/'.$about->icon)}}" alt="Our Pride" class="wrapReady">
                             <p align="justify">{{$about->deskripsi}}</p>
@@ -29,14 +30,14 @@
                             {!! $about->misi !!}
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" data-aos="fade-down">
                         <div class="col-12">
                             <h3 class="site-section-heading text-center">Passionate Crew</h3>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row justify-content-center">
+            <div class="row justify-content-center" data-aos="zoom-in-up" data-aos-delay="500">
                 <div id="customers-testimonials" class="owl-carousel">
                     @foreach($crews as $crew)
                         <div class="item avatar">

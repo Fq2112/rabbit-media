@@ -326,8 +326,7 @@ a:hover {
 
 /* Navbar */
 .site-navbar {
-    margin-bottom: 0px;
-    z-index: 9;
+    margin-bottom: 0;
     position: relative;
 }
 
@@ -1684,4 +1683,8 @@ a:hover {
     text-shadow: 0 0 4px #592f83;
     color: #312855;
     line-height: 0;
+}
+
+.box-shadow {
+    box-shadow: 0 0 8px rgba(0, 0, 0, .5);
 }

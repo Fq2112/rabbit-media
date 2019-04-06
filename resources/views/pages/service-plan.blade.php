@@ -78,14 +78,15 @@
     </style>
 @endpush
 @section('content')
-    <div class="site-section" data-aos="fade">
+    <div class="site-section">
         <div class="container-fluid">
             <div class="row justify-content-center">
                 <div class="col-md-7">
                     <div class="row mb-5">
                         <div class="col-12 ">
-                            <h3 class="site-section-heading text-center">{{ucwords($data->nama)}}</h3>
-                            <h5 class="text-center">{{$data->deskripsi}}</h5>
+                            <h3 class="site-section-heading text-center"
+                                data-aos="fade-right">{{ucwords($data->nama)}}</h3>
+                            <h5 class="text-center" data-aos="fade-left">{{$data->deskripsi}}</h5>
                         </div>
                     </div>
                 </div>
@@ -97,7 +98,7 @@
                             @php
                                 $price = number_format($row->harga - ($row->harga * $row->diskon/100),2,',','.');
                             @endphp
-                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-3 grid-item">
+                            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mb-3 grid-item" data-aos="zoom-in">
                                 <div class="card mb-5 mb-lg-0">
                                     <div class="card-body">
                                         <h5 class="card-title text-muted text-uppercase text-center">{{$row->paket}}</h5>

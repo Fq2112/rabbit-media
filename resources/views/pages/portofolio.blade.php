@@ -17,21 +17,22 @@
     </style>
 @endpush
 @section('content')
-    <div class="site-section" data-aos="fade">
+    <div class="site-section">
         <div class="container-fluid">
             <div class="row justify-content-center">
                 <div class="col-md-7">
                     <div class="row mb-5">
                         <div class="col-12 ">
-                            <h3 class="site-section-heading text-center">Portfolios</h3>
-                            <h5 class="text-center">Inilah cara kami mengabadikan momen bahagia Anda!</h5>
+                            <h3 class="site-section-heading text-center" data-aos="fade-right">Portfolios</h3>
+                            <h5 class="text-center" data-aos="fade-left">Inilah cara kami mengabadikan momen bahagia
+                                Anda!</h5>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="row justify-content-center" id="tabs">
                 <div class="col-11">
-                    <nav>
+                    <nav data-aos="zoom-in-up">
                         <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
                             <a class="nav-item nav-link" style="color: #495057" id="tabList-all"
                                data-toggle="tab" href="#tabContent-all" role="tab" aria-controls="nav-home"
@@ -60,7 +61,8 @@
                             <div class="row" id="search-result"></div>
                             <div class="row">
                                 <div class="col-12 myPagination">
-                                    <ul class="pagination justify-content-end" style="margin-right: -1em;"></ul>
+                                    <ul class="pagination justify-content-end" style="margin-right: -1em;"
+                                        data-aos="fade-left"></ul>
                                 </div>
                             </div>
                         </div>
@@ -202,7 +204,7 @@
 
             $.each(data.data, function (i, val) {
                 $result +=
-                    '<div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 item">' +
+                    '<div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 item" data-aos="zoom-out">' +
                     '<article class="download-card Card">' +
                     '<a href="{{url('/portfolios')}}/' + val.jenis + '/' + val.enc_id + '/galleries">' +
                     '<div class="download-card__icon-box">' +

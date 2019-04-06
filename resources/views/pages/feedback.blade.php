@@ -10,13 +10,14 @@
                 <div class="col-md-7">
                     <div class="row mb-4">
                         <div class="col-12">
-                            <h3 class="site-section-heading text-center">Feedback</h3>
-                            <h5 class="text-center">Beri kami ulasan dengan membagikan pengalaman Anda tentang
+                            <h3 class="site-section-heading text-center" data-aos="fade-right">Feedback</h3>
+                            <h5 class="text-center" data-aos="fade-left">Beri kami ulasan dengan membagikan pengalaman
+                                Anda tentang
                                 layanan kami!</h5>
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 average text-center">
+                        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 average text-center" data-aos="fade-right">
                             <div class="row score">
                                 <div class="col">
                                     {{number_format($average, 1, '.', '')}}
@@ -106,7 +107,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 reviews text-right">
+                        <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 reviews text-right" data-aos="fade-left">
                             <div class="row rate">
                                 <div class="col-3">
                                     <i class="fa fa-star"></i>
@@ -186,7 +187,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row justify-content-center">
+            <div class="row justify-content-center" data-aos="zoom-in-up" data-aos-delay="500">
                 <div id="customers-testimonials" class="owl-carousel">
                     @foreach($feedback as $row)
                         <div class="item avatar">

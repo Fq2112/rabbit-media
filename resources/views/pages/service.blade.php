@@ -66,14 +66,15 @@
     </style>
 @endpush
 @section('content')
-    <div class="site-section" data-aos="fade">
+    <div class="site-section">
         <div class="container-fluid">
             <div class="row justify-content-center">
                 <div class="col-md-7">
                     <div class="row mb-5">
-                        <div class="col-12 ">
-                            <h3 class="site-section-heading text-center">Services</h3>
-                            <h5 class="text-center">Apakah Anda ingin mengabadikan momen bahagia Anda secara
+                        <div class="col-12">
+                            <h3 class="site-section-heading text-center" data-aos="fade-right">Services</h3>
+                            <h5 class="text-center" data-aos="fade-left">Apakah Anda ingin mengabadikan momen bahagia
+                                Anda secara
                                 profesional? Wujudkanlah sekarang bersama kami!</h5>
                         </div>
                     </div>
@@ -83,7 +84,8 @@
                 <div class="col-11">
                     <div id="services" class="row grid">
                         @foreach($types as $type)
-                            <div class="col-sm-6 col-md-4 col-lg-4 col-xl-4 grid-item">
+                            <div class="col-sm-6 col-md-4 col-lg-4 col-xl-4 grid-item" data-aos="zoom-in"
+                                 data-aos-delay="500">
                                 <div class="card">
                                     <div class="card-block block-{{$type->id}}-icon">
                                         <h3 class="card-title">{{$type->nama}}</h3>

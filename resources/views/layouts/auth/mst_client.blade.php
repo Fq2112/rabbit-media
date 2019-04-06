@@ -31,10 +31,10 @@
     @php
         $order = \App\Models\Pemesanan::where('user_id', $user->id)->count();
     @endphp
-    <div class="wrapper" data-aos="fade">
+    <div class="wrapper">
         <div class="wrapper_container">
             <div class="site-wrapper active" id="target">
-                <div class="site-wrapper_left-col">
+                <div class="site-wrapper_left-col" data-aos="fade-right">
                     <a href="{{route('client.edit.profile')}}" class="logo">
                         {{\Illuminate\Support\Str::words($user->name,2,"")}}</a>
                     <div class="left-nav">
@@ -66,7 +66,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="site-wrapper_top-bar">
+                <div class="site-wrapper_top-bar" data-aos="fade-left">
                     <a href="#" id="toggle"><i class="fa fa-bars"></i></a>
                 </div>
 

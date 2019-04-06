@@ -88,8 +88,8 @@
         <div class="site-mobile-menu-body"></div>
     </div>
 
-    <header class="site-navbar py-3 {{\Illuminate\Support\Facades\Request::is('/*') ? '' : 'border-bottom'}}"
-            role="banner">
+    <header class="site-navbar py-3 box-shadow" role="banner"
+            style="z-index: {{\Illuminate\Support\Facades\Request::is('account/*') ? '11' : '9'}}">
         <div class="container-fluid">
             <div class="row align-items-center">
                 <div class="col-6 col-xl-2" data-aos="fade-down">
@@ -130,7 +130,8 @@
 
     @yield('content')
 
-    <div class="footer py-4">
+    <div class="footer py-4 {{\Illuminate\Support\Facades\Request::is(['/*','account*']) ? 'box-shadow' : ''}}"
+         data-aos="{{\Illuminate\Support\Facades\Request::is('info*') ? '' : 'fade-up'}}">
         <div class="container-fluid {{\Illuminate\Support\Facades\Request::is('/*') ? '' : 'text-center'}}">
             <p>
                 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
