@@ -6,7 +6,7 @@
     swal('Account Activated!', '{{ session('activated') }}', 'success');
 
     @elseif(session('inactive'))
-    swal('ATTENTION!', '{{ session('inactive') }}', 'error');
+    swal('PERHATIAN!', '{{ session('inactive') }}', 'error');
 
     @elseif(session('signed'))
     swal('Signed In!', 'Halo {{Auth::guard('admin')->check() ? Auth::guard('admin')->user()->name :
@@ -19,7 +19,7 @@
     swal('Signed Out!', '{{ session('logout') }}', 'warning');
 
     @elseif(session('warning'))
-    swal('ATTENTION!', '{{ session('warning') }}', 'warning');
+    swal('PERHATIAN!', '{{ session('warning') }}', 'warning');
 
     @elseif(session('status'))
     swal('Reset Password Success!', '{{ session('status') }}', 'success', '3500');

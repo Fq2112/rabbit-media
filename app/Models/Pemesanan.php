@@ -19,4 +19,9 @@ class Pemesanan extends Model
     {
         return $this->belongsTo(layanan::class, 'layanan_id');
     }
+
+    public function getPayment()
+    {
+        return $this->belongsTo(PaymentMethod::class, 'payment_id');
+    }
 }

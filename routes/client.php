@@ -62,6 +62,25 @@ Route::group(['namespace' => 'Pages', 'prefix' => '/'], function () {
             'as' => 'show.service.pricing'
         ]);
 
+        Route::group(['prefix' => 'order', 'namespace' => 'Client'], function () {
+
+            Route::get('invoice/{id}', [
+                'uses' => 'OrderController@invoiceOrder',
+                'as' => 'invoice.order'
+            ]);
+
+            Route::put('payment_proof/submit', [
+                'uses' => 'OrderController@uploadPaymentProof',
+                'as' => 'upload.paymentProof'
+            ]);
+
+            Route::get('{id}/delete', [
+                'uses' => 'OrderController@deleteOrder',
+                'as' => 'delete.order'
+            ]);
+
+        });
+
     });
 
     Route::group(['prefix' => 'feedback'], function () {
@@ -85,7 +104,7 @@ Route::group(['namespace' => 'Pages', 'prefix' => '/'], function () {
 
     });
 
-    Route::group(['prefix' => 'account', 'namespace' => 'Client', 'middleware' => 'auth'], function () {
+    Route::group(['prefix' => 'account', 'namespace' => 'Client'], function () {
 
         Route::get('profile', [
             'uses' => 'AccountController@editProfile',
@@ -110,8 +129,13 @@ Route::group(['namespace' => 'Pages', 'prefix' => '/'], function () {
         Route::group(['prefix' => 'dashboard'], function () {
 
             Route::get('order_status', [
-                'uses' => 'ClientController@showDashboard',
+                'uses' => 'OrderController@showDashboard',
                 'as' => 'client.dashboard'
+            ]);
+
+            Route::get('data', [
+                'uses' => 'OrderController@getOrderStatus',
+                'as' => 'get.client.orderStatus'
             ]);
 
         });

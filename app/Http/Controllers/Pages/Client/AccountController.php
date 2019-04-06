@@ -11,6 +11,11 @@ use Illuminate\Support\Facades\Storage;
 
 class AccountController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function editProfile()
     {
         $user = Auth::user();

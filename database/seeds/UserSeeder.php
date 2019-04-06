@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
         $faker = Factory::create('id_ID');
 
         for ($c = 0; $c < 80; $c++) {
-            $user = User::create([
+            User::create([
                 'name' => $faker->firstName . ' ' . $faker->lastName,
                 'email' => $faker->unique()->safeEmail,
                 'password' => bcrypt('secret'),
@@ -32,16 +32,13 @@ class UserSeeder extends Seeder
                 'lat' => $faker->latitude,
                 'long' => $faker->longitude,
             ]);
-
-            Pemesanan::create([
-                'user_id' => $user->id,
-                'layanan_id' => rand(layanan::min('id'), layanan::max('id')),
-                'deskripsi' => $faker->sentence
-            ]);
         }
 
         User::find(1)->update([
             'name' => 'Fiqy Ainuzzaqy',
+            'jk' => 'male',
+            'tgl_lahir' => '1997-10-15',
+            'no_telp' => '08563094333',
             'email' => 'fiqyainuzzaqy@mhs.unesa.ac.id'
         ]);
 

@@ -46,8 +46,9 @@
                                         <span class="menu-collapsible-icon glyphicon glyphicon-chevron-down"></span>
                                     </label>
                                     <ul class="nav nav-list tree bullets">
-                                        <li style="list-style: none"><a href="#">Order Status<span class="badge">{{$order > 999 ?
-                                            '999+' : $order}}</span></a></li>
+                                        <li style="list-style: none"><a href="{{route('client.dashboard')}}">Order
+                                                Status
+                                                <span class="badge">{{$order > 999 ? '999+' : $order}}</span></a></li>
                                     </ul>
                                 </li>
                                 <li class="nav-menu-header">
