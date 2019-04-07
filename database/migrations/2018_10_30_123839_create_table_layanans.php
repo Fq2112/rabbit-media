@@ -22,7 +22,6 @@ class CreateTableLayanans extends Migration
             $table->string('harga');
             $table->integer('diskon')->length(3);
             $table->text('keuntungan');
-            $table->boolean('isBest')->default(false);
             $table->timestamps();
         });
     }

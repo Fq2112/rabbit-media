@@ -21,7 +21,7 @@
         }
 
         .pricing .card-price {
-            font-size: 3rem;
+            font-size: 2.5rem;
             margin: 0;
         }
 
@@ -46,6 +46,7 @@
 
         .pricing ul li {
             margin-bottom: 1rem;
+            list-style-image: url("{{asset('images/checklist.png')}}");
         }
 
         .pricing .text-muted {
@@ -102,32 +103,17 @@
                                 <div class="card mb-5 mb-lg-0">
                                     <div class="card-body">
                                         <h5 class="card-title text-muted text-uppercase text-center">{{$row->paket}}</h5>
-                                        <div class="price-before-disc text-center">
-                                            Rp{{number_format($row->harga,2,',','.')}}</div>
-                                        <h6 class="card-price text-center">Rp{{$price}}</h6>
-                                        <div class="discount text-center">Hemat {{$row->diskon}}%</div>
+                                        @if($row->diskon > 0)
+                                            <div class="price-before-disc text-center">
+                                                Rp{{number_format($row->harga,2,',','.')}}</div>
+                                            <h6 class="card-price text-center">Rp{{$price}}</h6>
+                                            <div class="discount text-center">Hemat {{$row->diskon}}%</div>
+                                        @else
+                                            <h6 class="card-price text-center">
+                                                Rp{{number_format($row->harga,2,',','.')}}</h6>
+                                        @endif
                                         <hr>
-                                        <ul class="fa-ul">
-                                            <li><span class="fa-li"><i class="fas fa-check"></i></span>Single User</li>
-                                            <li><span class="fa-li"><i class="fas fa-check"></i></span>5GB Storage</li>
-                                            <li><span class="fa-li"><i class="fas fa-check"></i></span>Unlimited Public
-                                                Projects
-                                            </li>
-                                            <li><span class="fa-li"><i class="fas fa-check"></i></span>Community Access
-                                            </li>
-                                            <li class="text-muted"><span class="fa-li"><i
-                                                            class="fas fa-times"></i></span>Unlimited Private Projects
-                                            </li>
-                                            <li class="text-muted"><span class="fa-li"><i
-                                                            class="fas fa-times"></i></span>Dedicated Phone Support
-                                            </li>
-                                            <li class="text-muted"><span class="fa-li"><i
-                                                            class="fas fa-times"></i></span>Free Subdomain
-                                            </li>
-                                            <li class="text-muted"><span class="fa-li"><i
-                                                            class="fas fa-times"></i></span>Monthly Status Reports
-                                            </li>
-                                        </ul>
+                                        {!! $row->keuntungan !!}
                                     </div>
                                     <div class="card-footer" style="padding: 0;">
                                         <a href="#" class="btn btn-block btn-primary text-uppercase">pilih</a>

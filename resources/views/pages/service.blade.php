@@ -74,8 +74,7 @@
                         <div class="col-12">
                             <h3 class="site-section-heading text-center" data-aos="fade-right">Services</h3>
                             <h5 class="text-center" data-aos="fade-left">Apakah Anda ingin mengabadikan momen bahagia
-                                Anda secara
-                                profesional? Wujudkanlah sekarang bersama kami!</h5>
+                                Anda secara profesional? Wujudkanlah sekarang bersama kami!</h5>
                         </div>
                     </div>
                 </div>

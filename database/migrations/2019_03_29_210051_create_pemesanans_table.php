@@ -24,7 +24,8 @@ class CreatePemesanansTable extends Migration
             $table->integer('payment_id')->unsigned();
             $table->foreign('payment_id')->references('id')->on('payment_method')
                 ->onUpdate('CASCADE')->onDelete('CASCADE');
-            $table->text('deskripsi');
+            $table->integer('qty')->nullable();
+            $table->text('deskripsi')->nullable();
             $table->string('payment_code');
             $table->string('cc_number')->nullable();
             $table->string('cc_name')->nullable();
@@ -38,6 +39,7 @@ class CreatePemesanansTable extends Migration
             $table->integer('admin_id')->unsigned()->nullable();
             $table->foreign('admin_id')->references('id')->on('admins')
                 ->onUpdate('CASCADE')->onDelete('CASCADE');
+            $table->timestamps();
             $table->softDeletes();
         });
     }

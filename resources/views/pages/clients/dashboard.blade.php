@@ -4,7 +4,7 @@
     <div class="row" data-aos="fade-right">
         <div class="col">
             <h4 class="mb-1">Order Status</h4>
-            <small>Inilah daftar riwayat pesanan Anda beserta statusnya!</small>
+            <p>Inilah daftar riwayat pesanan Anda beserta statusnya!</p>
             <hr>
             <form id="form-loadOrderStats">
                 <input type="hidden" name="user_id" value="{{$user->id}}">
@@ -14,27 +14,29 @@
             </form>
         </div>
     </div>
-    <div class="row m-0">
-        <div class="row" id="order-control">
-            <div class="col-4" data-aos="zoom-in-right">
-                <div id="daterangepicker" class="myDateRangePicker" data-toggle="tooltip"
-                     data-placement="top" title="Ordered Date Filter">
-                    <i class="fa fa-calendar-alt"></i>&nbsp;
-                    <span></span> <i class="fa fa-caret-down"></i>
+    <div class="row p-0">
+        <div class="col">
+            <div class="row" id="order-control">
+                <div class="col-3" data-aos="zoom-in-right">
+                    <div id="daterangepicker" class="myDateRangePicker" data-toggle="tooltip"
+                         data-placement="top" title="Ordered Date Filter">
+                        <i class="fa fa-calendar-alt"></i>&nbsp;
+                        <span></span> <i class="fa fa-caret-down"></i>
+                    </div>
+                </div>
+                <div class="col-9 text-right">
+                    <p id="show-result"></p>
                 </div>
             </div>
-            <div class="col-8 text-right">
-                <small id="show-result"></small>
+            <div class="text-center">
+                <img src="{{asset('images/loading.gif')}}" id="image" class="img-fluid ld ld-fade">
             </div>
-        </div>
-        <div class="text-center">
-            <img src="{{asset('images/loading.gif')}}" id="image" class="img-fluid ld ld-fade">
-        </div>
-        <div class="row" id="search-result"></div>
-        <div class="row">
-            <div class="col-12 myPagination">
-                <ul class="pagination justify-content-end" style="margin-right: -1em;"
-                    data-aos="fade-left"></ul>
+            <div class="row" id="search-result"></div>
+            <div class="row">
+                <div class="col-12 myPagination">
+                    <ul class="pagination justify-content-end" style="margin-right: -1em;"
+                        data-aos="fade-left"></ul>
+                </div>
             </div>
         </div>
     </div>
@@ -174,7 +176,6 @@
                         $('#search-result, #order-control, .myPagination').show();
                     },
                     success: function (data) {
-                        console.log(data.data);
                         successLoad(data, date, page);
                     },
                     error: function () {

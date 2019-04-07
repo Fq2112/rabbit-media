@@ -355,7 +355,7 @@
 @endsection
 @push('scripts')
     <script>
-        $(function ($) {
+        $(function () {
             "use strict";
             $('#customers-testimonials').owlCarousel({
                 loop: true,
