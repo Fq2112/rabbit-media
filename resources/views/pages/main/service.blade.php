@@ -39,24 +39,15 @@
 
         }
 
-        #services .card .card-block:before {
-            font-family: FontAwesome;
+        #services .card .icon {
+            width: 60px;
             position: absolute;
-            font-size: 39px;
-            color: #592f83;
-            left: 0;
+            left: -20px;
             -webkit-transition: -webkit-transform .2s ease-in-out;
             transition: transform .2s ease-in-out;
         }
 
-        @foreach($types as $type)
-            #services .card .block-{{$type->id}}-icon:before {
-            content: "{{$type->icon_code}}";
-        }
-
-        @endforeach
-
-        #services .card:hover .card-block:before {
+        #services .card:hover .icon {
             -webkit-transform: rotate(360deg);
             transform: rotate(360deg);
             -webkit-transition: .5s all ease;
@@ -86,7 +77,8 @@
                             <div class="col-sm-6 col-md-4 col-lg-4 col-xl-4 grid-item" data-aos="zoom-in"
                                  data-aos-delay="500">
                                 <div class="card">
-                                    <div class="card-block block-{{$type->id}}-icon">
+                                    <div class="card-block">
+                                        <img class="icon img-fluid" src="{{asset('images/services/'.$type->icon)}}">
                                         <h3 class="card-title">{{$type->nama}}</h3>
                                         <p class="card-text">{{$type->deskripsi}}</p>
                                         <a class="read-more" href="{{route('show.service.pricing', [

@@ -115,8 +115,14 @@
                                         <hr>
                                         {!! $row->keuntungan !!}
                                     </div>
-                                    <div class="card-footer" style="padding: 0;">
-                                        <a href="#" class="btn btn-block btn-primary text-uppercase">pilih</a>
+                                    <div class="card-footer p-0">
+                                        <form id="form-service-{{$row->id}}" action="{{route('show.order', ['id' =>
+                                        encrypt($row->id)])}}">
+                                            <button type="button" class="btn btn-block btn-primary py-3 text-uppercase"
+                                                    onclick="orderNow('{{$row->id}}')">
+                                                <strong>pesan sekarang</strong>
+                                            </button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -127,3 +133,37 @@
         </div>
     </div>
 @endsection
+@push('scripts')
+    <script>
+        function orderNow(id) {
+            @if(Auth::guard('admin')->check())
+            swal('PERHATIAN!', 'Fitur ini khusus untuk customer/client Rabbit Media.', 'warning');
+
+            @elseif(Auth::check())
+            @if(Auth::user()->no_telp == "" || Auth::user()->alamat == "")
+            swal({
+                title: 'PERHATIAN!',
+                text: "Sepertinya Anda belum melengkapi data alamat lengkap dan nomor telepon yang masih aktif. " +
+                    "Silahkan melengkapi data tersebut terlebih dahulu di halaman Edit Profile.",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#592f83',
+                confirmButtonText: 'Ya, alihkan saya ke halaman Edit Profile.',
+                showLoaderOnConfirm: true,
+
+                preConfirm: function () {
+                    return new Promise(function (resolve) {
+                        window.location.href = '{{route('client.edit.profile')}}';
+                    });
+                },
+                allowOutsideClick: false
+            });
+            @else
+            $("#form-service-" + id)[0].submit();
+            @endif
+            @else
+            openLoginModal();
+            @endif
+        }
+    </script>
+@endpush

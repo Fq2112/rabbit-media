@@ -17,14 +17,6 @@
             cursor: pointer;
             width: 100%;
         }
-
-        .height1 {
-            height: 552px;
-        }
-
-        .height2 {
-            height: 518px;
-        }
     </style>
 @endpush
 @section('content')

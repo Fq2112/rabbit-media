@@ -3,13 +3,17 @@
 namespace App\Http\Controllers\Pages\Client;
 
 use App\Models\layanan;
+use App\Models\PaymentCategory;
 use App\Models\PaymentMethod;
 use App\Models\Pemesanan;
 use App\Support\RomanConverter;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Storage;
 
 class OrderController extends Controller
 {
@@ -17,6 +21,138 @@ class OrderController extends Controller
     {
         $this->middleware('auth')->except('invoiceOrder');
         $this->middleware('invoice')->only('invoiceOrder');
+    }
+
+    public function showOrder($id)
+    {
+        $user = Auth::user();
+        $paymentCategories = PaymentCategory::all();
+
+        $layanan = layanan::find(decrypt($id));
+        $price = $layanan->harga - ($layanan->harga * $layanan->diskon / 100);
+
+        return view('pages.clients.orderForm', compact('user', 'paymentCategories', 'layanan', 'price'));
+    }
+
+    public function getPricingReviewData($pricing)
+    {
+        $layanan = layanan::find($pricing)->toArray();
+        $price = $layanan['harga'] - ($layanan['harga'] * $layanan['diskon'] / 100);
+        $layanan = array_replace($layanan, array('price' => $price),
+            array('rp_price' => number_format($price, 2, ',', '.')));
+
+        return $layanan;
+    }
+
+    public function getPaymentMethod($id)
+    {
+        return PaymentMethod::find($id);
+    }
+
+    public function submitOrder(Request $request)
+    {
+        $user = Auth::user();
+        $order = Pemesanan::create([
+            'user_id' => $user->id,
+            'layanan_id' => $request->layanan_id,
+            'qty' => $request->qty,
+            'deskripsi' => $request->deskripsi,
+            'payment_method_id' => $request->pm_id,
+            'payment_code' => strtoupper($request->payment_code),
+            'cc_number' => $request->number,
+            'cc_name' => $request->name,
+            'cc_expiry' => $request->expiry,
+            'cc_cvc' => $request->cvc,
+            'total_payment' => $request->total_payment,
+        ]);
+
+        $this->paymentDetailsMail($order);
+
+        return back()->withInput(Input::all())->with([
+            'orderSubmit' => 'Kami telah mengirimkan rincian pembayaran Anda ke ' . $user->email . '. Permintaan Anda akan segera kami proses setelah pembayaran Anda selesai.',
+            'order' => $order,
+            'order_id' => $order->id
+        ]);
+    }
+
+    private function paymentDetailsMail($order)
+    {
+        $pm = PaymentMethod::find($order->payment_method_id);
+        $pc = PaymentCategory::find($pm->payment_category_id);
+        $pl = layanan::find($order->layanan_id);
+
+        $plan_price = $pl->harga - ($pl->harga * $pl->diskon / 100);
+
+        $diffTotal = $order->qty - 1;
+        $total = 1 . "(+" . $diffTotal . ")";
+        $price_total = $diffTotal * $plan_price;
+
+        $data = [
+            'order' => $order,
+            'payment_method' => $pm,
+            'payment_category' => $pc,
+            'layanan' => $pl,
+            'plan_price' => $plan_price,
+            'totalVacancy' => $total,
+            'price_totalVacancy' => $price_total,
+        ];
+
+        event(new OrderPaymentDetails($data));
+    }
+
+    public function invoiceJobPosting($id)
+    {
+        $order = Pemesanan::find(decrypt($id));
+        $user = $order->getUser;
+
+        $pm = $order->getPayment;
+        $pc = $pm->paymentCategories;
+        $pl = $order->getLayanan;
+
+        $plan_price = $pl->harga - ($pl->harga * $pl->diskon / 100);
+
+        $diffTotal = $order->qty - 1;
+        $total = 1 . "(+" . $diffTotal . ")";
+        $price_total = $diffTotal * $plan_price;
+
+        $date = Carbon::parse($order->created_at);
+        $romanDate = RomanConverter::numberToRoman($date->format('y')) . '/' .
+            RomanConverter::numberToRoman($date->format('m'));
+        $invoice = 'INV/' . $date->format('Ymd') . '/' . $romanDate . '/' . $order->id;
+
+        return view('pages.clients.orderInvoice', compact('order', 'user', 'pm', 'pc', 'pl',
+            'plan_price', 'total', 'price_total', 'invoice'));
+    }
+
+    public function uploadPaymentProof(Request $request)
+    {
+        $order = Pemesanan::find($request->order_id);
+
+        $payment_proof = $request->file('payment_proof');
+        $name = $payment_proof->getClientOriginalName();
+
+        if ($order->payment_proof != '') {
+            Storage::delete('public/users/payment/' . $order->payment_proof);
+        }
+
+        $request->payment_proof->storeAs('public/users/payment', $name);
+
+        $order->update([
+            'payment_proof' => $name
+        ]);
+
+        return $name;
+    }
+
+    public function deleteJobPosting($id)
+    {
+        $order = Pemesanan::find(decrypt($id));
+        $date = Carbon::parse($order->created_at);
+        $romanDate = RomanConverter::numberToRoman($date->format('y')) . '/' . RomanConverter::numberToRoman($date->format('m'));
+        $invoice = '#INV/' . $date->format('Ymd') . '/' . $romanDate . '/' . $order->id;
+        $order->delete();
+
+        return redirect()->route('client.dashboard')->with('delete', 'Invoice ' . $invoice . ' berhasil dihapus!');
     }
 
     public function showDashboard(Request $request)

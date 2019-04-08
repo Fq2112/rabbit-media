@@ -36,23 +36,23 @@
                     </div>
                 @endif
                 <table class="stats_personal_data" style="font-size: 15px;margin-top: 0">
-                    <tr>
+                    <tr data-toggle="tooltip" data-placement="left" title="Jenis Kelamin">
                         <td><i class="fa fa-transgender"></i></td>
                         <td>&nbsp;</td>
                         <td>{{$user->jk != "" ? ucfirst($user->jk) : '(kosong)'}}</td>
                     </tr>
-                    <tr>
+                    <tr data-toggle="tooltip" data-placement="left" title="Tanggal Lahir">
                         <td><i class="fa fa-birthday-cake"></i></td>
                         <td>&nbsp;</td>
                         <td>{{$user->tgl_lahir != "" ? \Carbon\Carbon::parse($user->tgl_lahir)->format('j F Y') : '(kosong)'}}</td>
                     </tr>
-                    <tr>
-                        <td><i class="fa fa-mobile-alt"></i></td>
+                    <tr data-toggle="tooltip" data-placement="left" title="Nomor Telepon">
+                        <td><i class="fa fa-phone"></i></td>
                         <td>&nbsp;</td>
                         <td>{{$user->no_telp != "" ? $user->no_telp : '(kosong)'}}</td>
                     </tr>
-                    <tr>
-                        <td><i class="fa fa-map-marker-alt"></i></td>
+                    <tr data-toggle="tooltip" data-placement="left" title="Alamat Lengkap">
+                        <td><i class="fa fa-map-marked-alt"></i></td>
                         <td>&nbsp;</td>
                         <td>{{$user->alamat != "" ? $user->alamat : '(kosong)'}}</td>
                     </tr>
@@ -72,50 +72,67 @@
                 </table>
                 <div id="personal_data_settings" style="display: none">
                     <small>Full Name</small>
-                    <div class="row form-group has-feedback">
+                    <div class="row form-group">
                         <div class="col">
-                            <input placeholder="Name" maxlength="191" value="{{$user->name}}"
-                                   type="text" class="form-control" name="name" required autofocus>
-                            <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-id-card"></i></span>
+                                </div>
+                                <input placeholder="Name" maxlength="191" value="{{$user->name}}"
+                                       type="text" class="form-control" name="name" required autofocus>
+                            </div>
                         </div>
                     </div>
 
                     <small>Gender</small>
-                    <div class="row form-group has-feedback">
+                    <div class="row form-group">
                         <div class="col">
-                            <select class="form-control" name="jk" required>
-                                <option value="male" {{$user->jk == "male" ? 'selected' : ''}}>Male</option>
-                                <option value="female" {{$user->jk == "female" ? 'selected' : ''}}>Female</option>
-                                <option value="other" {{$user->jk == "other" ? 'selected' : ''}}>Rather not say
-                                </option>
-                            </select>
-                            <span class="fa fa-transgender form-control-feedback"></span>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-transgender"></i></span>
+                                </div>
+                                <select class="form-control" name="jk" required>
+                                    <option value="" selected disabled>-- Choose --</option>
+                                    <option value="male" {{$user->jk == "male" ? 'selected' : ''}}>Male</option>
+                                    <option value="female" {{$user->jk == "female" ? 'selected' : ''}}>Female</option>
+                                    <option value="other" {{$user->jk == "other" ? 'selected' : ''}}>Rather not say
+                                    </option>
+                                </select>
+                            </div>
                         </div>
                     </div>
 
                     <small>Birthday</small>
-                    <div class="row form-group has-feedback">
+                    <div class="row form-group">
                         <div class="col">
-                            <input class="form-control datepicker" name="tgl_lahir" type="text" required
-                                   placeholder="yyyy-mm-dd" value="{{$user->tgl_lahir}}" maxlength="10">
-                            <span class="glyphicon glyphicon-calendar form-control-feedback"></span>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-birthday-cake"></i></span>
+                                </div>
+                                <input class="form-control datepicker" name="tgl_lahir" type="text" required
+                                       placeholder="yyyy-mm-dd" value="{{$user->tgl_lahir}}" maxlength="10">
+                            </div>
                         </div>
                     </div>
 
                     <small>Phone</small>
-                    <div class="row form-group has-feedback">
+                    <div class="row form-group">
                         <div class="col">
-                            <input placeholder="08123xxxxxxx" type="text" maxlength="13" class="form-control"
-                                   name="no_telp" onkeypress="return numberOnly(event, false)"
-                                   value="{{$user->no_telp != "" ? $user->no_telp : ''}}">
-                            <span class="glyphicon glyphicon-phone form-control-feedback"></span>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-phone"></i></span>
+                                </div>
+                                <input placeholder="08123xxxxxxx" type="text" maxlength="13" class="form-control"
+                                       name="no_telp" onkeypress="return numberOnly(event, false)"
+                                       value="{{$user->no_telp != "" ? $user->no_telp : ''}}" required>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         @if(\Illuminate\Support\Facades\Request::is('account/profile'))
-            <div class="card-footer" style="padding: 0;">
+            <div class="card-footer p-0">
                 <button class="btn btn-primary btn-block" id="btn_save_personal_data" disabled>
                     <i class="fa fa-user mr-2"></i>SAVE CHANGES
                 </button>

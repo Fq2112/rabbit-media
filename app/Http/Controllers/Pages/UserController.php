@@ -21,7 +21,7 @@ class UserController extends Controller
     {
         $portfolios = Portofolio::take(12)->get()->shuffle()->all();
 
-        return view('pages.beranda', compact('portfolios'));
+        return view('pages.main.beranda', compact('portfolios'));
     }
 
     public function about()
@@ -29,21 +29,21 @@ class UserController extends Controller
         $about = About::first();
         $crews = Admin::where('role', '!=', Role::ROOT)->orderBy('role')->get();
 
-        return view('pages.about', compact('about', 'crews'));
+        return view('pages.main.about', compact('about', 'crews'));
     }
 
     public function info()
     {
         $info = About::first();
 
-        return view('pages.info', compact('info'));
+        return view('pages.main.info', compact('info'));
     }
 
     public function faq()
     {
         $faqs = Faq::all();
 
-        return view('pages.faq', compact('faqs'));
+        return view('pages.main.faq', compact('faqs'));
     }
 
     public function showPortfolio(Request $request)
@@ -52,7 +52,7 @@ class UserController extends Controller
         $keyword = $request->q;
         $page = $request->page;
 
-        return view('pages.portofolio', compact('portfolios', 'types', 'keyword', 'page'));
+        return view('pages.main.portofolio', compact('portfolios', 'types', 'keyword', 'page'));
     }
 
     public function getPortfolios(Request $request)
@@ -88,21 +88,21 @@ class UserController extends Controller
     {
         $data = Portofolio::find(decrypt($id));
 
-        return view('pages.portofolio-galeri', compact('data', 'jenis'));
+        return view('pages.main.portofolio-galeri', compact('data', 'jenis'));
     }
 
     public function showService()
     {
         $types = JenisLayanan::orderBy('nama')->get();
 
-        return view('pages.service', compact('types'));
+        return view('pages.main.service', compact('types'));
     }
 
     public function showServicePricing($jenis, $id)
     {
         $data = JenisLayanan::find(decrypt($id));
 
-        return view('pages.service-plan', compact('data', 'jenis'));
+        return view('pages.main.service-plan', compact('data', 'jenis'));
     }
 
     public function feedback()
@@ -120,7 +120,7 @@ class UserController extends Controller
         $star1 = number_format(Feedback::whereBetween('rate', [0.5, 1])->count() * 100 / count($feedback),
             2, '.', ',');
 
-        return view('pages.feedback', compact('feedback', 'average',
+        return view('pages.main.feedback', compact('feedback', 'average',
             'star5', 'star4', 'star3', 'star2', 'star1'));
     }
 

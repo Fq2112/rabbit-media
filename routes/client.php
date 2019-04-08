@@ -64,14 +64,34 @@ Route::group(['namespace' => 'Pages', 'prefix' => '/'], function () {
 
         Route::group(['prefix' => 'order', 'namespace' => 'Client'], function () {
 
-            Route::get('invoice/{id}', [
-                'uses' => 'OrderController@invoiceOrder',
-                'as' => 'invoice.order'
+            Route::get('{id}', [
+                'uses' => 'OrderController@showOrder',
+                'as' => 'show.order'
+            ]);
+
+            Route::get('reviewData/pricing/{pricing}', [
+                'uses' => 'OrderController@getPricingReviewData',
+                'as' => 'get.pricingReviewData'
+            ]);
+
+            Route::get('paymentMethod/{id}', [
+                'uses' => 'OrderController@getPaymentMethod',
+                'as' => 'get.paymentMethod'
+            ]);
+
+            Route::post('submit', [
+                'uses' => 'OrderController@submitOrder',
+                'as' => 'submit.order'
             ]);
 
             Route::put('payment_proof/submit', [
                 'uses' => 'OrderController@uploadPaymentProof',
                 'as' => 'upload.paymentProof'
+            ]);
+
+            Route::get('invoice/{id}', [
+                'uses' => 'OrderController@invoiceOrder',
+                'as' => 'invoice.order'
             ]);
 
             Route::get('{id}/delete', [

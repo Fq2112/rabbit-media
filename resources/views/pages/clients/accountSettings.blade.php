@@ -64,7 +64,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-footer" style="padding: 0">
+                    <div class="card-footer p-0">
                         <button id="btn_save_password" class="btn btn-primary btn-block" disabled>
                             <i class="fa fa-lock mr-2"></i>SAVE CHANGES
                         </button>

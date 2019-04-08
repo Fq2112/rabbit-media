@@ -8,7 +8,7 @@
         <div class="col-xl-8 col-lg-8 col-md-6 col-sm-12" data-aos="fade-left">
             <div class="card">
                 <div class="img-card">
-                    <div id="map" class="height1" style="width:100%;"></div>
+                    <div id="map" style="width:100%;height: 400px;"></div>
                 </div>
                 <form action="{{route('client.update.profile')}}" method="post">
                     {{csrf_field()}}
@@ -29,26 +29,31 @@
                             <blockquote id="stats_address" style="text-transform: none">
                                 <table style="font-size: 14px; margin-top: 0">
                                     <tr>
-                                        <td><i class="fa fa-map-marker-alt"></i></td>
+                                        <td><i class="fa fa-map-marked-alt"></i></td>
                                         <td>
-                                            &nbsp;{{$user->alamat != "" ? $user->alamat : ''}}
+                                            &nbsp;{{$user->alamat != "" ? $user->alamat : '(Kosong)'}}
                                         </td>
                                     </tr>
                                 </table>
                             </blockquote>
                             <div id="address_settings" style="display: none">
-                                <div class="row form-group has-feedback">
+                                <div class="row form-group">
                                     <div class="col">
-                                        <textarea style="resize:vertical" name="alamat" id="address_map"
-                                                  placeholder="Agency address" class="form-control"
-                                                  required>{{$user->alamat == "" ? '' : $user->alamat}}</textarea>
-                                        <span class="glyphicon glyphicon-map-marker form-control-feedback"></span>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i
+                                                            class="fa fa-map-marked-alt"></i></span>
+                                            </div>
+                                            <textarea style="resize:vertical" name="alamat" id="address_map"
+                                                      placeholder="Agency address" class="form-control"
+                                                      required>{{$user->alamat == "" ? '' : $user->alamat}}</textarea>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="card-footer" style="padding: 0;">
+                    <div class="card-footer p-0">
                         <button class="btn btn-primary btn-block" id="btn_save_address" disabled>
                             <i class="fa fa-map-marker-alt mr-2"></i>SAVE CHANGES
                         </button>
@@ -327,7 +332,6 @@
         });
 
         $("#show_address_settings").click(function () {
-            $("#map").toggleClass('height1 height2');
             $("#address_settings").toggle(300);
             $("#stats_address").toggle(300);
             if ($("#btn_save_address").attr('disabled')) {
