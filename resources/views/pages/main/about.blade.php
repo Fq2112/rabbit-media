@@ -32,7 +32,7 @@
                     </div>
                     <div class="row" data-aos="fade-down">
                         <div class="col-12">
-                            <h3 class="site-section-heading text-center">Passionate Crew</h3>
+                            <h3 class="site-section-heading text-center text-capitalize">meet the rabbits</h3>
                         </div>
                     </div>
                 </div>

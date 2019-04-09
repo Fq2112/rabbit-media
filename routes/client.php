@@ -8,6 +8,9 @@
 | Disini adalah routing untuk client Rabbit Media dengan middleware "web" .
 |
 */
+Route::get('test', function () {
+    return view('pages.clients.invoice');
+});
 
 Route::group(['namespace' => 'Pages', 'prefix' => '/'], function () {
 
