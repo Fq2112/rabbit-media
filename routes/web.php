@@ -43,7 +43,7 @@ Route::group(['namespace' => 'Auth', 'prefix' => 'account'], function () {
 
 });
 
-Route::group(['namespace' => 'Admins', 'prefix' => 'admin', 'middleware' => 'admin'], function () {
+Route::group(['namespace' => 'Pages\Admins', 'prefix' => 'admin', 'middleware' => 'admin'], function () {
 
     Route::get('/', [
         'uses' => 'AdminController@index',

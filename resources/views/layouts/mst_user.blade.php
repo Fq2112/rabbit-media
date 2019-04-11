@@ -62,14 +62,8 @@
         .to-top {
             right: 1%;
         }
-        @endif
 
-        .form-control-feedback {
-            position: absolute;
-            top: 1em;
-            right: 2em;
-            pointer-events: none;
-        }
+        @endif
     </style>
     @stack('styles')
 
@@ -136,11 +130,10 @@
             <p>
                 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                 &copy;&nbsp;{{now()->format('Y')}} Rabbit Media – Digital Creative Service. All rights reserved.<br>
-                Designed by <a href="{{route('home')}}">Rabbit Media</a>. This template is made by
-                <a href="https://colorlib.com" target="_blank">Colorlib</a>.<br>
-                <a href="{{route('info')}}">Privacy Policy</a><strong> &middot; </strong>
-                <a href="{{route('info')}}">Terms & Conditions</a><strong> &middot; </strong>
-                <a href="{{route('faq')}}">FAQ</a>
+                Template by <a href="https://colorlib.com" target="_blank">Colorlib</a>. Designed & Developed by <a
+                        href="{{route('home')}}">Rabbit Media</a>.<br>
+                <a href="{{route('info')}}">Privacy Policy</a> <span class="bullet"></span> <a href="{{route('info')}}">Terms
+                    & Conditions</a> <span class="bullet"></span> <a href="{{route('faq')}}">FAQ</a>
                 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
             </p>
         </div>

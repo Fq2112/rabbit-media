@@ -1678,13 +1678,24 @@ a:hover {
     transition: all .3s ease-in-out;
 }
 
-.footer strong {
-    font-size: 23px;
-    text-shadow: 0 0 4px #592f83;
-    color: #312855;
-    line-height: 0;
-}
-
 .box-shadow {
     box-shadow: 0 0 8px rgba(0, 0, 0, .5);
+}
+
+.form-control-feedback {
+    position: absolute;
+    top: 1em;
+    right: 2em;
+    pointer-events: none;
+}
+
+.bullet {
+    display: inline;
+    margin: 0 4px;
+    color: #312855;
+    text-shadow: 0 0 4px #592f83;
+}
+
+.bullet:after {
+    content: '\2022';
 }
