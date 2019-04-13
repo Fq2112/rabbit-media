@@ -4,61 +4,34 @@
         swal({
             title: 'Apakah Anda yakin?',
             text: "Anda tidak dapat mengembalikannya!",
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#592f83',
-            confirmButtonText: 'Ya',
-            cancelButtonText: 'Tidak',
-            showLoaderOnConfirm: true,
-
-            preConfirm: function () {
-                return new Promise(function (resolve) {
-                    window.location.href = linkURL;
-                });
-            },
-            allowOutsideClick: false
+            icon: 'warning',
+            dangerMode: true,
+            buttons: ["Tidak", "Ya"],
+            closeOnEsc: false,
+            closeOnClickOutside: false,
+        }).then((confirm) => {
+            if (confirm) {
+                swal({icon: "success", buttons: false});
+                window.location.href = linkURL;
+            }
         });
         return false;
     });
 
-    $(".btn_signOut").on("click", function () {
+    $(".btn_signOut").click(function () {
         swal({
             title: 'Sign Out',
             text: "Apakah Anda yakin untuk mengakhiri sesi Anda?",
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#592f83',
-            confirmButtonText: 'Ya',
-            cancelButtonText: 'Tidak',
-            showLoaderOnConfirm: true,
-
-            preConfirm: function () {
-                return new Promise(function (resolve) {
-                    $("#logout-form").submit();
-                });
-            },
-            allowOutsideClick: false
-        });
-        return false;
-    });
-
-    $(".btn_signOut2").on("click", function () {
-        swal({
-            title: 'Sign Out',
-            text: "Apakah Anda yakin untuk mengakhiri sesi Anda?",
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#592f83',
-            confirmButtonText: 'Ya',
-            cancelButtonText: 'Tidak',
-            showLoaderOnConfirm: true,
-
-            preConfirm: function () {
-                return new Promise(function (resolve) {
-                    $("#logout-form2").submit();
-                });
-            },
-            allowOutsideClick: false
+            icon: 'warning',
+            dangerMode: true,
+            buttons: ["Tidak", "Ya"],
+            closeOnEsc: false,
+            closeOnClickOutside: false,
+        }).then((confirm) => {
+            if (confirm) {
+                swal({icon: "success", text: 'Anda akan dialihkan ke halaman beranda.', buttons: false});
+                $("#logout-form").submit();
+            }
         });
         return false;
     });

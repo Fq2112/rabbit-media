@@ -32,17 +32,17 @@
                         @endif
                     </a>
                     <ul class="dropdown">
-                        <li><a href="{{route('client.dashboard')}}"><i
-                                        class="fa fa-tachometer-alt mr-2"></i>Dashboard</a></li>
-                        <li><a href="{{route('client.edit.profile')}}"><i class="fa fa-user-edit mr-2"></i>Edit Profile</a>
-                        </li>
-                        <li><a href="{{route('client.settings')}}"><i class="fa fa-cogs mr-2"></i>Account Settings</a>
-                        </li>
+                        <li><a href="{{Auth::guard('admin')->check() ? route('home-admin') :
+                        route('client.dashboard')}}"><i class="fa fa-tachometer-alt mr-2"></i>Dashboard</a></li>
+                        <li><a href="{{Auth::guard('admin')->check() ? route('admin.edit.profile') :
+                        route('client.edit.profile')}}"><i class="fa fa-user-edit mr-2"></i>Edit Profile</a></li>
+                        <li><a href="{{Auth::guard('admin')->check() ? route('admin.settings') :
+                        route('client.settings')}}"><i class="fa fa-cogs mr-2"></i>Account Settings</a></li>
                         <li class="dropdown-divider"></li>
                         <li>
                             <a class="btn_signOut"><i class="fa fa-sign-out-alt mr-2"></i>Sign Out</a>
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                {{ csrf_field() }}
+                                {{csrf_field()}}
                             </form>
                         </li>
                     </ul>

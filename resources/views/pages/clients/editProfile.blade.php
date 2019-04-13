@@ -45,7 +45,7 @@
                                                             class="fa fa-map-marked-alt"></i></span>
                                             </div>
                                             <textarea style="resize:vertical" name="alamat" id="address_map"
-                                                      placeholder="Agency address" class="form-control"
+                                                      placeholder="Alamat lengkap" class="form-control"
                                                       required>{{$user->alamat == "" ? '' : $user->alamat}}</textarea>
                                         </div>
                                     </div>
@@ -67,7 +67,7 @@
     <!-- Google Map -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBIljHbKjgtTrpZhEiHum734tF1tolxI68&libraries=places"></script>
     <script>
-        // gmaps address agency
+        // gmaps client address
         var google;
 
         function init() {
@@ -234,7 +234,7 @@
 
                 var markerSearch = new google.maps.Marker({
                     map: map,
-                    icon: '{{asset('images/pin.png')}}',
+                    icon: '{{asset('images/pin-rabbits.png')}}',
                     anchorPoint: new google.maps.Point(0, -29)
                 });
                 markerSearch.setPosition(place.geometry.location);

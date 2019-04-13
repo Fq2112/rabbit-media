@@ -39,7 +39,43 @@ class Admin extends Authenticatable
     }
 
     /**
+     * Check whether this user is ceo or not
+     * @return bool
+     */
+    public function isCEO()
+    {
+        return ($this->role == Role::CEO);
+    }
+
+    /**
+     * Check whether this user is cto or not
+     * @return bool
+     */
+    public function isCTO()
+    {
+        return ($this->role == Role::CTO);
+    }
+
+    /**
      * Check whether this user is admin or not
+     * @return bool
+     */
+    public function isAdmin()
+    {
+        return ($this->role == Role::ADMIN);
+    }
+
+    /**
+     * Check whether this user is coo or not
+     * @return bool
+     */
+    public function isCOO()
+    {
+        return ($this->role == Role::COO);
+    }
+
+    /**
+     * Check whether this user is photographer or not
      * @return bool
      */
     public function isPhotographer()
@@ -47,11 +83,19 @@ class Admin extends Authenticatable
         return ($this->role == Role::PHOTOGRAPHER);
     }
 
+    /**
+     * Check whether this user is videographer or not
+     * @return bool
+     */
     public function isVideographer()
     {
         return ($this->role == Role::VIDEOGRAPHER);
     }
 
+    /**
+     * Check whether this user is designer or not
+     * @return bool
+     */
     public function isDesigner()
     {
         return ($this->role == Role::DESIGNER);

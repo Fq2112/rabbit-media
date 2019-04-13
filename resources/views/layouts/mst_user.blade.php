@@ -10,9 +10,7 @@
 
     <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300i,400,700" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('fonts/icomoon/style.css')}}">
-
     <link rel="stylesheet" type="text/css" href="{{asset('fonts/fontawesome/css/all.css')}}">
-
     <link rel="stylesheet" type="text/css" href="{{asset('css/glyphicons.css')}}">
 
     <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
@@ -20,27 +18,20 @@
     <link rel="stylesheet" href="{{asset('css/jquery-ui.css')}}">
     <link rel="stylesheet" href="{{asset('css/owl.carousel.min.css')}}">
     <link rel="stylesheet" href="{{asset('css/owl.theme.default.min.css')}}">
-
     <link rel="stylesheet" href="{{asset('css/lightgallery.min.css')}}">
 
     <!-- Bootstrap  -->
     <link rel="stylesheet" href="{{asset('css/bootstrap-datepicker.css')}}">
     <link rel="stylesheet" href="{{asset('css/bootstrap-datetimepicker.css')}}">
-    <link rel="stylesheet" href="{{asset('css/bootstrap-select.css')}}">
     <link rel="stylesheet" href="{{asset('css/bootstrap-toggle.css')}}">
     <link rel="stylesheet" href="{{asset('css/daterangepicker.css')}}">
 
+    <!-- Template CSS -->
     <link rel="stylesheet" href="{{asset('fonts/flaticon/font/flaticon.css')}}">
-
     <link rel="stylesheet" href="{{asset('css/swiper.css')}}">
-
     <link rel="stylesheet" href="{{asset('css/aos.css')}}">
-
     <link rel="stylesheet" href="{{asset('css/style.css')}}">
 
-    <!-- SweetAlert2 -->
-    <link rel="stylesheet" href="{{asset('vendors/sweetalert2/sweetalert2.min.css')}}">
-    <script src="{{asset('vendors/sweetalert2/sweetalert2.min.js')}}"></script>
     <!-- Modal -->
     <script src="{{ asset('js/modal.js') }}"></script>
     <link rel="stylesheet" href="{{asset('css/modal.css')}}">
@@ -52,6 +43,11 @@
     <link rel="stylesheet" href="{{asset('css/downloadCard-gridList.css')}}">
     <!-- media-queries -->
     <link rel="stylesheet" href="{{asset('css/media-query.css')}}">
+
+    <!-- Modules -->
+    <link rel="stylesheet" href="{{asset('admins/modules/bootstrap-select/dist/css/bootstrap-select.min.css')}}">
+    <link rel="stylesheet" href="{{asset('admins/modules/sweetalert/sweetalert2.css')}}">
+
     <style>
         @if(\Illuminate\Support\Facades\Request::is('/*'))
         .to-top {
@@ -131,9 +127,11 @@
                 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                 &copy;&nbsp;{{now()->format('Y')}} Rabbit Media – Digital Creative Service. All rights reserved.<br>
                 Template by <a href="https://colorlib.com" target="_blank">Colorlib</a>. Designed & Developed by <a
-                        href="{{route('home')}}">Rabbit Media</a>.<br>
-                <a href="{{route('info')}}">Privacy Policy</a> <span class="bullet"></span> <a href="{{route('info')}}">Terms
-                    & Conditions</a> <span class="bullet"></span> <a href="{{route('faq')}}">FAQ</a>
+                        href="{{route('about')}}">Rabbit Media</a>.<br>
+                <a href="{{route('about')}}#contact-us">Contact Us</a> <span class="bullet"></span>
+                <a href="{{route('info')}}">Privacy Policy</a> <span class="bullet"></span>
+                <a href="{{route('info')}}">Terms & Conditions</a> <span class="bullet"></span>
+                <a href="{{route('faq')}}">FAQ</a>
                 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
             </p>
         </div>
@@ -168,7 +166,6 @@
 <!-- Bootstrap -->
 <script src="{{asset('js/bootstrap-datepicker.js')}}"></script>
 <script src="{{asset('js/bootstrap-datetimepicker.min.js')}}"></script>
-<script src="{{asset('js/bootstrap-select.js')}}"></script>
 <script src="{{asset('js/bootstrap-toggle.js')}}"></script>
 <script src="{{asset('js/daterangepicker.js')}}"></script>
 <!-- Masonry Responsive Grid -->
@@ -178,8 +175,11 @@
 <script src="{{asset('js/jquery.slickwrap.js')}}"></script>
 <!-- Smooth scroll -->
 <script src="{{asset('js/smooth-scrollbar.min.js')}}"></script>
-<!-- TinyMCE -->
-<script src="{{asset('vendors/tinymce/tinymce.min.js')}}"></script>
+
+<!-- Modules -->
+<script src="{{asset('admins/modules/bootstrap-select/dist/js/bootstrap-select.min.js')}}"></script>
+<script src="{{asset('admins/modules/tinymce/tinymce.min.js')}}"></script>
+<script src="{{asset('admins/modules/sweetalert/sweetalert.min.js')}}"></script>
 
 @include('layouts.partials._scripts')
 @include('layouts.partials._alert')

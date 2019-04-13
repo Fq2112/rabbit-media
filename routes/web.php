@@ -50,9 +50,19 @@ Route::group(['namespace' => 'Pages\Admins', 'prefix' => 'admin', 'middleware' =
         'as' => 'home-admin'
     ]);
 
+    Route::get('profile', [
+        'uses' => 'AccountController@editProfile',
+        'as' => 'admin.edit.profile'
+    ]);
+
     Route::put('profile/update', [
         'uses' => 'AdminController@updateProfile',
         'as' => 'admin.update.profile'
+    ]);
+
+    Route::get('settings', [
+        'uses' => 'AccountController@accountSettings',
+        'as' => 'admin.settings'
     ]);
 
     Route::put('account/update', [
@@ -130,216 +140,224 @@ Route::group(['namespace' => 'Pages\Admins', 'prefix' => 'admin', 'middleware' =
 
             });
 
-            Route::group(['prefix' => 'web_contents', 'middleware' => 'root'], function () {
+            Route::group(['prefix' => 'company-profile'], function () {
 
-                Route::group(['prefix' => 'carousels'], function () {
+                Route::group(['prefix' => 'abouts', 'middleware' => 'root'], function () {
 
                     Route::get('/', [
-                        'uses' => 'WebContentsController@showCarouselsTable',
-                        'as' => 'table.carousels'
+                        'uses' => 'CompanyProfileController@showAboutsTable',
+                        'as' => 'table.abouts'
                     ]);
 
                     Route::post('create', [
-                        'uses' => 'WebContentsController@createCarousels',
-                        'as' => 'create.carousels'
+                        'uses' => 'CompanyProfileController@createAbouts',
+                        'as' => 'create.abouts'
                     ]);
 
                     Route::put('{id}/update', [
-                        'uses' => 'WebContentsController@updateCarousels',
-                        'as' => 'update.carousels'
+                        'uses' => 'CompanyProfileController@updateAbouts',
+                        'as' => 'update.abouts'
                     ]);
 
                     Route::get('{id}/delete', [
-                        'uses' => 'WebContentsController@deleteCarousels',
-                        'as' => 'delete.carousels'
+                        'uses' => 'CompanyProfileController@deleteAbouts',
+                        'as' => 'delete.abouts'
                     ]);
 
                 });
 
-                Route::group(['prefix' => 'payment_categories'], function () {
+                Route::group(['prefix' => 'faqs', 'middleware' => 'root'], function () {
 
                     Route::get('/', [
-                        'uses' => 'WebContentsController@showPaymentCategoriesTable',
+                        'uses' => 'CompanyProfileController@showFaqTable',
+                        'as' => 'table.faqs'
+                    ]);
+
+                    Route::post('create', [
+                        'uses' => 'CompanyProfileController@createFaq',
+                        'as' => 'create.faqs'
+                    ]);
+
+                    Route::put('{id}/update', [
+                        'uses' => 'CompanyProfileController@updateFaq',
+                        'as' => 'update.faqs'
+                    ]);
+
+                    Route::get('{id}/delete', [
+                        'uses' => 'CompanyProfileController@deleteFaq',
+                        'as' => 'delete.faqs'
+                    ]);
+
+                });
+
+                Route::group(['prefix' => 'portfolio-types', 'middleware' => 'root'], function () {
+
+                    Route::get('/', [
+                        'uses' => 'CompanyProfileController@showPortfolioTypesTable',
+                        'as' => 'table.portfolio-types'
+                    ]);
+
+                    Route::post('create', [
+                        'uses' => 'CompanyProfileController@createPortfolioTypes',
+                        'as' => 'create.portfolio-types'
+                    ]);
+
+                    Route::put('{id}/update', [
+                        'uses' => 'CompanyProfileController@updatePortfolioTypes',
+                        'as' => 'update.portfolio-types'
+                    ]);
+
+                    Route::get('{id}/delete', [
+                        'uses' => 'CompanyProfileController@deletePortfolioTypes',
+                        'as' => 'delete.portfolio-types'
+                    ]);
+
+                });
+
+                Route::group(['prefix' => 'portfolios'], function () {
+
+                    Route::get('/', [
+                        'uses' => 'CompanyProfileController@showPortfoliosTable',
+                        'as' => 'table.portfolios'
+                    ]);
+
+                    Route::post('create', [
+                        'uses' => 'CompanyProfileController@createPortfolios',
+                        'as' => 'create.portfolios'
+                    ]);
+
+                    Route::put('{id}/update', [
+                        'uses' => 'CompanyProfileController@updatePortfolios',
+                        'as' => 'update.portfolios'
+                    ]);
+
+                    Route::get('{id}/delete', [
+                        'uses' => 'CompanyProfileController@deletePortfolios',
+                        'as' => 'delete.portfolios'
+                    ]);
+
+                });
+
+                Route::group(['prefix' => 'portfolio-galleries'], function () {
+
+                    Route::get('/', [
+                        'uses' => 'CompanyProfileController@showPortfolioGalleriesTable',
+                        'as' => 'table.portfolio-galleries'
+                    ]);
+
+                    Route::post('create', [
+                        'uses' => 'CompanyProfileController@createPortfolioGalleries',
+                        'as' => 'create.portfolio-galleries'
+                    ]);
+
+                    Route::put('{id}/update', [
+                        'uses' => 'CompanyProfileController@updatePortfolioGalleries',
+                        'as' => 'update.portfolio-galleries'
+                    ]);
+
+                    Route::get('{id}/delete', [
+                        'uses' => 'CompanyProfileController@deletePortfolioGalleries',
+                        'as' => 'delete.portfolio-galleries'
+                    ]);
+
+                });
+
+            });
+
+            Route::group(['prefix' => 'features', 'middleware' => 'root'], function () {
+
+                Route::group(['prefix' => 'service-types'], function () {
+
+                    Route::get('/', [
+                        'uses' => 'FeaturesController@showServiceTypesTable',
+                        'as' => 'table.service-types'
+                    ]);
+
+                    Route::post('create', [
+                        'uses' => 'FeaturesController@createServiceTypes',
+                        'as' => 'create.service-types'
+                    ]);
+
+                    Route::put('{id}/update', [
+                        'uses' => 'FeaturesController@updateServiceTypes',
+                        'as' => 'update.service-types'
+                    ]);
+
+                    Route::get('{id}/delete', [
+                        'uses' => 'FeaturesController@deleteServiceTypes',
+                        'as' => 'delete.service-types'
+                    ]);
+
+                });
+
+                Route::group(['prefix' => 'service-pricing'], function () {
+
+                    Route::get('/', [
+                        'uses' => 'FeaturesController@showServicePricingTable',
+                        'as' => 'table.service-pricing'
+                    ]);
+
+                    Route::post('create', [
+                        'uses' => 'FeaturesController@createServicePricing',
+                        'as' => 'create.service-pricing'
+                    ]);
+
+                    Route::put('{id}/update', [
+                        'uses' => 'FeaturesController@updateServicePricing',
+                        'as' => 'update.service-pricing'
+                    ]);
+
+                    Route::get('{id}/delete', [
+                        'uses' => 'FeaturesController@deleteServicePricing',
+                        'as' => 'delete.service-pricing'
+                    ]);
+
+                });
+
+                Route::group(['prefix' => 'payment-categories'], function () {
+
+                    Route::get('/', [
+                        'uses' => 'FeaturesController@showPaymentCategoriesTable',
                         'as' => 'table.PaymentCategories'
                     ]);
 
                     Route::post('create', [
-                        'uses' => 'WebContentsController@createPaymentCategories',
+                        'uses' => 'FeaturesController@createPaymentCategories',
                         'as' => 'create.PaymentCategories'
                     ]);
 
                     Route::put('{id}/update', [
-                        'uses' => 'WebContentsController@updatePaymentCategories',
+                        'uses' => 'FeaturesController@updatePaymentCategories',
                         'as' => 'update.PaymentCategories'
                     ]);
 
                     Route::get('{id}/delete', [
-                        'uses' => 'WebContentsController@deletePaymentCategories',
+                        'uses' => 'FeaturesController@deletePaymentCategories',
                         'as' => 'delete.PaymentCategories'
                     ]);
 
                 });
 
-                Route::group(['prefix' => 'payment_methods'], function () {
+                Route::group(['prefix' => 'payment-methods'], function () {
 
                     Route::get('/', [
-                        'uses' => 'WebContentsController@showPaymentMethodsTable',
+                        'uses' => 'FeaturesController@showPaymentMethodsTable',
                         'as' => 'table.PaymentMethods'
                     ]);
 
                     Route::post('create', [
-                        'uses' => 'WebContentsController@createPaymentMethods',
+                        'uses' => 'FeaturesController@createPaymentMethods',
                         'as' => 'create.PaymentMethods'
                     ]);
 
                     Route::put('{id}/update', [
-                        'uses' => 'WebContentsController@updatePaymentMethods',
+                        'uses' => 'FeaturesController@updatePaymentMethods',
                         'as' => 'update.PaymentMethods'
                     ]);
 
                     Route::get('{id}/delete', [
-                        'uses' => 'WebContentsController@deletePaymentMethods',
+                        'uses' => 'FeaturesController@deletePaymentMethods',
                         'as' => 'delete.PaymentMethods'
-                    ]);
-
-                });
-
-                Route::group(['prefix' => 'plans'], function () {
-
-                    Route::get('/', [
-                        'uses' => 'WebContentsController@showPlansTable',
-                        'as' => 'table.plans'
-                    ]);
-
-                    Route::post('create', [
-                        'uses' => 'WebContentsController@createPlans',
-                        'as' => 'create.plans'
-                    ]);
-
-                    Route::put('{id}/update', [
-                        'uses' => 'WebContentsController@updatePlans',
-                        'as' => 'update.plans'
-                    ]);
-
-                    Route::get('{id}/delete', [
-                        'uses' => 'WebContentsController@deletePlans',
-                        'as' => 'delete.plans'
-                    ]);
-
-                });
-
-                Route::group(['prefix' => 'nations'], function () {
-
-                    Route::get('/', [
-                        'uses' => 'WebContentsController@showNationsTable',
-                        'as' => 'table.nations'
-                    ]);
-
-                    Route::post('create', [
-                        'uses' => 'WebContentsController@createNations',
-                        'as' => 'create.nations'
-                    ]);
-
-                    Route::put('{id}/update', [
-                        'uses' => 'WebContentsController@updateNations',
-                        'as' => 'update.nations'
-                    ]);
-
-                    Route::get('{id}/delete', [
-                        'uses' => 'WebContentsController@deleteNations',
-                        'as' => 'delete.nations'
-                    ]);
-
-                });
-
-                Route::group(['prefix' => 'provinces'], function () {
-
-                    Route::get('/', [
-                        'uses' => 'WebContentsController@showProvincesTable',
-                        'as' => 'table.provinces'
-                    ]);
-
-                    Route::post('create', [
-                        'uses' => 'WebContentsController@createProvinces',
-                        'as' => 'create.provinces'
-                    ]);
-
-                    Route::put('{id}/update', [
-                        'uses' => 'WebContentsController@updateProvinces',
-                        'as' => 'update.provinces'
-                    ]);
-
-                    Route::get('{id}/delete', [
-                        'uses' => 'WebContentsController@deleteProvinces',
-                        'as' => 'delete.provinces'
-                    ]);
-
-                });
-
-                Route::group(['prefix' => 'cities'], function () {
-
-                    Route::get('/', [
-                        'uses' => 'WebContentsController@showCitiesTable',
-                        'as' => 'table.cities'
-                    ]);
-
-                    Route::post('create', [
-                        'uses' => 'WebContentsController@createCities',
-                        'as' => 'create.cities'
-                    ]);
-
-                    Route::put('{id}/update', [
-                        'uses' => 'WebContentsController@updateCities',
-                        'as' => 'update.cities'
-                    ]);
-
-                    Route::get('{id}/delete', [
-                        'uses' => 'WebContentsController@deleteCities',
-                        'as' => 'delete.cities'
-                    ]);
-
-                });
-
-                Route::group(['prefix' => 'blog'], function () {
-
-                    Route::get('/', [
-                        'uses' => 'BlogController@showBlogTable',
-                        'as' => 'table.blog'
-                    ]);
-
-                    Route::post('create', [
-                        'uses' => 'BlogController@createBlog',
-                        'as' => 'create.blog'
-                    ]);
-
-                    Route::put('{id}/update', [
-                        'uses' => 'BlogController@updateBlog',
-                        'as' => 'update.blog'
-                    ]);
-
-                    Route::get('{id}/delete', [
-                        'uses' => 'BlogController@deleteBlog',
-                        'as' => 'delete.blog'
-                    ]);
-
-                    Route::get('types', [
-                        'uses' => 'BlogController@showBlogTypesTable',
-                        'as' => 'table.blogTypes'
-                    ]);
-
-                    Route::post('types/create', [
-                        'uses' => 'BlogController@createBlogTypes',
-                        'as' => 'create.blogTypes'
-                    ]);
-
-                    Route::put('types/{id}/update', [
-                        'uses' => 'BlogController@updateBlogTypes',
-                        'as' => 'update.blogTypes'
-                    ]);
-
-                    Route::get('types/{id}/delete', [
-                        'uses' => 'BlogController@deleteBlogTypes',
-                        'as' => 'delete.blogTypes'
                     ]);
 
                 });
@@ -350,37 +368,42 @@ Route::group(['namespace' => 'Pages\Admins', 'prefix' => 'admin', 'middleware' =
 
         Route::group(['namespace' => 'DataTransaction'], function () {
 
-            Route::group(['prefix' => 'agencies', 'middleware' => 'vacancy_staff'], function () {
+            Route::group(['prefix' => 'clients'], function () {
 
-                Route::group(['prefix' => 'vacancies'], function () {
+                Route::group(['prefix' => 'feedback'], function () {
 
                     Route::get('/', [
-                        'uses' => 'TransactionAgencyController@showVacanciesTable',
-                        'as' => 'table.vacancies'
+                        'uses' => 'TransactionClientController@showFeedbackTable',
+                        'as' => 'table.feedback'
+                    ]);
+
+                    Route::put('{id}/update', [
+                        'uses' => 'TransactionClientController@updateFeedback',
+                        'as' => 'table.feedback.update'
                     ]);
 
                     Route::get('{id}/delete', [
-                        'uses' => 'TransactionAgencyController@deleteVacancies',
-                        'as' => 'delete.vacancies'
+                        'uses' => 'TransactionClientController@deleteFeedback',
+                        'as' => 'table.feedback.delete'
                     ]);
 
                 });
 
-                Route::group(['prefix' => 'job_postings'], function () {
+                Route::group(['prefix' => 'orders'], function () {
 
                     Route::get('/', [
-                        'uses' => 'TransactionAgencyController@showJobPostingsTable',
-                        'as' => 'table.jobPostings'
+                        'uses' => 'TransactionClientController@showOrdersTable',
+                        'as' => 'table.orders'
                     ]);
 
                     Route::put('{id}/update', [
-                        'uses' => 'TransactionAgencyController@updateJobPostings',
-                        'as' => 'table.jobPostings.update'
+                        'uses' => 'TransactionClientController@updateOrders',
+                        'as' => 'table.orders.update'
                     ]);
 
                     Route::get('{id}/delete', [
-                        'uses' => 'TransactionAgencyController@deleteJobPostings',
-                        'as' => 'table.jobPostings.delete'
+                        'uses' => 'TransactionClientController@deleteOrders',
+                        'as' => 'table.orders.delete'
                     ]);
 
                 });

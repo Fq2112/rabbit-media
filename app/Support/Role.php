@@ -11,17 +11,22 @@ namespace App\Support;
 class Role
 {
     const ROOT = 'root';
-
+    const CEO = 'ceo';
+    const CTO = 'cto';
+    const ADMIN = 'admin';
+    const COO = 'coo';
     const PHOTOGRAPHER = 'photographer';
-
     const VIDEOGRAPHER = 'videographer';
-
     const DESIGNER = 'designer';
 
     const ALL = [
         Role::DESIGNER,
         Role::VIDEOGRAPHER,
         Role::PHOTOGRAPHER,
+        Role::COO,
+        Role::ADMIN,
+        Role::CTO,
+        Role::CEO,
         Role::ROOT
     ];
 

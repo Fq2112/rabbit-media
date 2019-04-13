@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Pages;
 
 use App\Admin;
 use App\Models\About;
+use App\Models\Contact;
 use App\Models\Faq;
 use App\Models\Galeri;
 use App\Models\JenisLayanan;
@@ -30,6 +31,19 @@ class UserController extends Controller
         $crews = Admin::where('role', '!=', Role::ROOT)->orderBy('role')->get();
 
         return view('pages.main.about', compact('about', 'crews'));
+    }
+
+    public function postContact(Request $request)
+    {
+        $contact = Contact::create([
+            'name' => $request->contact_name,
+            'email' => $request->contact_email,
+            'subject' => $request->subject,
+            'message' => $request->message
+        ]);
+
+        return back()->with('update', 'Terima kasih ' . $contact->name . ' telah meninggalkan kami pesan! ' .
+            'Kami akan membalasnya melalui email Anda (' . $contact->email . ').');
     }
 
     public function info()

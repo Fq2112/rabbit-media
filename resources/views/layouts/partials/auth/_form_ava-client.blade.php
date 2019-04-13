@@ -85,14 +85,14 @@
                     </div>
 
                     <small>Gender</small>
-                    <div class="row form-group">
+                    <div class="row form-group fix-label-group">
                         <div class="col">
                             <div class="input-group">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fa fa-transgender"></i></span>
+                                    <span class="input-group-text fix-label-item"><i
+                                                class="fa fa-transgender"></i></span>
                                 </div>
-                                <select class="form-control" name="jk" required>
-                                    <option value="" selected disabled>-- Choose --</option>
+                                <select class="form-control selectpicker" title="-- Choose --" name="jk" required>
                                     <option value="male" {{$user->jk == "male" ? 'selected' : ''}}>Male</option>
                                     <option value="female" {{$user->jk == "female" ? 'selected' : ''}}>Female</option>
                                     <option value="other" {{$user->jk == "other" ? 'selected' : ''}}>Rather not say

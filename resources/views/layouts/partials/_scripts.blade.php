@@ -94,14 +94,14 @@
     $("#form-login").on("submit", function (e) {
         if (grecaptcha.getResponse(recaptcha_login).length === 0) {
             e.preventDefault();
-            swal('ATTENTION!', 'Mohon klik kotak dialog reCAPTCHA berikut.', 'warning');
+            swal('PERHATIAN!', 'Mohon klik kotak dialog reCAPTCHA berikut.', 'warning');
         }
     });
 
     $("#form-register").on("submit", function (e) {
         if (grecaptcha.getResponse(recaptcha_register).length === 0) {
             e.preventDefault();
-            swal('ATTENTION!', 'Mohon klik kotak dialog reCAPTCHA berikut.', 'warning');
+            swal('PERHATIAN!', 'Mohon klik kotak dialog reCAPTCHA berikut.', 'warning');
         }
 
         if ($.trim($("#reg_email,#reg_name,#reg_password,#reg_password_confirm").val()) === "") {

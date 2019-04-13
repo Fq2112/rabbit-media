@@ -4,6 +4,7 @@ use Illuminate\Database\Seeder;
 use Faker\Factory;
 use App\Models\Pemesanan;
 use App\Models\layanan;
+use App\Models\Contact;
 use App\Models\Feedback;
 use App\User;
 
@@ -79,6 +80,15 @@ class UserSeeder extends Seeder
                 'user_id' => $user->id,
                 'rate' => round($faker->randomFloat(8, 4.5, 5) * 2) / 2,
                 'comment' => $faker->sentence
+            ]);
+        }
+
+        foreach (User::take(10)->get()->shuffle()->all() as $user) {
+            Contact::create([
+                'name' => $user->name,
+                'email' => $user->email,
+                'subject' => ucfirst($faker->sentence),
+                'message' => ucfirst($faker->paragraph)
             ]);
         }
     }

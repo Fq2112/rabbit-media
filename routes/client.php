@@ -24,6 +24,11 @@ Route::group(['namespace' => 'Pages', 'prefix' => '/'], function () {
         'as' => 'about'
     ]);
 
+    Route::post('contact', [
+        'uses' => 'UserController@postContact',
+        'as' => 'submit.contact'
+    ]);
+
     Route::get('info', [
         'uses' => 'UserController@info',
         'as' => 'info'
@@ -87,7 +92,7 @@ Route::group(['namespace' => 'Pages', 'prefix' => '/'], function () {
                 'as' => 'submit.order'
             ]);
 
-            Route::put('payment_proof/submit', [
+            Route::put('payment-proof/submit', [
                 'uses' => 'OrderController@uploadPaymentProof',
                 'as' => 'upload.paymentProof'
             ]);
@@ -151,7 +156,7 @@ Route::group(['namespace' => 'Pages', 'prefix' => '/'], function () {
 
         Route::group(['prefix' => 'dashboard'], function () {
 
-            Route::get('order_status', [
+            Route::get('order-status', [
                 'uses' => 'OrderController@showDashboard',
                 'as' => 'client.dashboard'
             ]);
