@@ -48,26 +48,23 @@
                                 <img class="img-thumbnail" alt="Avatar" src="{{$crew->ava != "" ?
                                         asset('storage/admins/ava/'.$crew->ava) : asset('images/avatar.png')}}">
                                 <p class="testimonial-comment">
-                                    <a href="mailto:{{$crew->email}}" style="margin-right: 5px;"><span
-                                                class="icon-envelope"></span></a>
-                                    <a href="https://fb.com/{{$crew->facebook}}" target="_blank"
-                                       style="margin-right: 5px;">
-                                        <span class="icon-facebook"></span></a>
-                                    <a href="https://twitter.com/{{$crew->twitter}}" target="_blank"
-                                       style="margin-right: 5px;">
-                                        <span class="icon-twitter"></span></a>
-                                    <a href="https://instagram.com/{{$crew->instagram}}" target="_blank"
-                                       style="margin-right: 5px;">
-                                        <span class="icon-instagram"></span></a>
+                                    <a href="mailto:{{$crew->email}}"><span class="icon-envelope mr-3"></span></a>
+                                    <a href="https://fb.com/{{$crew->facebook}}" target="_blank">
+                                        <span class="icon-facebook mr-3"></span></a>
+                                    <a href="https://twitter.com/{{$crew->twitter}}" target="_blank">
+                                        <span class="icon-twitter mr-3"></span></a>
+                                    <a href="https://instagram.com/{{$crew->instagram}}" target="_blank">
+                                        <span class="icon-instagram mr-3"></span></a>
                                     <a href="https://web.whatsapp.com/send?text=Halo, {{$crew->name}}!&phone={{$crew
                                     ->whatsapp}}&abid={{$crew->whatsapp}}" target="_blank">
-                                        <span class="icon-whatsapp"></span></a><br>{{$crew->deskripsi}}
+                                        <span class="icon-whatsapp"></span></a>
+                                    <br>{{$crew->deskripsi}}
                                 </p>
                             </div>
                             <div class="testimonial-name">
                                 {{$crew->name}}<br>
                                 <cite>
-                                    <small>{{ucwords($crew->role)}}</small>
+                                    <small>{{strtoupper($crew->role)}}</small>
                                 </cite>
                             </div>
                         </div>

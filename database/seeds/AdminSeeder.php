@@ -82,33 +82,19 @@ class AdminSeeder extends Seeder
                     'whatsapp' => '+6285608512411'
                 ]);
 
-            } elseif ($role == Role::DESIGNER) {
+            } elseif ($role == Role::PHOTOGRAPHER) {
                 Admin::create([
-                    'name' => 'Satria Bagus Wicaksana',
-                    'email' => $faker->unique()->safeEmail,
+                    'name' => 'Irza Haryo Prabowo',
+                    'email' => 'irzaharyoo@gmail.com',
                     'password' => bcrypt('secret'),
                     'remember_token' => str_random(10),
                     'role' => $role,
-                    'deskripsi' => 'Satria saat ini berperan sebagai fotografer dan desainer.',
-                    'facebook' => 'saatria',
-                    'twitter' => 'saatria',
-                    'instagram' => 'saatria',
-                    'whatsapp' => '+6282233726816'
+                    'deskripsi' => 'Irza saat ini berperan sebagai fotografer yang specialist dalam fotografi outdoor. Dia mulai menekuni bidang ini pada tahun 2012.',
+                    'facebook' => 'ir.za.98',
+                    'twitter' => 'IrzaProvox',
+                    'instagram' => 'irzaharyo',
+                    'whatsapp' => '+62816854481'
                 ]);
-
-                Admin::create([
-                    'name' => 'M. Thoriqul Falahi',
-                    'email' => $faker->unique()->safeEmail,
-                    'password' => bcrypt('secret'),
-                    'remember_token' => str_random(10),
-                    'role' => $role,
-                    'deskripsi' => 'Ahi saat ini berperan sebagai fotografer dan desainer.',
-                    'facebook' => 'thorotoar',
-                    'twitter' => 'thorotoar',
-                    'instagram' => 'thorotoar',
-                    'whatsapp' => '+6285733980308'
-                ]);
-
             } elseif ($role == Role::VIDEOGRAPHER) {
                 Admin::create([
                     'name' => 'Septian Dwi Prasetya',
@@ -136,19 +122,33 @@ class AdminSeeder extends Seeder
                     'whatsapp' => '+6281327373807'
                 ]);
 
-            } elseif ($role == Role::PHOTOGRAPHER) {
+            } elseif ($role == Role::DESIGNER) {
                 Admin::create([
-                    'name' => 'Irza Haryo Prabowo',
-                    'email' => 'irzaharyoo@gmail.com',
+                    'name' => 'Satria Bagus Wicaksana',
+                    'email' => 'satriabagus55@gmail.com',
                     'password' => bcrypt('secret'),
                     'remember_token' => str_random(10),
                     'role' => $role,
-                    'deskripsi' => 'Irza saat ini berperan sebagai fotografer yang specialist dalam fotografi outdoor. Dia mulai menekuni bidang ini pada tahun 2012.',
-                    'facebook' => 'ir.za.98',
-                    'twitter' => 'IrzaProvox',
-                    'instagram' => 'irzaharyo',
-                    'whatsapp' => '+62816854481'
+                    'deskripsi' => 'Satria saat ini berperan sebagai fotografer dan desainer.',
+                    'facebook' => 'boboho.djowo',
+                    'twitter' => 'satriabagus55',
+                    'instagram' => 'saatria',
+                    'whatsapp' => '+6282233726816'
                 ]);
+
+                Admin::create([
+                    'name' => 'M. Thoriqul Falahi',
+                    'email' => 'echothokhi@gmail.com',
+                    'password' => bcrypt('secret'),
+                    'remember_token' => str_random(10),
+                    'role' => $role,
+                    'deskripsi' => 'Ahi saat ini berperan sebagai fotografer dan desainer.',
+                    'facebook' => 'thoriqul.falakhi',
+                    'twitter' => 'thorotoar',
+                    'instagram' => 'thorotoar',
+                    'whatsapp' => '+6285733980308'
+                ]);
+
             }
         }
     }

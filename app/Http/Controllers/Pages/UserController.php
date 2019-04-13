@@ -28,7 +28,7 @@ class UserController extends Controller
     public function about()
     {
         $about = About::first();
-        $crews = Admin::where('role', '!=', Role::ROOT)->orderBy('role')->get();
+        $crews = Admin::where('role', '!=', Role::ROOT)->orderBy('id')->get();
 
         return view('pages.main.about', compact('about', 'crews'));
     }

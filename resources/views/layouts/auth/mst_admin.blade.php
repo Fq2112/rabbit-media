@@ -39,7 +39,7 @@
     ->orderByDesc('id')->get();
 
     $orders = \App\Models\Pemesanan::where('isPaid',false)->wherenotnull('payment_proof')
-    ->whereDate('created_at', '>=', now()->subDay())->get();
+    ->whereDate('created_at', '>=', now()->subDay())->orderByDesc('id')->get();
 @endphp
 <div id="app">
     <div class="main-wrapper main-wrapper-1">
@@ -93,7 +93,8 @@
                             @endif
                         </div>
                         <div class="dropdown-footer text-center">
-                            <a href="{{route('admin.inbox')}}">More Messages <i class="fas fa-chevron-right"></i></a>
+                            <a href="{{route('admin.inbox')}}">More Messages<i
+                                        class="fas fa-chevron-right ml-2"></i></a>
                         </div>
                     </div>
                 </li>
@@ -130,7 +131,7 @@
                             @endif
                         </div>
                         <div class="dropdown-footer text-center">
-                            <a href="{{route('table.orders')}}">More Orders <i class="fas fa-chevron-right"></i></a>
+                            <a href="{{route('table.orders')}}">More Orders<i class="fas fa-chevron-right ml-2"></i></a>
                         </div>
                     </div>
                 </li>
@@ -199,6 +200,11 @@
 <!-- Template JS File -->
 <script src="{{asset('admins/js/scripts.js')}}"></script>
 <script src="{{asset('admins/js/custom.js')}}"></script>
+<script>
+    @if(session('signed'))
+    swal('Signed In!', 'Halo {{Auth::guard('admin')->user()->name}}! Anda telah masuk.', 'success');
+    @endif
+</script>
 @include('layouts.partials._confirm')
 </body>
 </html>

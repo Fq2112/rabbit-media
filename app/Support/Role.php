@@ -20,14 +20,14 @@ class Role
     const DESIGNER = 'designer';
 
     const ALL = [
-        Role::DESIGNER,
-        Role::VIDEOGRAPHER,
-        Role::PHOTOGRAPHER,
-        Role::COO,
-        Role::ADMIN,
-        Role::CTO,
+        Role::ROOT,
         Role::CEO,
-        Role::ROOT
+        Role::CTO,
+        Role::ADMIN,
+        Role::COO,
+        Role::PHOTOGRAPHER,
+        Role::VIDEOGRAPHER,
+        Role::DESIGNER,
     ];
 
     /**
