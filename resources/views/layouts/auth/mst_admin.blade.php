@@ -4,15 +4,18 @@
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
     <title>@yield('title')</title>
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <link rel="shortcut icon" href="{{asset('favicon.ico')}}">
 
     <!-- General CSS Files -->
     <link rel="stylesheet" href="{{asset('admins/modules/bootstrap/css/bootstrap.min.css')}}">
-    <link rel="stylesheet" href="{{asset('admins/modules/fontawesome/css/all.min.css')}}">
-    <link rel="stylesheet" href="{{asset('vendors/sweetalert2/sweetalert2.min.css')}}">
+    <link rel="stylesheet" href="{{asset('fonts/fontawesome/css/all.css')}}">
     <!-- Template CSS -->
     <link rel="stylesheet" href="{{asset('admins/css/style.css')}}">
     <link rel="stylesheet" href="{{asset('admins/css/components.css')}}">
     <!-- Page Specific CSS File -->
+    <link rel="stylesheet" href="{{asset('admins/modules/bootstrap-select/dist/css/bootstrap-select.min.css')}}">
+    <link rel="stylesheet" href="{{asset('admins/modules/sweetalert/sweetalert2.css')}}">
 @stack('styles')
 
 <!-- Start GA -->
@@ -30,217 +33,104 @@
     </script>
     <!-- /END GA -->
 </head>
-
 <body>
+@php
+    $contacts = \App\Models\Contact::where('created_at', '>=', today()->subDays('3')->toDateTimeString())
+    ->orderByDesc('id')->get();
+
+    $orders = \App\Models\Pemesanan::where('isPaid',false)->wherenotnull('payment_proof')
+    ->whereDate('created_at', '>=', now()->subDay())->get();
+@endphp
 <div id="app">
     <div class="main-wrapper main-wrapper-1">
         <div class="navbar-bg"></div>
         <nav class="navbar navbar-expand-lg main-navbar">
-            <form class="form-inline mr-auto">
-                <ul class="navbar-nav mr-3">
-                    <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg"><i class="fas fa-bars"></i></a>
-                    </li>
-                    <li><a href="#" data-toggle="search" class="nav-link nav-link-lg d-sm-none"><i
-                                    class="fas fa-search"></i></a></li>
-                </ul>
-                <div class="search-element">
-                    <input class="form-control" type="search" placeholder="Search" aria-label="Search" data-width="250">
-                    <button class="btn" type="submit"><i class="fas fa-search"></i></button>
-                    <div class="search-backdrop"></div>
-                    <div class="search-result">
-                        <div class="search-header">
-                            Histories
-                        </div>
-                        <div class="search-item">
-                            <a href="#">How to hack NASA using CSS</a>
-                            <a href="#" class="search-close"><i class="fas fa-times"></i></a>
-                        </div>
-                        <div class="search-item">
-                            <a href="#">Kodinger.com</a>
-                            <a href="#" class="search-close"><i class="fas fa-times"></i></a>
-                        </div>
-                        <div class="search-item">
-                            <a href="#">#Stisla</a>
-                            <a href="#" class="search-close"><i class="fas fa-times"></i></a>
-                        </div>
-                        <div class="search-header">
-                            Result
-                        </div>
-                        <div class="search-item">
-                            <a href="#">
-                                <img class="mr-3 rounded" width="30"
-                                     src="{{asset('admins/img/products/product-3-50.png')}}" alt="product">
-                                oPhone S9 Limited Edition
-                            </a>
-                        </div>
-                        <div class="search-item">
-                            <a href="#">
-                                <img class="mr-3 rounded" width="30"
-                                     src="{{asset('admins/img/products/product-2-50.png')}}" alt="product">
-                                Drone X2 New Gen-7
-                            </a>
-                        </div>
-                        <div class="search-item">
-                            <a href="#">
-                                <img class="mr-3 rounded" width="30"
-                                     src="{{asset('admins/img/products/product-1-50.png')}}" alt="product">
-                                Headphone Blitz
-                            </a>
-                        </div>
-                        <div class="search-header">
-                            Projects
-                        </div>
-                        <div class="search-item">
-                            <a href="#">
-                                <div class="search-icon bg-danger text-white mr-3">
-                                    <i class="fas fa-code"></i>
-                                </div>
-                                Stisla Admin Template
-                            </a>
-                        </div>
-                        <div class="search-item">
-                            <a href="#">
-                                <div class="search-icon bg-primary text-white mr-3">
-                                    <i class="fas fa-laptop"></i>
-                                </div>
-                                Create a new Homepage Design
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </form>
+            <ul class="navbar-nav mr-auto">
+                <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg"><i class="fas fa-bars"></i></a></li>
+            </ul>
             <ul class="navbar-nav navbar-right">
-                <li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown"
-                                                             class="nav-link nav-link-lg message-toggle beep"><i
-                                class="far fa-envelope"></i></a>
+                <li class="dropdown dropdown-list-toggle">
+                    <a href="javascript:void(0)" data-toggle="dropdown"
+                       class="nav-link nav-link-lg message-toggle {{count($contacts) > 0 ? 'beep' : ''}}">
+                        <i class="far fa-envelope"></i></a>
                     <div class="dropdown-menu dropdown-list dropdown-menu-right">
-                        <div class="dropdown-header">Messages
-                            <div class="float-right">
-                                <a href="#">Mark All As Read</a>
-                            </div>
-                        </div>
+                        <div class="dropdown-header">Messages</div>
                         <div class="dropdown-list-content dropdown-list-message">
-                            <a href="#" class="dropdown-item dropdown-item-unread">
-                                <div class="dropdown-item-avatar">
-                                    <img alt="image" src="{{asset('admins/img/avatar/avatar-1.png')}}"
-                                         class="rounded-circle">
-                                    <div class="is-online"></div>
-                                </div>
-                                <div class="dropdown-item-desc">
-                                    <b>Kusnaedi</b>
-                                    <p>Hello, Bro!</p>
-                                    <div class="time">10 Hours Ago</div>
-                                </div>
-                            </a>
-                            <a href="#" class="dropdown-item dropdown-item-unread">
-                                <div class="dropdown-item-avatar">
-                                    <img alt="image" src="{{asset('admins/img/avatar/avatar-2.png')}}"
-                                         class="rounded-circle">
-                                </div>
-                                <div class="dropdown-item-desc">
-                                    <b>Dedik Sugiharto</b>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit</p>
-                                    <div class="time">12 Hours Ago</div>
-                                </div>
-                            </a>
-                            <a href="#" class="dropdown-item dropdown-item-unread">
-                                <div class="dropdown-item-avatar">
-                                    <img alt="image" src="{{asset('admins/img/avatar/avatar-3.png')}}"
-                                         class="rounded-circle">
-                                    <div class="is-online"></div>
-                                </div>
-                                <div class="dropdown-item-desc">
-                                    <b>Agung Ardiansyah</b>
-                                    <p>Sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                                    <div class="time">12 Hours Ago</div>
-                                </div>
-                            </a>
-                            <a href="#" class="dropdown-item">
-                                <div class="dropdown-item-avatar">
-                                    <img alt="image" src="{{asset('admins/img/avatar/avatar-4.png')}}"
-                                         class="rounded-circle">
-                                </div>
-                                <div class="dropdown-item-desc">
-                                    <b>Ardian Rahardiansyah</b>
-                                    <p>Duis aute irure dolor in reprehenderit in voluptate velit ess</p>
-                                    <div class="time">16 Hours Ago</div>
-                                </div>
-                            </a>
-                            <a href="#" class="dropdown-item">
-                                <div class="dropdown-item-avatar">
-                                    <img alt="image" src="{{asset('admins/img/avatar/avatar-5.png')}}"
-                                         class="rounded-circle">
-                                </div>
-                                <div class="dropdown-item-desc">
-                                    <b>Alfa Zulkarnain</b>
-                                    <p>Exercitation ullamco laboris nisi ut aliquip ex ea commodo</p>
-                                    <div class="time">Yesterday</div>
-                                </div>
-                            </a>
+                            @if(count($contacts) > 0)
+                                @foreach($contacts as $row)
+                                    @php $user = \App\User::where('email',$row->email); @endphp
+                                    <a href="{{route('admin.inbox', ['id' => $row->id])}}" class="dropdown-item">
+                                        <div class="dropdown-item-avatar">
+                                            @if($user->count())
+                                                @if($user->first()->ava == "")
+                                                    <img src="{{asset('admins/img/avatar/avatar-'.rand(1,5).'.png')}}"
+                                                         class="rounded-circle" alt="Avatar">
+                                                @else
+                                                    <img src="{{asset('storage/users/ava/'.$user->first()->ava)}}"
+                                                         class="rounded-circle" alt="Avatar">
+                                                @endif
+                                            @else
+                                                <img src="{{asset('admins/img/avatar/avatar-'.rand(1,5).'.png')}}"
+                                                     class="rounded-circle" alt="Avatar">
+                                            @endif
+                                        </div>
+                                        <div class="dropdown-item-desc">
+                                            <b>{{$row->name}}</b>
+                                            <p>{{$row->subject}}</p>
+                                            <div class="time">{{\Carbon\Carbon::parse($row->created_at)->diffForHumans()}}</div>
+                                        </div>
+                                    </a>
+                                @endforeach
+                            @else
+                                <a class="dropdown-item">
+                                    <div class="dropdown-item-avatar">
+                                        <img src="{{asset('images/searchPlace.png')}}" class="img-fluid">
+                                    </div>
+                                    <div class="dropdown-item-desc">
+                                        <p>There seems to be none of the feedback was found this 3 days&hellip;</p>
+                                    </div>
+                                </a>
+                            @endif
                         </div>
                         <div class="dropdown-footer text-center">
-                            <a href="#">View All <i class="fas fa-chevron-right"></i></a>
+                            <a href="{{route('admin.inbox')}}">More Messages <i class="fas fa-chevron-right"></i></a>
                         </div>
                     </div>
                 </li>
-                <li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown"
-                                                             class="nav-link notification-toggle nav-link-lg beep"><i
-                                class="far fa-bell"></i></a>
+                <li class="dropdown dropdown-list-toggle">
+                    <a href="javascript:void(0)" data-toggle="dropdown"
+                       class="nav-link notification-toggle nav-link-lg {{count($orders) > 0 ? 'beep' : ''}}">
+                        <i class="far fa-bell"></i></a>
                     <div class="dropdown-menu dropdown-list dropdown-menu-right">
-                        <div class="dropdown-header">Notifications
-                            <div class="float-right">
-                                <a href="#">Mark All As Read</a>
-                            </div>
-                        </div>
-                        <div class="dropdown-list-content dropdown-list-icons">
-                            <a href="#" class="dropdown-item dropdown-item-unread">
-                                <div class="dropdown-item-icon bg-primary text-white">
-                                    <i class="fas fa-code"></i>
-                                </div>
-                                <div class="dropdown-item-desc">
-                                    Template update is available now!
-                                    <div class="time text-primary">2 Min Ago</div>
-                                </div>
-                            </a>
-                            <a href="#" class="dropdown-item">
-                                <div class="dropdown-item-icon bg-info text-white">
-                                    <i class="far fa-user"></i>
-                                </div>
-                                <div class="dropdown-item-desc">
-                                    <b>You</b> and <b>Dedik Sugiharto</b> are now friends
-                                    <div class="time">10 Hours Ago</div>
-                                </div>
-                            </a>
-                            <a href="#" class="dropdown-item">
-                                <div class="dropdown-item-icon bg-success text-white">
-                                    <i class="fas fa-check"></i>
-                                </div>
-                                <div class="dropdown-item-desc">
-                                    <b>Kusnaedi</b> has moved task <b>Fix bug header</b> to <b>Done</b>
-                                    <div class="time">12 Hours Ago</div>
-                                </div>
-                            </a>
-                            <a href="#" class="dropdown-item">
-                                <div class="dropdown-item-icon bg-danger text-white">
-                                    <i class="fas fa-exclamation-triangle"></i>
-                                </div>
-                                <div class="dropdown-item-desc">
-                                    Low disk space. Let's clean it!
-                                    <div class="time">17 Hours Ago</div>
-                                </div>
-                            </a>
-                            <a href="#" class="dropdown-item">
-                                <div class="dropdown-item-icon bg-info text-white">
-                                    <i class="fas fa-bell"></i>
-                                </div>
-                                <div class="dropdown-item-desc">
-                                    Welcome to Stisla template!
-                                    <div class="time">Yesterday</div>
-                                </div>
-                            </a>
+                        <div class="dropdown-header">Orders</div>
+                        <div class="dropdown-list-content dropdown-list-message">
+                            @if(count($orders) > 0)
+                                @foreach($orders as $row)
+                                    <a href="{{route('table.orders'.'?q='.$row->getUser->name)}}" class="dropdown-item">
+                                        <div class="dropdown-item-avatar">
+                                            <img src="{{asset('images/services/'.$row->getLayanan->getJenisLayanan->icon)}}"
+                                                 class="rounded-circle" alt="Icon">
+                                        </div>
+                                        <div class="dropdown-item-desc">
+                                            <b>{{$row->getLayanan}}</b>
+                                            <p>{{$row->deskripsi}}</p>
+                                            <div class="time">{{\Carbon\Carbon::parse($row->created_at)->diffForHumans()}}</div>
+                                        </div>
+                                    </a>
+                                @endforeach
+                            @else
+                                <a class="dropdown-item">
+                                    <div class="dropdown-item-avatar">
+                                        <img src="{{asset('images/searchPlace.png')}}" class="img-fluid">
+                                    </div>
+                                    <div class="dropdown-item-desc">
+                                        <p>There seems to be none of the order was found this 3 days&hellip;</p>
+                                    </div>
+                                </a>
+                            @endif
                         </div>
                         <div class="dropdown-footer text-center">
-                            <a href="#">View All <i class="fas fa-chevron-right"></i></a>
+                            <a href="{{route('table.orders')}}">More Orders <i class="fas fa-chevron-right"></i></a>
                         </div>
                     </div>
                 </li>
@@ -250,15 +140,10 @@
                         <div class="d-sm-none d-lg-inline-block">{{Auth::guard('admin')->user()->name}}</div>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">
-                        <a href="features-profile.html" class="dropdown-item has-icon">
-                            <i class="far fa-user"></i> Profile
-                        </a>
-                        <a href="features-activities.html" class="dropdown-item has-icon">
-                            <i class="fas fa-bolt"></i> Activities
-                        </a>
-                        <a href="features-settings.html" class="dropdown-item has-icon">
-                            <i class="fas fa-cog"></i> Settings
-                        </a>
+                        <a href="{{route('admin.edit.profile')}}" class="dropdown-item has-icon">
+                            <i class="fas fa-user-edit"></i> Edit Profile</a>
+                        <a href="{{route('admin.settings')}}" class="dropdown-item has-icon">
+                            <i class="fas fa-cogs"></i> Account Settings</a>
                         <div class="dropdown-divider"></div>
                         <a href="javascript:void(0)" class="dropdown-item has-icon text-danger btn_signOut">
                             <i class="fas fa-sign-out-alt"></i> Sign Out</a>
@@ -275,7 +160,7 @@
                     <a href="{{route('home-admin')}}">The Rabbits</a>
                 </div>
                 <div class="sidebar-brand sidebar-brand-sm">
-                    <a href="{{route('home-admin')}}">RM</a>
+                    <a href="{{route('home-admin')}}"><img class="img-fluid" src="{{asset('images/loading.gif')}}"></a>
                 </div>
                 @include('layouts.partials._sidebarMenu')
             </aside>
@@ -290,7 +175,7 @@
                 &copy;&nbsp;{{now()->format('Y')}} Rabbit Media – Digital Creative Service. All rights reserved.
             </div>
             <div class="footer-right">
-                Designed & Developed by <a href="{{route('home')}}">Rabbit Media</a>
+                Designed & Developed by <a href="{{route('about')}}">Rabbit Media</a>
             </div>
         </footer>
     </div>
@@ -304,14 +189,16 @@
 <script src="{{asset('admins/modules/nicescroll/jquery.nicescroll.min.js')}}"></script>
 <script src="{{asset('admins/modules/moment.min.js')}}"></script>
 <script src="{{asset('admins/js/stisla.js')}}"></script>
-<script src="{{asset('vendors/sweetalert2/sweetalert2.min.js')}}"></script>
 
 <!-- Page Specific JS File -->
-@include('layouts.partials._confirm')
+<script src="{{asset('admins/modules/bootstrap-select/dist/js/bootstrap-select.min.js')}}"></script>
+<script src="{{asset('admins/modules/tinymce/tinymce.min.js')}}"></script>
+<script src="{{asset('admins/modules/sweetalert/sweetalert.min.js')}}"></script>
 @stack('scripts')
 
 <!-- Template JS File -->
 <script src="{{asset('admins/js/scripts.js')}}"></script>
 <script src="{{asset('admins/js/custom.js')}}"></script>
+@include('layouts.partials._confirm')
 </body>
 </html>

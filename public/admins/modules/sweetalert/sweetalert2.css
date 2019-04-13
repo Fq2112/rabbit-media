@@ -1,0 +1,35 @@
+.swal-text {
+    text-align: center;
+    line-height: 24px;
+    font-weight: 500;
+}
+
+.swal-footer {
+    text-align: center;
+}
+
+.swal-button {
+    border-radius: 3px;
+    font-size: 16px;
+    padding: 7px 19px;
+}
+
+.swal-button:focus {
+    box-shadow: none;
+}
+
+.swal-button--confirm {
+    background-color: #592f83;
+    font-size: 12px;
+    border: 1px solid #402e69;
+    text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 2px 6px #AE5CFF;
+}
+
+.swal-button--confirm:focus {
+    opacity: 0.8;
+}
+
+.swal-button--confirm:active{
+    background-color: #402e69;
+}

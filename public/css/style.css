@@ -1699,3 +1699,15 @@ a:hover {
 .bullet:after {
     content: '\2022';
 }
+
+.fix-label-group {
+    align-items: center;
+}
+
+.fix-label-item {
+    height: calc(2.25rem + 2px);
+}
+
+.input-group .bootstrap-select.form-control .dropdown-toggle {
+    border: 1px solid #ced4da;
+}
