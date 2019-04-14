@@ -21,10 +21,14 @@ class CreatePemesanansTable extends Migration
             $table->integer('layanan_id')->unsigned();
             $table->foreign('layanan_id')->references('id')->on('layanans')
                 ->onUpdate('CASCADE')->onDelete('CASCADE');
+            $table->integer('studio_id')->unsigned();
+            $table->foreign('studio_id')->references('id')->on('studios')
+                ->onUpdate('CASCADE')->onDelete('CASCADE');
             $table->integer('payment_id')->unsigned();
             $table->foreign('payment_id')->references('id')->on('payment_method')
                 ->onUpdate('CASCADE')->onDelete('CASCADE');
             $table->integer('qty')->nullable();
+            $table->integer('hours')->nullable();
             $table->text('deskripsi')->nullable();
             $table->string('payment_code');
             $table->string('cc_number')->nullable();

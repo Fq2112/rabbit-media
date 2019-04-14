@@ -21,6 +21,10 @@ class CreateTableLayanans extends Migration
             $table->string('paket');
             $table->string('harga');
             $table->integer('diskon')->length(3);
+            $table->boolean('isQty')->default(false);
+            $table->integer('price_per_qty')->nullable();
+            $table->boolean('isHours')->default(false);
+            $table->integer('price_per_hours')->nullable();
             $table->text('keuntungan');
             $table->timestamps();
         });

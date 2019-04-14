@@ -196,7 +196,7 @@ class LayananSeeder extends Seeder
             'paket' => 'Indoor Studio Group/Family Photo',
             'harga' => '500000',
             'diskon' => 0,
-            'keuntungan' => '<ul><li>Semua file</li><li>6 foto terbaik dengan edit + retouched</li><li>cetak foto 4R 6pcs</li><li>durasi 1 jam (over time +Rp300.000/jam)</li><li>studio opsional</li><li>max 10 orang</li></ul>',
+            'keuntungan' => '<ul><li>Semua file</li><li>6 foto terbaik dengan edit + retouched</li><li>cetak foto 4R 6pcs</li><li>durasi 1 jam (over time +Rp300.000/jam)</li><li>studio opsional</li><li>max 10 orang (over people +Rp100.000/orang)</li></ul>',
         ]);
 
         layanan::create([
@@ -204,7 +204,7 @@ class LayananSeeder extends Seeder
             'paket' => 'Outdoor Group/Family Photo',
             'harga' => '700000',
             'diskon' => 0,
-            'keuntungan' => '<ul><li>Semua file</li><li>6 foto terbaik dengan edit + retouched</li><li>cetak foto 4R 6pcs</li><li>cetak foto 10R 1pcs</li><li>max durasi 2 jam (over time +Rp250.000/jam)</li><li>1 lokasi pemotreatan</li><li>tidak termasuk enterance lokasi</li><li>max 10 orang (over people Rp. 100.000/orang)</li></ul>',
+            'keuntungan' => '<ul><li>Semua file</li><li>6 foto terbaik dengan edit + retouched</li><li>cetak foto 4R 6pcs</li><li>cetak foto 10R 1pcs</li><li>max durasi 2 jam (over time +Rp250.000/jam)</li><li>1 lokasi pemotreatan</li><li>tidak termasuk enterance lokasi</li><li>max 10 orang (over people +Rp100.000/orang)</li></ul>',
         ]);
 
         layanan::create([

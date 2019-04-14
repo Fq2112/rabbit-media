@@ -123,7 +123,7 @@
                             </form>
                         </div>
                         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                            <div id="map" style="width:100%;height: 510px;"></div>
+                            <div id="map" class="img-thumbnail" style="width:100%;height: 510px;"></div>
                         </div>
                     </div>
                 </div>
