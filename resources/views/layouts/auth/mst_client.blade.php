@@ -60,7 +60,7 @@
                     </div>
                 </div>
                 <div class="site-wrapper_top-bar" data-aos="fade-left">
-                    <a href="#" id="toggle"><i class="fa fa-bars"></i></a>
+                    <a href="javascript:void(0)" id="toggle"><i class="fa fa-bars"></i></a>
                 </div>
 
                 @yield('inner-content')

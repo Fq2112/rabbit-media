@@ -256,7 +256,7 @@
                 $.each(val.order_ids, function (x, nilai) {
                     $status = nilai.isPost == 1 ? 'POSTED' : 'NOT POSTED YET';
                     $orders +=
-                        '<li><a target="_blank" href="#" ' +
+                        '<li><a target="_blank" href="javascript:void(0)" ' +
                         'class="tag tag-plans"><i class="fa fa-briefcase"></i>&ensp;' + nilai.judul + ' &ndash; ' +
                         '<strong>' + $status + '</strong></li>';
                 });

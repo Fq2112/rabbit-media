@@ -66,7 +66,7 @@ body::-webkit-scrollbar {
 body::-webkit-scrollbar-thumb {
     width: 8px;
     background: rgba(0, 0, 0, .5);
-    border-radius: 0;
+    border-radius: 5px;
     -webkit-transition: all .3s ease-in-out;
     -moz-transition: all .3s ease-in-out;
     transition: all .3s ease-in-out;
@@ -3979,3 +3979,21 @@ body:not(.sidebar-mini) .sidebar-style-2 .sidebar-menu li.active ul.dropdown-men
 }
 
 /*# sourceMappingURL=style.css.map */
+
+.progress {
+    position: fixed;
+    margin-bottom: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    border-radius: 0;
+    z-index: 880;
+}
+
+.progress .bar {
+    height: 100%;
+    width: 10%;
+    background: #592f83;
+    transition: background 0.15s ease;
+}

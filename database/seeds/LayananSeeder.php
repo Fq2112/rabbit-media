@@ -17,20 +17,8 @@ class LayananSeeder extends Seeder
         $faker = Factory::create('id_ID');
 
         JenisLayanan::create([
-            'icon' => 'digital_offset.png',
-            'nama' => 'Digital Offset',
-            'deskripsi' => $faker->sentence
-        ]);
-
-        JenisLayanan::create([
             'icon' => 'graphic_design.png',
             'nama' => 'Graphic Design',
-            'deskripsi' => $faker->sentence
-        ]);
-
-        JenisLayanan::create([
-            'icon' => 'mockup_design.png',
-            'nama' => 'Mockup Design',
             'deskripsi' => $faker->sentence
         ]);
 
@@ -48,284 +36,267 @@ class LayananSeeder extends Seeder
 
         JenisLayanan::create([
             'icon' => 'wedding.png',
-            'nama' => 'Wedding',
-            'deskripsi' => $faker->sentence
+            'nama' => 'Wedding Pack',
+            'deskripsi' => $faker->sentence,
+            'isPack' => true
+        ]);
+
+        JenisLayanan::create([
+            'icon' => 'event.png',
+            'nama' => 'Event Pack',
+            'deskripsi' => $faker->sentence,
+            'isPack' => true
+        ]);
+
+        JenisLayanan::create([
+            'icon' => 'design.png',
+            'nama' => 'Design Pack',
+            'deskripsi' => $faker->sentence,
+            'isPack' => true
         ]);
 
         layanan::create([
-            'jenis_id' => 6,
-            'paket' => 'Pre-wedding Photo',
+            'jenis_id' => 5,
+            'paket' => 'Bronze Pack',
             'harga' => '1500000',
             'diskon' => 0,
-            'keuntungan' => '<ul><li>5 foto terbaik dengan edit</li><li>2 kostum/baju</li><li>Cetak foto 10R 2pcs</li></ul>',
+            'keuntungan' => '<ul><li>1 fotografer dan 1 videografer</li><li>2 camera</li><li>max 3 jam kerja</li><li>durasi video highlight max 3 menit</li><li>30 foto edited</li><li>unlimited foto</li><li>flashdisk semua file + edited</li></ul>',
         ]);
 
         layanan::create([
-            'jenis_id' => 6,
-            'paket' => 'Pre-wedding Clip',
-            'harga' => '2000000',
-            'diskon' => 0,
-            'keuntungan' => '<ul><li>Cinematic 2 camera (durasi max. 5 menit)</li><li>Max. 2x revisi</li><li>Free edit photo clip (durasi max. 1 menit)</li></ul>',
-        ]);
-
-        layanan::create([
-            'jenis_id' => 6,
-            'paket' => 'Emerald Photo Pack',
-            'harga' => '2000000',
-            'diskon' => 0,
-            'keuntungan' => '<ul><li>1 album standard</li><li>Cetak foto 4R 120pcs</li><li>Cetak foto 10R 3pcs</li><li>CD/DVD + file edit 50 foto</li></ul>',
-        ]);
-
-        layanan::create([
-            'jenis_id' => 6,
-            'paket' => 'Ruby Photo Pack',
-            'harga' => '2800000',
-            'diskon' => 0,
-            'keuntungan' => '<ul><li>1 album magnetic 20 sheet</li><li>Cetak foto 4R 200pcs</li><li>Cetak foto 10R 2pcs</li><li>CD/DVD + file edit 80 foto</li></ul>',
-        ]);
-
-        layanan::create([
-            'jenis_id' => 6,
-            'paket' => 'Diamond Photo Pack',
-            'harga' => '4000000',
-            'diskon' => 0,
-            'keuntungan' => '<ul><li>1 album magnetic 20 sheet</li><li>Cetak foto 4R 240pcs</li><li>Cetak foto 10R 5pcs</li><li>CD/DVD + file edit 120 foto</li></ul>',
-        ]);
-
-        layanan::create([
-            'jenis_id' => 6,
-            'paket' => 'Emerald Video Pack',
-            'harga' => '2000000',
-            'diskon' => 0,
-            'keuntungan' => '<ul><li>1 DVD Master</li><li>Dokumentasi full edit (durasi max. 2 jam)</li></ul>',
-        ]);
-
-        layanan::create([
-            'jenis_id' => 6,
-            'paket' => 'Ruby Video Pack',
-            'harga' => '2200000',
-            'diskon' => 0,
-            'keuntungan' => '<ul><li>1 DVD Master</li><li>Dokumentasi full edit (durasi max. 2 jam)</li><li>Highlight clip (standard)</li></ul>',
-        ]);
-
-        layanan::create([
-            'jenis_id' => 6,
-            'paket' => 'Diamond Video Pack',
-            'harga' => '2800000',
-            'diskon' => 0,
-            'keuntungan' => '<ul><li>1 DVD Master</li><li>Dokumentasi full edit (durasi max. 2 jam)</li><li>Highlight clip (cinematic)</li></ul>',
-        ]);
-
-        layanan::create([
-            'jenis_id' => 6,
-            'paket' => 'Bronze Pack',
+            'jenis_id' => 5,
+            'paket' => 'Silver Pack',
             'harga' => '3000000',
             'diskon' => 0,
-            'keuntungan' => '<ul><li>1 album standard</li><li>Cetak foto 4R 120pcs</li><li>Cetak foto 10R 1pcs</li><li>CD/DVD + file edit 50 foto</li><li>1 DVD Master</li><li>Dokumentasi full edit (durasi max. 2 jam)</li></ul>',
+            'keuntungan' => '<ul><li>1 fotografer dan 2 videografer</li><li>3 camera</li><li>max 3 jam kerja</li><li>durasi video highlight max 3 menit</li><li>40 foto edited</li><li>unlimited foto</li><li>cetak album 20x30 10 sheet</li><li>flashdisk 16GB semua file + edited</li></ul>',
         ]);
 
         layanan::create([
-            'jenis_id' => 6,
-            'paket' => 'Silver Pack',
-            'harga' => '4000000',
-            'diskon' => 0,
-            'keuntungan' => '<ul><li>1 album magnetic 20 sheet</li><li>Cetak foto 4R 200pcs</li><li>Cetak foto 10R 2pcs</li><li>CD/DVD + file edit 80 foto</li><li>1 DVD Master</li><li>Dokumentasi full edit (durasi max. 2 jam)</li><li>Highlight clip (standard)</li></ul>',
-        ]);
-
-        layanan::create([
-            'jenis_id' => 6,
+            'jenis_id' => 5,
             'paket' => 'Gold Pack',
-            'harga' => '5000000',
+            'harga' => '6000000',
             'diskon' => 0,
-            'keuntungan' => '<ul><li>1 album magnetic 20 sheet</li><li>Cetak foto 4R 240pcs</li><li>Cetak foto 10R 4pcs</li><li>CD/DVD + file edit 120 foto</li><li>1 DVD Master</li><li>Dokumentasi full edit (durasi max. 2 jam)</li><li>Highlight clip (cinematic)</li></ul>',
+            'keuntungan' => '<ul><li>2 fotografer dan 2 videografer</li><li>4 camera</li><li>max 4 jam kerja</li><li>durasi video highlight cinematic max 5 menit</li><li>50 foto edited</li><li>unlimited foto</li><li>cetak album 20x30 10 sheet</li><li>cetak 10R 2pcs</li><li>flashdisk 16GB semua file + edited</li></ul>',
         ]);
 
         layanan::create([
-            'jenis_id' => 6,
-            'paket' => 'Platinum Pack',
-            'harga' => '6500000',
-            'diskon' => 0,
-            'keuntungan' => '<ul><li>1 album magnetic 20 sheet</li><li>Cetak foto 4R 240pcs</li><li>Cetak foto 10R 4pcs</li><li>CD/DVD + file edit 120 foto</li><li>1 DVD Master</li><li>Dokumentasi full edit (durasi max. 2 jam)</li><li>Highlight clip (cinematic)</li><li>Drone shoot</li></ul>',
-        ]);
-
-        layanan::create([
-            'jenis_id' => 5,
-            'paket' => 'Product Video',
-            'harga' => '250000',
-            'diskon' => 0,
-            'keuntungan' => '<ul><li>Max. durasi 1 menit</li><li>Max. 1x revisi</li><li>Untuk semua ukuran produk</li></ul>',
-        ]);
-
-        layanan::create([
-            'jenis_id' => 5,
-            'paket' => 'Documentation Video',
+            'jenis_id' => 4,
+            'paket' => 'Bronze Pack',
             'harga' => '3500000',
             'diskon' => 0,
-            'keuntungan' => '<ul><li>3 camera (1 master, 2 backup)</li><li>Max. 2x revisi</li><li>Full variation editing</li></ul>',
-        ]);
-
-        layanan::create([
-            'jenis_id' => 5,
-            'paket' => 'Party/Sweet 17 Video',
-            'harga' => '1500000',
-            'diskon' => 0,
-            'keuntungan' => '<ul><li>Max. durasi 20 menit</li><li>Max. 2x revisi</li><li>Cinematic modern/classic editing</li></ul>',
-        ]);
-
-        layanan::create([
-            'jenis_id' => 5,
-            'paket' => 'Company Profile Standard Video',
-            'harga' => '4500000',
-            'diskon' => 0,
-            'keuntungan' => '<ul><li>Max. durasi 20 menit</li><li>Max. 3x revisi</li><li>Bumper-in/out, menu, visual effect</li></ul>',
-        ]);
-
-        layanan::create([
-            'jenis_id' => 5,
-            'paket' => 'Company Profile Exclusive Video',
-            'harga' => '7000000',
-            'diskon' => 0,
-            'keuntungan' => '<ul><li>Durasi 20 - 30 menit</li><li>Max. 3x revisi</li><li>Bumper-in/out, menu, visual effect, motion graphic, animasi</li></ul>',
+            'keuntungan' => '<strong>PHOTO</strong><ul><li>akad nikah / pemberkatan (adat) / resepsi</li><li>1 fotografer dan 1 cameramen + crew</li><li>1 album magnetic 20x30 20 sheet</li><li>cetak foto 4R 150pcs</li><li>cetak foto 10R 4pcs</li></ul><strong>VIDEO</strong><ul><li>akad nikah / pemberkatan (adat) / resepsi</li><li>1 camera HD</li><li>durasi video 1-2 jam</li><li>full editing</li><li>flashdisk 16GB semua file photo + edited, video full</li></ul>',
         ]);
 
         layanan::create([
             'jenis_id' => 4,
-            'paket' => 'Indoor Studio Single Photo',
-            'harga' => '450000',
+            'paket' => 'Silver Pack',
+            'harga' => '6000000',
             'diskon' => 0,
-            'keuntungan' => '<ul><li>25% foto terbaik tanpa edit</li><li>5 foto terbaik dengan edit</li><li>Durasi 1 jam (biaya tambahan durasi Rp150.000)</li><li>Cetak foto tambah Rp5.000/foto 4R</li></ul>',
+            'keuntungan' => '<strong>PHOTO</strong><ul><li>akad nikah / pemberkatan (adat) / resepsi</li><li>2 fotografer dan 1 cameramen + crew</li><li>candid foto</li><li>1 album magazine 20x30 10 sheet</li><li>1 album magnetic 10 sheet</li><li>cetak foto 4R 80pcs foto keluarga</li><li>cetak foto 10R 2pcs + 16R 1pcs</li><li>retouch foto</li><li>unlimited shoot</li></ul><strong>VIDEO</strong><ul><li>akad nikah / pemberkatan (adat) / resepsi</li><li>1 camera full HD</li><li>durasi video 1-2 jam</li><li>full editing</li><li>60 detik video instagram</li><li>flashdisk 16GB semua file photo + edited, video full</li></ul>',
         ]);
 
         layanan::create([
             'jenis_id' => 4,
-            'paket' => 'Indoor Single Photo',
-            'harga' => '350000',
+            'paket' => 'Gold Pack',
+            'harga' => '9500000',
             'diskon' => 0,
-            'keuntungan' => '<ul><li>25% foto terbaik tanpa edit</li><li>5 foto terbaik dengan edit</li><li>Durasi 2 jam (biaya tambahan durasi Rp120.000)</li><li>Cetak foto tambah Rp5.000/foto 4R</li></ul>',
+            'keuntungan' => '<strong>PHOTO</strong><ul><li>akad nikah / pemberkatan (adat) / resepsi</li><li>2 fotografer dan 2 cameramen + crew</li><li>candid foto</li><li>1 album magazine 30x40 10 sheet</li><li>1 album magnetic 10 sheet</li><li>cetak foto 4R 100pcs foto keluarga</li><li>cetak foto 12R 2 pcs + 16R 1pcs</li><li>retouch foto</li><li>unlimited shoot</li></ul><strong>VIDEO</strong><ul><li>akad nikah / pemberkatan (adat) / resepsi</li><li>1 camera full HD</li><li>1 camera DSLR</li><li>durasi video 1-2 jam</li><li>full editing + cinematic (max 5 menit)</li><li>60 detik video instagram</li><li>flashdisk 16-32GB semua file photo + edited, video full</li></ul>',
         ]);
 
         layanan::create([
             'jenis_id' => 4,
-            'paket' => 'Outdoor Single Photo',
-            'harga' => '300000',
+            'paket' => 'Platinum Pack',
+            'harga' => '12500000',
             'diskon' => 0,
-            'keuntungan' => '<ul><li>25% foto terbaik tanpa edit</li><li>5 foto terbaik dengan edit</li><li>Durasi 5 jam (biaya tambahan durasi Rp100.000)</li><li>Cetak foto tambah Rp5.000/foto 4R</li></ul>',
-        ]);
-
-        layanan::create([
-            'jenis_id' => 4,
-            'paket' => 'Indoor Studio Couple Photo',
-            'harga' => '550000',
-            'diskon' => 0,
-            'keuntungan' => '<ul><li>25% foto terbaik tanpa edit</li><li>5 foto terbaik dengan edit</li><li>Durasi 1 jam (biaya tambahan durasi Rp200.000)</li><li>Cetak foto tambah Rp5.000/foto 4R</li></ul>',
-        ]);
-
-        layanan::create([
-            'jenis_id' => 4,
-            'paket' => 'Indoor Couple Photo',
-            'harga' => '400000',
-            'diskon' => 0,
-            'keuntungan' => '<ul><li>25% foto terbaik tanpa edit</li><li>5 foto terbaik dengan edit</li><li>Durasi 2 jam (biaya tambahan durasi Rp200.000)</li><li>Cetak foto tambah Rp10.000/foto 4R</li></ul>',
-        ]);
-
-        layanan::create([
-            'jenis_id' => 4,
-            'paket' => 'Outdoor Couple Photo',
-            'harga' => '350000',
-            'diskon' => 0,
-            'keuntungan' => '<ul><li>25% foto terbaik tanpa edit</li><li>5 foto terbaik dengan edit</li><li>Durasi 5 jam (biaya tambahan durasi Rp150.000)</li><li>Cetak foto tambah Rp5.000/foto 4R</li></ul>',
-        ]);
-
-        layanan::create([
-            'jenis_id' => 4,
-            'paket' => 'Indoor Studio Family Photo',
-            'harga' => '700000',
-            'diskon' => 0,
-            'keuntungan' => '<ul><li>Max. 10 orang</li><li>5 foto terbaik dengan edit</li><li>Durasi 1 jam (biaya tambahan durasi Rp250.000)</li><li>Cetak foto tambah Rp5.000/foto 4R</li></ul>',
-        ]);
-
-        layanan::create([
-            'jenis_id' => 4,
-            'paket' => 'Indoor Family Photo',
-            'harga' => '450000',
-            'diskon' => 0,
-            'keuntungan' => '<ul><li>Max. 10 orang</li><li>5 foto terbaik dengan edit</li><li>Durasi 2 jam (biaya tambahan durasi Rp200.000)</li><li>Cetak foto tambah Rp10.000/foto 4R</li></ul>',
-        ]);
-
-        layanan::create([
-            'jenis_id' => 4,
-            'paket' => 'Outdoor Family Photo',
-            'harga' => '350000',
-            'diskon' => 0,
-            'keuntungan' => '<ul><li>Max. 10 orang</li><li>25% foto terbaik tanpa edit</li><li>5 foto terbaik dengan edit</li><li>Durasi 5 jam (biaya tambahan durasi Rp150.000)</li><li>Cetak foto tambah Rp5.000/foto 4R</li></ul>',
-        ]);
-
-        layanan::create([
-            'jenis_id' => 4,
-            'paket' => 'Indoor Studio Group Photo',
-            'harga' => '750000',
-            'diskon' => 0,
-            'keuntungan' => '<ul><li>Max. 15 orang</li><li>25% foto terbaik tanpa edit</li><li>5 foto terbaik dengan edit</li><li>Durasi 1 jam (biaya tambahan durasi Rp250.000)</li><li>Cetak foto tambah Rp5.000/foto 4R</li></ul>',
-        ]);
-
-        layanan::create([
-            'jenis_id' => 4,
-            'paket' => 'Indoor Group Photo',
-            'harga' => '550000',
-            'diskon' => 0,
-            'keuntungan' => '<ul><li>Max. 10 orang</li><li>5 foto terbaik dengan edit</li><li>Durasi 2 jam (biaya tambahan durasi Rp200.000)</li><li>Cetak foto tambah Rp10.000/foto 4R</li></ul>',
-        ]);
-
-        layanan::create([
-            'jenis_id' => 4,
-            'paket' => 'Outdoor Group Photo',
-            'harga' => '450000',
-            'diskon' => 0,
-            'keuntungan' => '<ul><li>Max. 10 orang</li><li>25% foto terbaik tanpa edit</li><li>5 foto terbaik dengan edit</li><li>Durasi 5 jam (biaya tambahan durasi Rp150.000)</li><li>Cetak foto tambah Rp5.000/foto 4R</li></ul>',
-        ]);
-
-        layanan::create([
-            'jenis_id' => 4,
-            'paket' => 'Small Product Photo (mini studio)',
-            'harga' => '80000',
-            'diskon' => 0,
-            'keuntungan' => '<ul><li>6 foto terbaik dengan edit</li><li>Durasi 1,5 jam</li><li>Produk max. ukuran sepatu</li></ul>',
-        ]);
-
-        layanan::create([
-            'jenis_id' => 4,
-            'paket' => 'Small Product Photo (exclude studio)',
-            'harga' => '500000',
-            'diskon' => 0,
-            'keuntungan' => '<ul><li>6 foto terbaik dengan edit</li><li>Max. durasi 3 jam</li><li>Semua produk</li></ul>',
-        ]);
-
-        layanan::create([
-            'jenis_id' => 4,
-            'paket' => 'Small Product Photo (include studio)',
-            'harga' => '750000',
-            'diskon' => 0,
-            'keuntungan' => '<ul><li>6 foto terbaik dengan edit</li><li>Max. durasi 1 jam</li><li>Semua produk</li><li>Minus model + makeup</li></ul>',
-        ]);
-
-        layanan::create([
-            'jenis_id' => 4,
-            'paket' => 'Small Product Photo (include studio)',
-            'harga' => '750000',
-            'diskon' => 0,
-            'keuntungan' => '<ul><li>6 foto terbaik dengan edit</li><li>Max. durasi 1 jam</li><li>Semua produk</li><li>Minus model + makeup</li></ul>',
+            'keuntungan' => '<strong>PHOTO</strong><ul><li>akad nikah / pemberkatan (adat) / resepsi</li><li>2 fotografer dan 3 cameramen + crew dan 1 pilot drone</li><li>candid foto</li><li>1 album magazine 30x40 15 sheet</li><li>1 album magnetic 10 sheet</li><li>cetak foto 4R 100pcs foto keluarga</li><li>cetak foto 12R 2 pcs + 16R 1pcs ( +frame)</li><li>retouch foto</li><li>unlimited shoot</li></ul><strong>VIDEO</strong><ul><li>akad nikah / pemberkatan (adat) / resepsi</li><li>1 camera full HD</li><li>2 camera DSLR</li><li>1 drone</li><li>durasi video 1-2 jam</li><li>full editing + cinematic (max 5 menit)</li><li>60 detik video instagram</li><li>flashdisk 16-32GB semua file photo + edited, video full</li></ul>',
         ]);
 
         layanan::create([
             'jenis_id' => 3,
-            'paket' => 'Web / Desktop / Mobile Apps Mockup',
-            'harga' => '500000',
+            'paket' => 'Small Product Video',
+            'harga' => '2000000',
             'diskon' => 0,
-            'keuntungan' => '<ul><li>3 pilihan desain</li><li>Max. 2x revisi</li></ul>',
+            'keuntungan' => '<ul><li>1 camera</li><li>durasi max 3 menit</li><li>max 2x revisi</li><li>3 jam kerja</li><li>full editing + cinematic</li><li>flashdisk 16GB full file video</li></ul>',
+        ]);
+
+        layanan::create([
+            'jenis_id' => 3,
+            'paket' => 'Big Product Video',
+            'harga' => '4000000',
+            'diskon' => 0,
+            'keuntungan' => '<ul><li>2 camera</li><li>durasi max 3 menit</li><li>max 2x revisi</li><li>3 jam kerja</li><li>full editing + cinematic</li><li>flashdisk 16GB full file video</li></ul>',
+        ]);
+
+        layanan::create([
+            'jenis_id' => 3,
+            'paket' => 'Pre-wedding Clip (video)',
+            'harga' => '6000000',
+            'diskon' => 0,
+            'keuntungan' => '<ul><li>cinematic video</li><li>drone (photo video)</li><li>8 jam kerja</li><li>max 2x revisi</li><li>durasi max 5 menit</li><li>free video clip 1 menit</li></ul>',
+        ]);
+
+        layanan::create([
+            'jenis_id' => 3,
+            'paket' => 'Wedding Video Bronze Pack',
+            'harga' => '2000000',
+            'diskon' => 0,
+            'keuntungan' => '<ul><li>1 cameramen + crew</li><li>1 camera HD</li><li>8 jam kerja</li><li>dokumentasi full edit</li><li>durasi video 1-2 jam</li><li>flashdisk 16GB full file video</li></ul>',
+        ]);
+
+        layanan::create([
+            'jenis_id' => 3,
+            'paket' => 'Wedding Video Silver Pack',
+            'harga' => '3000000',
+            'diskon' => 0,
+            'keuntungan' => '<ul><li>2 cameramen + crew</li><li>1 camera HD</li><li>1 camera DSLR</li><li>8 jam kerja</li><li>dokumentasi full edit</li><li>durasi video 1-2 jam</li><li>flashdisk 16GB full file video</li><li>60 detik video instagram</li></ul>',
+        ]);
+
+        layanan::create([
+            'jenis_id' => 3,
+            'paket' => 'Wedding Video Gold Pack',
+            'harga' => '6000000',
+            'diskon' => 0,
+            'keuntungan' => '<ul><li>3 cameramen + crew</li><li>1 camera HD</li><li>2 camera DSLR</li><li>8 jam kerja</li><li>dokumentasi full edit</li><li>durasi video 1-2 jam + cinematic (max 3 menit)</li><li>flashdisk 16GB full file video</li><li>60 detik video instagram</li></ul>',
         ]);
 
         layanan::create([
             'jenis_id' => 2,
+            'paket' => 'Indoor Studio Single Photo',
+            'harga' => '250000',
+            'diskon' => 0,
+            'keuntungan' => '<ul><li>Semua file</li><li>6 foto terbaik dengan edit + retouched</li><li>cetak foto 4R 6pcs</li><li>durasi 1 jam (over time +Rp250.000/jam)</li><li>studio opsional</li></ul>',
+        ]);
+
+        layanan::create([
+            'jenis_id' => 2,
+            'paket' => 'Outdoor Single Photo',
+            'harga' => '350000',
+            'diskon' => 0,
+            'keuntungan' => '<ul><li>Semua file</li><li>6 foto terbaik dengan edit + retouched</li><li>cetak foto 4R 6pcs</li><li>max durasi 2 jam (over time +Rp150.000/jam)</li><li>1 lokasi pemotretan</li><li>tidak termasuk enterance lokasi</li></ul>',
+        ]);
+
+        layanan::create([
+            'jenis_id' => 2,
+            'paket' => 'Indoor Studio Couple Photo',
+            'harga' => '300000',
+            'diskon' => 0,
+            'keuntungan' => '<ul><li>Semua file</li><li>6 foto terbaik dengan edit + retouched</li><li>cetak foto 4R 6pcs</li><li>durasi 1 jam (over time +Rp300.000/jam)</li><li>studio opsional</li></ul>',
+        ]);
+
+        layanan::create([
+            'jenis_id' => 2,
+            'paket' => 'Outdoor Couple Photo',
+            'harga' => '500000',
+            'diskon' => 0,
+            'keuntungan' => '<ul><li>Semua file</li><li>6 foto terbaik dengan edit + retouched</li><li>cetak foto 4R 6pcs</li><li>cetak foto 10R 1pcs</li><li>max durasi 2 jam (over time +Rp200.000/jam)</li><li>1 lokasi pemotreatan</li><li>tidak termasuk enterance lokasi</li></ul>',
+        ]);
+
+        layanan::create([
+            'jenis_id' => 2,
+            'paket' => 'Indoor Studio Group/Family Photo',
+            'harga' => '500000',
+            'diskon' => 0,
+            'keuntungan' => '<ul><li>Semua file</li><li>6 foto terbaik dengan edit + retouched</li><li>cetak foto 4R 6pcs</li><li>durasi 1 jam (over time +Rp300.000/jam)</li><li>studio opsional</li><li>max 10 orang</li></ul>',
+        ]);
+
+        layanan::create([
+            'jenis_id' => 2,
+            'paket' => 'Outdoor Group/Family Photo',
+            'harga' => '700000',
+            'diskon' => 0,
+            'keuntungan' => '<ul><li>Semua file</li><li>6 foto terbaik dengan edit + retouched</li><li>cetak foto 4R 6pcs</li><li>cetak foto 10R 1pcs</li><li>max durasi 2 jam (over time +Rp250.000/jam)</li><li>1 lokasi pemotreatan</li><li>tidak termasuk enterance lokasi</li><li>max 10 orang (over people Rp. 100.000/orang)</li></ul>',
+        ]);
+
+        layanan::create([
+            'jenis_id' => 2,
+            'paket' => 'Small Product Photo (mini studio)',
+            'harga' => '100000',
+            'diskon' => 0,
+            'keuntungan' => '<ul><li>1 item (tambah produk +Rp50.000/item)</li><li>3 Foto Terbaik dengan edit</li><li>produk max ukuran sepatu</li></ul>',
+        ]);
+
+        layanan::create([
+            'jenis_id' => 2,
+            'paket' => 'Small Product Photo Pack (mini studio)',
+            'harga' => '450000',
+            'diskon' => 0,
+            'keuntungan' => '<ul><li>10 item (tambah produk +Rp50.000/item)</li><li>3 Foto Terbaik dengan edit/produk</li><li>Produk max ukuran sepatu</li></ul>',
+        ]);
+
+        layanan::create([
+            'jenis_id' => 2,
+            'paket' => 'Big Product Photo (indoor studio)',
+            'harga' => '500000',
+            'diskon' => 0,
+            'keuntungan' => '<ul><li>6 Foto Terbaik dengan edit</li><li>max durasi 2 jam (over time +Rp150.000/jam)</li><li>semua ukuran produk</li></ul>',
+        ]);
+
+        layanan::create([
+            'jenis_id' => 2,
+            'paket' => 'Big Product Photo (outdoor)',
+            'harga' => '750000',
+            'diskon' => 0,
+            'keuntungan' => '<ul><li>8 item (tambah produk +Rp100.000/item)</li><li>6 Foto Terbaik dengan edit</li><li>max durasi 3 jam (over time +Rp200.000/jam)</li><li>semua ukuran produk</li><li>belum termasuk model + makeup</li></ul>',
+        ]);
+
+        layanan::create([
+            'jenis_id' => 2,
+            'paket' => 'Pre-wedding Photo (indoor studio)',
+            'harga' => '2500000',
+            'diskon' => 0,
+            'keuntungan' => '<ul><li>makeup</li><li>unlimited foto</li><li>3 jam</li><li>10 foto terbaik dengan edit</li><li>2 kostum/baju</li><li>cetak 16R + frame 6pcs</li><li>flashdisk 16GB semua file photo + edited</li><li>studio opsional</li></ul>',
+        ]);
+
+        layanan::create([
+            'jenis_id' => 2,
+            'paket' => 'Pre-wedding Photo Bronze Pack (outdoor)',
+            'harga' => '3000000',
+            'diskon' => 0,
+            'keuntungan' => '<ul><li>unlimited foto</li><li>20 foto terbaik dengan edit</li><li>8 jam</li><li>2 kostum/baju</li><li>1-2 tempat</li><li>cetak 16R + frame 2pcs</li><li>1 fotografer + asisten</li><li>video 60 detik</li><li>flashdisk 16GB semua file photo + edited</li></ul>',
+        ]);
+
+        layanan::create([
+            'jenis_id' => 2,
+            'paket' => 'Pre-wedding Photo Silver Pack (outdoor)',
+            'harga' => '5000000',
+            'diskon' => 0,
+            'keuntungan' => '<ul><li>unlimited foto</li><li>30 foto terbaik dengan edit</li><li>8 jam</li><li>2 kostum/baju</li><li>1-2 tempat</li><li>cetak 16R + frame 2pcs</li><li>1 fotografer + asisten</li><li>video 60 detik</li><li>flashdisk 16GB semua file photo + edited</li><li>makeup</li><li>1 album magazine 25x30cm 20 sheet</li></ul>',
+        ]);
+
+        layanan::create([
+            'jenis_id' => 2,
+            'paket' => 'Pre-wedding Photo Gold Pack (outdoor)',
+            'harga' => '6000000',
+            'diskon' => 0,
+            'keuntungan' => '<ul><li>unlimited foto</li><li>40 foto terbaik dengan edit</li><li>8 jam</li><li>2 kostum/baju</li><li>1-2 tempat</li><li>cetak 16R + frame 2pcs</li><li>1 fotografer + asisten</li><li>video 60 detik</li><li>flashdisk 16GB semua file photo + edited</li><li>makeup</li><li>1 album magazine 25x30cm 30 sheet</li><li>cetak 5R + frame 5pcs</li></ul>',
+        ]);
+
+        layanan::create([
+            'jenis_id' => 2,
+            'paket' => 'Wedding Photo Bronze Pack',
+            'harga' => '3000000',
+            'diskon' => 0,
+            'keuntungan' => '<ul><li>2 fotografer</li><li>unlimited shoot</li><li>1 album magnetic 20x30 10 sheet</li><li>cetak foto 4R 100pcs</li><li>cetak foto 10R 1pcs</li><li>penyimpanan cloud file 1 tahun</li><li>flashdisk 16GB semua file photo + edited</li></ul>',
+        ]);
+
+        layanan::create([
+            'jenis_id' => 2,
+            'paket' => 'Wedding Photo Silver Pack',
+            'harga' => '4000000',
+            'diskon' => 0,
+            'keuntungan' => '<ul><li>2 fotografer</li><li>unlimited shoot</li><li>1 album magnetic 20x30 20 sheet</li><li>cetak foto 4R 150pcs</li><li>cetak foto 10R 3pcs</li><li>penyimpanan cloud file 1 tahun</li><li>flashdisk 16GB semua file photo + edited</li></ul>',
+        ]);
+
+        layanan::create([
+            'jenis_id' => 2,
+            'paket' => 'Wedding Photo Gold Pack',
+            'harga' => '5000000',
+            'diskon' => 0,
+            'keuntungan' => '<ul><li>2 fotografer</li><li>unlimited shoot</li><li>1 album magnetic 20x30 20 sheet</li><li>1 album magazine 20x30 10 sheet</li><li>cetak foto 4R 150pcs</li><li>cetak foto 10R 3pcs + 16R 1pcs</li><li>penyimpanan cloud file 1 tahun</li><li>flashdisk 16GB semua file photo + edited</li></ul>',
+        ]);
+
+        layanan::create([
+            'jenis_id' => 1,
             'paket' => 'Logo Design',
             'harga' => '350000',
             'diskon' => 0,
@@ -333,15 +304,15 @@ class LayananSeeder extends Seeder
         ]);
 
         layanan::create([
-            'jenis_id' => 2,
+            'jenis_id' => 1,
             'paket' => 'Poster / Brochure Design',
             'harga' => '150000',
             'diskon' => 0,
-            'keuntungan' => '<ul><li>Max. 2x revisi</li></ul>',
+            'keuntungan' => '<ul><li>2 pilihan desain</li><li>Max. 2x revisi</li></ul>',
         ]);
 
         layanan::create([
-            'jenis_id' => 2,
+            'jenis_id' => 1,
             'paket' => 'Product Design',
             'harga' => '450000',
             'diskon' => 0,
@@ -349,59 +320,19 @@ class LayananSeeder extends Seeder
         ]);
 
         layanan::create([
-            'jenis_id' => 2,
+            'jenis_id' => 1,
             'paket' => 'Banner / Ballyhoo / Backdrop / Photobooth Design',
             'harga' => '250000',
             'diskon' => 0,
-            'keuntungan' => '<ul><li>Max. 2x revisi</li></ul>',
+            'keuntungan' => '<ul><li>2 pilihan desain</li><li>Max. 2x revisi</li></ul>',
         ]);
 
         layanan::create([
-            'jenis_id' => 2,
+            'jenis_id' => 1,
             'paket' => 'Other Design',
             'harga' => '100000',
             'diskon' => 0,
             'keuntungan' => '<ul><li>Max. 2x revisi</li></ul>',
-        ]);
-
-        layanan::create([
-            'jenis_id' => 1,
-            'paket' => 'Banner / Ballyhoo / Backdrop / Photobooth Print',
-            'harga' => '15000',
-            'diskon' => 0,
-            'keuntungan' => '<ul><li>Rp15.000/meter</li></ul>',
-        ]);
-
-        layanan::create([
-            'jenis_id' => 1,
-            'paket' => 'Poster / Brochure Print',
-            'harga' => '10000',
-            'diskon' => 0,
-            'keuntungan' => '<ul><li>Ukuran kertas A3 (323 x 487 mm)</li></ul>',
-        ]);
-
-        layanan::create([
-            'jenis_id' => 1,
-            'paket' => 'Sticker Print',
-            'harga' => '15000',
-            'diskon' => 0,
-            'keuntungan' => '<ul><li>Ukuran kertas A3 (32,3 x 48,7 cm)</li></ul>',
-        ]);
-
-        layanan::create([
-            'jenis_id' => 1,
-            'paket' => 'Book / Catalog / Magazine Print',
-            'harga' => '25000',
-            'diskon' => 0,
-            'keuntungan' => '<ul><li>Ukuran kertas A5, A4, A3</li></ul>',
-        ]);
-
-        layanan::create([
-            'jenis_id' => 1,
-            'paket' => 'Name Card Print',
-            'harga' => '50000',
-            'diskon' => 0,
-            'keuntungan' => '<ul><li>1 Box (100pcs)</li><li>Ukuran standard (9 x 5 cm)</li></ul>',
         ]);
     }
 }

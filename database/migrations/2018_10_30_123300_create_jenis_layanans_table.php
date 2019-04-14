@@ -18,6 +18,7 @@ class CreateJenisLayanansTable extends Migration
             $table->text('icon');
             $table->string('nama');
             $table->text('deskripsi');
+            $table->boolean('isPack')->default(false);
             $table->timestamps();
         });
     }

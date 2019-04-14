@@ -10,15 +10,17 @@
     <!-- General CSS Files -->
     <link rel="stylesheet" href="{{asset('admins/modules/bootstrap/css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('fonts/fontawesome/css/all.css')}}">
-    <!-- Template CSS -->
-    <link rel="stylesheet" href="{{asset('admins/css/style.css')}}">
-    <link rel="stylesheet" href="{{asset('admins/css/components.css')}}">
     <!-- Page Specific CSS File -->
     <link rel="stylesheet" href="{{asset('admins/modules/bootstrap-select/dist/css/bootstrap-select.min.css')}}">
     <link rel="stylesheet" href="{{asset('admins/modules/sweetalert/sweetalert2.css')}}">
+    <link rel="stylesheet" href="{{asset('admins/modules/izitoast/css/iziToast.min.css')}}">
 @stack('styles')
 
-<!-- Start GA -->
+<!-- Template CSS -->
+    <link rel="stylesheet" href="{{asset('admins/css/style.css')}}">
+    <link rel="stylesheet" href="{{asset('admins/css/components.css')}}">
+
+    <!-- Start GA -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -46,7 +48,8 @@
         <div class="navbar-bg"></div>
         <nav class="navbar navbar-expand-lg main-navbar">
             <ul class="navbar-nav mr-auto">
-                <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg"><i class="fas fa-bars"></i></a></li>
+                <li><a href="javascript:void(0)" data-toggle="sidebar" class="nav-link nav-link-lg">
+                        <i class="fas fa-bars"></i></a></li>
             </ul>
             <ul class="navbar-nav navbar-right">
                 <li class="dropdown dropdown-list-toggle">
@@ -93,8 +96,8 @@
                             @endif
                         </div>
                         <div class="dropdown-footer text-center">
-                            <a href="{{route('admin.inbox')}}">More Messages<i
-                                        class="fas fa-chevron-right ml-2"></i></a>
+                            <a href="{{route('admin.inbox')}}">More Messages<i class="fas fa-chevron-right ml-2"></i>
+                            </a>
                         </div>
                     </div>
                 </li>
@@ -136,7 +139,8 @@
                     </div>
                 </li>
                 <li class="dropdown">
-                    <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
+                    <a href="javascript:void(0)" data-toggle="dropdown"
+                       class="nav-link dropdown-toggle nav-link-lg nav-link-user">
                         <img alt="image" src="{{asset('admins/img/avatar/avatar-1.png')}}" class="rounded-circle mr-1">
                         <div class="d-sm-none d-lg-inline-block">{{Auth::guard('admin')->user()->name}}</div>
                     </a>
@@ -181,6 +185,9 @@
         </footer>
     </div>
 </div>
+<div class="progress">
+    <div class="bar"></div>
+</div>
 
 <!-- General JS Scripts -->
 <script src="{{asset('admins/modules/jquery.min.js')}}"></script>
@@ -193,8 +200,8 @@
 
 <!-- Page Specific JS File -->
 <script src="{{asset('admins/modules/bootstrap-select/dist/js/bootstrap-select.min.js')}}"></script>
-<script src="{{asset('admins/modules/tinymce/tinymce.min.js')}}"></script>
 <script src="{{asset('admins/modules/sweetalert/sweetalert.min.js')}}"></script>
+<script src="{{asset('admins/modules/izitoast/js/iziToast.min.js')}}"></script>
 @stack('scripts')
 
 <!-- Template JS File -->
@@ -206,5 +213,6 @@
     @endif
 </script>
 @include('layouts.partials._confirm')
+@include('layouts.partials._toastnotify')
 </body>
 </html>

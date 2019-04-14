@@ -107,9 +107,10 @@ class UserController extends Controller
 
     public function showService()
     {
-        $types = JenisLayanan::orderBy('nama')->get();
+        $types = JenisLayanan::where('isPack', false)->orderBy('nama')->get();
+        $packs = JenisLayanan::where('isPack', true)->orderBy('nama')->get();
 
-        return view('pages.main.service', compact('types'));
+        return view('pages.main.service', compact('types', 'packs'));
     }
 
     public function showServicePricing($jenis, $id)

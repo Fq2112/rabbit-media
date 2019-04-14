@@ -66,7 +66,8 @@
     <script src='https://www.google.com/recaptcha/api.js?onload=recaptchaCallback&render=explicit' async defer></script>
 </head>
 <body>
-<a href="#" onclick="scrollToTop()" title="Go to top"><strong class="to-top" style="color: #fff">TOP</strong></a>
+<a href="javascript:void(0)" onclick="scrollToTop()" title="Go to top"><strong class="to-top"
+                                                                               style="color: #fff">TOP</strong></a>
 
 <div class="site-wrap">
     <div class="site-mobile-menu">
@@ -110,7 +111,7 @@
                     </div>
 
                     <div class="d-inline-block d-xl-none ml-md-0 mr-auto py-3" style="position: relative; top: 3px;">
-                        <a href="#" class="site-menu-toggle js-menu-toggle text-black"><span
+                        <a href="javascript:void(0)" class="site-menu-toggle js-menu-toggle text-black"><span
                                     class="icon-menu h3"></span></a>
                     </div>
                 </div>
@@ -173,13 +174,11 @@
 <script src="{{asset('js/imagesloaded.pkgd.min.js')}}"></script>
 <!-- jQuery Slick -->
 <script src="{{asset('js/jquery.slickwrap.js')}}"></script>
-<!-- Smooth scroll -->
-<script src="{{asset('js/smooth-scrollbar.min.js')}}"></script>
 
 <!-- Modules -->
 <script src="{{asset('admins/modules/bootstrap-select/dist/js/bootstrap-select.min.js')}}"></script>
-<script src="{{asset('admins/modules/tinymce/tinymce.min.js')}}"></script>
 <script src="{{asset('admins/modules/sweetalert/sweetalert.min.js')}}"></script>
+<script src="{{asset('admins/modules/nicescroll/jquery.nicescroll.min.js')}}"></script>
 
 @include('layouts.partials._scripts')
 @include('layouts.partials._alert')

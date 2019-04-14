@@ -1,7 +1,11 @@
 <script>
-    var editor_config;
     $(function () {
-        Scrollbar.initAll();
+        $("body").niceScroll({
+            cursorcolor: "rgba(49, 40, 85, 1)",
+            cursorwidth: "8px",
+            background: "rgba(222, 222, 222, .75)",
+            cursorborder: "1px solid #312855",
+        });
 
         $('#lightgallery').lightGallery({
             loadYoutubeThumbnail: true,
@@ -12,43 +16,6 @@
 
         $('[data-toggle="tooltip"]').tooltip();
         $('[data-toggle="popover"]').popover();
-
-        editor_config = {
-            branding: false,
-            path_absolute: '{{url('/')}}',
-            selector: '.use-tinymce',
-            height: 300,
-            themes: 'modern',
-            plugins: [
-                'advlist autolink lists link image charmap print preview anchor textcolor',
-                'searchreplace visualblocks code',
-                'insertdatetime media table contextmenu paste code help wordcount'
-            ],
-            toolbar: 'insert | undo redo |  formatselect | bold italic backcolor  | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help',
-            relative_urls: false,
-            file_browser_callback: function (field_name, url, type, win) {
-                var x = window.innerWidth || document.documentElement.clientWidth ||
-                    document.getElementsByTagName('body')[0].clientWidth,
-                    y = window.innerHeight || document.documentElement.clientHeight ||
-                        document.getElementsByTagName('body')[0].clientHeight,
-                    cmsURL = editor_config.path_absolute + 'filemanager?field_name=' + field_name;
-                if (type == 'image') {
-                    cmsURL = cmsURL + '&type=Images';
-                } else {
-                    cmsURL = cmsURL + '&type=Files';
-                }
-
-                tinyMCE.activeEditor.windowManager.open({
-                    file: cmsURL,
-                    title: 'File Manager',
-                    width: x * 0.8,
-                    height: y * 0.8,
-                    resizable: 'yes',
-                    close_previous: 'no'
-                });
-            }
-        };
-        tinymce.init(editor_config);
 
         @if(session('success') || session('error') || session('logout') || session('expire') || session('inactive') ||
             session('unknown') || session('recovered'))

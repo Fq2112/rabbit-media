@@ -103,7 +103,7 @@
                                     <th>Action</th>
                                 </tr>
                                 @if(count($orders) > 0)
-                                    @foreach($orders as $order)
+                                    @foreach(\App\Models\Pemesanan::orderByDesc('id')->take(5)->get() as $order)
                                         <tr>
                                             <td>
                                                 <a href="{{route('invoice.order', ['id' => encrypt($order->id)])}}">
@@ -124,7 +124,8 @@
                                 @else
                                     @for($c=0;$c<5;$c++)
                                         <tr>
-                                            <td><a href="#">INV-{{str_pad(rand(1,9999), 4, 0, STR_PAD_LEFT)}}</a></td>
+                                            <td><a href="javascript:void(0)">
+                                                    INV-{{str_pad(rand(1,9999), 4, 0, STR_PAD_LEFT)}}</a></td>
                                             <td class="font-weight-600">{{\Faker\Factory::create('id')->name}}</td>
                                             <td>
                                                 <img src="{{rand(0,1) ? asset('images/stamp_paid.png') :
@@ -132,7 +133,7 @@
                                             </td>
                                             <td>{{now()->addWeek()->format('j F Y')}}</td>
                                             <td>
-                                                <a href="#" class="btn btn-primary">Detail</a>
+                                                <a href="javascript:void(0)" class="btn btn-primary">Detail</a>
                                             </td>
                                         </tr>
                                     @endfor

@@ -7,6 +7,7 @@ use App\Admin;
 use App\Agencies;
 use App\Blog;
 use App\ConfirmAgency;
+use App\Models\Contact;
 use App\Models\Feedback;
 use App\Http\Controllers\Controller;
 use App\Models\Pemesanan;
@@ -39,7 +40,7 @@ class AdminController extends Controller
 
     public function showInbox(Request $request)
     {
-        $contacts = Feedback::orderByDesc('id')->get();
+        $contacts = Contact::orderByDesc('id')->get();
 
         if ($request->has("id")) {
             $findMessage = $request->id;
@@ -47,7 +48,7 @@ class AdminController extends Controller
             $findMessage = null;
         }
 
-        return view('_admins.inbox', compact('contacts', 'findMessage'));
+        return view('pages.admins.inbox', compact('contacts', 'findMessage'));
     }
 
     public function composeInbox(Request $request)
@@ -63,20 +64,20 @@ class AdminController extends Controller
             'bodymessage' => $request->inbox_message
         );
         Mail::send('emails.admins.admin-mail', $data, function ($message) use ($data) {
-            $message->from(env('MAIL_USERNAME'));
+            $message->from(env('MAIL_USERNAME'), 'Rabbit Media – Digital Creative Service');
             $message->to($data['email']);
             $message->subject($data['subject']);
         });
 
-        return back()->with('success', 'Successfully send a message to ' . $data['email'] . '!');
+        return back()->with('success', 'Berhasil mengirimkan pesan ke ' . $data['email'] . '!');
     }
 
     public function deleteInbox(Request $request)
     {
-        $contact = Feedback::find(decrypt($request->id));
+        $contact = Contact::find(decrypt($request->id));
         $contact->delete();
 
-        return back()->with('success', 'Feedback from ' . $contact->name . ' <' . $contact->email . '> is successfully deleted!');
+        return back()->with('success', 'Pesan dari ' . $contact->name . ' (' . $contact->email . ') berhasil dihapus!');
     }
 
     public function updateProfile(Request $request)

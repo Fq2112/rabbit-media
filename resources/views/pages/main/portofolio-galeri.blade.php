@@ -20,7 +20,7 @@
                             <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 item grid-item" data-aos="zoom-out"
                                  data-src="{{$row->photo!="" ? asset('images/big-images/'.$row->photo) : $row->video}}"
                                  data-sub-html="<h4>{{$row->nama}}</h4><p>{{$row->deskripsi}}</p>">
-                                <a href="#">
+                                <a href="javascript:void(0)">
                                     <img src="{{$row->photo != "" ? asset('images/big-images/'.$row->photo) :
                                     asset('images/big-images/'.$row->thumbnail)}}" alt="Thumbnail" class="img-fluid">
                                 </a>

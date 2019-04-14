@@ -5,11 +5,6 @@
     <link href="{{ asset('css/countdown.css') }}" rel="stylesheet">
     <link href="{{ asset('css/fileUploader.css') }}" rel="stylesheet">
     <link href="{{ asset('css/cc.css') }}" rel="stylesheet">
-    <style>
-        [data-scrollbar] {
-            max-height: 400px
-        }
-    </style>
 @endpush
 @section('content')
     <div class="site-section">
@@ -236,9 +231,7 @@
                                                 <i class="fa fa-edit"></i>&nbsp;EDIT</span>
                                         </small>
                                         <hr class="hr-divider">
-                                        <div data-scrollbar>
-                                            <div id="vacancy_data"></div>
-                                        </div>
+                                        <div id="vacancy_data"></div>
                                     </div>
                                 </div>
                                 <input type="button" name="previous" class="previous action-button"
