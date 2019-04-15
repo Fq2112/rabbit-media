@@ -15,8 +15,10 @@ class CreateStudiosTable extends Migration
     {
         Schema::create('studios', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('jenis_id')->unsigned();
+            $table->foreign('jenis_id')->references('id')->on('jenis_studios')
+                ->onUpdate('CASCADE')->onDelete('CASCADE');
             $table->string('nama');
-            $table->string('jenis');
             $table->integer('harga');
             $table->timestamps();
         });

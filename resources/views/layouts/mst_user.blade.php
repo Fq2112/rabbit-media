@@ -65,9 +65,9 @@
 
     <script src='https://www.google.com/recaptcha/api.js?onload=recaptchaCallback&render=explicit' async defer></script>
 </head>
-<body>
-<a href="javascript:void(0)" onclick="scrollToTop()" title="Go to top"><strong class="to-top"
-                                                                               style="color: #fff">TOP</strong></a>
+<body class="use-nicescroll">
+<a href="javascript:void(0)" onclick="scrollToTop()" title="Go to top">
+    <strong class="to-top" style="color: #fff">TOP</strong></a>
 
 <div class="site-wrap">
     <div class="site-mobile-menu">
@@ -122,7 +122,7 @@
     @yield('content')
 
     <div class="footer py-4 {{\Illuminate\Support\Facades\Request::is(['/*','account*']) ? 'box-shadow' : ''}}"
-         data-aos="{{\Illuminate\Support\Facades\Request::is('info*') ? '' : 'fade-up'}}">
+         data-aos="{{\Illuminate\Support\Facades\Request::is(['info*','services/*']) ? '' : 'fade-up'}}">
         <div class="container-fluid {{\Illuminate\Support\Facades\Request::is('/*') ? '' : 'text-center'}}">
             <p>
                 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->

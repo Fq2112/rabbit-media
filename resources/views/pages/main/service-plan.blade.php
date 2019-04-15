@@ -113,6 +113,28 @@
                                                 Rp{{number_format($row->harga,2,',','.')}}</h6>
                                         @endif
                                         <hr>
+                                        @if($row->isQty == true || $row->isHours == true || $row->isStudio == true)
+                                            <ul class="mb-0">
+                                                @if($row->isStudio == true)
+                                                    <li style="font-weight: 600;">Studio opsional</li>
+                                                @endif
+                                                @if($row->isHours == true)
+                                                    <li>Durasi max. <span
+                                                                style="font-weight: 600">{{$row->hours}}</span>
+                                                        jam (over time <span style="font-weight: 600">+Rp{{number_format
+                                                        ($row->price_per_hours,0, ',', '.')}}/jam</span>)
+                                                    </li>
+                                                @endif
+                                                @if($row->isQty == true)
+                                                    <li>Total item (orang/produk) max.
+                                                        <span style="font-weight: 600">{{$row->qty}}</span> item (over
+                                                        item
+                                                        <span style="font-weight: 600">+Rp{{number_format
+                                                        ($row->price_per_qty, 0, ',', '.')}}/item</span>)
+                                                    </li>
+                                                @endif
+                                            </ul>
+                                        @endif
                                         {!! $row->keuntungan !!}
                                     </div>
                                     <div class="card-footer p-0">

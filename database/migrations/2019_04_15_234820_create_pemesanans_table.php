@@ -14,7 +14,7 @@ class CreatePemesanansTable extends Migration
     public function up()
     {
         Schema::create('pemesanans', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')
                 ->onUpdate('CASCADE')->onDelete('CASCADE');
@@ -27,9 +27,12 @@ class CreatePemesanansTable extends Migration
             $table->integer('payment_id')->unsigned();
             $table->foreign('payment_id')->references('id')->on('payment_method')
                 ->onUpdate('CASCADE')->onDelete('CASCADE');
+            $table->text('judul');
+            $table->dateTime('start');
+            $table->dateTime('end')->nullable();
+            $table->text('deskripsi')->nullable();
             $table->integer('qty')->nullable();
             $table->integer('hours')->nullable();
-            $table->text('deskripsi')->nullable();
             $table->string('payment_code');
             $table->string('cc_number')->nullable();
             $table->string('cc_name')->nullable();
@@ -37,9 +40,10 @@ class CreatePemesanansTable extends Migration
             $table->string('cc_cvc', '4')->nullable();
             $table->text('total_payment');
             $table->text('payment_proof')->nullable();
-            $table->boolean('isPaid')->default(false);
             $table->dateTime('date_payment')->nullable();
+            $table->boolean('isPaid')->default(false);
             $table->boolean('isAbort')->default(false);
+            $table->boolean('isAccept')->default(false);
             $table->integer('admin_id')->unsigned()->nullable();
             $table->foreign('admin_id')->references('id')->on('admins')
                 ->onUpdate('CASCADE')->onDelete('CASCADE');

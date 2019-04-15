@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Pages\Client;
 
+use App\Models\JenisStudio;
 use App\Models\layanan;
 use App\Models\PaymentCategory;
 use App\Models\PaymentMethod;
@@ -27,11 +28,13 @@ class OrderController extends Controller
     {
         $user = Auth::user();
         $paymentCategories = PaymentCategory::all();
+        $types = JenisStudio::orderBy('nama')->get();
 
         $layanan = layanan::find(decrypt($id));
         $price = $layanan->harga - ($layanan->harga * $layanan->diskon / 100);
 
-        return view('pages.clients.orderForm', compact('user', 'paymentCategories', 'layanan', 'price'));
+        return view('pages.clients.orderForm', compact('user', 'paymentCategories', 'types',
+            'layanan', 'price'));
     }
 
     public function getPricingReviewData($pricing)

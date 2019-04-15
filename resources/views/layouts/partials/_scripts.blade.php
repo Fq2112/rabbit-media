@@ -1,6 +1,6 @@
 <script>
     $(function () {
-        $("body").niceScroll({
+        $(".use-nicescroll").niceScroll({
             cursorcolor: "rgba(49, 40, 85, 1)",
             cursorwidth: "8px",
             background: "rgba(222, 222, 222, .75)",

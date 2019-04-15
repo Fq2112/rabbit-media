@@ -29,4 +29,9 @@ class Pemesanan extends Model
     {
         return $this->belongsTo(PaymentMethod::class, 'payment_id');
     }
+
+    public function getSchedule()
+    {
+        return $this->hasMany(Schedule::class, 'pemesanan_id');
+    }
 }

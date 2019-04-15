@@ -7,7 +7,7 @@
 
 "use strict";
 
-$("body").niceScroll({
+$(".use-nicescroll").niceScroll({
     cursorcolor: "#312855",
     cursorwidth: "8px",
     cursorborder: "1px solid #312855",

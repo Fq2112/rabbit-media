@@ -39,7 +39,7 @@
                     }
                 },
                 error: function () {
-                    swal('Oops...', 'Terjadi suatu kesalahan!', 'error');
+                    swal('Oops...', 'Terjadi suatu kesalahan! Silahkan refresh browser Anda.', 'error');
                 }
             });
             return false;
@@ -105,7 +105,7 @@
                                         $("#progress-upload").css("display", "none");
                                     },
                                     error: function () {
-                                        swal('Oops...', 'Terjadi suatu kesalahan!', 'error');
+                                        swal('Oops...', 'Terjadi suatu kesalahan!  Silahkan refresh browser Anda.', 'error');
                                     }
                                 });
                                 return false;

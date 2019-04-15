@@ -164,7 +164,11 @@ class LayananSeeder extends Seeder
             'paket' => 'Indoor Studio Single Photo',
             'harga' => '250000',
             'diskon' => 0,
-            'keuntungan' => '<ul><li>Semua file</li><li>6 foto terbaik dengan edit + retouched</li><li>cetak foto 4R 6pcs</li><li>durasi 1 jam (over time +Rp250.000/jam)</li><li>studio opsional</li></ul>',
+            'isHours' => true,
+            'hours' => 1,
+            'price_per_hours' => '250000',
+            'isStudio' => true,
+            'keuntungan' => '<ul><li>Semua file</li><li>6 foto terbaik dengan edit + retouched</li><li>cetak foto 4R 6pcs</li></ul>',
         ]);
 
         layanan::create([
@@ -172,7 +176,10 @@ class LayananSeeder extends Seeder
             'paket' => 'Outdoor Single Photo',
             'harga' => '350000',
             'diskon' => 0,
-            'keuntungan' => '<ul><li>Semua file</li><li>6 foto terbaik dengan edit + retouched</li><li>cetak foto 4R 6pcs</li><li>max durasi 2 jam (over time +Rp150.000/jam)</li><li>1 lokasi pemotretan</li><li>tidak termasuk enterance lokasi</li></ul>',
+            'isHours' => true,
+            'hours' => 2,
+            'price_per_hours' => '150000',
+            'keuntungan' => '<ul><li>Semua file</li><li>6 foto terbaik dengan edit + retouched</li><li>cetak foto 4R 6pcs</li><li>1 lokasi pemotretan</li><li>tidak termasuk enterance lokasi</li></ul>',
         ]);
 
         layanan::create([
@@ -180,7 +187,11 @@ class LayananSeeder extends Seeder
             'paket' => 'Indoor Studio Couple Photo',
             'harga' => '300000',
             'diskon' => 0,
-            'keuntungan' => '<ul><li>Semua file</li><li>6 foto terbaik dengan edit + retouched</li><li>cetak foto 4R 6pcs</li><li>durasi 1 jam (over time +Rp300.000/jam)</li><li>studio opsional</li></ul>',
+            'isHours' => true,
+            'hours' => 1,
+            'price_per_hours' => '300000',
+            'isStudio' => true,
+            'keuntungan' => '<ul><li>Semua file</li><li>6 foto terbaik dengan edit + retouched</li><li>cetak foto 4R 6pcs</li></ul>',
         ]);
 
         layanan::create([
@@ -188,7 +199,10 @@ class LayananSeeder extends Seeder
             'paket' => 'Outdoor Couple Photo',
             'harga' => '500000',
             'diskon' => 0,
-            'keuntungan' => '<ul><li>Semua file</li><li>6 foto terbaik dengan edit + retouched</li><li>cetak foto 4R 6pcs</li><li>cetak foto 10R 1pcs</li><li>max durasi 2 jam (over time +Rp200.000/jam)</li><li>1 lokasi pemotreatan</li><li>tidak termasuk enterance lokasi</li></ul>',
+            'isHours' => true,
+            'hours' => 2,
+            'price_per_hours' => '200000',
+            'keuntungan' => '<ul><li>Semua file</li><li>6 foto terbaik dengan edit + retouched</li><li>cetak foto 4R 6pcs</li><li>cetak foto 10R 1pcs</li><li>1 lokasi pemotreatan</li><li>tidak termasuk enterance lokasi</li></ul>',
         ]);
 
         layanan::create([
@@ -196,7 +210,14 @@ class LayananSeeder extends Seeder
             'paket' => 'Indoor Studio Group/Family Photo',
             'harga' => '500000',
             'diskon' => 0,
-            'keuntungan' => '<ul><li>Semua file</li><li>6 foto terbaik dengan edit + retouched</li><li>cetak foto 4R 6pcs</li><li>durasi 1 jam (over time +Rp300.000/jam)</li><li>studio opsional</li><li>max 10 orang (over people +Rp100.000/orang)</li></ul>',
+            'isHours' => true,
+            'hours' => 1,
+            'price_per_hours' => '300000',
+            'isQty' => true,
+            'qty' => 10,
+            'price_per_qty' => '100000',
+            'isStudio' => true,
+            'keuntungan' => '<ul><li>Semua file</li><li>6 foto terbaik dengan edit + retouched</li><li>cetak foto 4R 6pcs</li></ul>',
         ]);
 
         layanan::create([
@@ -204,7 +225,13 @@ class LayananSeeder extends Seeder
             'paket' => 'Outdoor Group/Family Photo',
             'harga' => '700000',
             'diskon' => 0,
-            'keuntungan' => '<ul><li>Semua file</li><li>6 foto terbaik dengan edit + retouched</li><li>cetak foto 4R 6pcs</li><li>cetak foto 10R 1pcs</li><li>max durasi 2 jam (over time +Rp250.000/jam)</li><li>1 lokasi pemotreatan</li><li>tidak termasuk enterance lokasi</li><li>max 10 orang (over people +Rp100.000/orang)</li></ul>',
+            'isHours' => true,
+            'hours' => 2,
+            'price_per_hours' => '250000',
+            'isQty' => true,
+            'qty' => 10,
+            'price_per_qty' => '100000',
+            'keuntungan' => '<ul><li>Semua file</li><li>6 foto terbaik dengan edit + retouched</li><li>cetak foto 4R 6pcs</li><li>cetak foto 10R 1pcs</li><li>1 lokasi pemotreatan</li><li>tidak termasuk enterance lokasi</li></ul>',
         ]);
 
         layanan::create([
@@ -212,7 +239,10 @@ class LayananSeeder extends Seeder
             'paket' => 'Small Product Photo (mini studio)',
             'harga' => '100000',
             'diskon' => 0,
-            'keuntungan' => '<ul><li>1 item (tambah produk +Rp50.000/item)</li><li>3 Foto Terbaik dengan edit</li><li>produk max ukuran sepatu</li></ul>',
+            'isQty' => true,
+            'qty' => 1,
+            'price_per_qty' => '50000',
+            'keuntungan' => '<ul><li>3 foto terbaik dengan edit</li><li>produk max ukuran sepatu</li></ul>',
         ]);
 
         layanan::create([
@@ -220,7 +250,10 @@ class LayananSeeder extends Seeder
             'paket' => 'Small Product Photo Pack (mini studio)',
             'harga' => '450000',
             'diskon' => 0,
-            'keuntungan' => '<ul><li>10 item (tambah produk +Rp50.000/item)</li><li>3 Foto Terbaik dengan edit/produk</li><li>Produk max ukuran sepatu</li></ul>',
+            'isQty' => true,
+            'qty' => 10,
+            'price_per_qty' => '50000',
+            'keuntungan' => '<ul><li>3 foto terbaik dengan edit/produk</li><li>Produk max ukuran sepatu</li></ul>',
         ]);
 
         layanan::create([
@@ -228,7 +261,10 @@ class LayananSeeder extends Seeder
             'paket' => 'Big Product Photo (indoor studio)',
             'harga' => '500000',
             'diskon' => 0,
-            'keuntungan' => '<ul><li>6 Foto Terbaik dengan edit</li><li>max durasi 2 jam (over time +Rp150.000/jam)</li><li>semua ukuran produk</li></ul>',
+            'isHours' => true,
+            'hours' => 2,
+            'price_per_hours' => '150000',
+            'keuntungan' => '<ul><li>6 foto terbaik dengan edit</li><li>semua ukuran produk</li></ul>',
         ]);
 
         layanan::create([
@@ -236,7 +272,13 @@ class LayananSeeder extends Seeder
             'paket' => 'Big Product Photo (outdoor)',
             'harga' => '750000',
             'diskon' => 0,
-            'keuntungan' => '<ul><li>8 item (tambah produk +Rp100.000/item)</li><li>6 Foto Terbaik dengan edit</li><li>max durasi 3 jam (over time +Rp200.000/jam)</li><li>semua ukuran produk</li><li>belum termasuk model + makeup</li></ul>',
+            'isHours' => true,
+            'hours' => 3,
+            'price_per_hours' => '200000',
+            'isQty' => true,
+            'qty' => 8,
+            'price_per_qty' => '100000',
+            'keuntungan' => '<ul><li>6 foto terbaik dengan edit</li><li>semua ukuran produk</li><li>belum termasuk model + makeup</li></ul>',
         ]);
 
         layanan::create([
@@ -244,7 +286,8 @@ class LayananSeeder extends Seeder
             'paket' => 'Pre-wedding Photo (indoor studio)',
             'harga' => '2500000',
             'diskon' => 0,
-            'keuntungan' => '<ul><li>makeup</li><li>unlimited foto</li><li>3 jam</li><li>10 foto terbaik dengan edit</li><li>2 kostum/baju</li><li>cetak 16R + frame 6pcs</li><li>flashdisk 16GB semua file photo + edited</li><li>studio opsional</li></ul>',
+            'isStudio' => true,
+            'keuntungan' => '<ul><li>makeup</li><li>unlimited foto</li><li>3 jam</li><li>10 foto terbaik dengan edit</li><li>2 kostum/baju</li><li>cetak 16R + frame 6pcs</li><li>flashdisk 16GB semua file photo + edited</li></ul>',
         ]);
 
         layanan::create([

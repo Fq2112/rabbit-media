@@ -35,7 +35,7 @@
     </script>
     <!-- /END GA -->
 </head>
-<body>
+<body class="use-nicescroll">
 @php
     $contacts = \App\Models\Contact::where('created_at', '>=', today()->subDays('3')->toDateTimeString())
     ->orderByDesc('id')->get();
