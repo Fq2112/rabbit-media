@@ -32,6 +32,6 @@ class Pemesanan extends Model
 
     public function getSchedule()
     {
-        return $this->hasMany(Schedule::class, 'pemesanan_id');
+        return $this->hasOne(Schedule::class, 'pemesanan_id');
     }
 }

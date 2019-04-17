@@ -14,13 +14,6 @@
         .fc-toolbar button {
             text-transform: capitalize;
         }
-
-        #loading {
-            display: none;
-            position: absolute;
-            top: 29%;
-            right: 29%;
-        }
     </style>
 @endpush
 @section('content')
@@ -58,7 +51,6 @@
                                 </div>
                                 <div class="row" data-aos="zoom-out">
                                     <div class="col">
-                                        <img id="loading" src="{{asset('images/loading.gif')}}" class="img-fluid">
                                         <div id="calendar"></div>
                                     </div>
                                 </div>
@@ -421,6 +413,57 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="bookModal" tabindex="-1" role="dialog" aria-labelledby="bookModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="bookModalLabel">Booking Setup</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row form-group">
+                        <div class="col">
+                            <label class="control-label mb-0" for="start">Start Date</label>
+                            <div class="input-group date">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-calendar-alt"></i></span>
+                                    <input id="start" type="text" class="form-control datetimepicker-input" name="start"
+                                           data-target="#start" data-toggle="datetimepicker"
+                                           placeholder="yyyy-mm-dd h:i:s" required>
+                                </div>
+                                <input id="end" type="text" class="form-control datetimepicker-input" name="end"
+                                       data-target="#end" data-toggle="datetimepicker"
+                                       placeholder="yyyy-mm-dd h:i:s" required>
+                                <div class="input-group-append" data-target="#end" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="fa fa-calendar-check"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col">
+                            <label class="control-label mb-0" for="judul">Title</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-text-width"></i></span>
+                                </div>
+                                <input id="judul" class="form-control" name="judul" type="text"
+                                       placeholder="Tulis judul permintaan Anda disini&hellip;" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" id="btnAbort_book" style="display: none">Delete</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="btnSubmit_book">Booking</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 @push('scripts')
     <script src="{{asset('js/jquery.easing.1.3.js')}}"></script>
@@ -687,136 +730,111 @@
 
         google.maps.event.addDomListener(window, 'load', init);
 
+        $('#start, #end').datetimepicker({format: "YYYY-MM-DD HH:mm:ss"});
+
         document.addEventListener('DOMContentLoaded', function () {
-            var $calendar = document.getElementById('calendar'), $locale = 'id',
-                fc = new FullCalendar.Calendar($calendar, {
+            var $div = document.getElementById('calendar'),
+                fc = new FullCalendar.Calendar($div, {
                     plugins: ['dayGrid', 'timeGrid', 'list', 'interaction', 'bootstrap'],
                     themeSystem: 'bootstrap',
-                    locale: $locale,
+                    locale: 'id',
                     header: {
                         left: 'prev,next today',
                         center: 'title',
-                        right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+                        right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
                     },
                     defaultDate: '{{now()->format('Y-m-d')}}',
+                    defaultView: 'timeGridWeek',
+                    navLinks: true,
+                    editable: true,
+                    displayEventTime: true,
+                    displayEventEnd: true,
                     nowIndicator: true,
                     selectable: true,
                     selectMirror: true,
-                    editable: true,
-                    navLinks: true,
-                    eventLimit: true,
-                    events: {
-                        url: '{{asset('admins/modules/fullcalendar/demos/php/get-events.php')}}',
-                        error: function () {
-                            swal('Oops...', 'Terjadi suatu kesalahan! Silahkan refresh browser Anda.', 'error');
+                    businessHours: [
+                        {
+                            daysOfWeek: [0, 1, 2, 3, 4, 5, 6],
+                            startTime: '07:00',
+                            endTime: '23:00'
                         }
-                    },
-                    select: function (select) {
-                        swal({
-                            title: 'Booking Date',
-                            text: 'Beri judul yang dapat menggambarkan permintaan Anda!',
-                            dangerMode: true,
-                            buttons: ["Cancel", "Submit"],
-                            content: {
-                                element: "input",
-                                attributes: {
-                                    placeholder: "Tulis judul permintaan Anda disini...",
-                                },
-                            },
-                        }).then((value) => {
-                            if (value) {
-                                fc.addEvent({
-                                    title: `${value}`,
-                                    start: select.start,
-                                    end: select.end,
-                                    allDay: select.allDay,
-                                    color: '#592f83'
-                                });
-
-                                swal({
-                                    title: 'Successfully booked!',
-                                    text: 'Tanggal Pemesanan: ' + moment(select.start).format('D MMM YYYY') +
-                                        '\nJudul Permintaan: ' + `${value}`,
-                                    icon: "success",
-                                });
-                            }
-                            fc.unselect()
-                        });
-                    },
+                    ],
+                    events: [
+                            @foreach($booked as $row)
+                        {
+                            id: '{{$row->id}}',
+                            title: '{{$row->getPemesanan->judul}}',
+                            start: '{{$row->getPemesanan->start}}',
+                            end: '{{$row->getPemesanan->end}}',
+                        },
+                            @endforeach
+                            @foreach($holidays as $row)
+                        {
+                            id: '{{$row->id}}',
+                            title: '{{$row->judul}}',
+                            start: '{{$row->start}}',
+                            end: '{{$row->end}}',
+                        },
+                        {
+                            start: '{{\Carbon\Carbon::parse($row->start)->format('Y-m-d')}}',
+                            end: '{{\Carbon\Carbon::parse($row->end)->format('Y-m-d')}}',
+                            overlap: false,
+                            rendering: 'background',
+                            color: '#ff9f89'
+                        },
+                        @endforeach
+                    ],
                     eventClick: function (info) {
-                        var findEvent = fc.getEventById(info.event.id);
-                        swal({
-                            title: 'Booking Details',
-                            text: 'Tanggal Pemesanan: ' + moment(info.event.start).format('D MMM YYYY') +
-                                '\nJudul Permintaan: ' + info.event.title,
-                            icon: 'info',
-                            dangerMode: true,
-                            buttons: {
-                                cancel: "Cancel",
-                                delete: {
-                                    text: "Delete",
-                                    value: "delete",
-                                },
-                                edit: true,
-                            },
-                        }).then((confirm) => {
-                            switch (confirm) {
-                                case "edit":
-                                    swal({
-                                        title: 'Booking Edit',
-                                        icon: 'warning',
-                                        dangerMode: true,
-                                        buttons: ["Cancel", "Save Changes"],
-                                        content: {
-                                            element: "input",
-                                            attributes: {
-                                                placeholder: "Tulis judul permintaan Anda disini...",
-                                                value: info.event.title
-                                            },
-                                        },
-                                    }).then((value) => {
-                                        if (value) {
-                                            findEvent.setProp('title', `${value}`);
-                                            swal({
-                                                title: 'Success!',
-                                                text: 'Pesanan Anda berhasil diperbarui!',
-                                                icon: "success",
-                                            });
-                                        }
-                                    });
-                                    break;
+                        var findBook = fc.getEventById(info.event.id);
+                        console.log(findBook);
 
-                                case "delete":
-                                    swal({
-                                        title: 'Booking Abort',
-                                        text: 'Apakah Anda yakin ingin membatalkan permintaan tersebut? ' +
-                                            'Anda tidak dapat mengembalikannya!',
-                                        icon: 'warning',
-                                        dangerMode: true,
-                                        buttons: ["Tidak", "Ya"],
-                                    }).then((confirm) => {
-                                        if (confirm) {
-                                            findEvent.remove();
-                                            swal({
-                                                title: 'Success!',
-                                                text: 'Pesanan Anda berhasil dibatalkan!',
-                                                icon: "success",
-                                            });
-                                        }
-                                    });
-                                    break;
+                        $("#bookModalLabel").text('Booking Edit');
+                        $('#start').val(moment(info.event.start).format('YYYY-MM-DD HH:mm:ss'));
+                        $('#end').val(moment(info.event.end).format('YYYY-MM-DD HH:mm:ss'));
+                        $('#judul').val(info.event.title);
 
-                                default:
-                                    break;
-                            }
+                        $("#btnAbort_book").show().on("click", function () {
+                            swal({
+                                title: 'Booking Abort',
+                                text: 'Apakah Anda yakin ingin membatalkan permintaan tersebut? ' +
+                                    'Anda tidak dapat mengembalikannya!',
+                                icon: 'warning',
+                                dangerMode: true,
+                                buttons: ["Tidak", "Ya"],
+                            }).then((confirm) => {
+                                if (confirm) {
+                                    findBook.remove();
+                                    $("#bookModal").modal('hide');
+                                }
+                            });
                         });
+
+                        $('#bookModal').modal('show');
                     },
-                    loading: function (bool) {
-                        $('#loading').toggle(bool);
-                    }
+                    select: function () {
+                        $("#bookModalLabel").text('Booking Setup');
+                        $('#start').val('');
+                        $('#end').val('');
+                        $('#judul').val('');
+                        $('#bookModal').modal('show');
+                    },
                 });
 
             fc.render();
+
+            $("#btnSubmit_book").on("click", function () {
+                fc.addEvent({
+                    title: $('#judul').val(),
+                    start: $('#start').val(),
+                    end: $('#end').val(),
+                    color: '#592f83'
+                });
+                $("#bookModal").modal('hide');
+            });
+
+            $('#bookModal').on('hidden.bs.modal', function () {
+                fc.unselect()
+            });
         });
 
         var isQty = '{{$layanan->isQty}}', isHours = '{{$layanan->isHours}}', isStudio = '{{$layanan->isStudio}}',

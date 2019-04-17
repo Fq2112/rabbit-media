@@ -7,6 +7,7 @@ use App\Models\layanan;
 use App\Models\PaymentCategory;
 use App\Models\PaymentMethod;
 use App\Models\Pemesanan;
+use App\Models\Schedule;
 use App\Support\RomanConverter;
 use App\User;
 use Carbon\Carbon;
@@ -33,8 +34,11 @@ class OrderController extends Controller
         $layanan = layanan::find(decrypt($id));
         $price = $layanan->harga - ($layanan->harga * $layanan->diskon / 100);
 
+        $booked = Schedule::has('getPemesanan')->where('isDayOff', false)->get();
+        $holidays = Schedule::doesntHave('getPemesanan')->where('isDayOff', true)->get();
+
         return view('pages.clients.orderForm', compact('user', 'paymentCategories', 'types',
-            'layanan', 'price'));
+            'layanan', 'price', 'booked', 'holidays'));
     }
 
     public function getPricingReviewData($pricing)

@@ -21,15 +21,15 @@ class CreatePemesanansTable extends Migration
             $table->integer('layanan_id')->unsigned();
             $table->foreign('layanan_id')->references('id')->on('layanans')
                 ->onUpdate('CASCADE')->onDelete('CASCADE');
-            $table->integer('studio_id')->unsigned();
+            $table->integer('studio_id')->unsigned()->nullable();
             $table->foreign('studio_id')->references('id')->on('studios')
                 ->onUpdate('CASCADE')->onDelete('CASCADE');
             $table->integer('payment_id')->unsigned();
             $table->foreign('payment_id')->references('id')->on('payment_method')
                 ->onUpdate('CASCADE')->onDelete('CASCADE');
-            $table->text('judul');
             $table->dateTime('start');
             $table->dateTime('end')->nullable();
+            $table->text('judul');
             $table->text('deskripsi')->nullable();
             $table->integer('qty')->nullable();
             $table->integer('hours')->nullable();
@@ -44,9 +44,6 @@ class CreatePemesanansTable extends Migration
             $table->boolean('isPaid')->default(false);
             $table->boolean('isAbort')->default(false);
             $table->boolean('isAccept')->default(false);
-            $table->integer('admin_id')->unsigned()->nullable();
-            $table->foreign('admin_id')->references('id')->on('admins')
-                ->onUpdate('CASCADE')->onDelete('CASCADE');
             $table->timestamps();
             $table->softDeletes();
         });
