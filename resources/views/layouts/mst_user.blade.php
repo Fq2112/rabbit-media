@@ -22,7 +22,7 @@
 
     <!-- Bootstrap  -->
     <link rel="stylesheet" href="{{asset('css/bootstrap-datepicker.css')}}">
-    <link rel="stylesheet" href="{{asset('css/bootstrap-datetimepicker.css')}}">
+    <link rel="stylesheet" href="{{asset('css/tempusdominus-bootstrap-4.min.css')}}">
     <link rel="stylesheet" href="{{asset('css/bootstrap-toggle.css')}}">
     <link rel="stylesheet" href="{{asset('css/daterangepicker.css')}}">
 
@@ -166,7 +166,7 @@
 <script src="{{asset('js/main.js')}}"></script>
 <!-- Bootstrap -->
 <script src="{{asset('js/bootstrap-datepicker.js')}}"></script>
-<script src="{{asset('js/bootstrap-datetimepicker.min.js')}}"></script>
+<script src="{{asset('js/tempusdominus-bootstrap-4.min.js')}}"></script>
 <script src="{{asset('js/bootstrap-toggle.js')}}"></script>
 <script src="{{asset('js/daterangepicker.js')}}"></script>
 <!-- Masonry Responsive Grid -->

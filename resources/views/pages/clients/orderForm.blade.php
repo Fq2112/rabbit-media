@@ -14,6 +14,14 @@
         .fc-toolbar button {
             text-transform: capitalize;
         }
+
+        .myDateRangePicker {
+            cursor: pointer;
+            padding: 5px 10px;
+            border: 1px solid #ccc;
+            font-size: 85%;
+            margin-bottom: 1em;
+        }
     </style>
 @endpush
 @section('content')
@@ -403,6 +411,8 @@
                                        data-aos="fade-right">
                                 <input type="button" class="submit action-button" value="Submit" data-aos="fade-left">
                             </fieldset>
+                            <input type="hidden" id="start" name="start">
+                            <input type="hidden" id="end" name="end">
                             <input type="hidden" id="payment_code" name="payment_code">
                             <input type="hidden" id="total_qty" name="total_qty">
                             <input type="hidden" id="total_hours" name="total_hours">
@@ -423,21 +433,27 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
+
                 <div class="modal-body">
                     <div class="row form-group">
                         <div class="col">
                             <label class="control-label mb-0" for="start">Start Date</label>
-                            <div class="input-group date">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fa fa-calendar-alt"></i></span>
-                                    <input id="start" type="text" class="form-control datetimepicker-input" name="start"
-                                           data-target="#start" data-toggle="datetimepicker"
-                                           placeholder="yyyy-mm-dd h:i:s" required>
+                            <div class="input-group date" id="dtp_start" data-target-input="nearest">
+                                <div class="input-group-prepend" data-target="#dtp_start"
+                                     data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="fa fa-calendar-alt"></i></div>
                                 </div>
-                                <input id="end" type="text" class="form-control datetimepicker-input" name="end"
-                                       data-target="#end" data-toggle="datetimepicker"
-                                       placeholder="yyyy-mm-dd h:i:s" required>
-                                <div class="input-group-append" data-target="#end" data-toggle="datetimepicker">
+                                <input type="text" class="form-control datetimepicker-input"
+                                       data-target="#dtp_start"
+                                       data-toggle="datetimepicker" placeholder="yyyy-mm-dd h:i:s">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <label class="control-label mb-0" for="end">End Date</label>
+                            <div class="input-group date" id="dtp_end" data-target-input="nearest">
+                                <input type="text" class="form-control datetimepicker-input" data-target="#dtp_end"
+                                       data-toggle="datetimepicker" placeholder="yyyy-mm-dd h:i:s">
+                                <div class="input-group-append" data-target="#dtp_end" data-toggle="datetimepicker">
                                     <div class="input-group-text"><i class="fa fa-calendar-check"></i></div>
                                 </div>
                             </div>
@@ -457,9 +473,10 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-light" id="btnAbort_book" style="display: none">Delete</button>
+                    <button type="button" class="btn btn-light" id="btnAbort_book" style="display: none">Delete
+                    </button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary" id="btnSubmit_book">Booking</button>
+                    <button type="button" class="btn btn-primary add" id="btnSubmit_book">Booking</button>
                 </div>
             </div>
         </div>
@@ -730,10 +747,8 @@
 
         google.maps.event.addDomListener(window, 'load', init);
 
-        $('#start, #end').datetimepicker({format: "YYYY-MM-DD HH:mm:ss"});
-
         document.addEventListener('DOMContentLoaded', function () {
-            var $div = document.getElementById('calendar'),
+            var $div = document.getElementById('calendar'), start = $('#dtp_start'), end = $('#dtp_end'),
                 fc = new FullCalendar.Calendar($div, {
                     plugins: ['dayGrid', 'timeGrid', 'list', 'interaction', 'bootstrap'],
                     themeSystem: 'bootstrap',
@@ -752,6 +767,7 @@
                     nowIndicator: true,
                     selectable: true,
                     selectMirror: true,
+                    eventLimit: true,
                     businessHours: [
                         {
                             daysOfWeek: [0, 1, 2, 3, 4, 5, 6],
@@ -785,13 +801,51 @@
                         @endforeach
                     ],
                     eventClick: function (info) {
-                        var findBook = fc.getEventById(info.event.id);
-                        console.log(findBook);
+                        var $end = moment(info.event.end).diff(moment(info.event.start), 'days') >= 1 ?
+                            moment(info.event.end).format('YYYY-MM-DD HH:mm:ss') : null,
+                            findBook = fc.getEventById(info.event.id);
 
+                        $("#check_form").val('edit');
                         $("#bookModalLabel").text('Booking Edit');
-                        $('#start').val(moment(info.event.start).format('YYYY-MM-DD HH:mm:ss'));
-                        $('#end').val(moment(info.event.end).format('YYYY-MM-DD HH:mm:ss'));
+                        $('#start, #dtp_start input').val(moment(info.event.start).format('YYYY-MM-DD HH:mm:ss'));
+                        $('#end, #dtp_end input').val($end);
                         $('#judul').val(info.event.title);
+                        $('#bookModal').modal('show');
+
+                        start.datetimepicker({
+                            format: 'YYYY-MM-DD LT',
+                            icons: {
+                                time: "fa fa-clock",
+                                date: "fa fa-calendar-alt",
+                                up: "fa fa-chevron-up",
+                                down: "fa fa-chevron-down"
+                            },
+                            minDate: moment()
+                        });
+                        end.datetimepicker({
+                            format: 'YYYY-MM-DD LT',
+                            icons: {
+                                time: "fa fa-clock",
+                                date: "fa fa-calendar-alt",
+                                up: "fa fa-chevron-up",
+                                down: "fa fa-chevron-down"
+                            },
+                            useCurrent: false
+                        });
+                        start.on("change.datetimepicker", function (e) {
+                            $("#start").val(e.date);
+                            end.datetimepicker('minDate', moment(info.event.start).format('YYYY-MM-DD HH:mm:ss'));
+                        });
+                        end.on("change.datetimepicker", function (e) {
+                            $("#end").val(e.date);
+                            start.datetimepicker('maxDate', $end);
+                        });
+
+                        $("#btnSubmit_book").on("click", function () {
+                            findBook.setProp('title', $('#judul').val())
+                                .setProp('start', $('#start').val()).setProp('end', $('#end').val());
+                            $("#bookModal").modal('hide');
+                        });
 
                         $("#btnAbort_book").show().on("click", function () {
                             swal({
@@ -808,15 +862,43 @@
                                 }
                             });
                         });
-
-                        $('#bookModal').modal('show');
                     },
-                    select: function () {
+                    select: function (info) {
+                        $("#check_form").val('add');
                         $("#bookModalLabel").text('Booking Setup');
-                        $('#start').val('');
-                        $('#end').val('');
+                        $('#start, #dtp_start input').val(moment(info.start).format('YYYY-MM-DD HH:mm:ss'));
+                        $('#end, #dtp_end input').val(moment(info.end).format('YYYY-MM-DD HH:mm:ss'));
                         $('#judul').val('');
                         $('#bookModal').modal('show');
+
+                        start.datetimepicker({
+                            format: 'YYYY-MM-DD LT',
+                            icons: {
+                                time: "fa fa-clock",
+                                date: "fa fa-calendar-alt",
+                                up: "fa fa-chevron-up",
+                                down: "fa fa-chevron-down"
+                            },
+                            minDate: moment()
+                        });
+                        end.datetimepicker({
+                            format: 'YYYY-MM-DD LT',
+                            icons: {
+                                time: "fa fa-clock",
+                                date: "fa fa-calendar-alt",
+                                up: "fa fa-chevron-up",
+                                down: "fa fa-chevron-down"
+                            },
+                            useCurrent: false
+                        });
+                        start.on("change.datetimepicker", function (e) {
+                            $("#start").val(e.date);
+                            end.datetimepicker('minDate', e.date);
+                        });
+                        end.on("change.datetimepicker", function (e) {
+                            $("#end").val(e.date);
+                            start.datetimepicker('maxDate', e.date);
+                        });
                     },
                 });
 
@@ -824,6 +906,7 @@
 
             $("#btnSubmit_book").on("click", function () {
                 fc.addEvent({
+                    id: '{{\App\Models\Schedule::count() + 1}}',
                     title: $('#judul').val(),
                     start: $('#start').val(),
                     end: $('#end').val(),
