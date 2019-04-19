@@ -22,7 +22,7 @@
             <div class="row justify-content-center">
                 <div class="col-md-7">
                     <div class="row mb-5">
-                        <div class="col-12 ">
+                        <div class="col-12">
                             <h3 class="site-section-heading text-center" data-aos="fade-right">Order Process</h3>
                             <h5 class="text-center"
                                 data-aos="fade-left">{{session('order') ? 'Untuk mengakhiri proses pemesanan ini, silahkan menyelesaikan pembayaran Anda dengan rincian berikut.' : 'Sebelum melanjutkan ke langkah berikutnya, harap isi semua kolom formulir dengan data yang valid.'}}</h5>
@@ -62,8 +62,9 @@
                                 <div class="row form-group text-center">
                                     <div class="col">
                                         <h2 class="fs-title" data-aos="fade-right">Request Setup</h2>
-                                        <h3 class="fs-subtitle" data-aos="fade-left">Apabila perlu meeting dengan
-                                            Rabbits, silahkan tentukan lokasinya!</h3>
+                                        <h3 class="fs-subtitle" data-aos="fade-left">Berikan informasi yang lebih rinci
+                                            mengenai permintaan Anda!<br>
+                                            Apabila Anda perlu meeting dengan Rabbits, silahkan tentukan lokasinya.</h3>
                                     </div>
                                 </div>
                                 <div class="row" data-aos="zoom-out">
@@ -746,7 +747,7 @@
         // fullcalendar
         document.addEventListener('DOMContentLoaded', function () {
             var $div = document.getElementById('calendar'), start = $('#dtp_start'), end = $('#dtp_end'), findBook,
-                count = 0, fc = new FullCalendar.Calendar($div, {
+                total_event = 0, fc = new FullCalendar.Calendar($div, {
                     plugins: ['dayGrid', 'timeGrid', 'list', 'interaction', 'bootstrap'],
                     themeSystem: 'bootstrap',
                     locale: 'id',
@@ -806,13 +807,17 @@
                         @endforeach
                     ],
                     select: function (info) {
-                        $("#bookModalLabel").text('Booking Setup');
-                        $('#dtp_start input').val(moment(info.start).format('YYYY-MM-DD HH:mm:ss'));
-                        $('#dtp_end input').val(moment(info.end).format('YYYY-MM-DD HH:mm:ss'));
-                        $('#dtp_judul').val('');
-                        $("#btnAbort_book").hide();
-                        $("#btnSubmit_book").text('Booking');
-                        $('#bookModal').modal('show');
+                        if (total_event < 1) {
+                            $("#bookModalLabel").text('Booking Setup');
+                            $('#dtp_start input').val(moment(info.start).format('YYYY-MM-DD HH:mm:ss'));
+                            $('#dtp_end input').val(moment(info.end).format('YYYY-MM-DD HH:mm:ss'));
+                            $('#dtp_judul').val('');
+                            $("#btnAbort_book").hide();
+                            $("#btnSubmit_book").text('Booking');
+                            $('#bookModal').modal('show');
+                        } else {
+                            swal('PERHATIAN!', 'Anda hanya dapat mem-booking tanggal sekali dalam satu pesanan!', 'warning');
+                        }
                     },
                     selectOverlap: function (event) {
                         var $end = moment(event.end).diff(moment(event.start), 'days') >= 1 ?
@@ -920,17 +925,18 @@
 
                 if (findBook) {
                     findBook.remove();
+                    total_event -= total_event;
                 }
 
-                count += 1;
                 fc.addEvent({
-                    id: 'book-' + count,
+                    id: 'selected',
                     title: $judul,
                     start: $start,
                     end: $end,
                     color: '#592f83',
                     editable: true,
                 });
+                total_event += 1;
 
                 $("#judul").val($judul);
                 $("#start").val($start);
@@ -949,6 +955,7 @@
                 }).then((confirm) => {
                     if (confirm) {
                         findBook.remove();
+                        total_event -= total_event;
                         $("#bookModal").modal('hide');
                     }
                 });
@@ -967,6 +974,7 @@
         });
 
         var isQty = '{{$layanan->isQty}}', isHours = '{{$layanan->isHours}}', isStudio = '{{$layanan->isStudio}}',
+            qty = '{{$layanan->qty}}', hours = '{{$layanan->hours}}',
             plan_price = '{{$price}}', subtotal = parseInt(plan_price), payment_code_value = 0,
 
             total_qty = 0,
