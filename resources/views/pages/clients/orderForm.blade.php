@@ -14,14 +14,6 @@
         .fc-toolbar button {
             text-transform: capitalize;
         }
-
-        .myDateRangePicker {
-            cursor: pointer;
-            padding: 5px 10px;
-            border: 1px solid #ccc;
-            font-size: 85%;
-            margin-bottom: 1em;
-        }
     </style>
 @endpush
 @section('content')
@@ -62,6 +54,7 @@
                                         <div id="calendar"></div>
                                     </div>
                                 </div>
+                                <hr class="mb-0" data-aos="fade-right">
                                 <input type="button" name="next" class="next action-button" value="Next"
                                        style="display: table" data-aos="zoom-out">
                             </fieldset>
@@ -411,6 +404,7 @@
                                        data-aos="fade-right">
                                 <input type="button" class="submit action-button" value="Submit" data-aos="fade-left">
                             </fieldset>
+                            <input type="hidden" id="judul" name="judul">
                             <input type="hidden" id="start" name="start">
                             <input type="hidden" id="end" name="end">
                             <input type="hidden" id="payment_code" name="payment_code">
@@ -434,50 +428,52 @@
                     </button>
                 </div>
 
-                <div class="modal-body">
-                    <div class="row form-group">
-                        <div class="col">
-                            <label class="control-label mb-0" for="start">Start Date</label>
-                            <div class="input-group date" id="dtp_start" data-target-input="nearest">
-                                <div class="input-group-prepend" data-target="#dtp_start"
-                                     data-toggle="datetimepicker">
-                                    <div class="input-group-text"><i class="fa fa-calendar-alt"></i></div>
+                <form id="form-book">
+                    <div class="modal-body">
+                        <div class="row form-group">
+                            <div class="col">
+                                <label class="control-label mb-0" for="start">Start Date</label>
+                                <div class="input-group date" id="dtp_start" data-target-input="nearest">
+                                    <div class="input-group-prepend" data-target="#dtp_start"
+                                         data-toggle="datetimepicker">
+                                        <div class="input-group-text"><i class="fa fa-calendar-alt"></i></div>
+                                    </div>
+                                    <input type="text" class="form-control datetimepicker-input"
+                                           data-target="#dtp_start" data-toggle="datetimepicker"
+                                           placeholder="yyyy-mm-dd hh:mm:ss" required>
                                 </div>
-                                <input type="text" class="form-control datetimepicker-input"
-                                       data-target="#dtp_start"
-                                       data-toggle="datetimepicker" placeholder="yyyy-mm-dd h:i:s">
+                            </div>
+                            <div class="col">
+                                <label class="control-label mb-0" for="end">End Date</label>
+                                <div class="input-group date" id="dtp_end" data-target-input="nearest">
+                                    <input type="text" class="form-control datetimepicker-input" data-target="#dtp_end"
+                                           data-toggle="datetimepicker" placeholder="yyyy-mm-dd hh:mm:ss" required>
+                                    <div class="input-group-append" data-target="#dtp_end" data-toggle="datetimepicker">
+                                        <div class="input-group-text"><i class="fa fa-calendar-check"></i></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="col">
-                            <label class="control-label mb-0" for="end">End Date</label>
-                            <div class="input-group date" id="dtp_end" data-target-input="nearest">
-                                <input type="text" class="form-control datetimepicker-input" data-target="#dtp_end"
-                                       data-toggle="datetimepicker" placeholder="yyyy-mm-dd h:i:s">
-                                <div class="input-group-append" data-target="#dtp_end" data-toggle="datetimepicker">
-                                    <div class="input-group-text"><i class="fa fa-calendar-check"></i></div>
+                        <div class="row form-group">
+                            <div class="col">
+                                <label class="control-label mb-0" for="judul">Title</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fa fa-text-width"></i></span>
+                                    </div>
+                                    <input id="dtp_judul" class="form-control" type="text"
+                                           placeholder="Tulis judul permintaan Anda disini&hellip;" required>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="row form-group">
-                        <div class="col">
-                            <label class="control-label mb-0" for="judul">Title</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fa fa-text-width"></i></span>
-                                </div>
-                                <input id="judul" class="form-control" name="judul" type="text"
-                                       placeholder="Tulis judul permintaan Anda disini&hellip;" required>
-                            </div>
-                        </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" id="btnAbort_book" style="display: none">Delete
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary add" id="btnSubmit_book">Booking</button>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-light" id="btnAbort_book" style="display: none">Delete
-                    </button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary add" id="btnSubmit_book">Booking</button>
-                </div>
+                </form>
             </div>
         </div>
     </div>
@@ -495,7 +491,7 @@
     <!-- Google Map -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBIljHbKjgtTrpZhEiHum734tF1tolxI68&libraries=places"></script>
     <script>
-        // gmaps client address
+        // gmaps meeting location
         var google;
 
         function init() {
@@ -747,9 +743,10 @@
 
         google.maps.event.addDomListener(window, 'load', init);
 
+        // fullcalendar
         document.addEventListener('DOMContentLoaded', function () {
-            var $div = document.getElementById('calendar'), start = $('#dtp_start'), end = $('#dtp_end'),
-                fc = new FullCalendar.Calendar($div, {
+            var $div = document.getElementById('calendar'), start = $('#dtp_start'), end = $('#dtp_end'), findBook,
+                count = 0, fc = new FullCalendar.Calendar($div, {
                     plugins: ['dayGrid', 'timeGrid', 'list', 'interaction', 'bootstrap'],
                     themeSystem: 'bootstrap',
                     locale: 'id',
@@ -759,9 +756,11 @@
                         right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
                     },
                     defaultDate: '{{now()->format('Y-m-d')}}',
+                    validRange: {
+                        start: '{{now()->format('Y-m-d')}}',
+                    },
                     defaultView: 'timeGridWeek',
                     navLinks: true,
-                    editable: true,
                     displayEventTime: true,
                     displayEventEnd: true,
                     nowIndicator: true,
@@ -779,145 +778,180 @@
                             @foreach($booked as $row)
                         {
                             id: '{{$row->id}}',
+                            groupId: 'booked',
                             title: '{{$row->getPemesanan->judul}}',
                             start: '{{$row->getPemesanan->start}}',
                             end: '{{$row->getPemesanan->end}}',
+                            description: '{{$row->getPemesanan->deskripsi}}',
+                            color: '#17a2b8'
                         },
                             @endforeach
                             @foreach($holidays as $row)
                         {
                             id: '{{$row->id}}',
+                            groupId: 'unavailable',
                             title: '{{$row->judul}}',
                             start: '{{$row->start}}',
                             end: '{{$row->end}}',
+                            description: '{{$row->deskripsi}}',
+                            color: '#f23a2e',
                         },
                         {
                             start: '{{\Carbon\Carbon::parse($row->start)->format('Y-m-d')}}',
                             end: '{{\Carbon\Carbon::parse($row->end)->format('Y-m-d')}}',
                             overlap: false,
                             rendering: 'background',
-                            color: '#ff9f89'
+                            color: '#ff9f89',
                         },
                         @endforeach
                     ],
+                    select: function (info) {
+                        $("#bookModalLabel").text('Booking Setup');
+                        $('#dtp_start input').val(moment(info.start).format('YYYY-MM-DD HH:mm:ss'));
+                        $('#dtp_end input').val(moment(info.end).format('YYYY-MM-DD HH:mm:ss'));
+                        $('#dtp_judul').val('');
+                        $("#btnAbort_book").hide();
+                        $("#btnSubmit_book").text('Booking');
+                        $('#bookModal').modal('show');
+                    },
+                    selectOverlap: function (event) {
+                        var $end = moment(event.end).diff(moment(event.start), 'days') >= 1 ?
+                            moment(event.end).format('YYYY-MM-DD HH:mm:ss') : null;
+
+                        if (event.groupId == 'unavailable') {
+                            swal('PERHATIAN!', 'Maaf tanggal yang Anda pilih tidak tersedia, ' +
+                                'silahkan pilih tanggal lainnya.', 'warning');
+
+                        } else {
+                            $("#bookModalLabel").text('Booking Setup');
+                            $('#dtp_start input').val(moment(event.start).format('YYYY-MM-DD HH:mm:ss'));
+                            $('#dtp_end input').val($end);
+                            $('#dtp_judul').val('');
+                            $("#btnAbort_book").hide();
+                            $("#btnSubmit_book").text('Booking');
+                            $('#bookModal').modal('show');
+                        }
+                    },
                     eventClick: function (info) {
                         var $end = moment(info.event.end).diff(moment(info.event.start), 'days') >= 1 ?
-                            moment(info.event.end).format('YYYY-MM-DD HH:mm:ss') : null,
-                            findBook = fc.getEventById(info.event.id);
+                            moment(info.event.end).format('YYYY-MM-DD HH:mm:ss') : null;
 
-                        $("#check_form").val('edit');
-                        $("#bookModalLabel").text('Booking Edit');
-                        $('#start, #dtp_start input').val(moment(info.event.start).format('YYYY-MM-DD HH:mm:ss'));
-                        $('#end, #dtp_end input').val($end);
-                        $('#judul').val(info.event.title);
-                        $('#bookModal').modal('show');
+                        findBook = fc.getEventById(info.event.id);
 
-                        start.datetimepicker({
-                            format: 'YYYY-MM-DD LT',
-                            icons: {
-                                time: "fa fa-clock",
-                                date: "fa fa-calendar-alt",
-                                up: "fa fa-chevron-up",
-                                down: "fa fa-chevron-down"
-                            },
-                            minDate: moment()
-                        });
-                        end.datetimepicker({
-                            format: 'YYYY-MM-DD LT',
-                            icons: {
-                                time: "fa fa-clock",
-                                date: "fa fa-calendar-alt",
-                                up: "fa fa-chevron-up",
-                                down: "fa fa-chevron-down"
-                            },
-                            useCurrent: false
-                        });
-                        start.on("change.datetimepicker", function (e) {
-                            $("#start").val(e.date);
-                            end.datetimepicker('minDate', moment(info.event.start).format('YYYY-MM-DD HH:mm:ss'));
-                        });
-                        end.on("change.datetimepicker", function (e) {
-                            $("#end").val(e.date);
-                            start.datetimepicker('maxDate', $end);
-                        });
-
-                        $("#btnSubmit_book").on("click", function () {
-                            findBook.setProp('title', $('#judul').val())
-                                .setProp('start', $('#start').val()).setProp('end', $('#end').val());
-                            $("#bookModal").modal('hide');
-                        });
-
-                        $("#btnAbort_book").show().on("click", function () {
+                        if (info.event.groupId == 'booked' || info.event.groupId == 'unavailable') {
                             swal({
-                                title: 'Booking Abort',
-                                text: 'Apakah Anda yakin ingin membatalkan permintaan tersebut? ' +
-                                    'Anda tidak dapat mengembalikannya!',
-                                icon: 'warning',
-                                dangerMode: true,
-                                buttons: ["Tidak", "Ya"],
-                            }).then((confirm) => {
-                                if (confirm) {
-                                    findBook.remove();
-                                    $("#bookModal").modal('hide');
+                                title: info.event.title,
+                                text: info.event.extendedProps.description,
+                                icon: 'info',
+                                buttons: {
+                                    cancel: 'Close'
                                 }
                             });
-                        });
-                    },
-                    select: function (info) {
-                        $("#check_form").val('add');
-                        $("#bookModalLabel").text('Booking Setup');
-                        $('#start, #dtp_start input').val(moment(info.start).format('YYYY-MM-DD HH:mm:ss'));
-                        $('#end, #dtp_end input').val(moment(info.end).format('YYYY-MM-DD HH:mm:ss'));
-                        $('#judul').val('');
-                        $('#bookModal').modal('show');
 
-                        start.datetimepicker({
-                            format: 'YYYY-MM-DD LT',
-                            icons: {
-                                time: "fa fa-clock",
-                                date: "fa fa-calendar-alt",
-                                up: "fa fa-chevron-up",
-                                down: "fa fa-chevron-down"
-                            },
-                            minDate: moment()
-                        });
-                        end.datetimepicker({
-                            format: 'YYYY-MM-DD LT',
-                            icons: {
-                                time: "fa fa-clock",
-                                date: "fa fa-calendar-alt",
-                                up: "fa fa-chevron-up",
-                                down: "fa fa-chevron-down"
-                            },
-                            useCurrent: false
-                        });
-                        start.on("change.datetimepicker", function (e) {
-                            $("#start").val(e.date);
-                            end.datetimepicker('minDate', e.date);
-                        });
-                        end.on("change.datetimepicker", function (e) {
-                            $("#end").val(e.date);
-                            start.datetimepicker('maxDate', e.date);
-                        });
+                        } else {
+                            $("#bookModalLabel").text('Booking Edit');
+                            $('#dtp_start input').val(moment(info.event.start).format('YYYY-MM-DD HH:mm:ss'));
+                            $('#dtp_end input').val($end);
+                            $('#dtp_judul').val(info.event.title);
+                            $("#btnAbort_book").show();
+                            $("#btnSubmit_book").text('Save Changes');
+                            $('#bookModal').modal('show');
+                        }
                     },
                 });
 
             fc.render();
 
-            $("#btnSubmit_book").on("click", function () {
+            $("#calendar .fc-header-toolbar").after(
+                '<div class="row" data-aos="fade-right">' +
+                '<div class="col text-uppercase">' +
+                '<label class="control-label text-capitalize">Keterangan:</label>&ensp;' +
+                '<a href="javascript:void(0)" class="badge badge-primary py-1 px-2" style="cursor: default">Pilihan Anda</a>&ensp;' +
+                '<a href="javascript:void(0)" class="badge badge-info py-1 px-2" style="cursor: default">Telah Dipesan</a>&ensp;' +
+                '<a href="javascript:void(0)" class="badge badge-danger py-1 px-2" style="cursor: default">Libur</a>' +
+                '</div></div>'
+            );
+
+            start.datetimepicker({
+                format: 'YYYY-MM-DD HH:mm:00',
+                icons: {
+                    time: "fa fa-clock",
+                    date: "fa fa-calendar-alt",
+                    up: "fa fa-chevron-up",
+                    down: "fa fa-chevron-down"
+                },
+                minDate: moment()
+            });
+            end.datetimepicker({
+                format: 'YYYY-MM-DD HH:mm:00',
+                icons: {
+                    time: "fa fa-clock",
+                    date: "fa fa-calendar-alt",
+                    up: "fa fa-chevron-up",
+                    down: "fa fa-chevron-down"
+                },
+                useCurrent: false
+            });
+            start.on("change.datetimepicker", function (e) {
+                $("#start").val(e.date);
+                end.datetimepicker('minDate', e.date);
+            });
+            end.on("change.datetimepicker", function (e) {
+                $("#end").val(e.date);
+                start.datetimepicker('maxDate', e.date);
+            });
+
+            $("#form-book").on("submit", function (e) {
+                e.preventDefault();
+                var $judul = $("#dtp_judul").val(), $start = $("#dtp_start input").val(),
+                    $end = $("#dtp_end input").val();
+
+                if (findBook) {
+                    findBook.remove();
+                }
+
+                count += 1;
                 fc.addEvent({
-                    id: '{{\App\Models\Schedule::count() + 1}}',
-                    title: $('#judul').val(),
-                    start: $('#start').val(),
-                    end: $('#end').val(),
-                    color: '#592f83'
+                    id: 'book-' + count,
+                    title: $judul,
+                    start: $start,
+                    end: $end,
+                    color: '#592f83',
+                    editable: true,
                 });
+
+                $("#judul").val($judul);
+                $("#start").val($start);
+                $("#end").val($end);
                 $("#bookModal").modal('hide');
+            });
+
+            $("#btnAbort_book").on("click", function () {
+                swal({
+                    title: 'Booking Abort',
+                    text: 'Apakah Anda yakin ingin membatalkan permintaan tersebut? ' +
+                        'Anda tidak dapat mengembalikannya!',
+                    icon: 'warning',
+                    dangerMode: true,
+                    buttons: ["Tidak", "Ya"],
+                }).then((confirm) => {
+                    if (confirm) {
+                        findBook.remove();
+                        $("#bookModal").modal('hide');
+                    }
+                });
             });
 
             $('#bookModal').on('hidden.bs.modal', function () {
                 fc.unselect()
             });
+        });
+
+        $("#booking_setup .next").on('click', function () {
+            if (!$("#start, #end, #judul").val()) {
+                swal('PERHATIAN!', 'Anda belum menentukan tanggal dan waktu!', 'warning');
+                $("#request_setup .previous").click();
+            }
         });
 
         var isQty = '{{$layanan->isQty}}', isHours = '{{$layanan->isHours}}', isStudio = '{{$layanan->isStudio}}',
