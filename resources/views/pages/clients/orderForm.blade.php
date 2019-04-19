@@ -880,7 +880,13 @@
                     up: "fa fa-chevron-up",
                     down: "fa fa-chevron-down"
                 },
-                minDate: moment()
+                minDate: moment(),
+                disabledDates: [
+                    @foreach($holidays as $row)
+                        "{{\Carbon\Carbon::parse($row->start)->format('m/d/Y')}}",
+                    "{{\Carbon\Carbon::parse($row->end)->format('m/d/Y')}}",
+                    @endforeach
+                ]
             });
             end.datetimepicker({
                 format: 'YYYY-MM-DD HH:mm:00',
@@ -890,14 +896,20 @@
                     up: "fa fa-chevron-up",
                     down: "fa fa-chevron-down"
                 },
-                useCurrent: false
+                useCurrent: false,
+                disabledDates: [
+                    @foreach($holidays as $row)
+                        "{{\Carbon\Carbon::parse($row->start)->format('m/d/Y')}}",
+                    "{{\Carbon\Carbon::parse($row->end)->format('m/d/Y')}}",
+                    @endforeach
+                ]
             });
             start.on("change.datetimepicker", function (e) {
-                $("#start").val(e.date);
+                start.val(e.date);
                 end.datetimepicker('minDate', e.date);
             });
             end.on("change.datetimepicker", function (e) {
-                $("#end").val(e.date);
+                end.val(e.date);
                 start.datetimepicker('maxDate', e.date);
             });
 
