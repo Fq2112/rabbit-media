@@ -8,8 +8,8 @@ use App\Models\PaymentCategory;
 use App\Models\PaymentMethod;
 use App\Models\Pemesanan;
 use App\Models\Schedule;
+use App\Models\Studio;
 use App\Support\RomanConverter;
-use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -41,14 +41,11 @@ class OrderController extends Controller
             'layanan', 'price', 'booked', 'holidays'));
     }
 
-    public function getPricingReviewData($pricing)
+    public function getDetailStudio($id)
     {
-        $layanan = layanan::find($pricing)->toArray();
-        $price = $layanan['harga'] - ($layanan['harga'] * $layanan['diskon'] / 100);
-        $layanan = array_replace($layanan, array('price' => $price),
-            array('rp_price' => number_format($price, 2, ',', '.')));
+        $studio = Studio::find($id);
 
-        return $layanan;
+        return array_replace($studio->toArray(), array('jenis_id' => $studio->getJenisStudio->nama));
     }
 
     public function getPaymentMethod($id)

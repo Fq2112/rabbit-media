@@ -45,8 +45,8 @@
                                 <div class="row form-group text-center">
                                     <div class="col">
                                         <h2 class="fs-title" data-aos="fade-right">Booking Setup</h2>
-                                        <h3 class="fs-subtitle" data-aos="fade-left">Silahkan menentukan tanggal dan
-                                            waktu yang Anda inginkan!</h3>
+                                        <h3 class="fs-subtitle" data-aos="fade-left">Pastikan tanggal dan
+                                            waktu yang Anda tentukan sudah benar!</h3>
                                     </div>
                                 </div>
                                 <div class="row" data-aos="zoom-out">
@@ -56,7 +56,7 @@
                                 </div>
                                 <hr class="mb-0" data-aos="fade-right">
                                 <input type="button" name="next" class="next action-button" value="Next"
-                                       style="display: table" data-aos="zoom-out">
+                                       style="display: table">
                             </fieldset>
                             <fieldset id="request_setup">
                                 <div class="row form-group text-center">
@@ -89,7 +89,7 @@
                                                         </div>
                                                         <input id="hours" placeholder="Total durasi (jam)" type="number"
                                                                value="{{$layanan->hours}}" class="form-control"
-                                                               name="hours" min="{{$layanan->hours}}" required>
+                                                               name="hours" min="{{$layanan->hours}}" readonly required>
                                                         <div class="input-group-append">
                                                             <span class="input-group-text">jam</span>
                                                         </div>
@@ -127,8 +127,8 @@
                                                                 <i class="fa fa-door-open"></i></span>
                                                         </div>
                                                         <select id="studio" class="form-control selectpicker"
-                                                                title="-- Pilih Studio --" name="studio"
-                                                                data-live-search="true" required>
+                                                                title="-- Pilih Studio --" name="studio" required
+                                                                data-live-search="true">
                                                             @foreach($types as $type)
                                                                 <optgroup label="{{ucwords($type->nama)}}">
                                                                     @foreach($type->getStudio as $row)
@@ -187,102 +187,139 @@
                             </fieldset>
                             <fieldset id="order_summary">
                                 <h2 class="fs-title text-center" data-aos="fade-right">Order Summary</h2>
-                                <h3 class="fs-subtitle text-center" data-aos="fade-left">Pastikan rincian pemesanan Anda
-                                    sudah benar</h3>
+                                <h3 class="fs-subtitle text-center" data-aos="fade-left">Pastikan pesanan Anda sudah
+                                    benar!</h3>
                                 <div class="row" data-aos="zoom-out">
                                     <div class="col-xl-7 col-lg-7 col-md-6 col-sm-12">
-                                        <strong>Order Details</strong>
+                                        <strong>Service Details</strong>
                                         <hr class="mt-0 mb-2">
-                                        <ul class="list-inline stats_plans">
-                                            <li>
+                                        <ul class="list-inline">
+                                            <li class="list-inline-item">
                                                 <a class="tag tag-plans">
-                                                    <i class="fa fa-thumbtack"></i>&ensp;
-                                                    <strong style="text-transform: uppercase" class="plans_name">
-                                                        {{$layanan->paket}}</strong> &ensp;|&ensp;
-                                                    <i class='fa fa-money-bill-wave'></i><strong
-                                                            class="plan_price ml-2">
-                                                        {{'Rp'.number_format($price,2,',','.')}}</strong>
-                                                </a>
+                                                    <i class="fa fa-thumbtack mr-2"></i>
+                                                    <span class="plans_name mr-2"
+                                                          style="font-weight: 600">{{$layanan->paket}}</span>|
+                                                    <i class='fa fa-money-bill-wave ml-2'></i>
+                                                    <span class="ml-2" style="font-weight: 600">{{'Rp'.number_format
+                                                    ($price,2,',','.')}}</span></a>
                                             </li>
-                                            @if($layanan->isQty == true)
-                                                <li>
+                                            @if($layanan->isHours == true)
+                                                <li class="list-inline-item">
                                                     <a class="tag tag-plans">
-                                                        <i class='fa fa-users'></i>
-                                                        <strong class="ml-2">Rp{{number_format($layanan->price_per_qty,
-                                                        2,',','.')}}</strong>
-                                                    </a>
+                                                        <i class='fa fa-stopwatch mr-2'></i>Durasi max. <span
+                                                                style="font-weight: 600">{{$layanan->hours}}</span>
+                                                        (over time <span style="font-weight: 600">+Rp{{number_format
+                                                        ($layanan->price_per_hours,2,',','.')}}/jam</span>)</a>
                                                 </li>
                                             @endif
-                                            @if($layanan->isHours == true)
-                                                <li>
+                                            @if($layanan->isQty == true)
+                                                <li class="list-inline-item">
                                                     <a class="tag tag-plans">
-                                                        <i class='fa fa-stopwatch'></i>
-                                                        <strong class="ml-2">Rp{{number_format($layanan->price_per_hours,
-                                                        2,',','.')}}</strong>
-                                                    </a>
+                                                        <i class='fa fa-users mr-2'></i>Total item (orang/produk) max.
+                                                        <span style="font-weight: 600">{{$layanan->qty}}</span> (over
+                                                        item <span style="font-weight: 600">+Rp{{number_format
+                                                        ($layanan->price_per_qty,2,',','.')}}/item</span>)</a>
                                                 </li>
+                                            @endif
+                                            @if($layanan->isStudio == true)
+                                                <li class="list-inline-item">
+                                                    <a class="tag tag-plans"><i class='fa fa-door-open mr-2'></i>
+                                                        Studio opsional (harga <span style="font-weight: 600;">belum
+                                                        </span> termasuk studio)</a></li>
                                             @endif
                                         </ul>
-                                        <div id="order_data"></div>
                                     </div>
                                     <div class="col-xl-5 col-lg-5 col-md-6 col-sm-12">
                                         <strong>Billing Details</strong>
                                         <hr class="mt-0">
                                         <table id="stats-billing" style="font-size: 16px">
-                                            <tr>
+                                            <tr data-placement="left" data-toggle="tooltip" title="Nama paket">
                                                 <td>
-                                                    <strong class="plans_name text-uppercase">{{$layanan->paket}}</strong>
+                                                    <strong class="plans_name">{{$layanan->paket}}</strong>
                                                 </td>
+                                                <td align="center"><strong class="plans_qty">1</strong></td>
                                                 <td>&emsp;</td>
-                                                <td align="center"><strong>-</strong></td>
-                                                <td>&emsp;</td>
-                                                <td align="right">
-                                                    <strong class="plan_price">Rp{{number_format($price,2,',','.')}}</strong>
-                                                </td>
-                                            </tr>
-                                            <tr data-placement="left" data-toggle="tooltip" title="Total item">
-                                                <td>Qty.</td>
-                                                <td>&emsp;</td>
-                                                <td align="center"><strong class="bill_qty">1</strong></td>
-                                                <td>&emsp;</td>
-                                                <td align="right">
-                                                    <strong class="total_price_qty">Rp{{number_format(0,2,',','.')}}</strong>
+                                                <td colspan="2" align="right">
+                                                    <strong class="plan_price">Rp{{number_format($price,2,',','.')}}
+                                                    </strong>
                                                 </td>
                                             </tr>
-                                            <tr data-placement="left" data-toggle="tooltip" title="Total durasi"
-                                                style="border-bottom: 1px solid #eee">
-                                                <td>Hours</td>
-                                                <td>&emsp;</td>
-                                                <td align="center"><strong class="bill_hours">{{rand(1,3)}}</strong>
-                                                </td>
-                                                <td>&emsp;</td>
-                                                <td align="right">
-                                                    <strong class="total_price_hours">Rp{{number_format(0,2,',','.')}}</strong>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Studio</td>
-                                                <td>&emsp;</td>
-                                                <td align="center"><strong class="nama_studio">Adventure Studio</strong>
-                                                </td>
-                                                <td>&emsp;</td>
-                                                <td align="right">
-                                                    <strong class="harga_studio">Rp{{number_format(0,2,',','.')}}</strong>
-                                                </td>
-                                            </tr>
-                                            <tr>
+                                            @if($layanan->isHours == true)
+                                                <tr data-placement="left" data-toggle="tooltip" title="Total durasi">
+                                                    <td>Hours</td>
+                                                    <td align="center">
+                                                        <strong class="bill_hours">{{$layanan->hours}}</strong>
+                                                    </td>
+                                                    <td>&emsp;</td>
+                                                    <td colspan="2" align="right">
+                                                        <strong class="total_price_hours">Rp{{number_format(0,2,',','.')}}</strong>
+                                                    </td>
+                                                </tr>
+                                            @endif
+                                            @if($layanan->isQty == true)
+                                                <tr data-placement="left" data-toggle="tooltip" title="Total item">
+                                                    <td>Qty.</td>
+                                                    <td align="center">
+                                                        <strong class="bill_qty">{{$layanan->qty}}</strong></td>
+                                                    <td>&emsp;</td>
+                                                    <td colspan="2" align="right">
+                                                        <strong class="total_price_qty">Rp{{number_format(0,2,',','.')}}</strong>
+                                                    </td>
+                                                </tr>
+                                            @endif
+                                            @if($layanan->isStudio == true)
+                                                <tr data-placement="left" data-toggle="tooltip" title="Nama studio">
+                                                    <td><strong class="nama_studio">Adventure Studio</strong></td>
+                                                    <td align="center"><strong class="plans_qty">1</strong></td>
+                                                    <td>&emsp;</td>
+                                                    <td colspan="2" align="right">
+                                                        <strong class="total_price_studio">Rp{{number_format(0,2,',','.')}}</strong>
+                                                    </td>
+                                                </tr>
+                                            @endif
+                                            <tr style="border-top: 1px solid #eee">
                                                 <td><strong>SUBTOTAL</strong></td>
-                                                <td>&emsp;</td>
-                                                <td>&emsp;</td>
-                                                <td>&emsp;</td>
-                                                <td align="right">
+                                                <td colspan="4" align="right">
                                                     <strong class="subtotal"
-                                                            style="font-size: 18px;color: #592f83"></strong>
+                                                            style="font-size: 18px;color: #592f83">Rp{{number_format(0,2,',','.')}}</strong>
                                                 </td>
                                             </tr>
                                         </table>
                                     </div>
                                 </div>
+                                <div class="row" data-aos="zoom-out">
+                                    <div class="col">
+                                        <strong>Order Details</strong>
+                                        <hr class="mt-0 mb-2">
+                                        <ul class="list-inline">
+                                            <li class="list-inline-item">
+                                                <a class="tag"><i class="fa fa-calendar-alt mr-2"></i>
+                                                    <span id="booking_date"></span></a></li>
+                                            @if($layanan->isHours == true)
+                                                <li class="list-inline-item">
+                                                    <a class="tag"><i class='fa fa-stopwatch mr-2'></i>
+                                                        <span id="booking_hours"></span></a></li>
+                                            @endif
+                                            @if($layanan->isQty == true)
+                                                <li class="list-inline-item">
+                                                    <a class="tag"><i class='fa fa-users mr-2'></i>
+                                                        <span id="booking_qty"></span></a></li>
+                                            @endif
+                                            @if($layanan->isStudio == true)
+                                                <li class="list-inline-item">
+                                                    <a class="tag"><i class='fa fa-door-open mr-2'></i>
+                                                        <span id="booking_studio"></span></a></li>
+                                            @endif
+                                            <li class="list-inline-item">
+                                                <a class="tag"><i class="fa fa-map-marked-alt mr-2"></i>
+                                                    <span id="booking_location"></span></a></li>
+                                            <li class="list-inline-item">
+                                                <a class="tag"><i class="fa fa-comments mr-2"></i>
+                                                    <span id="booking_desc"></span></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <hr class="mt-0" data-aos="fade-right">
                                 <input type="button" name="previous" class="previous action-button" value="Previous"
                                        data-aos="fade-right">
                                 <input type="button" name="next" class="next action-button" value="Next"
@@ -290,9 +327,8 @@
                             </fieldset>
                             <fieldset id="payment_method">
                                 <h2 class="fs-title text-center" data-aos="fade-right">Payment Method</h2>
-                                <h3 class="fs-subtitle text-center" data-aos="fade-left">Sebelum menyelesaikan
-                                    pembayaran, silahkan pilih
-                                    salah satu metode pembayaran berikut</h3>
+                                <h3 class="fs-subtitle text-center" data-aos="fade-left">Silahkan pilih metode
+                                    pembayaran yang Anda inginkan!</h3>
                                 <hr class="mt-0 mb-0" data-aos="fade-down">
                                 <div class="panel-group accordion mb-3">
                                     @foreach($paymentCategories as $row)
@@ -409,9 +445,7 @@
                             <input type="hidden" id="start" name="start">
                             <input type="hidden" id="end" name="end">
                             <input type="hidden" id="payment_code" name="payment_code">
-                            <input type="hidden" id="total_qty" name="total_qty">
-                            <input type="hidden" id="total_hours" name="total_hours">
-                            <input type="hidden" name="total_payment" id="total_payment">
+                            <input type="hidden" id="total_payment" name="total_payment">
                         </form>
                     </div>
                 </div>
@@ -431,7 +465,7 @@
 
                 <form id="form-book">
                     <div class="modal-body">
-                        <div class="row form-group">
+                        <div class="row form-group" id="dtp_errDiv">
                             <div class="col">
                                 <label class="control-label mb-0" for="start">Start Date</label>
                                 <div class="input-group date" id="dtp_start" data-target-input="nearest">
@@ -444,7 +478,7 @@
                                            placeholder="yyyy-mm-dd hh:mm:ss" required>
                                 </div>
                             </div>
-                            <div class="col">
+                            <div class="col" id="end_errDiv">
                                 <label class="control-label mb-0" for="end">End Date</label>
                                 <div class="input-group date" id="dtp_end" data-target-input="nearest">
                                     <input type="text" class="form-control datetimepicker-input" data-target="#dtp_end"
@@ -453,6 +487,12 @@
                                         <div class="input-group-text"><i class="fa fa-calendar-check"></i></div>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="row form-group" style="display: none">
+                            <div class="col">
+                                <span class="invalid-feedback"><strong id="dtp_errTxt"
+                                                                       style="text-transform: none"></strong></span>
                             </div>
                         </div>
                         <div class="row form-group">
@@ -493,7 +533,7 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBIljHbKjgtTrpZhEiHum734tF1tolxI68&libraries=places"></script>
     <script>
         // gmaps meeting location
-        var google;
+        var google, total_event = 0, total_plan = 0;
 
         function init() {
             var myLatlng = new google.maps.LatLng(-7.2900502, 112.7201519);
@@ -747,7 +787,7 @@
         // fullcalendar
         document.addEventListener('DOMContentLoaded', function () {
             var $div = document.getElementById('calendar'), start = $('#dtp_start'), end = $('#dtp_end'), findBook,
-                total_event = 0, fc = new FullCalendar.Calendar($div, {
+                fc = new FullCalendar.Calendar($div, {
                     plugins: ['dayGrid', 'timeGrid', 'list', 'interaction', 'bootstrap'],
                     themeSystem: 'bootstrap',
                     locale: 'id',
@@ -809,8 +849,8 @@
                     select: function (info) {
                         if (total_event < 1) {
                             $("#bookModalLabel").text('Booking Setup');
-                            $('#dtp_start input').val(moment(info.start).format('YYYY-MM-DD HH:mm:ss'));
-                            $('#dtp_end input').val(moment(info.end).format('YYYY-MM-DD HH:mm:ss'));
+                            $('#dtp_start input').val(moment(info.start).format('YYYY-MM-DD') + ' 07:00:00');
+                            $('#dtp_end input').val(moment(info.end).format('YYYY-MM-DD') + ' 07:00:00');
                             $('#dtp_judul').val('');
                             $("#btnAbort_book").hide();
                             $("#btnSubmit_book").text('Booking');
@@ -821,7 +861,7 @@
                     },
                     selectOverlap: function (event) {
                         var $end = moment(event.end).diff(moment(event.start), 'days') >= 1 ?
-                            moment(event.end).format('YYYY-MM-DD HH:mm:ss') : null;
+                            moment(event.end).format('YYYY-MM-DD') : null;
 
                         if (event.groupId == 'unavailable') {
                             swal('PERHATIAN!', 'Maaf tanggal yang Anda pilih tidak tersedia, ' +
@@ -829,8 +869,8 @@
 
                         } else {
                             $("#bookModalLabel").text('Booking Setup');
-                            $('#dtp_start input').val(moment(event.start).format('YYYY-MM-DD HH:mm:ss'));
-                            $('#dtp_end input').val($end);
+                            $('#dtp_start input').val(moment(event.start).format('YYYY-MM-DD') + ' 07:00:00');
+                            $('#dtp_end input').val($end + ' 07:00:00');
                             $('#dtp_judul').val('');
                             $("#btnAbort_book").hide();
                             $("#btnSubmit_book").text('Booking');
@@ -838,9 +878,6 @@
                         }
                     },
                     eventClick: function (info) {
-                        var $end = moment(info.event.end).diff(moment(info.event.start), 'days') >= 1 ?
-                            moment(info.event.end).format('YYYY-MM-DD HH:mm:ss') : null;
-
                         findBook = fc.getEventById(info.event.id);
 
                         if (info.event.groupId == 'booked' || info.event.groupId == 'unavailable') {
@@ -855,14 +892,50 @@
 
                         } else {
                             $("#bookModalLabel").text('Booking Edit');
-                            $('#dtp_start input').val(moment(info.event.start).format('YYYY-MM-DD HH:mm:ss'));
-                            $('#dtp_end input').val($end);
+                            $('#dtp_start input').val($("#start").val());
+                            $('#dtp_end input').val($("#end").val());
                             $('#dtp_judul').val(info.event.title);
                             $("#btnAbort_book").show();
                             $("#btnSubmit_book").text('Save Changes');
                             $('#bookModal').modal('show');
                         }
                     },
+                    eventDrop: function (info) {
+                        swal({
+                            title: 'Booking Edit',
+                            text: 'Apakah Anda sudah yakin dengan perubahan ini?',
+                            icon: 'warning',
+                            dangerMode: true,
+                            buttons: ["Tidak", "Ya"],
+                        }).then((confirm) => {
+                            if (confirm) {
+                                $("#start").val(moment(info.event.start).format('YYYY-MM-DD HH:mm:ss'));
+                                $("#end").val(moment(info.event.end).format('YYYY-MM-DD HH:mm:ss'));
+                            } else {
+                                info.revert();
+                            }
+                        });
+                    },
+                    eventResize: function (info) {
+                        swal({
+                            title: 'Booking Edit',
+                            text: 'Apakah Anda sudah yakin dengan perubahan ini?',
+                            icon: 'warning',
+                            dangerMode: true,
+                            buttons: ["Tidak", "Ya"],
+                        }).then((confirm) => {
+                            if (confirm) {
+                                var book_start = $("#start"), book_end = $("#end");
+                                book_start.val(moment(info.event.start).format('YYYY-MM-DD HH:mm:ss'));
+                                book_end.val(moment(info.event.end).format('YYYY-MM-DD HH:mm:ss'));
+                                total_plan = 0;
+                                total_plan += moment(book_end.val()).diff(moment(book_start.val()), 'days');
+                                $("#hours").val(moment(book_end.val()).diff(moment(book_start.val()), 'hours'));
+                            } else {
+                                info.revert();
+                            }
+                        });
+                    }
                 });
 
             fc.render();
@@ -877,7 +950,7 @@
                 '</div></div>'
             );
 
-            start.datetimepicker({
+            $("#dtp_start, #dtp_end").datetimepicker({
                 format: 'YYYY-MM-DD HH:mm:00',
                 icons: {
                     time: "fa fa-clock",
@@ -891,37 +964,48 @@
                         "{{\Carbon\Carbon::parse($row->start)->format('m/d/Y')}}",
                     "{{\Carbon\Carbon::parse($row->end)->format('m/d/Y')}}",
                     @endforeach
-                ]
+                ],
+                disabledHours: [0, 1, 2, 3, 4, 5, 6],
             });
-            end.datetimepicker({
-                format: 'YYYY-MM-DD HH:mm:00',
-                icons: {
-                    time: "fa fa-clock",
-                    date: "fa fa-calendar-alt",
-                    up: "fa fa-chevron-up",
-                    down: "fa fa-chevron-down"
-                },
-                useCurrent: false,
-                disabledDates: [
-                    @foreach($holidays as $row)
-                        "{{\Carbon\Carbon::parse($row->start)->format('m/d/Y')}}",
-                    "{{\Carbon\Carbon::parse($row->end)->format('m/d/Y')}}",
-                    @endforeach
-                ]
-            });
+
             start.on("change.datetimepicker", function (e) {
                 start.val(e.date);
-                end.datetimepicker('minDate', e.date);
+                if (end.val() != "" && start.val() > end.val()) {
+                    $("#dtp_errDiv").addClass('has-danger mb-0');
+                    $("#dtp_start input, #dtp_end input").addClass('is-invalid');
+                    $("#dtp_errTxt")
+                        .html("Nilai <u>start date</u> tidak boleh lebih besar dari nilai <u>end date</u>.")
+                        .parent().show().parent().parent().show();
+                    $("#btnSubmit_book").attr('disabled', 'disabled');
+                } else {
+                    $("#dtp_errDiv").removeClass('has-danger mb-0');
+                    $("#dtp_start input, #dtp_end input").removeClass('is-invalid');
+                    $("#dtp_errTxt").html("").parent().hide().parent().parent().hide();
+                    $("#btnSubmit_book").removeAttr('disabled');
+                }
             });
+
             end.on("change.datetimepicker", function (e) {
                 end.val(e.date);
-                start.datetimepicker('maxDate', e.date);
+                if (start.val() != "" && start.val() > end.val()) {
+                    $("#dtp_errDiv").addClass('has-danger mb-0');
+                    $("#dtp_start input, #dtp_end input").addClass('is-invalid');
+                    $("#dtp_errTxt")
+                        .html("Nilai <u>start date</u> tidak boleh lebih besar dari nilai <u>end date</u>.")
+                        .parent().show().parent().parent().show();
+                    $("#btnSubmit_book").attr('disabled', 'disabled');
+                } else {
+                    $("#dtp_errDiv").removeClass('has-danger mb-0');
+                    $("#dtp_start input, #dtp_end input").removeClass('is-invalid');
+                    $("#dtp_errTxt").html("").parent().hide().parent().parent().hide();
+                    $("#btnSubmit_book").removeAttr('disabled');
+                }
             });
 
             $("#form-book").on("submit", function (e) {
                 e.preventDefault();
                 var $judul = $("#dtp_judul").val(), $start = $("#dtp_start input").val(),
-                    $end = $("#dtp_end input").val();
+                    $end = $("#dtp_end input").val(), book_start = $("#start"), book_end = $("#end");
 
                 if (findBook) {
                     findBook.remove();
@@ -939,8 +1023,12 @@
                 total_event += 1;
 
                 $("#judul").val($judul);
-                $("#start").val($start);
-                $("#end").val($end);
+                book_start.val($start);
+                book_end.val($end);
+
+                total_plan = 0;
+                total_plan += moment(book_end.val()).diff(moment(book_start.val()), 'days');
+                $("#hours").val(moment(book_end.val()).diff(moment(book_start.val()), 'hours'));
                 $("#bookModal").modal('hide');
             });
 
@@ -967,47 +1055,131 @@
         });
 
         $("#booking_setup .next").on('click', function () {
-            if (!$("#start, #end, #judul").val()) {
+            if (!$("#start, #end, #judul").val() || total_event < 1) {
                 swal('PERHATIAN!', 'Anda belum menentukan tanggal dan waktu!', 'warning');
                 $("#request_setup .previous").click();
             }
         });
 
         var isQty = '{{$layanan->isQty}}', isHours = '{{$layanan->isHours}}', isStudio = '{{$layanan->isStudio}}',
-            qty = '{{$layanan->qty}}', hours = '{{$layanan->hours}}',
-            plan_price = '{{$price}}', subtotal = parseInt(plan_price), payment_code_value = 0,
+            qty = '{{$layanan->qty}}', hours = '{{$layanan->hours}}', plan_price = '{{$price}}', price_total_plan = 0,
+            subtotal = 0, payment_code_value = 0, price_per_studio = 0, price_total_studio = 0,
 
             total_qty = 0,
             old_total_qty = '{{$layanan->qty}}',
-            price_per_qty = '{{$layanan->price_per_qty}}',
+            price_per_qty = '{{$layanan->price_per_qty}}', price_total_qty = 0,
 
             total_hours = 0,
             old_total_hours = '{{$layanan->hours}}',
-            price_per_hours = '{{$layanan->price_per_hours}}';
-
-        $(".subtotal").text("Rp" + thousandSeparator(subtotal) + ",00");
+            price_per_hours = '{{$layanan->price_per_hours}}', price_total_hours = 0;
 
         $("#hours").on('blur', function () {
-            if ($(this).val() < parseInt('{{$layanan->hours}}')) {
-                $(this).val('{{$layanan->hours}}');
+            if ($(this).val() < parseInt(old_total_hours)) {
+                $(this).val(old_total_hours);
             }
         });
 
         $("#qty").on('blur', function () {
-            if ($(this).val() < parseInt('{{$layanan->qty}}')) {
-                $(this).val('{{$layanan->qty}}');
+            if ($(this).val() < parseInt(old_total_qty)) {
+                $(this).val(old_total_qty);
             }
         });
 
-        $("#studio").on('change', function () {
-            $("#studio_errDiv").removeClass('has-danger');
-            $("#studio_errTxt").text('').parent().hide();
-            $(this).parent().find('button').css('border', '1px solid #ced4da');
+        $("#studio").on("change", function () {
+            $.get('{{route('get.detail.studio', ['id' => ''])}}/' + $(this).val(), function (data) {
+                $("#studio_errDiv").removeClass('has-danger');
+                $("#studio_errTxt").text('').parent().hide();
+                $("#studio").parent().find('button').css('border', '1px solid #ced4da');
+                $(".nama_studio").text(data.nama);
+                price_per_studio = data.harga;
+
+                $("#booking_studio").html('Studio ' + data.jenis_id + ': ' +
+                    '<span class="mr-2" style="font-weight: 600">' + data.nama + '</span>|' +
+                    '<i class="fa fa-money-bill-wave ml-2"></i><span class="ml-2" style="font-weight: 600">' +
+                    'Rp' + thousandSeparator(parseInt(data.harga)) + '/jam</span>');
+            });
         });
+
+        function totalPlan() {
+            price_total_plan = 0;
+            if (parseInt(total_plan - 1) > 0) {
+                $(".plans_qty").text(1 + '(+' + parseInt(total_plan - 1) + ')');
+                $(".plan_price").text('Rp' + thousandSeparator(parseInt((total_plan - 1) * plan_price) + parseInt(plan_price)) + ',00');
+            } else {
+                $(".plans_qty").text(1);
+                $(".plan_price").text('Rp' + thousandSeparator(parseInt(plan_price) + ',00'));
+            }
+        }
+
+        function totalHours() {
+            price_total_hours = 0;
+            total_hours = $("#hours").val();
+
+            if (parseInt(total_hours - old_total_hours) >= 0) {
+                $(".bill_hours").text(old_total_hours + '(+' + parseInt(total_hours - old_total_hours) + ')');
+                $(".total_price_hours").text('Rp' +
+                    thousandSeparator(parseInt((total_hours - old_total_hours) * price_per_hours)) + ',00');
+            } else {
+                $(".bill_hours").text(old_total_hours);
+                $(".total_price_hours").text('Rp0,00');
+            }
+        }
+
+        function totalQty() {
+            price_total_qty = 0;
+            total_qty = $("#qty").val();
+
+            if (parseInt(total_qty - old_total_qty) >= 0) {
+                $(".bill_qty").text(old_total_qty + '(+' + parseInt(total_qty - old_total_qty) + ')');
+                $(".total_price_qty").text('Rp' +
+                    thousandSeparator(parseInt((total_qty - old_total_qty) * price_per_qty)) + ',00');
+            } else {
+                $(".bill_qty").text(old_total_qty);
+                $(".total_price_qty").text('Rp0,00');
+            }
+        }
+
+        function totalStudio() {
+            price_total_studio = 0;
+            if (parseInt(total_plan - 1) > 0) {
+                $(".bill_studio").text(1 + '(+' + parseInt(total_plan - 1) + ')');
+                $(".total_price_studio").text('Rp' +
+                    thousandSeparator(parseInt((total_plan - 1) * price_per_studio) + parseInt(price_per_studio)) + ',00');
+            } else {
+                $(".bill_studio").text(1);
+                $(".total_price_studio").text('Rp' + thousandSeparator(parseInt(price_per_studio) + ',00'));
+            }
+        }
+
+        function subtotalOrder() {
+            subtotal = 0;
+            totalPlan();
+            price_total_plan = parseInt(total_plan - 1) > 0 ?
+                parseInt((total_plan - 1) * plan_price) + parseInt(plan_price) : parseInt(plan_price);
+
+            if (isHours == 1) {
+                totalHours();
+                price_total_hours = parseInt(total_hours - old_total_hours) > 0 ?
+                    parseInt((total_hours - old_total_hours) * price_per_hours) : 0;
+            }
+            if (isQty == 1) {
+                totalQty();
+                price_total_qty = parseInt(total_qty - old_total_qty) > 0 ?
+                    parseInt((total_qty - old_total_qty) * price_per_qty) : 0;
+            }
+            if (isStudio == 1) {
+                totalStudio();
+                price_total_studio = parseInt(total_plan - 1) > 0 ?
+                    parseInt((total_plan - 1) * price_per_studio) + parseInt(price_per_studio) : price_per_studio;
+            }
+
+            subtotal += parseInt(price_total_plan + price_total_hours + price_total_qty + price_total_studio);
+            $(".subtotal").text("Rp" + thousandSeparator(subtotal) + ",00");
+        }
 
         $("#request_setup .next").on('click', function () {
             var studio = $("#studio");
-            if (!studio.val()) {
+            if (isStudio == 1 && !studio.val()) {
                 $("#studio_errDiv").addClass('has-danger');
                 $("#studio_errTxt").text('Anda belum memilih studio!').parent().show();
                 studio.parent().find('button').css('border', '1px solid #fa5555');
@@ -1017,6 +1189,25 @@
                 $("#studio_errDiv").removeClass('has-danger');
                 $("#studio_errTxt").text('').parent().hide();
                 studio.parent().find('button').css('border', '1px solid #ced4da');
+                subtotalOrder();
+
+                $("#booking_date").html('Tanggal Booking: <span style="font-weight: 600">' + moment($("#start").val()).format('D MMMM YYYY [at] HH:mm') + '</span> &mdash; <span style="font-weight: 600">' + moment($("#end").val()).format('D MMMM YYYY [at] HH:mm') + '</span>');
+
+                $("#booking_hours").html('Total durasi: <span style="font-weight: 600">' + $("#hours").val() + '</span> jam');
+                $("#booking_qty").html('Total item: <span style="font-weight: 600">' + $("#qty").val() + '</span> item');
+
+                if (!$("#address_map").val()) {
+                    $("#booking_location").parent().parent().hide();
+                } else {
+                    $("#booking_location")
+                        .html('Lokasi Meeting: <span style="font-weight: 600">' + $("#address_map").val() + '</span>');
+                }
+
+                if (!$("#deskripsi").val()) {
+                    $("#booking_desc").parent().parent().hide();
+                } else {
+                    $("#booking_desc").text('Informasi Tambahan: ' + $("#deskripsi").val());
+                }
             }
         });
 

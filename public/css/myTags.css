@@ -56,24 +56,24 @@
 }
 
 .tag:hover {
-    background-color: #fa5555;
-    color: #fff !important;
-    transition: all ease-in-out .3s;
-}
-
-.tag:hover::after {
-    border-left-color: #fa5555;
-    transition: all ease-in-out .3s;
-}
-
-.tag-plans:hover {
     background-color: #592f83;
     color: #fff !important;
     transition: all ease-in-out .3s;
 }
 
-.tag-plans:hover::after {
+.tag:hover::after {
     border-left-color: #592f83;
+    transition: all ease-in-out .3s;
+}
+
+.tag-plans:hover {
+    background-color: #17a2b8;
+    color: #fff !important;
+    transition: all ease-in-out .3s;
+}
+
+.tag-plans:hover::after {
+    border-left-color: #17a2b8;
     transition: all ease-in-out .3s;
 }
 

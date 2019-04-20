@@ -136,6 +136,11 @@
                                             </ul>
                                         @endif
                                         {!! $row->keuntungan !!}
+                                        <ul class="mt-0">
+                                            @if($row->isStudio == true)
+                                                <li>Harga belum termasuk studio</li>
+                                            @endif
+                                        </ul>
                                     </div>
                                     <div class="card-footer p-0">
                                         <form id="form-service-{{$row->id}}" action="{{route('show.order', ['id' =>

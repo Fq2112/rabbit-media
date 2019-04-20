@@ -77,9 +77,9 @@ Route::group(['namespace' => 'Pages', 'prefix' => '/'], function () {
                 'as' => 'show.order'
             ]);
 
-            Route::get('reviewData/pricing/{pricing}', [
-                'uses' => 'OrderController@getPricingReviewData',
-                'as' => 'get.pricingReviewData'
+            Route::get('studio/{id}', [
+                'uses' => 'OrderController@getDetailStudio',
+                'as' => 'get.detail.studio'
             ]);
 
             Route::get('paymentMethod/{id}', [
