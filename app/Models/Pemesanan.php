@@ -34,4 +34,14 @@ class Pemesanan extends Model
     {
         return $this->hasOne(Schedule::class, 'pemesanan_id');
     }
+
+    public function getOutcome()
+    {
+        return $this->hasOne(Outcomes::class, 'pemesanan_id');
+    }
+
+    public function getOrderLog()
+    {
+        return $this->hasOne(OrderLogs::class, 'pemesanan_id');
+    }
 }

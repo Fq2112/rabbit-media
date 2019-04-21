@@ -1256,7 +1256,7 @@
             $(".jp-card-cvc").html("•••");
             $payment_code.val(0);
 
-            if (id != 1 || id != 5) {
+            if (id == 2 || id == 3 || id == 4) {
                 swal('Coming Soon!', 'Metode pembayaran ' + nama + ' masih dalam proses pengembangan. ' +
                     'Mohon maaf atas ketidaknyamanannya, terimakasih.', 'warning');
 
@@ -1431,6 +1431,8 @@
                         $("#total_payment").val(parseInt(total) - parseInt(payment_code_value));
                         swal({icon: "success", text: 'Anda akan dialihkan ke halaman Order Status.', buttons: false});
                         $(this)[0].submit();
+
+                        $(window).off('beforeunload');
                     }
                 });
 

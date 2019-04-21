@@ -43,6 +43,7 @@ class CreatePemesanansTable extends Migration
             $table->text('payment_proof')->nullable();
             $table->dateTime('date_payment')->nullable();
             $table->string('status_payment')->nullable();
+            $table->boolean('isPaid')->default(false);
             $table->boolean('isAbort')->default(false);
             $table->boolean('isAccept')->default(false);
             $table->timestamps();

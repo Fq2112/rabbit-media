@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Models\OrderLogs;
 use App\Support\Role;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -99,6 +100,11 @@ class Admin extends Authenticatable
     public function isDesigner()
     {
         return ($this->role == Role::DESIGNER);
+    }
+
+    public function getOrderLog()
+    {
+        return $this->hasMany(OrderLogs::class, 'admin_id');
     }
 
     /**
