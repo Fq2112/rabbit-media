@@ -41,6 +41,9 @@
         function toggleAccordion() {
             this.classList.toggle("active");
             this.nextElementSibling.classList.toggle("active");
+            setTimeout(function () {
+                $('.use-nicescroll').getNiceScroll().resize()
+            }, 600);
         }
 
         items.forEach(item => item.addEventListener("click", toggleAccordion));

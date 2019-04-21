@@ -315,6 +315,10 @@
                 $page = '?page=' + page;
             }
             window.history.replaceState("", "", '{{url('/account/dashboard/order-status')}}' + $page);
+
+            setTimeout(function () {
+                $('.use-nicescroll').getNiceScroll().resize()
+            }, 600);
             return false;
         }
 

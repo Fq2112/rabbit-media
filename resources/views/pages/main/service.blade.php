@@ -137,6 +137,9 @@
         $(".show_pack").on('click', function () {
             $("#content1").toggle(300);
             $(".content2").toggle(300);
+            setTimeout(function () {
+                $('.use-nicescroll').getNiceScroll().resize()
+            }, 600);
         });
     </script>
 @endpush

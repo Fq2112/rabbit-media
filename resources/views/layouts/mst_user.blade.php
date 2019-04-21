@@ -178,7 +178,7 @@
 <!-- Modules -->
 <script src="{{asset('admins/modules/bootstrap-select/dist/js/bootstrap-select.min.js')}}"></script>
 <script src="{{asset('admins/modules/sweetalert/sweetalert.min.js')}}"></script>
-<script src="{{asset('admins/modules/nicescroll/jquery.nicescroll.min.js')}}"></script>
+<script src="{{asset('admins/modules/nicescroll/jquery.nicescroll.js')}}"></script>
 
 @include('layouts.partials._scripts')
 @include('layouts.partials._alert')

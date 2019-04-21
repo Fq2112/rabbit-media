@@ -60,7 +60,7 @@ class PaymentMethodSeeder extends Seeder
                     'logo' => 'pm' . $i . '.png',
                     'name' => $category,
                     'payment_category_id' => $cat->id,
-                    'account_name' => 'PT. SISKA',
+                    'account_name' => 'Laras Sulistyorini',
                     'account_number' => $faker->bankAccountNumber,
                 ]);
             }

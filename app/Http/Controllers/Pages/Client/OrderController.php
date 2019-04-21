@@ -55,13 +55,18 @@ class OrderController extends Controller
 
     public function submitOrder(Request $request)
     {
-        $user = Auth::user();
-        $order = Pemesanan::create([
-            'user_id' => $user->id,
+        Pemesanan::create([
+            'user_id' => Auth::id(),
             'layanan_id' => $request->layanan_id,
+            'studio_id' => $request->studio,
+            'payment_id' => $request->pm_id,
+            'start' => $request->start,
+            'end' => $request->end,
+            'judul' => $request->judul,
+            'hours' => $request->hours,
             'qty' => $request->qty,
+            'meeting_location' => $request->meeting_location,
             'deskripsi' => $request->deskripsi,
-            'payment_method_id' => $request->pm_id,
             'payment_code' => strtoupper($request->payment_code),
             'cc_number' => $request->number,
             'cc_name' => $request->name,
@@ -70,38 +75,7 @@ class OrderController extends Controller
             'total_payment' => $request->total_payment,
         ]);
 
-        $this->paymentDetailsMail($order);
-
-        return back()->withInput(Input::all())->with([
-            'orderSubmit' => 'Kami telah mengirimkan rincian pembayaran Anda ke ' . $user->email . '. Permintaan Anda akan segera kami proses setelah pembayaran Anda selesai.',
-            'order' => $order,
-            'order_id' => $order->id
-        ]);
-    }
-
-    private function paymentDetailsMail($order)
-    {
-        $pm = PaymentMethod::find($order->payment_method_id);
-        $pc = PaymentCategory::find($pm->payment_category_id);
-        $pl = layanan::find($order->layanan_id);
-
-        $plan_price = $pl->harga - ($pl->harga * $pl->diskon / 100);
-
-        $diffTotal = $order->qty - 1;
-        $total = 1 . "(+" . $diffTotal . ")";
-        $price_total = $diffTotal * $plan_price;
-
-        $data = [
-            'order' => $order,
-            'payment_method' => $pm,
-            'payment_category' => $pc,
-            'layanan' => $pl,
-            'plan_price' => $plan_price,
-            'totalVacancy' => $total,
-            'price_totalVacancy' => $price_total,
-        ];
-
-        event(new OrderPaymentDetails($data));
+        return redirect()->route('client.dashboard')->with('update', 'Pesanan Anda berhasil diproses! Mohon untuk menunggu informasi lebih lanjut dari kami dan status pesanan Anda dapat dilihat pada halaman ini, terimakasih.');
     }
 
     public function invoiceJobPosting($id)

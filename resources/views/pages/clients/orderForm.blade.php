@@ -24,8 +24,8 @@
                     <div class="row mb-5">
                         <div class="col-12">
                             <h3 class="site-section-heading text-center" data-aos="fade-right">Order Process</h3>
-                            <h5 class="text-center"
-                                data-aos="fade-left">{{session('order') ? 'Untuk mengakhiri proses pemesanan ini, silahkan menyelesaikan pembayaran Anda dengan rincian berikut.' : 'Sebelum melanjutkan ke langkah berikutnya, harap isi semua kolom formulir dengan data yang valid.'}}</h5>
+                            <h5 class="text-center" data-aos="fade-left" id="order_caption">Sebelum menuju ke langkah
+                                berikutnya, harap isi semua kolom formulir dengan data yang valid.</h5>
                         </div>
                     </div>
                 </div>
@@ -39,7 +39,7 @@
                             <li>Order Summary</li>
                             <li>Payment Method</li>
                         </ul>
-                        <form action="{{route('submit.order')}}" method="post" id="pm-form" data-aos="fade-down">
+                        <form action="{{route('submit.order')}}" method="post" id="form-order" data-aos="fade-down">
                             {{csrf_field()}}
                             <fieldset id="booking_setup">
                                 <div class="row form-group text-center">
@@ -278,9 +278,9 @@
                                                 </tr>
                                             @endif
                                             <tr style="border-top: 1px solid #eee">
-                                                <td><strong>SUBTOTAL</strong></td>
+                                                <td><strong>TOTAL</strong></td>
                                                 <td colspan="4" align="right">
-                                                    <strong class="subtotal"
+                                                    <strong class="total"
                                                             style="font-size: 18px;color: #592f83">Rp{{number_format(0,2,',','.')}}</strong>
                                                 </td>
                                             </tr>
@@ -292,6 +292,9 @@
                                         <strong>Order Details</strong>
                                         <hr class="mt-0 mb-2">
                                         <ul class="list-inline">
+                                            <li class="list-inline-item">
+                                                <a class="tag"><i class="fa fa-text-width mr-2"></i>
+                                                    <span id="booking_title"></span></a></li>
                                             <li class="list-inline-item">
                                                 <a class="tag"><i class="fa fa-calendar-alt mr-2"></i>
                                                     <span id="booking_date"></span></a></li>
@@ -335,11 +338,17 @@
                                         <div class="panel" data-aos="zoom-out">
                                             <div class="panel-heading">
                                                 <h4 class="panel-title mb-0">
-                                                    <a class="accordion-toggle collapsed" href="javascript:void(0)"
-                                                       data-toggle="collapse" data-target="#pc-{{$row->id}}"
-                                                       aria-expanded="true" aria-controls="pc-{{$row->id}}"
-                                                       onclick="paymentCategory('{{$row->id}}')">&ensp;{{$row->name}}
-                                                        <sub>{{$row->caption}}</sub></a>
+                                                    @if($row->id == 1 || $row->id == 5)
+                                                        <a class="accordion-toggle collapsed" href="javascript:void(0)"
+                                                           data-toggle="collapse" data-target="#pc-{{$row->id}}"
+                                                           aria-expanded="true" aria-controls="pc-{{$row->id}}"
+                                                           onclick="paymentCategory('{{$row->id}}','{{$row->name}}')">
+                                                            {{$row->name}} <sub>{{$row->caption}}</sub></a>
+                                                    @else
+                                                        <a class="accordion-toggle collapsed" href="javascript:void(0)"
+                                                           onclick="paymentCategory('{{$row->id}}','{{$row->name}}')">
+                                                            {{$row->name}} <sub>{{$row->caption}}</sub></a>
+                                                    @endif
                                                 </h4>
                                             </div>
                                             <div id="pc-{{$row->id}}" class="panel-collapse collapse mt-3"
@@ -350,12 +359,12 @@
                                                             <input type="radio" id="pm-11" name="pm_id"
                                                                    value="11" style="display: none;">
                                                             <div class="row">
-                                                                <div class="col-lg-12">
+                                                                <div class="col">
                                                                     <div class="cc-wrapper"></div>
                                                                 </div>
                                                             </div>
                                                             <div class="row form-group">
-                                                                <div class="col-lg-6">
+                                                                <div class="col">
                                                                     <strong>Credit Card Number</strong>
                                                                     <div class="input-group">
                                                                         <div class="input-group-prepend">
@@ -367,7 +376,7 @@
                                                                                placeholder="•••• •••• •••• ••••">
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-lg-6">
+                                                                <div class="col">
                                                                     <strong>Full Name</strong>
                                                                     <div class="input-group">
                                                                         <div class="input-group-prepend">
@@ -381,7 +390,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="row form-group">
-                                                                <div class="col-lg-6">
+                                                                <div class="col">
                                                                     <strong>Expiration Date</strong>
                                                                     <div class="input-group">
                                                                         <div class="input-group-prepend">
@@ -393,7 +402,7 @@
                                                                                placeholder="MM/YYYY">
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-lg-6">
+                                                                <div class="col">
                                                                     <strong>Security Code</strong>
                                                                     <div class="input-group">
                                                                         <div class="input-group-prepend">
@@ -407,12 +416,12 @@
                                                                 </div>
                                                             </div>
                                                             <div class="row form-group">
-                                                                <div class="col-lg-12">
+                                                                <div class="col">
                                                                     <div class="alert alert-info text-center"
                                                                          role="alert"
                                                                          style="font-size: 13px">
                                                                         Kartu kredit Anda akan dikenai biaya <strong
-                                                                                class="subtotal"></strong>.
+                                                                                class="total"></strong>.
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -439,8 +448,9 @@
                                 </div>
                                 <input type="button" name="previous" class="previous action-button" value="Previous"
                                        data-aos="fade-right">
-                                <input type="button" class="submit action-button" value="Submit" data-aos="fade-left">
+                                <input type="submit" class="submit action-button" value="Submit" data-aos="fade-left">
                             </fieldset>
+                            <input type="hidden" name="layanan_id" value="{{$layanan->id}}">
                             <input type="hidden" id="judul" name="judul">
                             <input type="hidden" id="start" name="start">
                             <input type="hidden" id="end" name="end">
@@ -1059,11 +1069,15 @@
                 swal('PERHATIAN!', 'Anda belum menentukan tanggal dan waktu!', 'warning');
                 $("#request_setup .previous").click();
             }
+
+            setTimeout(function () {
+                $('.use-nicescroll').getNiceScroll().resize()
+            }, 600);
         });
 
         var isQty = '{{$layanan->isQty}}', isHours = '{{$layanan->isHours}}', isStudio = '{{$layanan->isStudio}}',
             qty = '{{$layanan->qty}}', hours = '{{$layanan->hours}}', plan_price = '{{$price}}', price_total_plan = 0,
-            subtotal = 0, payment_code_value = 0, price_per_studio = 0, price_total_studio = 0,
+            total = 0, payment_code_value = 0, price_per_studio = 0, price_total_studio = 0,
 
             total_qty = 0,
             old_total_qty = '{{$layanan->qty}}',
@@ -1151,8 +1165,8 @@
             }
         }
 
-        function subtotalOrder() {
-            subtotal = 0;
+        function totalOrder() {
+            total = 0;
             totalPlan();
             price_total_plan = parseInt(total_plan - 1) > 0 ?
                 parseInt((total_plan - 1) * plan_price) + parseInt(plan_price) : parseInt(plan_price);
@@ -1173,8 +1187,8 @@
                     parseInt((total_plan - 1) * price_per_studio) + parseInt(price_per_studio) : price_per_studio;
             }
 
-            subtotal += parseInt(price_total_plan + price_total_hours + price_total_qty + price_total_studio);
-            $(".subtotal").text("Rp" + thousandSeparator(subtotal) + ",00");
+            total += parseInt(price_total_plan + price_total_hours + price_total_qty + price_total_studio);
+            $(".total").text("Rp" + thousandSeparator(total) + ",00");
         }
 
         $("#request_setup .next").on('click', function () {
@@ -1189,10 +1203,12 @@
                 $("#studio_errDiv").removeClass('has-danger');
                 $("#studio_errTxt").text('').parent().hide();
                 studio.parent().find('button').css('border', '1px solid #ced4da');
-                subtotalOrder();
+                totalOrder();
+
 
                 $("#booking_date").html('Tanggal Booking: <span style="font-weight: 600">' + moment($("#start").val()).format('D MMMM YYYY [at] HH:mm') + '</span> &mdash; <span style="font-weight: 600">' + moment($("#end").val()).format('D MMMM YYYY [at] HH:mm') + '</span>');
 
+                $("#booking_title").html('Judul: <span style="font-weight: 600">' + $("#judul").val() + '</span>');
                 $("#booking_hours").html('Total durasi: <span style="font-weight: 600">' + $("#hours").val() + '</span> jam');
                 $("#booking_qty").html('Total item: <span style="font-weight: 600">' + $("#qty").val() + '</span> item');
 
@@ -1209,9 +1225,17 @@
                     $("#booking_desc").text('Informasi Tambahan: ' + $("#deskripsi").val());
                 }
             }
+
+            setTimeout(function () {
+                $('.use-nicescroll').getNiceScroll().resize()
+            }, 600);
         });
 
-        function paymentCategory(id) {
+        $("#order_summary .next").on('click', function () {
+            $("#order_caption").text('Mohon untuk tidak melakukan pembayaran apapun sebelum kami mengirimkan tagihannya (invoice) melalui email Anda!');
+        });
+
+        function paymentCategory(id, nama) {
             var $pm_1 = $("#pm-details-1"), $pm_2 = $("#pm-details-2"), $pm_3 = $("#pm-11"),
                 $pm_4 = $("#pm-details-4"), $pm_5 = $("#pm-details-5"), $payment_code = $("#payment_code");
 
@@ -1224,7 +1248,7 @@
             $(".pm-radioButton").prop("checked", false).trigger('change');
             $pm_3.prop("checked", false).trigger('change');
 
-            $("#cc_number, #cc_name, #cc_expiry, #cc_cvc").val("");
+            $("#cc_number, #cc_name, #cc_expiry, #cc_cvc").val("").removeAttr('required');
             $(".jp-card").attr("class", "jp-card jp-card-unknown");
             $(".jp-card-number").html("•••• •••• •••• ••••");
             $(".jp-card-name").html("Your Name");
@@ -1232,11 +1256,15 @@
             $(".jp-card-cvc").html("•••");
             $payment_code.val(0);
 
-            if (id == 1) {
+            if (id != 1 || id != 5) {
+                swal('Coming Soon!', 'Metode pembayaran ' + nama + ' masih dalam proses pengembangan. ' +
+                    'Mohon maaf atas ketidaknyamanannya, terimakasih.', 'warning');
+
+            } /*else if (id == 1) {
                 $pm_1.html(
                     '<div class="row">' +
-                    '<div class="col-lg-12">' +
-                    '<div class="alert alert-info text-center" role="alert" style="font-size: 13px">' +
+                    '<div class="col">' +
+                    '<div class="alert alert-info text-center" role="alert" style="font-size: 14px">' +
                     'Anda akan segera menerima sebuah email mengenai rincian pembayaran setelah Anda menyelesaikan langkah ini.' +
                     '</div></div></div>'
                 );
@@ -1245,40 +1273,51 @@
 
             } else if (id == 3) {
                 $("#pm-11").prop("checked", true).trigger('change');
+                $("#cc_number, #cc_name, #cc_expiry, #cc_cvc").attr("required", "required");
 
             } else if (id == 4) {
                 $pm_4.html(
                     '<div class="row">' +
-                    '<div class="col-lg-12">' +
+                    '<div class="col">' +
                     '<div class="alert alert-info text-center" role="alert" style="font-size: 13px">' +
                     'Anda akan segera menerima sebuah email mengenai rincian pembayaran setelah Anda ' +
                     'menyelesaikan langkah ini.</div></div></div>'
                 );
-                $payment_code.val('{{str_random(15)}}');
-            }
+                $payment_code.val('str_random(15)');
+            }*/
+
+            setTimeout(function () {
+                $('.use-nicescroll').getNiceScroll().resize()
+            }, 600);
         }
 
         function paymentMethod(id) {
             $.get('{{route('get.paymentMethod',['id'=>''])}}/' + id, function (data) {
-                if (data.payment_category_id == 2) {
-                    $("#pm-details-2").html(
+                if (data.payment_category_id == 1) {
+                    $("#pm-details-1").html(
                         '<div class="row">' +
-                        '<div class="col-lg-12">' +
-                        '<div class="alert alert-info text-center" role="alert" style="font-size: 13px">' +
-                        'Anda akan segera dialihkan ke halaman <strong>' + data.name + '</strong> ' +
-                        'setelah Anda menyelesaikan langkah ini.</div></div></div>'
+                        '<div class="col">' +
+                        '<div class="alert alert-info text-center" role="alert">' +
+                        '<span style="font-weight: 600">' + data.name + '</span> account number: ' +
+                        '<span style="font-weight: 600">' + data.account_number + '</span> ' +
+                        '(a/n <span style="font-weight: 600;text-transform: capitalize">' + data.account_name + '</span>)' +
+                        '</div></div></div>'
                     );
 
                 } else if (data.payment_category_id == 5) {
                     $("#pm-details-5").html(
                         '<div class="row">' +
-                        '<div class="col-lg-12">' +
-                        '<div class="alert alert-info text-center" role="alert" style="font-size: 13px">' +
-                        'Anda akan segera dialihkan ke halaman <strong>' + data.name + '</strong> ' +
-                        'setelah Anda menyelesaikan langkah ini.</div></div></div>'
+                        '<div class="col">' +
+                        '<div class="alert alert-info text-center" role="alert">' +
+                        'Ketika Anda melakukan pembayaran dengan metode ini maka Anda akan dialihkan ke halaman ' +
+                        '<strong>' + data.name + '</strong>.</div></div></div>'
                     );
                 }
             });
+
+            setTimeout(function () {
+                $('.use-nicescroll').getNiceScroll().resize()
+            }, 600);
         }
 
         $('.msform').card({
@@ -1299,7 +1338,7 @@
         var left, opacity, scale;
         var animating;
 
-        $(".next").click(function () {
+        $(".next").on('click', function () {
             if (animating) return false;
             animating = true;
 
@@ -1329,9 +1368,13 @@
                 },
                 easing: 'easeInOutBack'
             });
+
+            setTimeout(function () {
+                $('.use-nicescroll').getNiceScroll().resize()
+            }, 600);
         });
 
-        $(".previous").click(function () {
+        $(".previous").on('click', function () {
             if (animating) return false;
             animating = true;
 
@@ -1362,18 +1405,42 @@
                 },
                 easing: 'easeInOutBack'
             });
+
+            $("#order_caption")
+                .text('Sebelum menuju ke langkah berikutnya, harap isi semua kolom formulir dengan data yang valid.');
+            setTimeout(function () {
+                $('.use-nicescroll').getNiceScroll().resize()
+            }, 600);
         });
 
-        $(".submit").on("click", function () {
-            if ($(".pm-radioButton").is(":checked") || ($("#pm-11").is(":checked") && $("#cc_number,#cc_name,#cc_expiry,#cc_cvc").val())) {
-                $("#total_payment").val(parseInt(subtotal) - parseInt(payment_code_value));
-                $("#pm-form")[0].submit();
-                $('html, body').animate({
-                    scrollTop: $('#order-process').offset().top
-                }, 500);
+        $("#form-order").on('submit', function (e) {
+            e.preventDefault();
+            if ($(".pm-radioButton").is(":checked") || ($("#pm-11").is(":checked") &&
+                $("#cc_number,#cc_name,#cc_expiry,#cc_cvc").val())) {
+
+                swal({
+                    title: 'Apakah anda yakin?',
+                    text: 'Kami akan segera memproses permintaan Anda sesaat setelah Anda menekan tombol "Ya" berikut. ' +
+                        'Dan mohon untuk tidak melakukan pembayaran apapun sebelum Anda menerima invoice yang akan ' +
+                        'kami kirimkan melalui email!',
+                    icon: 'warning',
+                    dangerMode: true,
+                    buttons: ["Tidak", "Ya"],
+                }).then((confirm) => {
+                    if (confirm) {
+                        $("#total_payment").val(parseInt(total) - parseInt(payment_code_value));
+                        swal({icon: "success", text: 'Anda akan dialihkan ke halaman Order Status.', buttons: false});
+                        $(this)[0].submit();
+                    }
+                });
+
             } else {
                 swal('PERHATIAN!', 'Anda belum memilih metode pembayaran!', 'warning');
             }
+
+            $('html, body').animate({
+                scrollTop: $('#order-process').offset().top
+            }, 500);
         });
 
         $(window).on('beforeunload', function () {

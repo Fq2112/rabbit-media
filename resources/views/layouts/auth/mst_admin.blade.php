@@ -194,7 +194,7 @@
 <script src="{{asset('admins/modules/popper.js')}}"></script>
 <script src="{{asset('admins/modules/tooltip.js')}}"></script>
 <script src="{{asset('admins/modules/bootstrap/js/bootstrap.min.js')}}"></script>
-<script src="{{asset('admins/modules/nicescroll/jquery.nicescroll.min.js')}}"></script>
+<script src="{{asset('admins/modules/nicescroll/jquery.nicescroll.js')}}"></script>
 <script src="{{asset('admins/modules/moment.min.js')}}"></script>
 <script src="{{asset('admins/js/stisla.js')}}"></script>
 

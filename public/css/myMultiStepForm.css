@@ -203,6 +203,7 @@
     color: #fff;
     font-weight: lighter;
     transition: all 0.2s ease-in;
+    margin-right: .5rem;
 }
 
 .accordion .panel-heading .accordion-toggle.collapsed::before {

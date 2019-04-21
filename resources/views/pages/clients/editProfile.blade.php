@@ -329,6 +329,10 @@
             } else {
                 $("#btn_save_personal_data").attr('disabled', 'disabled');
             }
+
+            setTimeout(function () {
+                $('.use-nicescroll').getNiceScroll().resize()
+            }, 600);
         });
 
         $("#show_address_settings").click(function () {
@@ -339,6 +343,10 @@
             } else {
                 $("#btn_save_address").attr('disabled', 'disabled');
             }
+
+            setTimeout(function () {
+                $('.use-nicescroll').getNiceScroll().resize()
+            }, 600);
         });
     </script>
 

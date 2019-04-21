@@ -277,6 +277,10 @@
                 $page = '&page=' + page;
             }
             window.history.replaceState("", "", '{{url('/portfolios')}}?q=' + $("#jenis").val() + $page);
+
+            setTimeout(function () {
+                $('.use-nicescroll').getNiceScroll().resize()
+            }, 600);
             return false;
         }
     </script>

@@ -257,6 +257,10 @@
             $('html, body').animate({
                 scrollTop: $('#inbox').offset().top
             }, 500);
+
+            setTimeout(function () {
+                $('.use-nicescroll').getNiceScroll().resize()
+            }, 600);
         }
     </script>
 @endpush

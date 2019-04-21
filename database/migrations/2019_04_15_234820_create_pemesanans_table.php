@@ -30,9 +30,10 @@ class CreatePemesanansTable extends Migration
             $table->dateTime('start');
             $table->dateTime('end')->nullable();
             $table->text('judul');
-            $table->text('deskripsi')->nullable();
-            $table->integer('qty')->nullable();
             $table->integer('hours')->nullable();
+            $table->integer('qty')->nullable();
+            $table->text('meeting_location')->nullable();
+            $table->text('deskripsi')->nullable();
             $table->string('payment_code');
             $table->string('cc_number')->nullable();
             $table->string('cc_name')->nullable();
