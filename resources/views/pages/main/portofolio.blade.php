@@ -279,7 +279,7 @@
             });
             $("#search-result").empty().append($result);
 
-            if (data.last_page > 1) {
+            if (data.last_page >= 1) {
                 if (data.current_page > 4) {
                     pagination += '<li class="page-item first">' +
                         '<a class="page-link" href="' + data.first_page_url + '">' +

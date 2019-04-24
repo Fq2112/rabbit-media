@@ -86,3 +86,7 @@
     content: '\f057';
     font-style: normal;
 }
+
+.list-inline-item {
+    margin-right: 0 !important;
+}

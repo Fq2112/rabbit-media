@@ -1,0 +1,55 @@
+.accordion .panel {
+    border-radius: 0;
+    border: 0;
+    margin-top: 0;
+}
+
+.accordion .accordion-toggle {
+    display: block;
+    padding: 10px 15px;
+    text-decoration: none;
+}
+
+.accordion .panel-title {
+    font-size: 1rem;
+}
+
+.accordion .panel-heading a.collapsed:hover,
+.accordion .panel-heading a.collapsed:focus {
+    background-color: #592f83;
+    color: #fff;
+    transition: all 0.2s ease-in;
+}
+
+.accordion .panel-heading a.collapsed:hover::before,
+.accordion .panel-heading a.collapsed:focus::before {
+    color: #fff;
+}
+
+.accordion .panel-heading {
+    padding: 0;
+    border-radius: 0;
+}
+
+.accordion .panel-heading a:not(.collapsed) {
+    color: #fff;
+    background-color: #592f83;
+    transition: all 0.2s ease-in;
+}
+
+.accordion .panel-heading .accordion-toggle::before {
+    font-family: 'fontAwesome';
+    content: '\f111';
+    float: left;
+    color: #fff;
+    font-weight: lighter;
+    transition: all 0.2s ease-in;
+    margin-right: .5rem;
+}
+
+.accordion .panel-heading .accordion-toggle.collapsed::before {
+    font-family: 'fontAwesome';
+    content: '\f1ce';
+    color: #7f7f7f;
+    transition: all 0.2s ease-in;
+}

@@ -7173,14 +7173,14 @@
 
 .bookmark input:checked + label, .invitation input:checked + label, .upload input:checked + label,
 .compare input:checked + label, .accept input:checked + label {
-    background-color: #00ADB5;
-    border-color: #00ADB5;
-    box-shadow: 0 0 0 0.5em rgba(13, 165, 142, 0);
+    background-color: #592f83;
+    border-color: #592f83;
+    box-shadow: 0 0 0 0.5em rgba(89, 47, 131, 0);
 }
 
 .bookmark input:checked + label:after, .invitation input:checked + label:after, .upload input:checked + label:after,
 .compare input:checked + label:after, .accept input:checked + label:after {
-    color: #00ADB5;
+    color: #592f83;
 }
 
 .heart label, .download label, .apply label, .quiz label, .psychoTest label {
@@ -7209,20 +7209,19 @@
 
 .heart input:checked + label, .download input:checked + label, .apply input:checked + label,
 .quiz input:checked + label, .psychoTest input:checked + label {
-    background-color: #fa5555;
-    border-color: #fa5555;
-    box-shadow: 0 0 0 0.5em rgba(13, 165, 142, 0);
+    background-color: #f23a2e;
+    border-color: #f23a2e;
+    box-shadow: 0 0 0 0.5em rgba(242, 58, 46, 0);
 }
 
 .heart input:checked + label:after, .download input:checked + label:after, .apply input:checked + label:after,
 .quiz input:checked + label:after, .psychoTest input:checked + label:after {
-    color: #fa5555;
+    color: #f23a2e;
 }
 
 .anim-icon {
     width: 1.9em;
     height: 1.9em;
-    margin: 11px;
     font-size: 18px;
     display: inline-block;
     position: relative;

@@ -19,7 +19,7 @@
             <div class="row" id="order-control">
                 <div class="col-3" data-aos="zoom-in-right">
                     <div id="daterangepicker" class="myDateRangePicker" data-toggle="tooltip"
-                         data-placement="top" title="Ordered Date Filter">
+                         data-placement="top" title="Booking Date Filter">
                         <i class="fa fa-calendar-alt"></i>&nbsp;
                         <span></span> <i class="fa fa-caret-down"></i>
                     </div>
@@ -31,9 +31,13 @@
             <div class="text-center">
                 <img src="{{asset('images/loading.gif')}}" id="image" class="img-fluid ld ld-fade">
             </div>
-            <div class="row" id="search-result"></div>
             <div class="row">
-                <div class="col-12 myPagination">
+                <div class="col">
+                    <ul class="list-unstyled" id="search-result"></ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col myPagination">
                     <ul class="pagination justify-content-end" style="margin-right: -1em;"
                         data-aos="fade-left"></ul>
                 </div>
@@ -90,14 +94,17 @@
             }, searchDate);
 
             searchDate(start, end);
+
+            $(".range_inputs .applyBtn").toggleClass('btn-success btn-primary');
+            $(".range_inputs button").removeClass('btn-sm').addClass('py-1 px-3');
         });
 
         function searchDate(start, end) {
             $('#daterangepicker span').html(start.format('D MMM YYYY') + ' - ' + end.format('D MMM YYYY'));
             $("#start_date").val(start.format('YYYY-MM-D'));
             $("#end_date").val(end.format('YYYY-MM-D'));
-            $("#date").val(start.format('D MMM YYYY') + ' - ' + end.format('D MMM YYYY'));
-            loadOrderStats(start.format('D MMM YYYY') + ' - ' + end.format('D MMM YYYY'));
+            $("#date").val(start.format('D MMMM YYYY') + ' - ' + end.format('D MMMM YYYY'));
+            loadOrderStats(start.format('D MMMM YYYY') + ' - ' + end.format('D MMMM YYYY'));
         }
 
         function loadOrderStats(date) {
@@ -189,7 +196,7 @@
 
         function successLoad(data, date, page) {
             var title, total, $date, pagination = '', $page = '',
-                $color, $display, $class, $param, $param2, $label;
+                $color, $display, $class, $param, $param2, $label, $isHours, $isQty, $isStudio;
 
             if (data.total > 0) {
                 title = data.total > 1 ? 'Showing <strong>' + data.total + '</strong> order status' :
@@ -218,95 +225,147 @@
                     "<strong>Ordered</strong> on " + val.date_order;
                 $param = val.id + ",'" + val.payment_proof + "','" + val.invoice + "'";
                 $param2 = val.id + ",'" + val.invoice + "'";
+                $isHours = val.plan.isHours == 1 ? 'inline-block' : 'none';
+                $isQty = val.plan.isQty == 1 ? 'inline-block' : 'none';
+                $isStudio = val.plan.isStudio == 1 ? 'inline-block' : 'none';
 
                 $("#search-result").append(
-                    '<div class="media">' +
-                    '<div class="media-left media-middle">' +
-                    '<img width="100" class="media-object" src="' + val.ava + '"></div>' +
+                    '<li class="media" style="border-bottom: 1px solid rgba(0, 0, 0, 0.1)">' +
+                    '<img width="100" class="align-self-center mr-3" src="' + val.ava + '">' +
                     '<div class="media-body">' +
-                    '<small class="media-heading">' +
-                    '<a style="color: ' + $color + '" target="_blank" ' +
+                    '<h5 class="mt-0" style="font-size: 17px"><a style="color: ' + $color + ';" target="_blank" ' +
                     'href="{{route('invoice.order',['id'=> ''])}}/' + val.encryptID + '">' +
                     '<i class="fa fa-file-invoice-dollar"></i>&ensp;' + val.invoice + '</a>' +
-                    '<sub>&ndash; ' + val.created_at + '</sub></small>' +
-                    '<blockquote style="font-size: 12px;color: #7f7f7f">' +
-                    '<form style="display: ' + $display + '" class="pull-right" id="form-paymentProof-' + val.id + '" ' +
+                    '<cite><sub> &ndash; ' + val.created_at + '</sub></cite></h5>' +
+                    '<blockquote style="color: #7f7f7f">' +
+
+                    '<div class="row">' +
+
+                    '<div class="col-11">' +
+                    '<div class="row">' +
+                    '<div class="col">' +
+                    '<div class="panel-group accordion mb-3">' +
+                    '<div class="panel">' +
+                    '<div class="panel-heading">' +
+                    '<h4 class="panel-title mb-0">' +
+                    '<a class="accordion-toggle collapsed" href="javascript:void(0)" data-toggle="collapse" ' +
+                    'data-target="#service-details" aria-expanded="true" aria-controls="service-details">' +
+                    '&ensp;Service Details <sub>Rincian layanan yang Anda pesan</sub></a></h4></div>' +
+                    '<div id="service-details" class="panel-collapse collapse mt-2" ' +
+                    'aria-labelledby="service-details" data-parent=".accordion">' +
+                    '<div class="panel-body">' +
+                    '<ul class="list-inline">' +
+                    '<li class="list-inline-item"><a class="tag tag-plans"><i class="fa fa-thumbtack mr-2"></i>' +
+                    '<span class="plans_name mr-2" style="font-weight: 600">' + val.plan.paket + '</span>|' +
+                    '<i class="fa fa-money-bill-wave ml-2"></i><span class="ml-2" style="font-weight: 600">' +
+                    'Rp' + val.harga + '</span></a></a></li>' +
+                    '<li class="list-inline-item" style="display: ' + $isHours + '"><a class="tag tag-plans">' +
+                    '<i class="fa fa-stopwatch mr-2"></i>Durasi max. ' +
+                    '<span style="font-weight: 600">' + val.plan.hours + '</span> (over time <span style="font-weight: 600">' +
+                    '+Rp' + thousandSeparator(parseInt(val.plan.price_per_hours)) + '/jam</span>)</a></li>' +
+                    '<li class="list-inline-item" style="display: ' + $isQty + '"><a class="tag tag-plans">' +
+                    '<i class="fa fa-users mr-2"></i>Total item (orang/produk) max. ' +
+                    '<span style="font-weight: 600">' + val.plan.qty + '</span> (over item <span style="font-weight: 600">' +
+                    '+Rp' + thousandSeparator(parseInt(val.plan.price_per_qty)) + '/jam</span>)</a></li>' +
+                    '<li class="list-inline-item" style="display: ' + $isStudio + '"><a class="tag tag-plans">' +
+                    '<i class="fa fa-door-open mr-2"></i>Studio opsional (harga ' +
+                    '<span style="font-weight: 600;">belum </span> termasuk studio)</a></li></ul>' +
+                    '</div></div><hr class="m-0">' +
+                    '<div class="panel">' +
+                    '<div class="panel-heading">' +
+                    '<h4 class="panel-title mb-0">' +
+                    '<a class="accordion-toggle collapsed" href="javascript:void(0)" data-toggle="collapse" ' +
+                    'data-target="#order-details" aria-expanded="true" aria-controls="order-details">' +
+                    '&ensp;Order Details <sub>Rincian pesanan Anda</sub></a></h4></div>' +
+                    '<div id="order-details" class="panel-collapse collapse mt-2" ' +
+                    'aria-labelledby="order-details" data-parent=".accordion">' +
+                    '<div class="panel-body">' +
+                    '<ul class="list-inline">' +
+                    '<li class="list-inline-item"><a class="tag tag-plans"><i class="fa fa-thumbtack mr-2"></i>' +
+                    '<span class="plans_name mr-2" style="font-weight: 600">' + val.plan.paket + '</span></a></li></ul>' +
+                    '</div></div><hr class="m-0">' +
+                    '</div>' +
+                    '</div></div></div></div></div>' +
+
+                    '<div class="col-1">' +
+                    '<div class="row">' +
+                    '<div class="col">' +
+                    '<form style="display: ' + $display + '" id="form-paymentProof-' + val.id + '" ' +
                     'method="post" action="{{route('upload.paymentProof')}}">{{csrf_field()}}' +
                     '<div class="anim-icon anim-icon-md upload ' + $class + '" ' +
                     'onclick="uploadPaymentProof(' + $param + ')" data-toggle="tooltip" data-placement="bottom" ' +
-                    'title="Payment Proof" style="font-size: 25px">' +
+                    'title="Payment Proof" style="font-size: 25px;">' +
                     '<input type="hidden" name="order_id" value="' + val.id + '">' +
                     '<input id="upload' + val.id + '" type="checkbox" checked>' +
                     '<label for="upload' + val.id + '"></label></div></form>' +
-                    '<ul class="list-inline" id="orders' + val.id + '"></ul>' +
-                    '<small>' + $label + '</small>' +
+                    '<div></div></div></div></div>' +
+
+                    '</div>' +
+
+                    '<small>' + $label + '</small><br>' +
                     '<a style="display: ' + $display + '" ' +
                     'href="{{route('delete.order',['id'=>''])}}/' + val.encryptID + '" ' +
                     'onclick="deleteOrder(' + $param2 + ')">' +
                     '<div class="anim-icon anim-icon-md apply ld ld-heartbeat" data-toggle="tooltip" ' +
-                    'data-placement="right" title="Click here to abort this order!" style="font-size: 15px">' +
+                    'data-placement="right" title="Batalkan pesanan!" style="font-size: 15px">' +
                     '<input id="apply' + val.id + '" type="checkbox" checked>' +
-                    '<label for="apply' + val.id + '"></label></div></a>' +
-                    '<small style="display: ' + $display + '">P.S.: You are only permitted to COMPLETE the payment or ' +
-                    'even ABORT this order before <strong>' + val.deadline + '.</strong></small>' +
-                    '</blockquote></div></div><hr class="hr-divider">'
-                );
-
-                var $orders = '', $status;
-                $.each(val.order_ids, function (x, nilai) {
-                    $status = nilai.isPost == 1 ? 'POSTED' : 'NOT POSTED YET';
-                    $orders +=
-                        '<li><a target="_blank" href="javascript:void(0)" ' +
-                        'class="tag tag-plans"><i class="fa fa-briefcase"></i>&ensp;' + nilai.judul + ' &ndash; ' +
-                        '<strong>' + $status + '</strong></li>';
-                });
-                $("#orders" + val.id).html($orders +
-                    '<li><a class="tag tag-plans"><i class="fa fa-thumbtack"></i>&ensp;Plan: ' +
-                    '<strong style="text-transform: uppercase">' + val.plan + '</strong> Package</a></li>' +
-                    '<li><a class="tag tag-plans"><i class="fa fa-credit-card"></i>&ensp;Payment: ' + val.pc + ' &ndash; ' +
-                    '<strong style="text-transform: uppercase">' + val.pm + '</strong></a></li>'
+                    '<label for="apply' + val.id + '"></label></div></a><br>' +
+                    '<small style="display: ' + $display + '">NB: Anda hanya dapat menyelesaikan pembayaran pesanan Anda atau membatalkannya sebelum <strong>' + val.deadline + '.</strong></small>' +
+                    '</blockquote></div></li>'
                 );
             });
             $('[data-toggle="tooltip"]').tooltip();
 
-            if (data.last_page > 1) {
-
+            if (data.last_page >= 1) {
                 if (data.current_page > 4) {
-                    pagination += '<li class="first"><a href="' + data.first_page_url + '"><i class="fa fa-angle-double-left"></i></a></li>';
+                    pagination += '<li class="page-item first">' +
+                        '<a class="page-link" href="' + data.first_page_url + '">' +
+                        '<i class="fa fa-angle-double-left"></i></a></li>';
                 }
 
                 if ($.trim(data.prev_page_url)) {
-                    pagination += '<li class="prev"><a href="' + data.prev_page_url + '" rel="prev"><i class="fa fa-angle-left"></i></a></li>';
+                    pagination += '<li class="page-item prev">' +
+                        '<a class="page-link" href="' + data.prev_page_url + '" rel="prev">' +
+                        '<i class="fa fa-angle-left"></i></a></li>';
                 } else {
-                    pagination += '<li class="disabled"><span><i class="fa fa-angle-left"></i></span></li>';
+                    pagination += '<li class="page-item disabled">' +
+                        '<span class="page-link"><i class="fa fa-angle-left"></i></span></li>';
                 }
 
                 if (data.current_page > 4) {
-                    pagination += '<li class="hellip_prev"><a style="cursor: pointer">&hellip;</a></li>'
+                    pagination += '<li class="page-item hellip_prev">' +
+                        '<a class="page-link" style="cursor: pointer">&hellip;</a></li>'
                 }
 
                 for ($i = 1; $i <= data.last_page; $i++) {
                     if ($i >= data.current_page - 3 && $i <= data.current_page + 3) {
                         if (data.current_page == $i) {
-                            pagination += '<li class="active"><span>' + $i + '</span></li>'
+                            pagination += '<li class="page-item active"><span class="page-link">' + $i + '</span></li>'
                         } else {
-                            pagination += '<li><a style="cursor: pointer">' + $i + '</a></li>'
+                            pagination += '<li class="page-item">' +
+                                '<a class="page-link" style="cursor: pointer">' + $i + '</a></li>'
                         }
                     }
                 }
 
                 if (data.current_page < data.last_page - 3) {
-                    pagination += '<li class="hellip_next"><a style="cursor: pointer">&hellip;</a></li>'
+                    pagination += '<li class="page-item hellip_next">' +
+                        '<a class="page-link" style="cursor: pointer">&hellip;</a></li>'
                 }
 
                 if ($.trim(data.next_page_url)) {
-                    pagination += '<li class="next"><a href="' + data.next_page_url + '" rel="next"><i class="fa fa-angle-right"></i></a></li>';
+                    pagination += '<li class="page-item next">' +
+                        '<a class="page-link" href="' + data.next_page_url + '" rel="next">' +
+                        '<i class="fa fa-angle-right"></i></a></li>';
                 } else {
-                    pagination += '<li class="disabled"><span><i class="fa fa-angle-right"></i></span></li>';
+                    pagination += '<li class="page-item disabled">' +
+                        '<span class="page-link"><i class="fa fa-angle-right"></i></span></li>';
                 }
 
                 if (data.current_page < data.last_page - 3) {
-                    pagination += '<li class="last"><a href="' + data.last_page_url + '"><i class="fa fa-angle-double-right"></i></a></li>';
+                    pagination += '<li class="page-item last">' +
+                        '<a class="page-link" href="' + data.last_page_url + '">' +
+                        '<i class="fa fa-angle-double-right"></i></a></li>';
                 }
             }
             $('.myPagination ul').html(pagination);

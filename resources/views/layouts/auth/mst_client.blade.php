@@ -4,6 +4,8 @@
     <link href="{{ asset('css/myDashboard.css') }}" rel="stylesheet">
     <link href="{{ asset('css/myTree-Sidenav.css') }}" rel="stylesheet">
     <link href="{{ asset('css/myMaps.css') }}" rel="stylesheet">
+    <link href="{{asset('css/myTags.css')}}" rel="stylesheet">
+    <link href="{{asset('css/myAccordion.css')}}" rel="stylesheet">
     <style>
         .site-wrapper_left-col .logo:before {
             content: '{{substr($user->name,0,1)}}';
