@@ -74,15 +74,16 @@
 }
 
 .msform .action-button {
-    width: 100px;
+    width: auto;
     background: #592f83;
     font-weight: bold;
     color: white;
     border: 0 none;
     border-radius: 2px;
     cursor: pointer;
-    padding: 10px 5px;
+    padding: 7px 15px;
     margin: 10px auto;
+    text-transform: uppercase;
 }
 
 .msform .action-button:hover, .msform .action-button:focus {
@@ -115,7 +116,7 @@
     color: #8f989f;
     text-transform: uppercase;
     font-size: 12px;
-    width: 25%;
+    width: 33.33%;
     float: left;
     position: relative;
 }

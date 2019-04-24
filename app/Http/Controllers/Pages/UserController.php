@@ -64,17 +64,20 @@ class UserController extends Controller
     {
         $types = JenisPortofolio::orderBy('nama')->get();
         $keyword = $request->q;
+        $category = $request->category;
         $page = $request->page;
 
-        return view('pages.main.portofolio', compact('portfolios', 'types', 'keyword', 'page'));
+        return view('pages.main.portofolio', compact('portfolios', 'types', 'keyword', 'category', 'page'));
     }
 
     public function getPortfolios(Request $request)
     {
-        if ($request->q == 'all') {
-            $portfolios = Portofolio::orderByDesc('id')->paginate(12)->toArray();
+        if ($request->category == 'all') {
+            $portfolios = Portofolio::where('nama', 'LIKE', '%' . $request->q . '%')
+                ->orderByDesc('id')->paginate(12)->toArray();
         } else {
-            $portfolios = Portofolio::orderByDesc('id')->where('jenis_id', $request->q)->paginate(20)->toArray();
+            $portfolios = Portofolio::where('nama', 'LIKE', '%' . $request->q . '%')
+                ->where('jenis_id', $request->category)->orderByDesc('id')->paginate(12)->toArray();
         }
 
         $i = 0;

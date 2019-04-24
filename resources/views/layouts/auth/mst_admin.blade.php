@@ -202,6 +202,7 @@
 <script src="{{asset('admins/modules/bootstrap-select/dist/js/bootstrap-select.min.js')}}"></script>
 <script src="{{asset('admins/modules/sweetalert/sweetalert.min.js')}}"></script>
 <script src="{{asset('admins/modules/izitoast/js/iziToast.min.js')}}"></script>
+<script src="{{asset('admins/modules/checkMobileDevice.js')}}"></script>
 @stack('scripts')
 
 <!-- Template JS File -->

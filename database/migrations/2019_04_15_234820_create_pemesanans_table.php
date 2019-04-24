@@ -24,7 +24,7 @@ class CreatePemesanansTable extends Migration
             $table->integer('studio_id')->unsigned()->nullable();
             $table->foreign('studio_id')->references('id')->on('studios')
                 ->onUpdate('CASCADE')->onDelete('CASCADE');
-            $table->integer('payment_id')->unsigned();
+            $table->integer('payment_id')->unsigned()->nullable();
             $table->foreign('payment_id')->references('id')->on('payment_method')
                 ->onUpdate('CASCADE')->onDelete('CASCADE');
             $table->dateTime('start');
@@ -34,7 +34,7 @@ class CreatePemesanansTable extends Migration
             $table->integer('qty')->nullable();
             $table->text('meeting_location')->nullable();
             $table->text('deskripsi')->nullable();
-            $table->string('payment_code');
+            $table->string('payment_code')->nullable();
             $table->string('cc_number')->nullable();
             $table->string('cc_name')->nullable();
             $table->string('cc_expiry', '9')->nullable();

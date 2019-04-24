@@ -48,11 +48,6 @@ class OrderController extends Controller
         return array_replace($studio->toArray(), array('jenis_id' => $studio->getJenisStudio->nama));
     }
 
-    public function getPaymentMethod($id)
-    {
-        return PaymentMethod::find($id);
-    }
-
     public function submitOrder(Request $request)
     {
         Pemesanan::create([
@@ -102,6 +97,11 @@ class OrderController extends Controller
             'plan_price', 'total', 'price_total', 'invoice'));
     }
 
+    public function getPaymentMethod($id)
+    {
+        return PaymentMethod::find($id);
+    }
+
     public function uploadPaymentProof(Request $request)
     {
         $order = Pemesanan::find($request->order_id);
@@ -145,11 +145,8 @@ class OrderController extends Controller
 
     public function getOrderStatus(Request $request)
     {
-        $start = $request->start_date;
-        $end = $request->end_date;
-
-        $result = Pemesanan::where('user_id', $request->user_id)
-            ->whereBetween('created_at', [$start, $end])->orderByDesc('id')->paginate(6)->toArray();
+        $result = Pemesanan::where('user_id', Auth::id())->where('start', $request->start_date)
+            ->where('end', $request->end_date)->orderByDesc('id')->paginate(6)->toArray();
 
         $i = 0;
         foreach ($result['data'] as $row) {

@@ -18,6 +18,10 @@
     .tagline blockquote {
         font-size: 23px;
     }
+
+    ul.typeahead {
+        width: 95%;
+    }
 }
 
 /*
@@ -39,6 +43,10 @@
 
     .tagline blockquote {
         font-size: 23px;
+    }
+
+    ul.typeahead {
+        width: 95%;
     }
 }
 
@@ -62,6 +70,10 @@
     .tagline blockquote {
         font-size: 23px;
     }
+
+    ul.typeahead {
+        width: 95%;
+    }
 }
 
 /*
@@ -83,6 +95,10 @@
 
     .tagline blockquote {
         font-size: 23px;
+    }
+
+    ul.typeahead {
+        width: 92.5%;
     }
 }
 
@@ -106,6 +122,10 @@
     .tagline blockquote {
         font-size: 23px;
     }
+
+    ul.typeahead {
+        width: 92.5%;
+    }
 }
 
 /*
@@ -128,6 +148,10 @@
     .tagline blockquote {
         font-size: 23px;
     }
+
+    ul.typeahead {
+        width: 92.5%;
+    }
 }
 
 /*
@@ -149,5 +173,9 @@
 
     .tagline blockquote {
         font-size: 19px;
+    }
+
+    ul.typeahead {
+        width: 92.5%;
     }
 }

@@ -7,6 +7,8 @@
 
 "use strict";
 
+window.mobilecheck() ? $("body").removeClass('use-nicescroll') : '';
+
 $(".use-nicescroll").niceScroll({
     cursorcolor: "#312855",
     cursorwidth: "8px",

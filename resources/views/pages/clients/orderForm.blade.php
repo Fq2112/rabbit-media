@@ -2,7 +2,6 @@
 @section('title', ''.ucwords($layanan->getJenisLayanan->nama).' Service: '.ucwords($layanan->paket).' Order | Rabbit Media – Digital Creative Service')
 @push('styles')
     <link href="{{asset('css/myMultiStepForm.css')}}" rel="stylesheet">
-    <link href="{{asset('css/cc.css')}}" rel="stylesheet">
     <link href="{{asset('css/myMaps.css')}}" rel="stylesheet">
     <link href="{{asset('css/myTags.css')}}" rel="stylesheet">
     <link href="{{asset('admins/modules/fullcalendar/packages/core/main.css')}}" rel="stylesheet">
@@ -24,8 +23,8 @@
                     <div class="row mb-5">
                         <div class="col-12">
                             <h3 class="site-section-heading text-center" data-aos="fade-right">Order Process</h3>
-                            <h5 class="text-center" data-aos="fade-left" id="order_caption">Sebelum menuju ke langkah
-                                berikutnya, harap isi semua kolom formulir dengan data yang valid.</h5>
+                            <h5 class="text-center" data-aos="fade-left">Sebelum menuju ke langkah berikutnya, harap isi
+                                semua kolom formulir dengan data yang valid.</h5>
                         </div>
                     </div>
                 </div>
@@ -37,7 +36,6 @@
                             <li class="active">Booking Setup</li>
                             <li>Request Setup</li>
                             <li>Order Summary</li>
-                            <li>Payment Method</li>
                         </ul>
                         <form action="{{route('submit.order')}}" method="post" id="form-order" data-aos="fade-down">
                             {{csrf_field()}}
@@ -179,7 +177,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <hr class="mt-0" data-aos="fade-left">
+                                <hr class="m-0" data-aos="fade-left">
                                 <input type="button" name="previous" class="previous action-button" value="Previous"
                                        data-aos="fade-right">
                                 <input type="button" name="next" class="next action-button" value="Next"
@@ -322,139 +320,16 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <hr class="mt-0" data-aos="fade-right">
+                                <hr class="m-0" data-aos="fade-right">
                                 <input type="button" name="previous" class="previous action-button" value="Previous"
                                        data-aos="fade-right">
-                                <input type="button" name="next" class="next action-button" value="Next"
+                                <input type="submit" class="submit action-button" value="Proceed to Checkout"
                                        data-aos="fade-left">
-                            </fieldset>
-                            <fieldset id="payment_method">
-                                <h2 class="fs-title text-center" data-aos="fade-right">Payment Method</h2>
-                                <h3 class="fs-subtitle text-center" data-aos="fade-left">Silahkan pilih metode
-                                    pembayaran yang Anda inginkan!</h3>
-                                <hr class="mt-0 mb-0" data-aos="fade-down">
-                                <div class="panel-group accordion mb-3">
-                                    @foreach($paymentCategories as $row)
-                                        <div class="panel" data-aos="zoom-out">
-                                            <div class="panel-heading">
-                                                <h4 class="panel-title mb-0">
-                                                    @if($row->id == 1 || $row->id == 5)
-                                                        <a class="accordion-toggle collapsed" href="javascript:void(0)"
-                                                           data-toggle="collapse" data-target="#pc-{{$row->id}}"
-                                                           aria-expanded="true" aria-controls="pc-{{$row->id}}"
-                                                           onclick="paymentCategory('{{$row->id}}','{{$row->name}}')">
-                                                            {{$row->name}} <sub>{{$row->caption}}</sub></a>
-                                                    @else
-                                                        <a class="accordion-toggle collapsed" href="javascript:void(0)"
-                                                           onclick="paymentCategory('{{$row->id}}','{{$row->name}}')">
-                                                            {{$row->name}} <sub>{{$row->caption}}</sub></a>
-                                                    @endif
-                                                </h4>
-                                            </div>
-                                            <div id="pc-{{$row->id}}" class="panel-collapse collapse mt-3"
-                                                 aria-labelledby="pc-{{$row->id}}" data-parent=".accordion">
-                                                <div class="panel-body">
-                                                    <div class="pm-selector">
-                                                        @if($row->id==3)
-                                                            <input type="radio" id="pm-11" name="pm_id"
-                                                                   value="11" style="display: none;">
-                                                            <div class="row">
-                                                                <div class="col">
-                                                                    <div class="cc-wrapper"></div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row form-group">
-                                                                <div class="col">
-                                                                    <strong>Credit Card Number</strong>
-                                                                    <div class="input-group">
-                                                                        <div class="input-group-prepend">
-                                                                            <span class="input-group-text">
-                                                                                <i class="fa fa-credit-card"></i></span>
-                                                                        </div>
-                                                                        <input class="form-control" type="tel" required
-                                                                               id="cc_number" name="number"
-                                                                               placeholder="•••• •••• •••• ••••">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col">
-                                                                    <strong>Full Name</strong>
-                                                                    <div class="input-group">
-                                                                        <div class="input-group-prepend">
-                                                                            <span class="input-group-text">
-                                                                                <i class="fa fa-user"></i></span>
-                                                                        </div>
-                                                                        <input class="form-control" type="text" required
-                                                                               name="name" id="cc_name"
-                                                                               placeholder="Nama lengkap">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row form-group">
-                                                                <div class="col">
-                                                                    <strong>Expiration Date</strong>
-                                                                    <div class="input-group">
-                                                                        <div class="input-group-prepend">
-                                                                            <span class="input-group-text">
-                                                                                <i class="fa fa-calendar-minus"></i></span>
-                                                                        </div>
-                                                                        <input class="form-control" type="tel" required
-                                                                               id="cc_expiry" name="expiry"
-                                                                               placeholder="MM/YYYY">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col">
-                                                                    <strong>Security Code</strong>
-                                                                    <div class="input-group">
-                                                                        <div class="input-group-prepend">
-                                                                            <span class="input-group-text">
-                                                                                <i class="fa fa-lock"></i></span>
-                                                                        </div>
-                                                                        <input class="form-control" name="cvc" required
-                                                                               type="number" id="cc_cvc"
-                                                                               placeholder="***">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row form-group">
-                                                                <div class="col">
-                                                                    <div class="alert alert-info text-center"
-                                                                         role="alert"
-                                                                         style="font-size: 13px">
-                                                                        Kartu kredit Anda akan dikenai biaya <strong
-                                                                                class="total"></strong>.
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        @else
-                                                            @foreach($row->paymentMethods as $pm)
-                                                                @if($pm->payment_category_id != 3)
-                                                                    <input class="pm-radioButton"
-                                                                           id="pm-{{$pm->id}}" type="radio"
-                                                                           name="pm_id" value="{{$pm->id}}">
-                                                                    <label class="pm-label"
-                                                                           for="pm-{{$pm->id}}"
-                                                                           onclick="paymentMethod('{{$pm->id}}')"
-                                                                           style="background-image: url({{asset('images/paymentMethod/'.$pm->logo)}});"></label>
-                                                                @endif
-                                                            @endforeach
-                                                        @endif
-                                                    </div>
-                                                    <div id="pm-details-{{$row->id}}"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <hr class="m-0" data-aos="fade-down" style="margin-bottom: 0">
-                                    @endforeach
-                                </div>
-                                <input type="button" name="previous" class="previous action-button" value="Previous"
-                                       data-aos="fade-right">
-                                <input type="submit" class="submit action-button" value="Submit" data-aos="fade-left">
                             </fieldset>
                             <input type="hidden" name="layanan_id" value="{{$layanan->id}}">
                             <input type="hidden" id="judul" name="judul">
                             <input type="hidden" id="start" name="start">
                             <input type="hidden" id="end" name="end">
-                            <input type="hidden" id="payment_code" name="payment_code">
                             <input type="hidden" id="total_payment" name="total_payment">
                         </form>
                     </div>
@@ -531,7 +406,6 @@
 @endsection
 @push('scripts')
     <script src="{{asset('js/jquery.easing.1.3.js')}}"></script>
-    <script src="{{asset('js/jquery.cc.js')}}"></script>
     <script src="{{asset('admins/modules/fullcalendar/packages/core/main.js')}}"></script>
     <script src="{{asset('admins/modules/fullcalendar/packages/interaction/main.js')}}"></script>
     <script src="{{asset('admins/modules/fullcalendar/packages/daygrid/main.js')}}"></script>
@@ -794,6 +668,21 @@
 
         google.maps.event.addDomListener(window, 'load', init);
 
+        $(function () {
+            window.mobilecheck() ?
+                swal({
+                    title: 'PERHATIAN!',
+                    text: 'Halaman ini belum sepenuhnya support untuk mobile device, ' +
+                        'silahkan gunakan komputer/laptop Anda! Mohon maaf atas ketidaknyamanannya, terimakasih.',
+                    icon: 'warning',
+                    closeOnEsc: false,
+                    closeOnClickOutside: false,
+                }).then(function () {
+                    window.location = '{{route('show.service.pricing', ['jenis' => strtolower
+                        (str_replace(' ', '-', $layanan->getJenisLayanan->nama)),'id'=>encrypt($layanan->jenis_id)])}}';
+                }) : '';
+        });
+
         // fullcalendar
         document.addEventListener('DOMContentLoaded', function () {
             var $div = document.getElementById('calendar'), start = $('#dtp_start'), end = $('#dtp_end'), findBook,
@@ -810,7 +699,7 @@
                     validRange: {
                         start: '{{now()->format('Y-m-d')}}',
                     },
-                    defaultView: 'timeGridWeek',
+                    defaultView: "timeGridWeek",
                     navLinks: true,
                     displayEventTime: true,
                     displayEventEnd: true,
@@ -818,6 +707,7 @@
                     selectable: true,
                     selectMirror: true,
                     eventLimit: true,
+                    longPressDelay: 0,
                     businessHours: [
                         {
                             daysOfWeek: [0, 1, 2, 3, 4, 5, 6],
@@ -870,9 +760,6 @@
                         }
                     },
                     selectOverlap: function (event) {
-                        var $end = moment(event.end).diff(moment(event.start), 'days') >= 1 ?
-                            moment(event.end).format('YYYY-MM-DD') : null;
-
                         if (event.groupId == 'unavailable') {
                             swal('PERHATIAN!', 'Maaf tanggal yang Anda pilih tidak tersedia, ' +
                                 'silahkan pilih tanggal lainnya.', 'warning');
@@ -880,7 +767,7 @@
                         } else {
                             $("#bookModalLabel").text('Booking Setup');
                             $('#dtp_start input').val(moment(event.start).format('YYYY-MM-DD') + ' 07:00:00');
-                            $('#dtp_end input').val($end + ' 07:00:00');
+                            $('#dtp_end input').val(moment(event.start).format('YYYY-MM-DD') + ' 07:00:00');
                             $('#dtp_judul').val('');
                             $("#btnAbort_book").hide();
                             $("#btnSubmit_book").text('Booking');
@@ -1231,109 +1118,6 @@
             }, 600);
         });
 
-        $("#order_summary .next").on('click', function () {
-            $("#order_caption").text('Mohon untuk tidak melakukan pembayaran apapun sebelum kami mengirimkan tagihannya (invoice) melalui email Anda!');
-        });
-
-        function paymentCategory(id, nama) {
-            var $pm_1 = $("#pm-details-1"), $pm_2 = $("#pm-details-2"), $pm_3 = $("#pm-11"),
-                $pm_4 = $("#pm-details-4"), $pm_5 = $("#pm-details-5"), $payment_code = $("#payment_code");
-
-            $pm_1.html("");
-            $pm_2.html("");
-            $pm_4.html("");
-            $pm_5.html("");
-            payment_code_value = 0;
-
-            $(".pm-radioButton").prop("checked", false).trigger('change');
-            $pm_3.prop("checked", false).trigger('change');
-
-            $("#cc_number, #cc_name, #cc_expiry, #cc_cvc").val("").removeAttr('required');
-            $(".jp-card").attr("class", "jp-card jp-card-unknown");
-            $(".jp-card-number").html("•••• •••• •••• ••••");
-            $(".jp-card-name").html("Your Name");
-            $(".jp-card-expiry").html("MM/YYYY");
-            $(".jp-card-cvc").html("•••");
-            $payment_code.val(0);
-
-            if (id == 2 || id == 3 || id == 4) {
-                swal('Coming Soon!', 'Metode pembayaran ' + nama + ' masih dalam proses pengembangan. ' +
-                    'Mohon maaf atas ketidaknyamanannya, terimakasih.', 'warning');
-
-            } /*else if (id == 1) {
-                $pm_1.html(
-                    '<div class="row">' +
-                    '<div class="col">' +
-                    '<div class="alert alert-info text-center" role="alert" style="font-size: 14px">' +
-                    'Anda akan segera menerima sebuah email mengenai rincian pembayaran setelah Anda menyelesaikan langkah ini.' +
-                    '</div></div></div>'
-                );
-                payment_code_value = Math.floor(Math.random() * (999 - 100 + 1) + 100);
-                $payment_code.val(payment_code_value);
-
-            } else if (id == 3) {
-                $("#pm-11").prop("checked", true).trigger('change');
-                $("#cc_number, #cc_name, #cc_expiry, #cc_cvc").attr("required", "required");
-
-            } else if (id == 4) {
-                $pm_4.html(
-                    '<div class="row">' +
-                    '<div class="col">' +
-                    '<div class="alert alert-info text-center" role="alert" style="font-size: 13px">' +
-                    'Anda akan segera menerima sebuah email mengenai rincian pembayaran setelah Anda ' +
-                    'menyelesaikan langkah ini.</div></div></div>'
-                );
-                $payment_code.val('str_random(15)');
-            }*/
-
-            setTimeout(function () {
-                $('.use-nicescroll').getNiceScroll().resize()
-            }, 600);
-        }
-
-        function paymentMethod(id) {
-            $.get('{{route('get.paymentMethod',['id'=>''])}}/' + id, function (data) {
-                if (data.payment_category_id == 1) {
-                    $("#pm-details-1").html(
-                        '<div class="row">' +
-                        '<div class="col">' +
-                        '<div class="alert alert-info text-center" role="alert">' +
-                        '<span style="font-weight: 600">' + data.name + '</span> account number: ' +
-                        '<span style="font-weight: 600">' + data.account_number + '</span> ' +
-                        '(a/n <span style="font-weight: 600;text-transform: capitalize">' + data.account_name + '</span>)' +
-                        '</div></div></div>'
-                    );
-
-                } else if (data.payment_category_id == 5) {
-                    $("#pm-details-5").html(
-                        '<div class="row">' +
-                        '<div class="col">' +
-                        '<div class="alert alert-info text-center" role="alert">' +
-                        'Ketika Anda melakukan pembayaran dengan metode ini maka Anda akan dialihkan ke halaman ' +
-                        '<strong>' + data.name + '</strong>.</div></div></div>'
-                    );
-                }
-            });
-
-            setTimeout(function () {
-                $('.use-nicescroll').getNiceScroll().resize()
-            }, 600);
-        }
-
-        $('.msform').card({
-            container: '.cc-wrapper',
-            placeholders: {
-                number: '•••• •••• •••• ••••',
-                name: 'Your Name',
-                expiry: 'MM/YYYY',
-                cvc: '•••'
-            },
-            messages: {
-                validDate: 'expire\ndate',
-                monthYear: 'mm/yy'
-            }
-        });
-
         var current_fs, next_fs, previous_fs;
         var left, opacity, scale;
         var animating;
@@ -1406,8 +1190,6 @@
                 easing: 'easeInOutBack'
             });
 
-            $("#order_caption")
-                .text('Sebelum menuju ke langkah berikutnya, harap isi semua kolom formulir dengan data yang valid.');
             setTimeout(function () {
                 $('.use-nicescroll').getNiceScroll().resize()
             }, 600);
@@ -1415,30 +1197,23 @@
 
         $("#form-order").on('submit', function (e) {
             e.preventDefault();
-            if ($(".pm-radioButton").is(":checked") || ($("#pm-11").is(":checked") &&
-                $("#cc_number,#cc_name,#cc_expiry,#cc_cvc").val())) {
+            swal({
+                title: 'Apakah anda yakin?',
+                text: 'Kami akan segera memproses permintaan Anda sesaat setelah Anda menekan tombol "Ya" berikut. ' +
+                    'Dan mohon untuk tidak melakukan pembayaran apapun sebelum Anda menerima invoice yang akan ' +
+                    'kami kirimkan melalui email!',
+                icon: 'warning',
+                dangerMode: true,
+                buttons: ["Tidak", "Ya"],
+            }).then((confirm) => {
+                if (confirm) {
+                    $("#total_payment").val(parseInt(total) - parseInt(payment_code_value));
+                    swal({icon: "success", text: 'Anda akan dialihkan ke halaman Order Status.', buttons: false});
+                    $(this)[0].submit();
 
-                swal({
-                    title: 'Apakah anda yakin?',
-                    text: 'Kami akan segera memproses permintaan Anda sesaat setelah Anda menekan tombol "Ya" berikut. ' +
-                        'Dan mohon untuk tidak melakukan pembayaran apapun sebelum Anda menerima invoice yang akan ' +
-                        'kami kirimkan melalui email!',
-                    icon: 'warning',
-                    dangerMode: true,
-                    buttons: ["Tidak", "Ya"],
-                }).then((confirm) => {
-                    if (confirm) {
-                        $("#total_payment").val(parseInt(total) - parseInt(payment_code_value));
-                        swal({icon: "success", text: 'Anda akan dialihkan ke halaman Order Status.', buttons: false});
-                        $(this)[0].submit();
-
-                        $(window).off('beforeunload');
-                    }
-                });
-
-            } else {
-                swal('PERHATIAN!', 'Anda belum memilih metode pembayaran!', 'warning');
-            }
+                    $(window).off('beforeunload');
+                }
+            });
 
             $('html, body').animate({
                 scrollTop: $('#order-process').offset().top

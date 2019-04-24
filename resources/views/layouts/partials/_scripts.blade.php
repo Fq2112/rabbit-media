@@ -1,5 +1,7 @@
 <script>
     $(function () {
+        window.mobilecheck() ? $("body").removeClass('use-nicescroll') : '';
+
         $(".use-nicescroll").niceScroll({
             cursorcolor: "rgba(49, 40, 85, 1)",
             cursorwidth: "8px",
