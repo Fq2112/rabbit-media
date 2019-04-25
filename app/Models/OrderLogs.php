@@ -9,6 +9,7 @@ class OrderLogs extends Model
 {
     protected $table = 'order_logs';
     protected $guarded = ['id'];
+    protected $casts = ['files' => 'array'];
 
     public function getPemesanan()
     {

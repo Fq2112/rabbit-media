@@ -1,9 +1,11 @@
 <?php
 
+use App\Models\OrderLogs;
 use App\Models\Schedule;
 use App\Models\PaymentMethod;
 use App\Models\layanan;
 use App\Models\Studio;
+use App\Admin;
 use App\User;
 use App\Models\Pemesanan;
 use Faker\Factory;
@@ -37,15 +39,22 @@ class OrderSeeder extends Seeder
                 'qty' => $layanan->isQty == true ? $layanan->qty : null,
                 'hours' => $layanan->isHours == true ? $layanan->qty : null,
                 'payment_code' => $code,
-                'total_payment' => $layanan->harga - $code,
+                'total_payment' => $layanan->harga + $code,
                 'payment_proof' => $faker->imageUrl(),
                 'date_payment' => now()->format('Y-m-d'),
-                'isPaid' => true,
+                'status_payment' => 2,
                 'isAccept' => true,
             ]);
 
             Schedule::create([
                 'pemesanan_id' => $order->id,
+            ]);
+
+            OrderLogs::create([
+                'pemesanan_id' => $order->id,
+                'admin_id' => rand(Admin::min('id'), Admin::max('id')),
+                'deskripsi' => $faker->paragraph,
+                'files' => [rand(1, 2) . ".jpg", rand(1, 3) . ".jpg", rand(1, 4) . ".jpg", rand(1, 5) . ".jpg"]
             ]);
         }
 

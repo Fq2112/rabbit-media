@@ -289,7 +289,7 @@
                                     <div class="col">
                                         <strong>Order Details</strong>
                                         <hr class="mt-0 mb-2">
-                                        <ul class="list-inline">
+                                        <ul class="list-inline mb-0">
                                             <li class="list-inline-item">
                                                 <a class="tag"><i class="fa fa-text-width mr-2"></i>
                                                     <span id="booking_title"></span></a></li>
@@ -311,13 +311,17 @@
                                                     <a class="tag"><i class='fa fa-door-open mr-2'></i>
                                                         <span id="booking_studio"></span></a></li>
                                             @endif
-                                            <li class="list-inline-item">
-                                                <a class="tag"><i class="fa fa-map-marked-alt mr-2"></i>
-                                                    <span id="booking_location"></span></a></li>
-                                            <li class="list-inline-item">
-                                                <a class="tag"><i class="fa fa-comments mr-2"></i>
-                                                    <span id="booking_desc"></span></a></li>
                                         </ul>
+                                        <table style="font-size: 14px">
+                                            <tr data-toggle="tooltip" data-placement="left" title="Lokasi Meeting">
+                                                <td><i class="fa fa-map-marked-alt mr-2"></i></td>
+                                                <td id="booking_location" style="font-weight: 600"></td>
+                                            </tr>
+                                            <tr data-toggle="tooltip" data-placement="left" title="Informasi Tambahan">
+                                                <td><i class="fa fa-comments mr-2"></i></td>
+                                                <td id="booking_desc"></td>
+                                            </tr>
+                                        </table>
                                     </div>
                                 </div>
                                 <hr class="m-0" data-aos="fade-right">
@@ -750,7 +754,7 @@
                         if (total_event < 1) {
                             $("#bookModalLabel").text('Booking Setup');
                             $('#dtp_start input').val(moment(info.start).format('YYYY-MM-DD') + ' 07:00:00');
-                            $('#dtp_end input').val(moment(info.end).format('YYYY-MM-DD') + ' 07:00:00');
+                            $('#dtp_end input').val(moment(info.end).format('YYYY-MM-DD') + ' 08:00:00');
                             $('#dtp_judul').val('');
                             $("#btnAbort_book").hide();
                             $("#btnSubmit_book").text('Booking');
@@ -767,7 +771,7 @@
                         } else {
                             $("#bookModalLabel").text('Booking Setup');
                             $('#dtp_start input').val(moment(event.start).format('YYYY-MM-DD') + ' 07:00:00');
-                            $('#dtp_end input').val(moment(event.start).format('YYYY-MM-DD') + ' 07:00:00');
+                            $('#dtp_end input').val(moment(event.start).format('YYYY-MM-DD') + ' 08:00:00');
                             $('#dtp_judul').val('');
                             $("#btnAbort_book").hide();
                             $("#btnSubmit_book").text('Booking');
@@ -867,11 +871,11 @@
 
             start.on("change.datetimepicker", function (e) {
                 start.val(e.date);
-                if (end.val() != "" && start.val() > end.val()) {
+                if ($("#dtp_start input").val() >= $("#dtp_end input").val()) {
                     $("#dtp_errDiv").addClass('has-danger mb-0');
                     $("#dtp_start input, #dtp_end input").addClass('is-invalid');
                     $("#dtp_errTxt")
-                        .html("Nilai <u>start date</u> tidak boleh lebih besar dari nilai <u>end date</u>.")
+                        .html("Nilai <u>start date</u> tidak boleh lebih dari sama dengan nilai <u>end date</u>.")
                         .parent().show().parent().parent().show();
                     $("#btnSubmit_book").attr('disabled', 'disabled');
                 } else {
@@ -884,11 +888,11 @@
 
             end.on("change.datetimepicker", function (e) {
                 end.val(e.date);
-                if (start.val() != "" && start.val() > end.val()) {
+                if ($("#dtp_start input").val() >= $("#dtp_end input").val()) {
                     $("#dtp_errDiv").addClass('has-danger mb-0');
                     $("#dtp_start input, #dtp_end input").addClass('is-invalid');
                     $("#dtp_errTxt")
-                        .html("Nilai <u>start date</u> tidak boleh lebih besar dari nilai <u>end date</u>.")
+                        .html("Nilai <u>start date</u> tidak boleh lebih dari sama dengan nilai <u>end date</u>.")
                         .parent().show().parent().parent().show();
                     $("#btnSubmit_book").attr('disabled', 'disabled');
                 } else {
@@ -1100,16 +1104,15 @@
                 $("#booking_qty").html('Total item: <span style="font-weight: 600">' + $("#qty").val() + '</span> item');
 
                 if (!$("#address_map").val()) {
-                    $("#booking_location").parent().parent().hide();
+                    $("#booking_location").parent().hide();
                 } else {
-                    $("#booking_location")
-                        .html('Lokasi Meeting: <span style="font-weight: 600">' + $("#address_map").val() + '</span>');
+                    $("#booking_location").text($("#address_map").val());
                 }
 
                 if (!$("#deskripsi").val()) {
-                    $("#booking_desc").parent().parent().hide();
+                    $("#booking_desc").parent().hide();
                 } else {
-                    $("#booking_desc").text('Informasi Tambahan: ' + $("#deskripsi").val());
+                    $("#booking_desc").text($("#deskripsi").val());
                 }
             }
 

@@ -75,8 +75,22 @@
             uploadPaymentProof('{{$findOrder->id}}', '{{$findOrder->payment_proof}}', '{{$req_invoice}}');
             @else
             swal('PERHATIAN!', '{{$req_invoice}} kadaluarsa.', 'warning');
-                    @endif
-                    @endif
+            @endif
+            @endif
+
+            window.mobilecheck() ?
+                swal({
+                    title: 'PERHATIAN!',
+                    text: 'Halaman ini belum sepenuhnya support untuk mobile device, silahkan mengubah orientasi ' +
+                        'layar smartphone Anda menjadi landscape atau Anda dapat menggunakan komputer/laptop! ' +
+                        'Mohon maaf atas ketidaknyamanannya, terimakasih.',
+                    icon: 'warning',
+                    closeOnEsc: false,
+                    closeOnClickOutside: false,
+                    buttons: {
+                        cancel: 'Close'
+                    }
+                }) : '';
 
             var start = moment().startOf('month'), end = moment().endOf('month');
 
@@ -196,7 +210,9 @@
 
         function successLoad(data, date, page) {
             var title, total, $date, pagination = '', $page = '',
-                $color, $display, $class, $param, $param2, $label, $isHours, $isQty, $isStudio;
+                $color, $display, $col, $class, $param, $param2, $label,
+                $isHours, $isQty, $isStudio, $isMeeting, $isDesc,
+                $isAcc, $status, $pm, $isLog, $logID, $logDesc, $admin;
 
             if (data.total > 0) {
                 title = data.total > 1 ? 'Showing <strong>' + data.total + '</strong> order status' :
@@ -218,101 +234,192 @@
 
             $("#search-result").empty();
             $.each(data.data, function (i, val) {
-                $color = val.isPaid == 1 ? '#592f83' : '#f23a2e';
-                $display = val.isPaid == 0 && val.expired == false ? '' : 'none';
-                $class = val.isPaid == 1 ? '' : 'ld ld-breath';
-                $label = val.isPaid == 1 ? "<strong>Paid</strong> on " + val.date_payment :
+                $color = val.status_payment > 1 ? '#592f83' : '#f23a2e';
+                $display = val.status_payment <= 1 && val.expired == false ? '' : 'none';
+                $col = val.status_payment <= 1 && val.expired == false ? '-11' : '';
+                $class = val.status_payment > 1 ? '' : 'ld ld-breath';
+                $label = val.status_payment > 1 ? "<strong>Paid</strong> on " + val.date_payment :
                     "<strong>Ordered</strong> on " + val.date_order;
                 $param = val.id + ",'" + val.payment_proof + "','" + val.invoice + "'";
                 $param2 = val.id + ",'" + val.invoice + "'";
                 $isHours = val.plan.isHours == 1 ? 'inline-block' : 'none';
                 $isQty = val.plan.isQty == 1 ? 'inline-block' : 'none';
                 $isStudio = val.plan.isStudio == 1 ? 'inline-block' : 'none';
+                $isMeeting = val.meeting_location != "" ? 'block' : 'none';
+                $isDesc = val.deskripsi != "" ? 'block' : 'none';
+                $isAcc = val.isAccept == 1 ? 'inline-block' : 'none';
+
+                if (val.status_payment == 0) {
+                    $status = 'Belum Lunas';
+                } else if (val.status_payment == 1) {
+                    $status = 'DP (Down Payment)';
+                } else {
+                    $status = 'Lunas';
+                }
+
+                $pm = val.pm != null ? '<span style="font-weight: 600">' + val.pm + '</span> (' + val.pc + ')' : '&ndash;';
+
+                $isLog = val.log_id != null ? '' : 'none';
+                $logID = val.log_id != null ? val.log_id : '';
+                $logDesc = val.log_desc != null ? val.log_desc : '(Kosong)';
+                $admin = val.admin_name != null ? val.admin_name : '(Kosong)';
 
                 $("#search-result").append(
                     '<li class="media" style="border-bottom: 1px solid rgba(0, 0, 0, 0.1)">' +
-                    '<img width="100" class="align-self-center mr-3" src="' + val.ava + '">' +
-                    '<div class="media-body">' +
-                    '<h5 class="mt-0" style="font-size: 17px"><a style="color: ' + $color + ';" target="_blank" ' +
+                    '<img width="64" class="align-self-center" src="' + val.ava + '">' +
+                    '<div class="media-body ml-2">' +
+                    '<h5 class="mt-3" style="font-size: 17px">' +
+                    '<a style="color: ' + $color + '" target="_blank" ' +
                     'href="{{route('invoice.order',['id'=> ''])}}/' + val.encryptID + '">' +
                     '<i class="fa fa-file-invoice-dollar"></i>&ensp;' + val.invoice + '</a>' +
                     '<cite><sub> &ndash; ' + val.created_at + '</sub></cite></h5>' +
                     '<blockquote style="color: #7f7f7f">' +
-
                     '<div class="row">' +
-
-                    '<div class="col-11">' +
+                    '<div class="col' + $col + '">' +
                     '<div class="row">' +
                     '<div class="col">' +
                     '<div class="panel-group accordion mb-3">' +
+
                     '<div class="panel">' +
                     '<div class="panel-heading">' +
                     '<h4 class="panel-title mb-0">' +
-                    '<a class="accordion-toggle collapsed" href="javascript:void(0)" data-toggle="collapse" ' +
-                    'data-target="#service-details" aria-expanded="true" aria-controls="service-details">' +
-                    '&ensp;Service Details <sub>Rincian layanan yang Anda pesan</sub></a></h4></div>' +
-                    '<div id="service-details" class="panel-collapse collapse mt-2" ' +
-                    'aria-labelledby="service-details" data-parent=".accordion">' +
+                    '<a class="accordion-toggle collapsed" href="javascript:void(0)" onclick="openAccordion()" ' +
+                    'data-toggle="collapse" data-target="#sd-' + val.id + '" aria-expanded="true" ' +
+                    'aria-controls="sd-' + val.id + '">&ensp;Service Details <sub>Rincian layanan</sub></a></h4></div>' +
+                    '<div id="sd-' + val.id + '" class="panel-collapse collapse mt-2" ' +
+                    'aria-labelledby="sd-' + val.id + '" data-parent=".accordion">' +
                     '<div class="panel-body">' +
                     '<ul class="list-inline">' +
                     '<li class="list-inline-item"><a class="tag tag-plans"><i class="fa fa-thumbtack mr-2"></i>' +
-                    '<span class="plans_name mr-2" style="font-weight: 600">' + val.plan.paket + '</span>|' +
-                    '<i class="fa fa-money-bill-wave ml-2"></i><span class="ml-2" style="font-weight: 600">' +
-                    'Rp' + val.harga + '</span></a></a></li>' +
-                    '<li class="list-inline-item" style="display: ' + $isHours + '"><a class="tag tag-plans">' +
-                    '<i class="fa fa-stopwatch mr-2"></i>Durasi max. ' +
-                    '<span style="font-weight: 600">' + val.plan.hours + '</span> (over time <span style="font-weight: 600">' +
+                    '<span class="mr-2" style="font-weight: 600">' + val.plan.paket + '</span>|' +
+                    '<i class="fa fa-money-bill-wave ml-2"></i>' +
+                    '<span class="ml-2" style="font-weight: 600">Rp' + val.harga + '</span></a></li>' +
+                    '<li class="list-inline-item" style="display: ' + $isHours + '">' +
+                    '<a class="tag tag-plans"><i class="fa fa-stopwatch mr-2"></i>Durasi max. ' +
+                    '<span style="font-weight: 600">' + val.plan.hours + '</span>(over time <span style="font-weight: 600">' +
                     '+Rp' + thousandSeparator(parseInt(val.plan.price_per_hours)) + '/jam</span>)</a></li>' +
                     '<li class="list-inline-item" style="display: ' + $isQty + '"><a class="tag tag-plans">' +
                     '<i class="fa fa-users mr-2"></i>Total item (orang/produk) max. ' +
                     '<span style="font-weight: 600">' + val.plan.qty + '</span> (over item <span style="font-weight: 600">' +
                     '+Rp' + thousandSeparator(parseInt(val.plan.price_per_qty)) + '/jam</span>)</a></li>' +
                     '<li class="list-inline-item" style="display: ' + $isStudio + '"><a class="tag tag-plans">' +
-                    '<i class="fa fa-door-open mr-2"></i>Studio opsional (harga ' +
-                    '<span style="font-weight: 600;">belum </span> termasuk studio)</a></li></ul>' +
-                    '</div></div><hr class="m-0">' +
+                    '<i class="fa fa-door-open mr-2"></i>Studio opsional ' +
+                    '(harga <span style="font-weight: 600;">belum </span> termasuk studio)</a></li></ul>' +
+                    '</div></div><hr class="m-0"></div>' +
+
                     '<div class="panel">' +
                     '<div class="panel-heading">' +
                     '<h4 class="panel-title mb-0">' +
-                    '<a class="accordion-toggle collapsed" href="javascript:void(0)" data-toggle="collapse" ' +
-                    'data-target="#order-details" aria-expanded="true" aria-controls="order-details">' +
-                    '&ensp;Order Details <sub>Rincian pesanan Anda</sub></a></h4></div>' +
-                    '<div id="order-details" class="panel-collapse collapse mt-2" ' +
-                    'aria-labelledby="order-details" data-parent=".accordion">' +
+                    '<a class="accordion-toggle collapsed" href="javascript:void(0)" onclick="openAccordion()" ' +
+                    'data-toggle="collapse" data-target="#od-' + val.id + '" aria-expanded="true" ' +
+                    'aria-controls="od-' + val.id + '">&ensp;Order Details <sub>Rincian pesanan</sub></a></h4></div>' +
+                    '<div id="od-' + val.id + '" class="panel-collapse collapse mt-2" ' +
+                    'aria-labelledby="od-' + val.id + '" data-parent=".accordion">' +
                     '<div class="panel-body">' +
                     '<ul class="list-inline">' +
-                    '<li class="list-inline-item"><a class="tag tag-plans"><i class="fa fa-thumbtack mr-2"></i>' +
-                    '<span class="plans_name mr-2" style="font-weight: 600">' + val.plan.paket + '</span></a></li></ul>' +
-                    '</div></div><hr class="m-0">' +
-                    '</div>' +
-                    '</div></div></div></div></div>' +
+                    '<li class="list-inline-item"><a class="tag"><i class="fa fa-text-width mr-2"></i>' +
+                    'Judul: <span style="font-weight: 600">' + val.judul + '</span></a></li>' +
+                    '<li class="list-inline-item"><a class="tag"><i class="fa fa-calendar-alt mr-2"></i>' +
+                    'Tanggal Booking: <span style="font-weight: 600">' + val.start + '</span> &mdash; ' +
+                    '<span style="font-weight: 600">' + val.end + '</span></a></li>' +
+                    '<li class="list-inline-item" style="display: ' + $isHours + '"><a class="tag">' +
+                    '<i class="fa fa-stopwatch mr-2"></i>Total durasi ' +
+                    '<span style="font-weight: 600">' + val.hours + '</span> jam</a></li>' +
+                    '<li class="list-inline-item" style="display: ' + $isQty + '"><a class="tag">' +
+                    '<i class="fa fa-users mr-2"></i>Total item ' +
+                    '<span style="font-weight: 600">' + val.qty + '</span> item</a></li>' +
+                    '<li class="list-inline-item" style="display: ' + $isStudio + '">' +
+                    '<a class="tag"><i class="fa fa-door-open mr-2"></i>Studio ' + val.jenis_studio + ': ' +
+                    '<span class="mr-2" style="font-weight: 600">' + val.nama_studio + '</span>|' +
+                    '<i class="fa fa-money-bill-wave ml-2"></i><span class="ml-2" style="font-weight: 600">' +
+                    'Rp' + thousandSeparator(parseInt(val.harga_studio)) + '/jam</span></a></li></ul>' +
+                    '<table style="font-size: 14px">' +
+                    '<tr style="display: ' + $isMeeting + '" data-toggle="tooltip" data-placement="left" ' +
+                    'title="Lokasi Meeting"><td><i class="fa fa-map-marked-alt mr-2"></i></td>' +
+                    '<td style="font-weight: 600">' + val.meeting_location + '</td></tr>' +
+                    '<tr style="display: ' + $isDesc + '" data-toggle="tooltip" data-placement="left" ' +
+                    'title="Informasi Tambahan"><td><i class="fa fa-comments mr-2"></i></td>' +
+                    '<td>' + val.deskripsi + '</td></tr></table>' +
+                    '</div></div><hr class="m-0"></div>' +
 
-                    '<div class="col-1">' +
+                    '<div class="panel">' +
+                    '<div class="panel-heading">' +
+                    '<h4 class="panel-title mb-0">' +
+                    '<a class="accordion-toggle collapsed" href="javascript:void(0)" onclick="openAccordion()" ' +
+                    'data-toggle="collapse" data-target="#pd-' + val.id + '" aria-expanded="true" ' +
+                    'aria-controls="pd-' + val.id + '">&ensp;Payment Details <sub>Rincian pembayaran</sub></a></h4></div>' +
+                    '<div id="pd-' + val.id + '" class="panel-collapse collapse mt-2" ' +
+                    'aria-labelledby="pd-' + val.id + '" data-parent=".accordion">' +
+                    '<div class="panel-body">' +
+                    '<ul class="list-inline">' +
+                    '<li class="list-inline-item"><a class="tag"><i class="fa fa-money-bill-wave mr-2"></i>' +
+                    'Total tagihan: <span style="font-weight: 600">Rp' + val.total_payment + '</span></a></li>' +
+                    '<li class="list-inline-item" style="display: ' + $isAcc + '"><a class="tag">' +
+                    '<i class="fa fa-hand-holding-usd mr-2"></i>' +
+                    'Status Pembayaran: <span style="font-weight: 600">' + $status + '</span></a></li>' +
+                    '<li class="list-inline-item" style="display: ' + $isAcc + '"><a class="tag">' +
+                    '<i class="fa fa-university mr-2"></i>Metode Pembayaran: ' + $pm + '</a></li></ul>' +
+                    '</div></div><hr class="m-0"></div>' +
+
+                    '<div class="panel" style="display: ' + $isLog + '">' +
+                    '<div class="panel-heading">' +
+                    '<h4 class="panel-title mb-0">' +
+                    '<a class="accordion-toggle collapsed" href="javascript:void(0)" onclick="openAccordion()" ' +
+                    'data-toggle="collapse" data-target="#ld-' + val.id + '" aria-expanded="true" ' +
+                    'aria-controls="ld-' + val.id + '">&ensp;Log/Progress Details ' +
+                    '<sub>Rincian kemajuan pesanan</sub></a></h4></div>' +
+                    '<div id="ld-' + val.id + '" class="panel-collapse collapse mt-2" ' +
+                    'aria-labelledby="ld-' + val.id + '" data-parent=".accordion">' +
+                    '<div class="panel-body">' +
+                    '<small>Description</small><p class="mb-2" style="font-size: 14px">' + $logDesc + '</p>' +
+                    '<small>Attachments</small>' +
+                    '<div id="attachments-' + $logID + '" class="mb-3" data-chocolat-title="Attachments"></div>' +
+                    '<small>by <cite>' + $admin + '</cite> <img src="' + val.admin_ava + '" ' +
+                    'class="img-fluid img-thumbnail mb-1" style="border-radius: 100%;width: 32px"></small>' +
+                    '</div></div><hr class="m-0"></div>' +
+
+                    '</div></div></div></div>' +
+
+                    '<div class="col-1" style="display: ' + $display + '">' +
                     '<div class="row">' +
                     '<div class="col">' +
-                    '<form style="display: ' + $display + '" id="form-paymentProof-' + val.id + '" ' +
-                    'method="post" action="{{route('upload.paymentProof')}}">{{csrf_field()}}' +
+                    '<form id="form-paymentProof-' + val.id + '" method="post" ' +
+                    'action="{{route('upload.paymentProof')}}">{{csrf_field()}}' +
                     '<div class="anim-icon anim-icon-md upload ' + $class + '" ' +
                     'onclick="uploadPaymentProof(' + $param + ')" data-toggle="tooltip" data-placement="bottom" ' +
                     'title="Payment Proof" style="font-size: 25px;">' +
                     '<input type="hidden" name="order_id" value="' + val.id + '">' +
                     '<input id="upload' + val.id + '" type="checkbox" checked>' +
                     '<label for="upload' + val.id + '"></label></div></form>' +
-                    '<div></div></div></div></div>' +
+                    '</div></div></div></div>' +
 
-                    '</div>' +
-
+                    '<div class="row" style="margin-top: -.5em">' +
+                    '<div class="col">' +
                     '<small>' + $label + '</small><br>' +
-                    '<a style="display: ' + $display + '" ' +
-                    'href="{{route('delete.order',['id'=>''])}}/' + val.encryptID + '" ' +
-                    'onclick="deleteOrder(' + $param2 + ')">' +
+                    '<a style="display: ' + $display + '" onclick="deleteOrder(' + $param2 + ')" ' +
+                    'href="{{route('delete.order',['id'=>''])}}/' + val.encryptID + '">' +
                     '<div class="anim-icon anim-icon-md apply ld ld-heartbeat" data-toggle="tooltip" ' +
                     'data-placement="right" title="Batalkan pesanan!" style="font-size: 15px">' +
                     '<input id="apply' + val.id + '" type="checkbox" checked>' +
                     '<label for="apply' + val.id + '"></label></div></a><br>' +
-                    '<small style="display: ' + $display + '">NB: Anda hanya dapat menyelesaikan pembayaran pesanan Anda atau membatalkannya sebelum <strong>' + val.deadline + '.</strong></small>' +
+                    '<small style="display: ' + $display + '">' +
+                    'NB: Anda hanya dapat menyelesaikan pembayaran pesanan Anda atau membatalkannya sebelum ' +
+                    '<strong>' + val.deadline + '.</strong></small></div></div>' +
+
                     '</blockquote></div></li>'
                 );
+
+                if (val.log_id != null) {
+                    $.each(val.log_files, function (i, file) {
+                        $("#attachments-" + $logID).append(
+                            '<a class="chocolat-image mr-2" href="{{asset('images/big-images/nature_big_')}}' + file + '">' +
+                            '<img class="img-fluid img-thumbnail" width="64" ' +
+                            'src="{{asset('images/nature_small_')}}' + file + '"></a>'
+                        );
+                    });
+
+                    $('#attachments-' + $logID).Chocolat();
+                }
             });
             $('[data-toggle="tooltip"]').tooltip();
 
@@ -379,6 +486,12 @@
                 $('.use-nicescroll').getNiceScroll().resize()
             }, 600);
             return false;
+        }
+
+        function openAccordion() {
+            setTimeout(function () {
+                $('.use-nicescroll').getNiceScroll().resize()
+            }, 600);
         }
 
         function uploadPaymentProof(id, image, invoice) {

@@ -1,9 +1,9 @@
 @extends('layouts.mst_user')
 @push('styles')
-    <link href="{{ asset('css/card.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/myDashboard.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/myTree-Sidenav.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/myMaps.css') }}" rel="stylesheet">
+    <link href="{{asset('css/card.css')}}" rel="stylesheet">
+    <link href="{{asset('css/myDashboard.css')}}" rel="stylesheet">
+    <link href="{{asset('css/myTree-Sidenav.css')}}" rel="stylesheet">
+    <link href="{{asset('css/myMaps.css')}}" rel="stylesheet">
     <link href="{{asset('css/myTags.css')}}" rel="stylesheet">
     <link href="{{asset('css/myAccordion.css')}}" rel="stylesheet">
     <style>

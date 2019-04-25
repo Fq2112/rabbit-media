@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Pages\Client;
 
 use App\Models\JenisStudio;
 use App\Models\layanan;
+use App\Models\OrderLogs;
 use App\Models\PaymentCategory;
 use App\Models\PaymentMethod;
 use App\Models\Pemesanan;
@@ -54,7 +55,6 @@ class OrderController extends Controller
             'user_id' => Auth::id(),
             'layanan_id' => $request->layanan_id,
             'studio_id' => $request->studio,
-            'payment_id' => $request->pm_id,
             'start' => $request->start,
             'end' => $request->end,
             'judul' => $request->judul,
@@ -62,12 +62,8 @@ class OrderController extends Controller
             'qty' => $request->qty,
             'meeting_location' => $request->meeting_location,
             'deskripsi' => $request->deskripsi,
-            'payment_code' => strtoupper($request->payment_code),
-            'cc_number' => $request->number,
-            'cc_name' => $request->name,
-            'cc_expiry' => $request->expiry,
-            'cc_cvc' => $request->cvc,
             'total_payment' => $request->total_payment,
+            'status_payment' => 0
         ]);
 
         return redirect()->route('client.dashboard')->with('update', 'Pesanan Anda berhasil diproses! Mohon untuk menunggu informasi lebih lanjut dari kami dan status pesanan Anda dapat dilihat pada halaman ini, terimakasih.');
@@ -95,14 +91,12 @@ class OrderController extends Controller
             $date = Carbon::parse($row['created_at']);
             $romanDate = RomanConverter::numberToRoman($date->format('y')) . '/' .
                 RomanConverter::numberToRoman($date->format('m'));
-
-            $filename = $row['isPaid'] == true ? asset('images/stamp_paid.png') :
-                asset('images/stamp_unpaid.png');
-
+            $findStudio = Studio::find($row['studio_id']);
             $plan = layanan::find($row['layanan_id']);
             $payment_method = PaymentMethod::find($row['payment_id']);
+            $log = OrderLogs::where('pemesanan_id', $row['id'])->first();
 
-            $paid = array('ava' => $filename);
+            $paid = array('ava' => asset('images/services/' . $plan->getJenisLayanan->icon));
             $invoice = array('invoice' => '#INV/' . $date->format('Ymd') . '/' . $romanDate . '/' . $row['id']);
             $pl = array('plan' => $plan);
             $price = array('harga' => number_format($plan->harga - ($plan->harga * $plan->diskon / 100),
@@ -110,16 +104,40 @@ class OrderController extends Controller
             $pm = array('pm' => $payment_method != "" ? $payment_method->name : null);
             $pc = array('pc' => $payment_method != "" ? $payment_method->paymentCategories->name : null);
             $created_at = array('created_at' => Carbon::parse($row['created_at'])->diffForHumans());
-            $created_at1DayAdd = array('add_day' => Carbon::parse($row['created_at'])->addDay());
-            $status = array('expired' => now() >= Carbon::parse($row['created_at'])->addDay() ? true : false);
-            $deadline = array('deadline' => Carbon::parse($row['created_at'])->addDay()->format('l, j F Y') .
-                ' at ' . Carbon::parse($row['created_at'])->addDay()->format('H:i'));
+            $created_at3DayAdd = array('add_day' => Carbon::parse($row['created_at'])->addDays(3));
+            $status = array('expired' => now() >= Carbon::parse($row['created_at'])->addDays(3) ? true : false);
+            $deadline = array('deadline' => Carbon::parse($row['created_at'])->addDays(3)->format('l, j F Y') .
+                ' pukul ' . Carbon::parse($row['created_at'])->addDays(3)->format('H:i'));
 
+            $tagihan = array('total_payment' => number_format($row['total_payment'],
+                2, ',', '.'));
+            $start = array('start' => Carbon::parse($row['start'])->format('j F Y'));
+            $end = array('end' => Carbon::parse($row['end'])->format('j F Y'));
             $orderDate = array('date_order' => Carbon::parse($row['created_at'])->format('l, j F Y'));
             $paidDate = array('date_payment' => Carbon::parse($row['date_payment'])->format('l j F Y'));
 
+            $studio = array('nama_studio' => $findStudio != "" ? $findStudio->nama : null,
+                'harga_studio' => $findStudio != "" ? $findStudio->harga : null);
+            $jenis = array('jenis_studio' => $findStudio != "" ? $findStudio->getJenisStudio->nama : null);
+            $meeting = array('meeting_location' => $row['meeting_location'] != "" ? $row['meeting_location'] : '(Kosong)',
+                'deskripsi' => $row['deskripsi'] != "" ? $row['deskripsi'] : '(Kosong)');
+
+            $orderlog = array(
+                'log_id' => $log != "" ? $log->id : null,
+                'log_desc' => $log != "" ? $log->deskripsi : null,
+                'log_files' => $log != "" ? $log->files : null,
+                'admin_name' => $log != "" ? $log->getAdmin->name : null,
+            );
+            if ($log != "") {
+                $ava = array('admin_ava' => $log->getAdmin->ava != "" ?
+                    asset('storage/users/ava/' . $log->getAdmin->ava) : asset('images/avatar.png'));
+            } else {
+                $ava = array('admin_ava' => null);
+            }
+
             $result['data'][$i] = array_replace($paid, $id, $invoice, $result['data'][$i], $pl, $price, $pm, $pc,
-                $created_at, $created_at1DayAdd, $orderDate, $paidDate, $deadline, $status);
+                $created_at, $created_at3DayAdd, $start, $end, $orderDate, $paidDate, $deadline, $status, $studio,
+                $jenis, $tagihan, $meeting, $orderlog, $ava);
             $i = $i + 1;
         }
 

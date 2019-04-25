@@ -50,6 +50,6 @@
 .accordion .panel-heading .accordion-toggle.collapsed::before {
     font-family: 'fontAwesome';
     content: '\f1ce';
-    color: #7f7f7f;
+    color: #592f83;
     transition: all 0.2s ease-in;
 }

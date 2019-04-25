@@ -47,8 +47,17 @@
     <!-- Modules -->
     <link rel="stylesheet" href="{{asset('admins/modules/bootstrap-select/dist/css/bootstrap-select.min.css')}}">
     <link rel="stylesheet" href="{{asset('admins/modules/sweetalert/sweetalert2.css')}}">
+    <link rel="stylesheet" href="{{asset('admins/modules/chocolat/dist/css/chocolat.css')}}">
 
     <style>
+        .chocolat-wrapper {
+            z-index: 19;
+        }
+
+        .chocolat-overlay {
+            background-color: #000;
+        }
+
         @if(\Illuminate\Support\Facades\Request::is('/*'))
         .to-top {
             left: 1%;
@@ -58,7 +67,6 @@
         .to-top {
             right: 1%;
         }
-
         @endif
     </style>
     @stack('styles')
@@ -180,6 +188,7 @@
 <script src="{{asset('admins/modules/sweetalert/sweetalert.min.js')}}"></script>
 <script src="{{asset('admins/modules/nicescroll/jquery.nicescroll.js')}}"></script>
 <script src="{{asset('admins/modules/checkMobileDevice.js')}}"></script>
+<script src="{{asset('admins/modules/chocolat/dist/js/jquery.chocolat.min.js')}}"></script>
 
 @include('layouts.partials._scripts')
 @include('layouts.partials._alert')
