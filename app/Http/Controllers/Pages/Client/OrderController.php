@@ -82,7 +82,7 @@ class OrderController extends Controller
     public function getOrderStatus(Request $request)
     {
         $result = Pemesanan::where('user_id', Auth::id())
-            ->whereBetween('start', [$request->start_date, $request->end_date])
+            ->whereBetween('created_at', [$request->start_date, $request->end_date])
             ->orderByDesc('id')->paginate(6)->toArray();
 
         $i = 0;

@@ -235,9 +235,10 @@
                                                 <td>
                                                     <strong class="plans_name">{{$layanan->paket}}</strong>
                                                 </td>
+                                                <td>&emsp;</td>
                                                 <td align="center"><strong class="plans_qty">1</strong></td>
                                                 <td>&emsp;</td>
-                                                <td colspan="2" align="right">
+                                                <td align="right">
                                                     <strong class="plan_price">Rp{{number_format($price,2,',','.')}}
                                                     </strong>
                                                 </td>
@@ -245,11 +246,12 @@
                                             @if($layanan->isHours == true)
                                                 <tr data-placement="left" data-toggle="tooltip" title="Total durasi">
                                                     <td>Hours</td>
+                                                    <td>&emsp;</td>
                                                     <td align="center">
                                                         <strong class="bill_hours">{{$layanan->hours}}</strong>
                                                     </td>
                                                     <td>&emsp;</td>
-                                                    <td colspan="2" align="right">
+                                                    <td align="right">
                                                         <strong class="total_price_hours">Rp{{number_format(0,2,',','.')}}</strong>
                                                     </td>
                                                 </tr>
@@ -257,10 +259,11 @@
                                             @if($layanan->isQty == true)
                                                 <tr data-placement="left" data-toggle="tooltip" title="Total item">
                                                     <td>Qty.</td>
+                                                    <td>&emsp;</td>
                                                     <td align="center">
                                                         <strong class="bill_qty">{{$layanan->qty}}</strong></td>
                                                     <td>&emsp;</td>
-                                                    <td colspan="2" align="right">
+                                                    <td align="right">
                                                         <strong class="total_price_qty">Rp{{number_format(0,2,',','.')}}</strong>
                                                     </td>
                                                 </tr>
@@ -268,9 +271,10 @@
                                             @if($layanan->isStudio == true)
                                                 <tr data-placement="left" data-toggle="tooltip" title="Nama studio">
                                                     <td><strong class="nama_studio">Adventure Studio</strong></td>
+                                                    <td>&emsp;</td>
                                                     <td align="center"><strong class="plans_qty">1</strong></td>
                                                     <td>&emsp;</td>
-                                                    <td colspan="2" align="right">
+                                                    <td align="right">
                                                         <strong class="total_price_studio">Rp{{number_format(0,2,',','.')}}</strong>
                                                     </td>
                                                 </tr>

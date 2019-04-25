@@ -19,7 +19,7 @@
             <div class="row" id="order-control">
                 <div class="col-3" data-aos="zoom-in-right">
                     <div id="daterangepicker" class="myDateRangePicker" data-toggle="tooltip"
-                         data-placement="top" title="Booking Date Filter">
+                         data-placement="top" title="Ordered Date Filter">
                         <i class="fa fa-calendar-alt"></i>&nbsp;
                         <span></span> <i class="fa fa-caret-down"></i>
                     </div>
