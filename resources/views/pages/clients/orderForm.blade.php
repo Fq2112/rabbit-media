@@ -972,7 +972,7 @@
 
         var isQty = '{{$layanan->isQty}}', isHours = '{{$layanan->isHours}}', isStudio = '{{$layanan->isStudio}}',
             qty = '{{$layanan->qty}}', hours = '{{$layanan->hours}}', plan_price = '{{$price}}', price_total_plan = 0,
-            total = 0, payment_code_value = 0, price_per_studio = 0, price_total_studio = 0,
+            total = 0, price_per_studio = 0, price_total_studio = 0,
 
             total_qty = 0,
             old_total_qty = '{{$layanan->qty}}',
@@ -1207,14 +1207,14 @@
             swal({
                 title: 'Apakah anda yakin?',
                 text: 'Kami akan segera memproses permintaan Anda sesaat setelah Anda menekan tombol "Ya" berikut. ' +
-                    'Dan mohon untuk tidak melakukan pembayaran apapun sebelum Anda menerima invoice yang akan ' +
-                    'kami kirimkan melalui email!',
+                    'Dan mohon untuk tidak melakukan pembayaran apapun sebelum Anda menerima ' +
+                    'rincian tagihan pembayaran yang akan kami kirimkan melalui email!',
                 icon: 'warning',
                 dangerMode: true,
                 buttons: ["Tidak", "Ya"],
             }).then((confirm) => {
                 if (confirm) {
-                    $("#total_payment").val(parseInt(total) - parseInt(payment_code_value));
+                    $("#total_payment").val(parseInt(total));
                     swal({icon: "success", text: 'Anda akan dialihkan ke halaman Order Status.', buttons: false});
                     $(this)[0].submit();
 

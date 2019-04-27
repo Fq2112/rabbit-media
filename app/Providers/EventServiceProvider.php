@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Events\Auth\UserActivationEmail;
+use App\Events\Clients\PaymentDetails;
 use App\Listeners\Auth\SendActivationEmail;
+use App\Listeners\Clients\SendPaymentDetails;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -22,6 +24,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         UserActivationEmail::class => [
             SendActivationEmail::class,
+        ],
+        PaymentDetails::class => [
+            SendPaymentDetails::class,
         ],
     ];
 

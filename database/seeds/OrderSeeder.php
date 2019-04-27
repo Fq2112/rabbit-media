@@ -25,7 +25,6 @@ class OrderSeeder extends Seeder
         $x = 1;
         for ($c = 1; $c <= 30; $c++) {
             $layanan = layanan::where('id', rand(1, 35))->first();
-            $code = rand(100, 999);
 
             $order = Pemesanan::create([
                 'user_id' => rand(User::min('id'), User::max('id')),
@@ -38,8 +37,7 @@ class OrderSeeder extends Seeder
                 'deskripsi' => $faker->paragraph,
                 'qty' => $layanan->isQty == true ? $layanan->qty : null,
                 'hours' => $layanan->isHours == true ? $layanan->qty : null,
-                'payment_code' => $code,
-                'total_payment' => $layanan->harga + $code,
+                'total_payment' => $layanan->harga,
                 'payment_proof' => $faker->imageUrl(),
                 'date_payment' => now()->format('Y-m-d'),
                 'status_payment' => 2,

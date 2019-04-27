@@ -34,12 +34,8 @@ class CreatePemesanansTable extends Migration
             $table->integer('qty')->nullable();
             $table->text('meeting_location')->nullable();
             $table->text('deskripsi')->nullable();
-            $table->string('payment_code')->nullable();
-            $table->string('cc_number')->nullable();
-            $table->string('cc_name')->nullable();
-            $table->string('cc_expiry', '9')->nullable();
-            $table->string('cc_cvc', '4')->nullable();
             $table->text('total_payment');
+            $table->string('payment_type')->nullable();
             $table->text('payment_proof')->nullable();
             $table->dateTime('date_payment')->nullable();
             $table->integer('status_payment');

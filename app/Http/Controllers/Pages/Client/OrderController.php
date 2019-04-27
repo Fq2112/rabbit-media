@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Pages\Client;
 
+use App\Events\Clients\PaymentDetails;
 use App\Models\JenisStudio;
 use App\Models\layanan;
 use App\Models\OrderLogs;
-use App\Models\PaymentCategory;
 use App\Models\PaymentMethod;
 use App\Models\Pemesanan;
 use App\Models\Schedule;
@@ -29,7 +29,6 @@ class OrderController extends Controller
     public function showOrder($id)
     {
         $user = Auth::user();
-        $paymentCategories = PaymentCategory::all();
         $types = JenisStudio::orderBy('nama')->get();
 
         $layanan = layanan::find(decrypt($id));
@@ -38,8 +37,8 @@ class OrderController extends Controller
         $booked = Schedule::has('getPemesanan')->where('isDayOff', false)->get();
         $holidays = Schedule::doesntHave('getPemesanan')->where('isDayOff', true)->get();
 
-        return view('pages.clients.orderForm', compact('user', 'paymentCategories', 'types',
-            'layanan', 'price', 'booked', 'holidays'));
+        return view('pages.clients.orderForm', compact('user', 'types', 'layanan', 'price',
+            'booked', 'holidays'));
     }
 
     public function getDetailStudio($id)
@@ -106,11 +105,9 @@ class OrderController extends Controller
             $created_at = array('created_at' => Carbon::parse($row['created_at'])->diffForHumans());
             $created_at3DayAdd = array('add_day' => Carbon::parse($row['created_at'])->addDays(3));
             $status = array('expired' => now() >= Carbon::parse($row['created_at'])->addDays(3) ? true : false);
-            $deadline = array('deadline' => Carbon::parse($row['created_at'])->addDays(3)->format('l, j F Y') .
-                ' pukul ' . Carbon::parse($row['created_at'])->addDays(3)->format('H:i'));
+            $deadline = array('deadline' => Carbon::parse($row['created_at'])->addDays(3)
+                ->isoFormat('dddd, DD MMMM YYYY [pukul] HH:mm'));
 
-            $tagihan = array('total_payment' => number_format($row['total_payment'],
-                2, ',', '.'));
             $start = array('start' => Carbon::parse($row['start'])->format('j F Y'));
             $end = array('end' => Carbon::parse($row['end'])->format('j F Y'));
             $orderDate = array('date_order' => Carbon::parse($row['created_at'])->format('l, j F Y'));
@@ -137,60 +134,107 @@ class OrderController extends Controller
 
             $result['data'][$i] = array_replace($paid, $id, $invoice, $result['data'][$i], $pl, $price, $pm, $pc,
                 $created_at, $created_at3DayAdd, $start, $end, $orderDate, $paidDate, $deadline, $status, $studio,
-                $jenis, $tagihan, $meeting, $orderlog, $ava);
+                $jenis, $meeting, $orderlog, $ava);
             $i = $i + 1;
         }
 
         return $result;
     }
 
-    public function invoiceOrder($id)
-    {
-        $order = Pemesanan::find(decrypt($id));
-        $user = $order->getUser;
-
-        $pm = $order->getPayment;
-        $pc = $pm->paymentCategories;
-        $pl = $order->getLayanan;
-
-        $plan_price = $pl->harga - ($pl->harga * $pl->diskon / 100);
-
-        $date = Carbon::parse($order->created_at);
-        $romanDate = RomanConverter::numberToRoman($date->format('y')) . '/' .
-            RomanConverter::numberToRoman($date->format('m'));
-        $invoice = 'INV/' . $date->format('Ymd') . '/' . $romanDate . '/' . $order->id;
-
-        return view('pages.clients.invoice', compact('order', 'user', 'pm', 'pc', 'pl',
-            'plan_price', 'invoice'));
-    }
-
-    public function invoiceJobPosting($id)
-    {
-        $order = Pemesanan::find(decrypt($id));
-        $user = $order->getUser;
-
-        $pm = $order->getPayment;
-        $pc = $pm->paymentCategories;
-        $pl = $order->getLayanan;
-
-        $plan_price = $pl->harga - ($pl->harga * $pl->diskon / 100);
-
-        $diffTotal = $order->qty - 1;
-        $total = 1 . "(+" . $diffTotal . ")";
-        $price_total = $diffTotal * $plan_price;
-
-        $date = Carbon::parse($order->created_at);
-        $romanDate = RomanConverter::numberToRoman($date->format('y')) . '/' .
-            RomanConverter::numberToRoman($date->format('m'));
-        $invoice = 'INV/' . $date->format('Ymd') . '/' . $romanDate . '/' . $order->id;
-
-        return view('pages.clients.orderInvoice', compact('order', 'user', 'pm', 'pc', 'pl',
-            'plan_price', 'total', 'price_total', 'invoice'));
-    }
-
     public function getPaymentMethod($id)
     {
         return PaymentMethod::find($id);
+    }
+
+    public function payOrder(Request $request)
+    {
+        $order = Pemesanan::find($request->order_id);
+        $order->update([
+            'payment_id' => $request->pm_id,
+            'payment_type' => $request->payment_type,
+        ]);
+
+        $this->paymentDetailsMail($request->order_id);
+
+        $date = Carbon::parse($order->created_at);
+        $romanDate = RomanConverter::numberToRoman($date->format('y')) . '/' .
+            RomanConverter::numberToRoman($date->format('m'));
+
+        return array_replace($order->toArray(), array('encryptID' => encrypt($order->id),
+            'invoice' => '#INV/' . $date->format('Ymd') . '/' . $romanDate . '/' . $order->id));
+    }
+
+    private function paymentDetailsMail($id)
+    {
+        $order = Pemesanan::find($id);
+        $pm = $order->getPayment;
+        $pc = $pm->paymentCategories;
+        $pl = $order->getLayanan;
+
+        $date = Carbon::parse($order->created_at);
+        $romanDate = RomanConverter::numberToRoman($date->format('y')) . '/' .
+            RomanConverter::numberToRoman($date->format('m'));
+
+        $plan_price = $pl->harga - ($pl->harga * $pl->diskon / 100);
+
+        $diffTotalPlan = Carbon::parse($order->end)->diffInDays(Carbon::parse($order->start)) - 1;
+        $totalPlan = $diffTotalPlan > 0 ? 1 . "(+" . $diffTotalPlan . ")" : 1;
+        $price_totalPlan = $diffTotalPlan > 0 ? $diffTotalPlan * $plan_price : $plan_price;
+
+        if ($pl->isHours == true) {
+            $diffTotalHours = $order->hours - $pl->hours;
+            $totalHours = $diffTotalHours >= 0 ? $pl->hours . "(+" . $diffTotalHours . ")" : $pl->hours;
+            $price_totalHours = $diffTotalHours * $pl->price_per_hours;
+        } else {
+            $totalHours = null;
+            $price_totalHours = null;
+        }
+
+        if ($pl->isQty == true) {
+            $diffTotalQty = $order->qty - $pl->qty;
+            $totalQty = $diffTotalQty >= 0 ? $pl->qty . "(+" . $diffTotalQty . ")" : $pl->qty;
+            $price_totalQty = $diffTotalQty * $pl->price_per_qty;
+        } else {
+            $totalQty = null;
+            $price_totalQty = null;
+        }
+
+        if ($pl->isStudio == true) {
+            $studio = $order->getStudio->nama;
+            $totalStudio = $diffTotalPlan > 0 ? 1 . "(+" . $diffTotalPlan . ")" : 1;
+            $price_totalStudio = $diffTotalPlan > 0 ? $diffTotalPlan * $order->getStudio->harga : $order->getStudio->harga;
+        } else {
+            $studio = null;
+            $totalStudio = null;
+            $price_totalStudio = null;
+        }
+
+        if ($order->payment_type == 'DP') {
+            $amountToPay = number_format(ceil($order->total_payment * .3), 2, ',', '.');
+        } else {
+            $amountToPay = number_format($order->total_payment, 2, ',', '.');
+        }
+
+        $data = [
+            'order' => $order,
+            'invoice' => '#INV/' . $date->format('Ymd') . '/' . $romanDate . '/' . $order->id,
+            'payment_method' => $pm,
+            'payment_category' => $pc,
+            'plans' => $pl,
+            'plan_price' => $plan_price,
+            'totalPlan' => $totalPlan,
+            'price_totalPlan' => $price_totalPlan,
+            'totalHours' => $totalHours,
+            'price_totalHours' => $price_totalHours,
+            'totalQty' => $totalQty,
+            'price_totalQty' => $price_totalQty,
+            'studio' => $studio,
+            'totalStudio' => $totalStudio,
+            'price_totalStudio' => $price_totalStudio,
+            'amountToPay' => $amountToPay
+        ];
+
+        event(new PaymentDetails($data));
     }
 
     public function uploadPaymentProof(Request $request)
@@ -213,14 +257,72 @@ class OrderController extends Controller
         return $name;
     }
 
-    public function deleteJobPosting($id)
+    public function deleteOrder($id)
     {
         $order = Pemesanan::find(decrypt($id));
         $date = Carbon::parse($order->created_at);
-        $romanDate = RomanConverter::numberToRoman($date->format('y')) . '/' . RomanConverter::numberToRoman($date->format('m'));
+        $romanDate = RomanConverter::numberToRoman($date->format('y')) . '/' .
+            RomanConverter::numberToRoman($date->format('m'));
         $invoice = '#INV/' . $date->format('Ymd') . '/' . $romanDate . '/' . $order->id;
         $order->delete();
 
-        return redirect()->route('client.dashboard')->with('delete', 'Invoice ' . $invoice . ' berhasil dihapus!');
+        return redirect()->route('client.dashboard')->with('delete', 'Pesanan: ' . $invoice . ' berhasil dibatalkan!');
+    }
+
+    public function invoiceOrder($id)
+    {
+        $order = Pemesanan::find(decrypt($id));
+        $user = $order->getUser;
+        $pm = $order->getPayment;
+        $pc = $pm->paymentCategories;
+        $pl = $order->getLayanan;
+
+        $date = Carbon::parse($order->created_at);
+        $romanDate = RomanConverter::numberToRoman($date->format('y')) . '/' .
+            RomanConverter::numberToRoman($date->format('m'));
+        $invoice = '#INV/' . $date->format('Ymd') . '/' . $romanDate . '/' . $order->id;
+
+        $plan_price = $pl->harga - ($pl->harga * $pl->diskon / 100);
+
+        $diffTotalPlan = Carbon::parse($order->end)->diffInDays(Carbon::parse($order->start)) - 1;
+        $totalPlan = $diffTotalPlan > 0 ? 1 . "(+" . $diffTotalPlan . ")" : 1;
+        $price_totalPlan = $diffTotalPlan > 0 ? $diffTotalPlan * $plan_price : $plan_price;
+
+        if ($pl->isHours == true) {
+            $diffTotalHours = $order->hours - $pl->hours;
+            $totalHours = $diffTotalHours >= 0 ? $pl->hours . "(+" . $diffTotalHours . ")" : $pl->hours;
+            $price_totalHours = $diffTotalHours * $pl->price_per_hours;
+        } else {
+            $totalHours = null;
+            $price_totalHours = null;
+        }
+
+        if ($pl->isQty == true) {
+            $diffTotalQty = $order->qty - $pl->qty;
+            $totalQty = $diffTotalQty >= 0 ? $pl->qty . "(+" . $diffTotalQty . ")" : $pl->qty;
+            $price_totalQty = $diffTotalQty * $pl->price_per_qty;
+        } else {
+            $totalQty = null;
+            $price_totalQty = null;
+        }
+
+        if ($pl->isStudio == true) {
+            $totalStudio = $diffTotalPlan > 0 ? 1 . "(+" . $diffTotalPlan . ")" : 1;
+            $price_totalStudio = $diffTotalPlan > 0 ? $diffTotalPlan * $order->getStudio->harga : $order->getStudio->harga;
+        } else {
+            $studio = null;
+            $totalStudio = null;
+            $price_totalStudio = null;
+        }
+
+        if ($order->payment_type == 'DP') {
+            $amountToPay = number_format(ceil($order->total_payment * .3), 2, ',', '.');
+        } else {
+            $amountToPay = number_format($order->total_payment, 2, ',', '.');
+        }
+
+        return view('pages.clients.invoice', compact('order', 'user', 'pm', 'pc', 'pl',
+            'plan_price', 'invoice', 'totalPlan', 'price_totalPlan', 'totalHours', 'price_totalHours',
+            'totalQty', 'price_totalQty', 'totalStudio', 'price_totalStudio', 'amountToPay'));
     }
 }

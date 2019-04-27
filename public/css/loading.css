@@ -7147,8 +7147,8 @@
     color: #fdc02f;
 }
 
-.bookmark label, .invitation label, .upload label, .compare label, .accept label, .compare label {
-    box-shadow: 0 0 0 0 rgba(0, 173, 181, 0.5);
+.bookmark label, .invitation label, .upload label, .pay label, .accept label, .pay label {
+    box-shadow: 0 0 0 0 rgba(89, 47, 131, 0.5);
 }
 
 .bookmark label:after {
@@ -7163,8 +7163,8 @@
     content: "\f093"
 }
 
-.compare label:after {
-    content: "\f200";
+.pay label:after {
+    content: "\f155";
 }
 
 .accept label:after {
@@ -7172,18 +7172,18 @@
 }
 
 .bookmark input:checked + label, .invitation input:checked + label, .upload input:checked + label,
-.compare input:checked + label, .accept input:checked + label {
+.pay input:checked + label, .accept input:checked + label {
     background-color: #592f83;
     border-color: #592f83;
     box-shadow: 0 0 0 0.5em rgba(89, 47, 131, 0);
 }
 
 .bookmark input:checked + label:after, .invitation input:checked + label:after, .upload input:checked + label:after,
-.compare input:checked + label:after, .accept input:checked + label:after {
+.pay input:checked + label:after, .accept input:checked + label:after {
     color: #592f83;
 }
 
-.heart label, .download label, .apply label, .quiz label, .psychoTest label {
+.heart label, .download label, .abort label, .quiz label, .psychoTest label {
     box-shadow: 0 0 0 0 rgba(250, 85, 85, 0.5);
 }
 
@@ -7195,8 +7195,8 @@
     content: "\f019";
 }
 
-.apply label:after {
-    content: "\f1d8";
+.abort label:after {
+    content: "\f272";
 }
 
 .quiz label:after {
@@ -7207,14 +7207,14 @@
     content: "\f086";
 }
 
-.heart input:checked + label, .download input:checked + label, .apply input:checked + label,
+.heart input:checked + label, .download input:checked + label, .abort input:checked + label,
 .quiz input:checked + label, .psychoTest input:checked + label {
     background-color: #f23a2e;
     border-color: #f23a2e;
     box-shadow: 0 0 0 0.5em rgba(242, 58, 46, 0);
 }
 
-.heart input:checked + label:after, .download input:checked + label:after, .apply input:checked + label:after,
+.heart input:checked + label:after, .download input:checked + label:after, .abort input:checked + label:after,
 .quiz input:checked + label:after, .psychoTest input:checked + label:after {
     color: #f23a2e;
 }

@@ -6,18 +6,10 @@
     <link href="{{asset('css/myMaps.css')}}" rel="stylesheet">
     <link href="{{asset('css/myTags.css')}}" rel="stylesheet">
     <link href="{{asset('css/myAccordion.css')}}" rel="stylesheet">
+    <link href="{{asset('css/fileUploader.css')}}" rel="stylesheet">
     <style>
         .site-wrapper_left-col .logo:before {
             content: '{{substr($user->name,0,1)}}';
-        }
-
-        .image-upload > input {
-            display: none;
-        }
-
-        .image-upload label {
-            cursor: pointer;
-            width: 100%;
         }
     </style>
 @endpush

@@ -435,6 +435,15 @@
     margin-bottom: 1em;
 }
 
+.image-upload > input {
+    display: none;
+}
+
+.image-upload label {
+    cursor: pointer;
+    width: 100%;
+}
+
 blockquote {
     padding: 10px 15px;
     border-left: 5px solid #eeeeee;
@@ -444,4 +453,41 @@ blockquote footer:before,
 blockquote small:before,
 blockquote .small:before {
     content: '\2014 \00A0';
+}
+
+.pm-selector .pm-radioButton {
+    display: none;
+}
+
+.pm-selector .pm-radioButton:active + .pm-label {
+    opacity: .9;
+}
+
+.pm-selector .pm-radioButton:checked + .pm-label {
+    -webkit-filter: none;
+    -moz-filter: none;
+    filter: none;
+}
+
+.pm-label {
+    cursor: pointer;
+    background-size: contain;
+    background-repeat: no-repeat;
+    display: inline-block;
+    width: 140px;
+    height: 50px;
+    margin-right: .7em;
+    margin-bottom: 0;
+    -webkit-transition: all 100ms ease-in;
+    -moz-transition: all 100ms ease-in;
+    transition: all 100ms ease-in;
+    -webkit-filter: brightness(1.8) grayscale(1) opacity(.7);
+    -moz-filter: brightness(1.8) grayscale(1) opacity(.7);
+    filter: brightness(1.8) grayscale(1) opacity(.7);
+}
+
+.pm-label:hover {
+    -webkit-filter: brightness(1.2) grayscale(.5) opacity(.9);
+    -moz-filter: brightness(1.2) grayscale(.5) opacity(.9);
+    filter: brightness(1.2) grayscale(.5) opacity(.9);
 }

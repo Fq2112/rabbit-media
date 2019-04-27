@@ -82,14 +82,19 @@ Route::group(['namespace' => 'Pages', 'prefix' => '/'], function () {
                 'as' => 'get.detail.studio'
             ]);
 
+            Route::post('submit', [
+                'uses' => 'OrderController@submitOrder',
+                'as' => 'submit.order'
+            ]);
+
             Route::get('paymentMethod/{id}', [
                 'uses' => 'OrderController@getPaymentMethod',
                 'as' => 'get.paymentMethod'
             ]);
 
-            Route::post('submit', [
-                'uses' => 'OrderController@submitOrder',
-                'as' => 'submit.order'
+            Route::put('pay', [
+                'uses' => 'OrderController@payOrder',
+                'as' => 'pay.order'
             ]);
 
             Route::put('payment-proof/submit', [
@@ -97,14 +102,14 @@ Route::group(['namespace' => 'Pages', 'prefix' => '/'], function () {
                 'as' => 'upload.paymentProof'
             ]);
 
+            Route::get('delete/{id}', [
+                'uses' => 'OrderController@deleteOrder',
+                'as' => 'delete.order'
+            ]);
+
             Route::get('invoice/{id}', [
                 'uses' => 'OrderController@invoiceOrder',
                 'as' => 'invoice.order'
-            ]);
-
-            Route::get('{id}/delete', [
-                'uses' => 'OrderController@deleteOrder',
-                'as' => 'delete.order'
             ]);
 
         });

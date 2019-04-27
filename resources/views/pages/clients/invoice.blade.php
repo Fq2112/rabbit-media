@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <title>Invoice #$invoice</title>
+    <title>{{$invoice}}</title>
     <style>
         @media print {
             a[href]:after {
@@ -21,6 +21,7 @@
             -webkit-print-color-adjust: exact;
         }
 
+        @if($order->status_payment > 1)
         .container {
             background: linear-gradient(rgba(255, 255, 255, .9), rgba(255, 255, 255, .9)),
             url("{{asset('images/bg_invoice_paid.jpg')}}") no-repeat center;
@@ -31,6 +32,20 @@
             padding: 30px;
             height: 100%;
         }
+
+        @else
+        .container {
+            background: linear-gradient(rgba(255, 255, 255, .9), rgba(255, 255, 255, .9)),
+            url("{{asset('images/bg_invoice_unpaid.jpg')}}") no-repeat center;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+            padding: 30px;
+            height: 100%;
+        }
+
+        @endif
 
         .invoice {
             position: absolute;
@@ -82,14 +97,9 @@
     </style>
 </head>
 <body onload="window.print()">
-@php
-    $orderDate = now()->subWeek();
-    $dueDate = now();
-    $days = $dueDate->diffInDays($orderDate);
-@endphp
 <div class="container">
     <div class="invoice">
-        Invoice <span style="color: #592f83">{{str_pad(rand(1,10), 4, 0, STR_PAD_LEFT)}}</span>
+        Invoice <span style="color: #592f83">{{str_pad($order->id, 4, 0, STR_PAD_LEFT)}}</span>
     </div>
     <table cellspacing="0" cellpadding="0" style="margin: 2.5rem 0 0 3rem">
         <tr>
@@ -145,17 +155,17 @@
                                 <tr>
                                     <td class="text-purple" style="text-align: right">Invoice&nbsp;Date</td>
                                     <td>&emsp;</td>
-                                    <td>{{\Carbon\Carbon::parse($orderDate)->format('m/d/Y')}}</td>
+                                    <td>{{\Carbon\Carbon::parse($order->created_at)->format('m/d/Y')}}</td>
                                 </tr>
                                 <tr>
                                     <td class="text-purple" style="text-align: right">P.O</td>
                                     <td>&emsp;</td>
-                                    <td>{{\Carbon\Carbon::parse($orderDate)->format('m/d/Y')}}</td>
+                                    <td>{{\Carbon\Carbon::parse($order->created_at)->format('m/d/Y')}}</td>
                                 </tr>
                                 <tr>
                                     <td class="text-purple" style="text-align: right">Due&nbsp;Date</td>
                                     <td>&emsp;</td>
-                                    <td>{{\Carbon\Carbon::parse($dueDate)->format('m/d/Y')}}</td>
+                                    <td>{{\Carbon\Carbon::parse($order->created_at)->addDays(3)->format('m/d/Y')}}</td>
                                 </tr>
                             </table>
                         </td>
@@ -173,16 +183,38 @@
                     </tr>
                     </thead>
                     <tbody style="font-weight: 600">
-                    @php $total = 0; @endphp
-                    @for($c=1;$c<=8;$c++)
-                        @php $price = rand(100000, 1000000); $total += $price * $c; @endphp
+                    <tr>
+                        <td style="text-align: center">{{$totalPlan}}</td>
+                        <td style="text-align: justify;padding: 0 5px">{{$pl->paket}}</td>
+                        <td style="text-align: right;padding-right: 5px">{{number_format($plan_price, 2, ',', '.')}}</td>
+                        <td style="text-align: right;padding-right: 5px">{{number_format($price_totalPlan, 2, ',', '.')}}</td>
+                    </tr>
+                    @if($pl->isHours == true)
                         <tr>
-                            <td style="text-align: center">{{$c}}</td>
-                            <td style="text-align: justify;padding: 0 5px">{{\Faker\Factory::create()->sentence}}</td>
-                            <td style="text-align: right;padding-right: 5px">{{number_format($price, 2, ',', '.')}}</td>
-                            <td style="text-align: right;padding-right: 5px">{{number_format($price * $c, 2, ',', '.')}}</td>
+                            <td style="text-align: center">{{$totalHours}}</td>
+                            <td style="text-align: justify;padding: 0 5px">Total Durasi (Jam)</td>
+                            <td style="text-align: right;padding-right: 5px">{{number_format($pl->price_per_hours, 2, ',', '.')}}</td>
+                            <td style="text-align: right;padding-right: 5px">{{number_format($price_totalHours, 2, ',', '.')}}</td>
                         </tr>
-                    @endfor
+                    @endif
+                    @if($pl->isQty == true)
+                        <tr>
+                            <td style="text-align: center">{{$totalQty}}</td>
+                            <td style="text-align: justify;padding: 0 5px">Total Item (Orang/Produk)</td>
+                            <td style="text-align: right;padding-right: 5px">{{number_format($pl->price_per_qty, 2, ',', '.')}}</td>
+                            <td style="text-align: right;padding-right: 5px">{{number_format($price_totalQty, 2, ',', '.')}}</td>
+                        </tr>
+                    @endif
+                    @if($pl->isStudio == true)
+                        <tr>
+                            <td style="text-align: center">{{$totalStudio}}</td>
+                            <td style="text-align: justify;padding: 0 5px">{{$order->getStudio->nama}}
+                                ({{$order->getStudio->getJenisStudio->nama}})
+                            </td>
+                            <td style="text-align: right;padding-right: 5px">{{number_format($order->getStudio->harga, 2, ',', '.')}}</td>
+                            <td style="text-align: right;padding-right: 5px">{{number_format($price_totalStudio, 2, ',', '.')}}</td>
+                        </tr>
+                    @endif
                     </tbody>
                 </table>
 
@@ -191,17 +223,17 @@
                     <tr>
                         <td>Subtotal</td>
                         <td>&emsp;&emsp;&emsp;</td>
-                        <td>{{number_format($total, 2, ',', '.')}}</td>
+                        <td>{{number_format($order->total_payment, 2, ',', '.')}}</td>
                     </tr>
                     <tr>
-                        <td>Tax</td>
+                        <td>Payment Type (<b>{{$order->payment_type}}</b>)</td>
                         <td>&emsp;&emsp;&emsp;</td>
-                        <td style="font-weight: 600">&ndash;</td>
+                        <td style="font-weight: 600">{{$order->payment_type == 'DP' ? '30%' : '100%'}}</td>
                     </tr>
                     <tr>
                         <td style="font-weight: 600">Total</td>
                         <td>&emsp;&emsp;&emsp;</td>
-                        <td style="font-weight: 600">Rp{{number_format($total, 2, ',', '.')}}</td>
+                        <td style="font-weight: 600">Rp{{$amountToPay}}</td>
                     </tr>
                     <tr>
                         <td>&nbsp;</td>
@@ -213,7 +245,7 @@
                         <td>&nbsp;</td>
                         <td>&nbsp;</td>
                     </tr>
-                    <tr class="sign">
+                    <tr class="{{$order->status_payment > 1 ? 'sign' : ''}}">
                         <td>&nbsp;</td>
                         <td>&nbsp;</td>
                         <td>Surabaya, {{now()->format('j F Y')}}<br><br><br><br>Admin<br><br><br></td>
@@ -228,9 +260,11 @@
                         <td style="padding: 0 10px;">
                             <span class="text-purple">Terms & Condition</span>
                             <p style="font-size: 14px">
-                                Payment is due within {{$days > 1 ? $days.' days' : ' a day'}}<br><br>
-                                Bank Rakyat Indonesia<br>
-                                Account Number: 097401013780539 (Laras Sulistyorini)
+                                Payment is due within 3 days<br><br>
+                                @if($pc->id == 1)
+                                    {{$pm->name}}<br>
+                                    Account Number: {{$pm->account_number}} ({{$pm->account_name}})
+                                @endif
                             </p>
                         </td>
                     </tr>

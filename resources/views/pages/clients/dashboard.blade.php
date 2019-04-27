@@ -45,22 +45,119 @@
         </div>
     </div>
 
-    <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel"
+    <div class="modal fade" id="payModal" tabindex="-1" role="dialog" aria-labelledby="payModalLabel"
          aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="invoice"></h5>
+                    <h5 class="modal-title"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="pay-form" method="post">
+                    {{csrf_field()}}
+                    {{method_field('put')}}
+                    <input type="hidden" name="order_id">
+                    <div class="modal-body">
+                        <p align="justify">Untuk menyelesaikan pembayaran, silahkan pilih jenis pembayaran (dp 30% atau
+                            penuh) dan bank yang Anda inginkan. Karena, saat ini metode pembayaran yang tersedia
+                            hanyalah <span style="font-weight: 600">ATM/Bank Transfer</span> saja!</p>
+                        <div class="row form-group">
+                            <div class="col">
+                                <label for="payment_types" class="control-label mb-0">Payment Type</label>
+                                <hr class="mt-0">
+                                <div class="custom-control custom-radio custom-control-inline" id="payment_types">
+                                    <input type="radio" class="custom-control-input" id="pt-1" name="payment_type"
+                                           value="DP" onchange="paymentType('dp')" required>
+                                    <label class="custom-control-label" for="pt-1">
+                                        DP (Down Payment <span style="font-weight: 600">30%</span>)</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" class="custom-control-input" id="pt-2" name="payment_type"
+                                           value="FP" onchange="paymentType('fp')" required>
+                                    <label class="custom-control-label" for="pt-2">
+                                        FP (Full Payment <span style="font-weight: 600">100%</span>)</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <label for="payment_methods" class="control-label mb-0">Payment Method</label>
+                                <hr class="m-0">
+                                <div class="panel-group accordion mb-3" id="payment_methods">
+                                    @foreach(\App\Models\PaymentCategory::all() as $row)
+                                        <div class="panel" data-aos="zoom-out">
+                                            <div class="panel-heading">
+                                                <h4 class="panel-title mb-0">
+                                                    @if($row->id == 1)
+                                                        <a class="accordion-toggle collapsed" href="javascript:void(0)"
+                                                           data-toggle="collapse" data-target="#pc-{{$row->id}}"
+                                                           aria-expanded="true" aria-controls="pc-{{$row->id}}"
+                                                           onclick="paymentCategory('{{$row->id}}','{{$row->name}}')">
+                                                            {{$row->name}} <sub>{{$row->caption}}</sub></a>
+                                                    @else
+                                                        <a class="accordion-toggle collapsed" href="javascript:void(0)"
+                                                           onclick="paymentCategory('{{$row->id}}','{{$row->name}}')">
+                                                            {{$row->name}} <sub>{{$row->caption}}</sub></a>
+                                                    @endif
+                                                </h4>
+                                            </div>
+                                            <div id="pc-{{$row->id}}" class="panel-collapse collapse mt-3"
+                                                 aria-labelledby="pc-{{$row->id}}" data-parent=".accordion">
+                                                <div class="panel-body">
+                                                    <div class="pm-selector">
+                                                        @foreach($row->paymentMethods as $pm)
+                                                            @if($pm->payment_category_id != 3)
+                                                                <input class="pm-radioButton" id="pm-{{$pm->id}}"
+                                                                       type="radio" name="pm_id" value="{{$pm->id}}">
+                                                                <label class="pm-label" for="pm-{{$pm->id}}"
+                                                                       onclick="paymentMethod('{{$pm->id}}')"
+                                                                       style="background-image: url({{asset
+                                                                       ('images/paymentMethod/'.$pm->logo)}});"></label>
+                                                            @endif
+                                                        @endforeach
+                                                    </div>
+                                                    <div id="pm-details-{{$row->id}}"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr class="m-0">
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Pay Now</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"></h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p style="font-size: 17px" align="justify">Untuk mempercepat proses verifikasinya, unggah
-                        file bukti pembayaran Anda disini.</p>
-                    <hr class="hr-divider">
+                    Untuk mempercepat proses verifikasinya, unggah file bukti pembayaran Anda disini.
+                    <hr class="mt-0">
                     <div class="row">
-                        <div class="col" id="paymentProof"></div>
+                        <div class="col">
+                            <form id="upload-form" method="post" enctype="multipart/form-data">
+                                {{csrf_field()}}
+                                {{method_field('put')}}
+                                <div id="inputs"></div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -71,7 +168,7 @@
     <script>
         $(function () {
             @if($findOrder != "")
-            @if(now() <= $findOrder->created_at->addDay())
+            @if(now() <= $findOrder->created_at->addDays(3))
             uploadPaymentProof('{{$findOrder->id}}', '{{$findOrder->payment_proof}}', '{{$req_invoice}}');
             @else
             swal('PERHATIAN!', '{{$req_invoice}} kadaluarsa.', 'warning');
@@ -210,9 +307,12 @@
 
         function successLoad(data, date, page) {
             var title, total, $date, pagination = '', $page = '',
-                $color, $display, $col, $class, $param, $param2, $label,
+                $color, $col, $display, $invoice, $cursor, $target,
                 $isHours, $isQty, $isStudio, $isMeeting, $isDesc,
-                $isAcc, $status, $pm, $isLog, $logID, $logDesc, $admin;
+                $isAcc, $status, $pm, $isLog, $logID, $logDesc, $admin,
+                $pay, $param_pay, $class_pay,
+                $upload, $param_upload, $class_upload,
+                $abort, $param_abort, $label_abort;
 
             if (data.total > 0) {
                 title = data.total > 1 ? 'Showing <strong>' + data.total + '</strong> order status' :
@@ -235,13 +335,6 @@
             $("#search-result").empty();
             $.each(data.data, function (i, val) {
                 $color = val.status_payment > 1 ? '#592f83' : '#f23a2e';
-                $display = val.status_payment <= 1 && val.expired == false ? '' : 'none';
-                $col = val.status_payment <= 1 && val.expired == false ? '-11' : '';
-                $class = val.status_payment > 1 ? '' : 'ld ld-breath';
-                $label = val.status_payment > 1 ? "<strong>Paid</strong> on " + val.date_payment :
-                    "<strong>Ordered</strong> on " + val.date_order;
-                $param = val.id + ",'" + val.payment_proof + "','" + val.invoice + "'";
-                $param2 = val.id + ",'" + val.invoice + "'";
                 $isHours = val.plan.isHours == 1 ? 'inline-block' : 'none';
                 $isQty = val.plan.isQty == 1 ? 'inline-block' : 'none';
                 $isStudio = val.plan.isStudio == 1 ? 'inline-block' : 'none';
@@ -249,8 +342,10 @@
                 $isDesc = val.deskripsi != "" ? 'block' : 'none';
                 $isAcc = val.isAccept == 1 ? 'inline-block' : 'none';
 
-                if (val.status_payment == 0) {
+                if (val.payment_type == null && val.status_payment == 0) {
                     $status = 'Belum Lunas';
+                } else if (val.payment_type != null && val.status_payment == 0) {
+                    $status = 'Menunggu Verifikasi';
                 } else if (val.status_payment == 1) {
                     $status = 'DP (Down Payment)';
                 } else {
@@ -264,13 +359,33 @@
                 $logDesc = val.log_desc != null ? val.log_desc : '(Kosong)';
                 $admin = val.admin_name != null ? val.admin_name : '(Kosong)';
 
+                $col = val.expired == false && val.status_payment <= 1 ? '-11' : '';
+                $display = val.expired == false && val.status_payment <= 1 ? '' : 'none';
+                $invoice = val.payment_id == null ? "javascript:void(0)" :
+                    "{{route('invoice.order',['id'=> ''])}}/" + val.encryptID;
+                $cursor = val.payment_id == null ? "no-drop" : "pointer";
+                $target = val.payment_id == null ? "" : "_blank";
+
+                $pay = val.expired == false && val.status_payment <= 1 && val.payment_id == null ? '' : 'none';
+                $class_pay = val.isAccept == 1 ? 'ld ld-breath' : '';
+                $param_pay = val.id + ",'" + val.invoice + "','" + val.total_payment + "'," + val.isAccept;
+
+                $upload = val.expired == false && val.status_payment <= 1 && val.payment_id != null ? '' : 'none';
+                $class_upload = val.status_payment > 1 ? '' : 'ld ld-breath';
+                $param_upload = val.id + ",'" + val.payment_proof + "','" + val.invoice + "'";
+
+                $abort = val.expired == false && val.status_payment <= 1 ? '' : 'none';
+                $label_abort = val.status_payment > 1 ? "<strong>Paid</strong> on " + val.date_payment :
+                    "<strong>Ordered</strong> on " + val.date_order;
+                $param_abort = val.id + ",'" + val.invoice + "'";
+
                 $("#search-result").append(
                     '<li class="media" style="border-bottom: 1px solid rgba(0, 0, 0, 0.1)">' +
                     '<img width="64" class="align-self-center" src="' + val.ava + '">' +
                     '<div class="media-body ml-2">' +
                     '<h5 class="mt-3" style="font-size: 17px">' +
-                    '<a style="color: ' + $color + '" target="_blank" ' +
-                    'href="{{route('invoice.order',['id'=> ''])}}/' + val.encryptID + '">' +
+                    '<a id="btnInvoice' + val.id + '" style="color: ' + $color + ';cursor: ' + $cursor + '" ' +
+                    'href="' + $invoice + '" target="' + $target + '">' +
                     '<i class="fa fa-file-invoice-dollar"></i>&ensp;' + val.invoice + '</a>' +
                     '<cite><sub> &ndash; ' + val.created_at + '</sub></cite></h5>' +
                     '<blockquote style="color: #7f7f7f">' +
@@ -353,7 +468,8 @@
                     '<div class="panel-body">' +
                     '<ul class="list-inline">' +
                     '<li class="list-inline-item"><a class="tag"><i class="fa fa-money-bill-wave mr-2"></i>' +
-                    'Total tagihan: <span style="font-weight: 600">Rp' + val.total_payment + '</span></a></li>' +
+                    'Total tagihan: <span style="font-weight: 600">' +
+                    'Rp' + thousandSeparator(val.total_payment) + ',00</span></a></li>' +
                     '<li class="list-inline-item" style="display: ' + $isAcc + '"><a class="tag">' +
                     '<i class="fa fa-hand-holding-usd mr-2"></i>' +
                     'Status Pembayaran: <span style="font-weight: 600">' + $status + '</span></a></li>' +
@@ -381,29 +497,34 @@
                     '</div></div></div></div>' +
 
                     '<div class="col-1" style="display: ' + $display + '">' +
-                    '<div class="row">' +
+                    '<div class="row" style="display: ' + $pay + '" id="divPay' + val.id + '">' +
                     '<div class="col">' +
-                    '<form id="form-paymentProof-' + val.id + '" method="post" ' +
-                    'action="{{route('upload.paymentProof')}}">{{csrf_field()}}' +
-                    '<div class="anim-icon anim-icon-md upload ' + $class + '" ' +
-                    'onclick="uploadPaymentProof(' + $param + ')" data-toggle="tooltip" data-placement="bottom" ' +
-                    'title="Payment Proof" style="font-size: 25px;">' +
-                    '<input type="hidden" name="order_id" value="' + val.id + '">' +
+                    '<div class="anim-icon anim-icon-md pay ' + $class_pay + '" ' +
+                    'onclick="pay(' + $param_pay + ')" data-toggle="tooltip" ' +
+                    'data-placement="bottom" title="Bayar Sekarang" style="font-size: 25px;">' +
+                    '<input id="pay' + val.id + '" type="checkbox" checked>' +
+                    '<label for="pay' + val.id + '"></label></div></div></div>' +
+                    '<div class="row" style="display: ' + $upload + '" id="divUpload' + val.id + '">' +
+                    '<div class="col">' +
+                    '<div class="anim-icon anim-icon-md upload ' + $class_upload + '" ' +
+                    'onclick="uploadPaymentProof(' + $param_upload + ')" data-toggle="tooltip" ' +
+                    'data-placement="bottom" title="Unggah Bukti Pembayaran" style="font-size: 25px;">' +
                     '<input id="upload' + val.id + '" type="checkbox" checked>' +
-                    '<label for="upload' + val.id + '"></label></div></form>' +
-                    '</div></div></div></div>' +
+                    '<label for="upload' + val.id + '"></label></div></div></div>' +
+                    '</div></div>' +
 
                     '<div class="row" style="margin-top: -.5em">' +
                     '<div class="col">' +
-                    '<small>' + $label + '</small><br>' +
-                    '<a style="display: ' + $display + '" onclick="deleteOrder(' + $param2 + ')" ' +
+                    '<small>' + $label_abort + '</small><br>' +
+                    '<a id="btnDel_order' + val.id + '" style="display: ' + $abort + '" ' +
+                    'onclick="deleteOrder(' + $param_abort + ')" ' +
                     'href="{{route('delete.order',['id'=>''])}}/' + val.encryptID + '">' +
-                    '<div class="anim-icon anim-icon-md apply ld ld-heartbeat" data-toggle="tooltip" ' +
+                    '<div class="anim-icon anim-icon-md abort ld ld-heartbeat" data-toggle="tooltip" ' +
                     'data-placement="right" title="Batalkan pesanan!" style="font-size: 15px">' +
-                    '<input id="apply' + val.id + '" type="checkbox" checked>' +
-                    '<label for="apply' + val.id + '"></label></div></a><br>' +
-                    '<small style="display: ' + $display + '">' +
-                    'NB: Anda hanya dapat menyelesaikan pembayaran pesanan Anda atau membatalkannya sebelum ' +
+                    '<input id="abort' + val.id + '" type="checkbox" checked>' +
+                    '<label for="abort' + val.id + '"></label></div></a><br>' +
+                    '<small style="display: ' + $abort + '">NB: Anda hanya dapat <strong>menyelesaikan</strong> ' +
+                    'pembayaran pesanan Anda atau <strong>membatalkannya</strong> sebelum ' +
                     '<strong>' + val.deadline + '.</strong></small></div></div>' +
 
                     '</blockquote></div></li>'
@@ -494,34 +615,168 @@
             }, 600);
         }
 
+        var amount = 0, amountToPay = 0;
+
+        function pay(id, invoice, total, isAccept) {
+            var modal = $("#payModal");
+            $("#pay" + id).prop('checked', false);
+
+            if (isAccept == 1) {
+                amount = total;
+                amountToPay = total;
+                $("#payModal .modal-title").html('Payment Setup: <span style="font-weight: 600">' + invoice + '</span>');
+                $("#pay-form input[name=order_id]").val(id);
+                modal.modal('show');
+
+                modal.on('hidden.bs.modal', function () {
+                    $("#pay" + id).prop('checked', true);
+                });
+
+            } else {
+                swal({
+                    title: 'PERHATIAN!',
+                    text: 'Saat ini pesanan Anda sedang diproses! ' +
+                        'Mohon untuk menunggu informasi lebih lanjut dari kami, terimakasih.',
+                    icon: 'warning'
+                }).then(function () {
+                    $("#pay" + id).prop('checked', true);
+                });
+            }
+        }
+
+        function paymentType(type) {
+            var x = parseInt(amountToPay);
+            if (type == 'dp') {
+                amountToPay = Math.ceil(x * .3);
+            } else {
+                amountToPay = amount;
+            }
+
+            $(".pm-radioButton").prop("checked", false).trigger('change');
+            $("#pm-details-1, #pm-details-2, #pm-details-3, #pm-details-4, #pm-details-5").html("");
+        }
+
+        function paymentCategory(id, nama) {
+            $(".pm-radioButton").prop("checked", false).trigger('change');
+            $("#pm-details-1, #pm-details-2, #pm-details-3, #pm-details-4, #pm-details-5").html("");
+
+            if (id == 2 || id == 3 || id == 4 || id == 5) {
+                swal('Coming Soon!', 'Metode pembayaran ' + nama + ' masih dalam proses pengembangan. ' +
+                    'Mohon maaf atas ketidaknyamanannya, terimakasih.', 'warning');
+            }
+        }
+
+        function paymentMethod(id) {
+            if ($("input[name=payment_type]").is(":checked")) {
+                $.get('{{route('get.paymentMethod',['id'=>''])}}/' + id, function (data) {
+                    if (data.payment_category_id == 1) {
+                        $("#pm-details-1").html(
+                            '<div class="row"><div class="col">' +
+                            '<div class="alert alert-info text-justify" role="alert" style="font-size: 14px">' +
+                            'Jumlah yang harus Anda transfer ke nomor rekening ' +
+                            '<span style="font-weight: 600">' + data.account_number + '</span> (a/n ' +
+                            '<span style="font-weight: 600;text-transform: capitalize">' + data.account_name + '</span>) ' +
+                            'adalah sebesar <span style="font-weight: 600">' +
+                            'Rp' + thousandSeparator(amountToPay) + ',00</span>.</div></div></div>'
+                        );
+                    }
+                });
+            } else {
+                $(".pm-radioButton").prop("checked", false).trigger('change');
+                $("#pm-details-1, #pm-details-2, #pm-details-3, #pm-details-4, #pm-details-5").html("");
+                $("#pay-form button[type=submit]").click();
+            }
+        }
+
+        $("#pay-form").on('submit', function (e) {
+            e.preventDefault();
+            if ($(".pm-radioButton").is(":checked")) {
+                swal({
+                    title: 'Apakah anda yakin?',
+                    text: 'Kami akan mengirimkan rincian tagihan pembayaran melalui email ' +
+                        'sesaat setelah Anda menekan tombol "Ya" berikut!',
+                    icon: 'warning',
+                    dangerMode: true,
+                    closeOnEsc: false,
+                    closeOnClickOutside: false,
+                    buttons: {
+                        cancel: "Tidak",
+                        confirm: {
+                            text: "Ya",
+                            closeModal: false,
+                        }
+                    }
+                }).then((confirm) => {
+                    if (confirm) {
+                        $.ajax({
+                            type: 'POST',
+                            url: '{{route('pay.order')}}',
+                            data: new FormData($(this)[0]),
+                            contentType: false,
+                            processData: false,
+                            success: function (data) {
+                                swal({
+                                    title: 'Success!',
+                                    text: 'Silahkan cek email Anda dan selesaikan pembayaran Anda ' +
+                                        'sebelum batas waktu yang ditentukan! Terimakasih :)',
+                                    icon: 'success',
+                                    closeOnEsc: false,
+                                    closeOnClickOutside: false,
+                                }).then(function () {
+                                    $(".pm-radioButton, #pt-1, #pt-2").prop("checked", false).trigger('change');
+                                    $("#pm-details-1, #pm-details-2, #pm-details-3, #pm-details-4, #pm-details-5").html("");
+                                    $("#divPay" + data.id).hide();
+                                    $("#divUpload" + data.id).show();
+                                    $("#btnInvoice" + data.id)
+                                        .attr("href", "{{route('invoice.order',['id'=> ''])}}/" + data.encryptID)
+                                        .css('cursor', 'pointer').attr('target', '_blank');
+                                    $("#payModal").modal('hide');
+                                    uploadPaymentProof(data.id, null, data.invoice);
+                                });
+                            },
+                            error: function () {
+                                swal('Oops...', 'Terjadi suatu kesalahan! Silahkan coba lagi atau ' +
+                                    'refresh browser Anda.', 'error');
+                            }
+                        });
+                    }
+                });
+
+            } else {
+                swal('PERHATIAN!', 'Anda belum memilih metode pembayaran!', 'warning');
+            }
+        });
+
         function uploadPaymentProof(id, image, invoice) {
-            $("#paymentProof").html(
-                '<form id="upload-form" method="post" enctype="multipart/form-data">' +
-                '{{csrf_field()}} {{ method_field('put') }}' +
+            var modal = $("#uploadModal");
+            $("#upload" + id).prop('checked', false);
+
+            $("#uploadModal .modal-title").html('Payment Proof: <span style="font-weight: 600">' + invoice + '</span>');
+
+            $("#inputs").html(
                 '<input type="hidden" name="order_id" value="' + id + '">' +
                 '<div class="uploader">' +
                 '<input id="file-upload" type="file" name="payment_proof" accept="image/*">' +
                 '<label for="file-upload" id="file-drag">' +
-                '<img id="file-image" src="#" alt="Payment Proof" class="hidden img-responsive">' +
-                '<div id="start">' +
-                '<i class="fa fa-download" aria-hidden="true"></i>' +
-                '<div>Select your payment proof file or drag it here</div>' +
-                '<div id="notimage" class="hidden">Please select an image</div>' +
-                '<span id="file-upload-btn" class="btn btn-primary"> Select a file</span></div>' +
+                '<img id="file-image" src="#" alt="Payment Proof" class="hidden img-fluid">' +
+                '<div id="start"><i class="fa fa-download" aria-hidden="true"></i>' +
+                '<div>Pilih file bukti pembayaran Anda atau seret filenya kesini</div>' +
+                '<div id="notimage" class="hidden">Mohon untuk memilih file gambar</div>' +
+                '<span id="file-upload-btn" class="btn btn-primary">Select a File</span></div>' +
                 '<div id="response" class="hidden"><div id="messages"></div></div>' +
                 '<div id="progress-upload">' +
                 '<div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar" ' +
-                'aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div></div></label></div></form>'
+                'aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div></div></label></div>'
             );
-            $("#invoice").html('<strong>' + invoice + '</strong> &ndash; PAYMENT PROOF');
-            $("#upload" + id).prop('checked', false);
-            $("#uploadModal").modal('show');
-            if (image != "") {
-                setImage(image);
-            }
-            $(document).on('hide.bs.modal', '#uploadModal', function (event) {
+
+            modal.modal('show');
+
+            setImage(image);
+
+            modal.on('hidden.bs.modal', function () {
                 $("#upload" + id).prop('checked', true);
             });
+
             ekUpload(id);
         }
 
@@ -646,35 +901,36 @@
         }
 
         function setImage(image) {
-            $("#messages").html('<strong>' + image + '</strong>');
-            $('#start').addClass("hidden");
-            $('#response').removeClass("hidden");
-            $('#notimage').addClass("hidden");
-            $('#file-image').removeClass("hidden").attr('src', '{{asset('storage/users/payment/')}}/' + image);
+            if (image != null) {
+                $("#messages").html('<strong>' + image + '</strong>');
+                $('#start').addClass("hidden");
+                $('#response').removeClass("hidden");
+                $('#notimage').addClass("hidden");
+                $('#file-image').removeClass("hidden").attr('src', '{{asset('storage/users/payment/')}}/' + image);
+            }
         }
 
         function humanFileSize(size) {
             var i = Math.floor(Math.log(size) / Math.log(1024));
             return (size / Math.pow(1024, i)).toFixed(2) * 1 + ' ' + ['B', 'kB', 'MB', 'GB', 'TB'][i];
-        };
+        }
 
-        function deleteJobPosting(id, invoice) {
+        function deleteOrder(id, invoice) {
+            var linkURL = $("#btnDel_order" + id).attr("href");
             swal({
-                title: 'Apakah Anda yakin untuk membatalkan ' + invoice + '?',
-                text: "Anda tidak dapat mengembalikannya!",
-                type: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#592f83',
-                confirmButtonText: 'Ya',
-                cancelButtonText: 'Tidak',
-                showLoaderOnConfirm: true,
-                allowOutsideClick: false,
-            }).then(function () {
-                $("#apply" + id).prop('checked', false);
-                window.location.href = linkURL;
-            }, function (dismiss) {
-                if (dismiss == 'cancel') {
-                    $("#apply" + id).prop('checked', true);
+                title: 'Abort Order',
+                text: "Apakah Anda yakin untuk membatalkan pesanan: " + invoice + "? Anda tidak dapat mengembalikannya!",
+                icon: 'warning',
+                dangerMode: true,
+                buttons: ["Tidak", "Ya"],
+                closeOnEsc: false,
+                closeOnClickOutside: false,
+            }).then((confirm) => {
+                if (confirm) {
+                    $("#abort" + id).prop('checked', false);
+                    window.location.href = linkURL;
+                } else {
+                    $("#abort" + id).prop('checked', true);
                 }
             });
         }
