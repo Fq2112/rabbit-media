@@ -307,7 +307,7 @@
 
         function successLoad(data, date, page) {
             var title, total, $date, pagination = '', $page = '',
-                $color, $col, $display, $invoice, $cursor, $target,
+                $color, $col, $display, $invoice, $cursor,
                 $isHours, $isQty, $isStudio, $isMeeting, $isDesc,
                 $isAcc, $status, $pm, $isLog, $logID, $logDesc, $admin,
                 $pay, $param_pay, $class_pay,
@@ -364,7 +364,6 @@
                 $invoice = val.payment_id == null ? "javascript:void(0)" :
                     "{{route('invoice.order',['id'=> ''])}}/" + val.encryptID;
                 $cursor = val.payment_id == null ? "no-drop" : "pointer";
-                $target = val.payment_id == null ? "" : "_blank";
 
                 $pay = val.expired == false && val.status_payment <= 1 && val.payment_id == null ? '' : 'none';
                 $class_pay = val.isAccept == 1 ? 'ld ld-breath' : '';
@@ -385,7 +384,7 @@
                     '<div class="media-body ml-2">' +
                     '<h5 class="mt-3" style="font-size: 17px">' +
                     '<a id="btnInvoice' + val.id + '" style="color: ' + $color + ';cursor: ' + $cursor + '" ' +
-                    'href="' + $invoice + '" target="' + $target + '">' +
+                    'href="' + $invoice + '">' +
                     '<i class="fa fa-file-invoice-dollar"></i>&ensp;' + val.invoice + '</a>' +
                     '<cite><sub> &ndash; ' + val.created_at + '</sub></cite></h5>' +
                     '<blockquote style="color: #7f7f7f">' +

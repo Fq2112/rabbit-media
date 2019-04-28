@@ -483,23 +483,28 @@
                                                                         </td>
                                                                     </tr>
                                                                 @endif
-                                                                <tr>
-                                                                    <td>Payment Type</td>
-                                                                    <td>&emsp;</td>
-                                                                    <td align="center"><strong>{{$data['order']
-                                                                    ->payment_type}}</strong></td>
-                                                                    <td>&emsp;</td>
-                                                                    <td align="right"><strong>{{$data['order']
-                                                                    ->payment_type == 'DP' ? '30%' : '100%'}}</strong>
+                                                                <tr style="border-top: 1px solid #eee">
+                                                                    <td><strong>Total Bill</strong></td>
+                                                                    <td colspan="4" align="right">
+                                                                        <strong>Rp{{number_format($data['order']
+                                                                        ->total_payment,2,',','.')}}</strong>
                                                                     </td>
                                                                 </tr>
-                                                                <tr style="border-top: 1px solid #eee">
-                                                                    <td><strong>Amount to Pay</strong></td>
+                                                                <tr>
+                                                                    <td>Payment Type (<strong>{{$data['order']
+                                                                    ->payment_type}}</strong>)
+                                                                    </td>
                                                                     <td colspan="4" align="right">
-                                                                        <strong class="total"
-                                                                                style="font-size: 18px;color: #592f83">
-                                                                            Rp{{$data['amountToPay']}}
-                                                                        </strong>
+                                                                        <strong>{{$data['order']->payment_type == 'DP' ?
+                                                                        '30%' : '100%'}}</strong>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td><strong style="color: #592f83">Amount to Pay
+                                                                        </strong></td>
+                                                                    <td colspan="4" align="right">
+                                                                        <strong style="font-size: 18px;color: #592f83">
+                                                                            Rp{{$data['amountToPay']}}</strong>
                                                                     </td>
                                                                 </tr>
                                                             </table>

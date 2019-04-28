@@ -221,19 +221,19 @@
                 <table cellspacing="0" cellpadding="0" style="text-align: right; padding: 2rem 0 3rem 0;float: right">
                     <tbody>
                     <tr>
-                        <td>Subtotal</td>
+                        <td style="font-weight: 600">Total Bill</td>
                         <td>&emsp;&emsp;&emsp;</td>
-                        <td>{{number_format($order->total_payment, 2, ',', '.')}}</td>
+                        <td style="font-weight: 600">{{number_format($order->total_payment, 2, ',', '.')}}</td>
                     </tr>
                     <tr>
                         <td>Payment Type (<b>{{$order->payment_type}}</b>)</td>
                         <td>&emsp;&emsp;&emsp;</td>
                         <td style="font-weight: 600">{{$order->payment_type == 'DP' ? '30%' : '100%'}}</td>
                     </tr>
-                    <tr>
-                        <td style="font-weight: 600">Total</td>
+                    <tr style="font-weight: 800" class="text-purple">
+                        <td>Amount to Pay</td>
                         <td>&emsp;&emsp;&emsp;</td>
-                        <td style="font-weight: 600">Rp{{$amountToPay}}</td>
+                        <td>Rp{{$amountToPay}}</td>
                     </tr>
                     <tr>
                         <td>&nbsp;</td>
