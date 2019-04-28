@@ -918,7 +918,9 @@
             var linkURL = $("#btnDel_order" + id).attr("href");
             swal({
                 title: 'Abort Order',
-                text: "Apakah Anda yakin untuk membatalkan pesanan: " + invoice + "? Anda tidak dapat mengembalikannya!",
+                text: "Apakah Anda yakin untuk membatalkan pesanan: " + invoice + "? " +
+                    "Jika Anda sudah melakukan pembayaran maka kami tidak akan melakukan pengembalian dana! " +
+                    "Apakah Anda tetap ingin membatalkannya?",
                 icon: 'warning',
                 dangerMode: true,
                 buttons: ["Tidak", "Ya"],

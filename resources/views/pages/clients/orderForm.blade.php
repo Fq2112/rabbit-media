@@ -703,9 +703,9 @@
                         center: 'title',
                         right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
                     },
-                    defaultDate: '{{now()->format('Y-m-d')}}',
+                    defaultDate: '{{now()->addDays(3)->format('Y-m-d')}}',
                     validRange: {
-                        start: '{{now()->format('Y-m-d')}}',
+                        start: '{{now()->addDays(3)->format('Y-m-d')}}',
                     },
                     defaultView: "timeGridWeek",
                     navLinks: true,
@@ -863,7 +863,7 @@
                     up: "fa fa-chevron-up",
                     down: "fa fa-chevron-down"
                 },
-                minDate: moment(),
+                minDate: '{{now()->addDays(3)->format('Y-m-d')}}',
                 disabledDates: [
                     @foreach($holidays as $row)
                         "{{\Carbon\Carbon::parse($row->start)->format('m/d/Y')}}",
