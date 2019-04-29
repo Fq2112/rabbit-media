@@ -518,10 +518,10 @@
                                                         <td>
                                                             <small><strong>Payment Deadline</strong></small>
                                                             <hr class="hr-divider">
-                                                            <span>{{$data['order']->created_at->addDays(3)
-                                                            ->format('l, j F Y')}}<br>
-                                                            at {{$data['order']->created_at->addDays(3)
-                                                            ->format('H:i')}}
+                                                            <span>{{\Carbon\Carbon::parse($data['order']->start)
+                                                            ->subDays(2)->format('l, j F Y')}}<br>
+                                                            at {{\Carbon\Carbon::parse($data['order']->start)
+                                                            ->subDays(2)->format('H:i')}}
                                                             </span>
                                                         </td>
                                                     </tr>

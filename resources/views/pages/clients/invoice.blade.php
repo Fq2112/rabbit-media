@@ -160,12 +160,12 @@
                                 <tr>
                                     <td class="text-purple" style="text-align: right">P.O</td>
                                     <td>&emsp;</td>
-                                    <td>{{\Carbon\Carbon::parse($order->created_at)->format('m/d/Y')}}</td>
+                                    <td>{{\Carbon\Carbon::parse($order->start)->format('m/d/Y')}}</td>
                                 </tr>
                                 <tr>
                                     <td class="text-purple" style="text-align: right">Due&nbsp;Date</td>
                                     <td>&emsp;</td>
-                                    <td>{{\Carbon\Carbon::parse($order->created_at)->addDays(3)->format('m/d/Y')}}</td>
+                                    <td>{{\Carbon\Carbon::parse($order->start)->subDays(2)->format('m/d/Y')}}</td>
                                 </tr>
                             </table>
                         </td>

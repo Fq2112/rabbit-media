@@ -1002,8 +1002,8 @@
                 $(".nama_studio").text(data.nama);
                 price_per_studio = data.harga;
 
-                $("#booking_studio").html('Studio ' + data.jenis_id + ': ' +
-                    '<span class="mr-2" style="font-weight: 600">' + data.nama + '</span>|' +
+                $("#booking_studio").html(
+                    '<span style="font-weight: 600">' + data.nama + '</span> (' + data.jenis_id + ') |' +
                     '<i class="fa fa-money-bill-wave ml-2"></i><span class="ml-2" style="font-weight: 600">' +
                     'Rp' + thousandSeparator(parseInt(data.harga)) + '/jam</span>');
             });

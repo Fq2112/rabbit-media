@@ -168,10 +168,11 @@
     <script>
         $(function () {
             @if($findOrder != "")
-            @if(now() <= $findOrder->created_at->addDays(3))
-            uploadPaymentProof('{{$findOrder->id}}', '{{$findOrder->payment_proof}}', '{{$req_invoice}}');
+            @if(now() >= \Carbon\Carbon::parse($findOrder->start)->subDays(2))
+            swal('PERHATIAN!', 'Pembayaran untuk invoice {{$req_invoice}} dibatalkan, ' +
+                'karena melewati batas waktu pembayaran yang telah ditentukan.', 'warning');
             @else
-            swal('PERHATIAN!', '{{$req_invoice}} kadaluarsa.', 'warning');
+            uploadPaymentProof('{{$findOrder->id}}', '{{$findOrder->payment_proof}}', '{{$req_invoice}}');
             @endif
             @endif
 
@@ -342,11 +343,14 @@
                 $isDesc = val.deskripsi != "" ? 'block' : 'none';
                 $isAcc = val.isAccept == 1 ? 'inline-block' : 'none';
 
-                if (val.payment_type == null && val.status_payment == 0) {
+                if (val.isAbort == true || (val.expired == true && val.payment_type == null && val.status_payment == 0)
+                    || (val.expired == true && val.payment_type != null && val.status_payment == 0)) {
+                    $status = 'Dibatalkan';
+                } else if (val.expired == false && val.payment_type == null && val.status_payment == 0) {
                     $status = 'Belum Lunas';
-                } else if (val.payment_type != null && val.status_payment == 0) {
+                } else if (val.expired == false && val.payment_type != null && val.status_payment == 0) {
                     $status = 'Menunggu Verifikasi';
-                } else if (val.status_payment == 1) {
+                } else if (val.expired == false && val.status_payment == 1) {
                     $status = 'DP (Down Payment)';
                 } else {
                     $status = 'Lunas';
@@ -434,8 +438,7 @@
                     '<li class="list-inline-item"><a class="tag"><i class="fa fa-text-width mr-2"></i>' +
                     'Judul: <span style="font-weight: 600">' + val.judul + '</span></a></li>' +
                     '<li class="list-inline-item"><a class="tag"><i class="fa fa-calendar-alt mr-2"></i>' +
-                    'Tanggal Booking: <span style="font-weight: 600">' + val.start + '</span> &mdash; ' +
-                    '<span style="font-weight: 600">' + val.end + '</span></a></li>' +
+                    'Tanggal Booking: ' + val.date_booking + '</a></li>' +
                     '<li class="list-inline-item" style="display: ' + $isHours + '"><a class="tag">' +
                     '<i class="fa fa-stopwatch mr-2"></i>Total durasi ' +
                     '<span style="font-weight: 600">' + val.hours + '</span> jam</a></li>' +
@@ -443,8 +446,8 @@
                     '<i class="fa fa-users mr-2"></i>Total item ' +
                     '<span style="font-weight: 600">' + val.qty + '</span> item</a></li>' +
                     '<li class="list-inline-item" style="display: ' + $isStudio + '">' +
-                    '<a class="tag"><i class="fa fa-door-open mr-2"></i>Studio ' + val.jenis_studio + ': ' +
-                    '<span class="mr-2" style="font-weight: 600">' + val.nama_studio + '</span>|' +
+                    '<a class="tag"><i class="fa fa-door-open mr-2"></i>' +
+                    '<span style="font-weight: 600">' + val.nama_studio + '</span> (' + val.jenis_studio + ') |' +
                     '<i class="fa fa-money-bill-wave ml-2"></i><span class="ml-2" style="font-weight: 600">' +
                     'Rp' + thousandSeparator(parseInt(val.harga_studio)) + '/jam</span></a></li></ul>' +
                     '<table style="font-size: 14px">' +

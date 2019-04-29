@@ -102,13 +102,14 @@ class OrderController extends Controller
             $pm = array('pm' => $payment_method != "" ? $payment_method->name : null);
             $pc = array('pc' => $payment_method != "" ? $payment_method->paymentCategories->name : null);
             $created_at = array('created_at' => Carbon::parse($row['created_at'])->diffForHumans());
-            $created_at3DayAdd = array('add_day' => Carbon::parse($row['created_at'])->addDays(3));
-            $status = array('expired' => now() >= Carbon::parse($row['created_at'])->addDays(3) ? true : false);
-            $deadline = array('deadline' => Carbon::parse($row['created_at'])->addDays(3)
+            $status = array('expired' => now() >= Carbon::parse($row['start'])->subDays(2) ? true : false);
+            $deadline = array('deadline' => Carbon::parse($row['start'])->subDays(2)
                 ->isoFormat('dddd, DD MMMM YYYY [pukul] HH:mm'));
 
-            $start = array('start' => Carbon::parse($row['start'])->format('j F Y'));
-            $end = array('end' => Carbon::parse($row['end'])->format('j F Y'));
+            $bookDate = array('date_booking' => Carbon::parse($row['end'])->diffInDays(Carbon::parse($row['start'])) > 0 ?
+                '<span style="font-weight: 600">' . Carbon::parse($row['start'])->format('j F Y') . '</span> &mdash; ' .
+                '<span style="font-weight: 600">' . Carbon::parse($row['end'])->format('j F Y') . '</span>' :
+                '<span style="font-weight: 600">' . Carbon::parse($row['start'])->format('j F Y') . '</span>');
             $orderDate = array('date_order' => Carbon::parse($row['created_at'])->format('l, j F Y'));
             $paidDate = array('date_payment' => Carbon::parse($row['date_payment'])->format('l j F Y'));
 
@@ -132,8 +133,8 @@ class OrderController extends Controller
             }
 
             $result['data'][$i] = array_replace($paid, $id, $invoice, $result['data'][$i], $pl, $price, $pm, $pc,
-                $created_at, $created_at3DayAdd, $start, $end, $orderDate, $paidDate, $deadline, $status, $studio,
-                $jenis, $meeting, $orderlog, $ava);
+                $created_at, $bookDate, $orderDate, $paidDate, $deadline, $status, $studio, $jenis, $meeting,
+                $orderlog, $ava);
             $i = $i + 1;
         }
 

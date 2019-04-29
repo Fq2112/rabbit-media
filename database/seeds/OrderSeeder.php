@@ -32,8 +32,8 @@ class OrderSeeder extends Seeder
                 'studio_id' => $layanan->isStudio == true ? rand(Studio::min('id'), Studio::max('id')) : null,
                 'payment_id' => rand(PaymentMethod::min('id'), PaymentMethod::max('id')),
                 'judul' => ucwords($faker->words(rand(1, 3), true)),
-                'start' => '2019-04-' . str_pad($c, 2, 0, STR_PAD_LEFT) . ' ' . now()->format('H:i:s'),
-                'end' => rand(0, 1) ? null : '2019-04-' . str_pad($x++, 2, 0, STR_PAD_LEFT) . ' ' . now()->addHours(rand(1, 5))->format('H:i:s'),
+                'start' => '2019-06-' . str_pad($c, 2, 0, STR_PAD_LEFT) . ' ' . now()->format('H:i:s'),
+                'end' => rand(0, 1) ? null : '2019-06-' . str_pad($x++, 2, 0, STR_PAD_LEFT) . ' ' . now()->addHours(rand(1, 5))->format('H:i:s'),
                 'deskripsi' => $faker->paragraph,
                 'qty' => $layanan->isQty == true ? $layanan->qty : null,
                 'hours' => $layanan->isHours == true ? $layanan->qty : null,
@@ -60,8 +60,8 @@ class OrderSeeder extends Seeder
         for ($c = 1; $c <= 5; $c++) {
             Schedule::create([
                 'judul' => 'Libur',
-                'start' => '2019-05-' . str_pad($c, 2, 0, STR_PAD_LEFT) . ' ' . now()->format('H:i:s'),
-                'end' => '2019-05-' . str_pad($y++, 2, 0, STR_PAD_LEFT) . ' ' . now()->addHours(rand(1, 5))->format('H:i:s'),
+                'start' => '2019-07-' . str_pad($c, 2, 0, STR_PAD_LEFT) . ' ' . now()->format('H:i:s'),
+                'end' => '2019-07-' . str_pad($y++, 2, 0, STR_PAD_LEFT) . ' ' . now()->addHours(rand(1, 5))->format('H:i:s'),
                 'deskripsi' => $faker->paragraph,
                 'isDayOff' => true
             ]);
