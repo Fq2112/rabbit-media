@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Pages\Client;
 
 use App\Events\Clients\PaymentDetails;
+use App\Mail\Clients\OrderDetailsEmail;
 use App\Models\JenisStudio;
 use App\Models\layanan;
 use App\Models\OrderLogs;
@@ -15,6 +16,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
 class OrderController extends Controller
@@ -49,7 +51,7 @@ class OrderController extends Controller
 
     public function submitOrder(Request $request)
     {
-        Pemesanan::create([
+        $order = Pemesanan::create([
             'user_id' => Auth::id(),
             'layanan_id' => $request->layanan_id,
             'studio_id' => $request->studio,
@@ -64,7 +66,12 @@ class OrderController extends Controller
             'status_payment' => 0
         ]);
 
-        return redirect()->route('client.dashboard')->with('update', 'Pesanan Anda berhasil diproses! Mohon untuk menunggu informasi lebih lanjut dari kami dan status pesanan Anda dapat dilihat pada halaman ini, terimakasih.');
+        $data = $this->paymentDetailsMail($order->id);
+        Mail::to('rm.rabbitmedia@gmail.com')->send(new OrderDetailsEmail($data));
+
+        return redirect()->route('client.dashboard')->with('update', 'Pesanan Anda berhasil diproses! ' .
+            'Mohon untuk menunggu informasi lebih lanjut dari kami dan status pesanan Anda dapat dilihat ' .
+            'pada halaman ini, terimakasih.');
     }
 
     public function showDashboard(Request $request)
@@ -154,7 +161,8 @@ class OrderController extends Controller
             'payment_type' => $request->payment_type,
         ]);
 
-        $this->paymentDetailsMail($request->order_id);
+        $data = $this->paymentDetailsMail($request->order_id);
+        event(new PaymentDetails($data));
 
         $date = Carbon::parse($order->created_at);
         $romanDate = RomanConverter::numberToRoman($date->format('y')) . '/' .
@@ -167,8 +175,8 @@ class OrderController extends Controller
     private function paymentDetailsMail($id)
     {
         $order = Pemesanan::find($id);
-        $pm = $order->getPayment;
-        $pc = $pm->paymentCategories;
+        $pm = $order->payment_id != null ? $order->getPayment : null;
+        $pc = $order->payment_id != null ? $pm->paymentCategories : null;
         $pl = $order->getLayanan;
 
         $date = Carbon::parse($order->created_at);
@@ -209,11 +217,8 @@ class OrderController extends Controller
             $price_totalStudio = null;
         }
 
-        if ($order->payment_type == 'DP') {
-            $amountToPay = number_format(ceil($order->total_payment * .3), 2, ',', '.');
-        } else {
-            $amountToPay = number_format($order->total_payment, 2, ',', '.');
-        }
+        $amountToPay = number_format($order->payment_type == 'DP' ?
+            ceil($order->total_payment * .3) : $order->total_payment, 2, ',', '.');
 
         $data = [
             'order' => $order,
@@ -234,7 +239,7 @@ class OrderController extends Controller
             'amountToPay' => $amountToPay
         ];
 
-        event(new PaymentDetails($data));
+        return $data;
     }
 
     public function uploadPaymentProof(Request $request)

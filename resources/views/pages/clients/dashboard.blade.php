@@ -766,9 +766,9 @@
                 '<div id="notimage" class="hidden">Mohon untuk memilih file gambar</div>' +
                 '<span id="file-upload-btn" class="btn btn-primary">Select a File</span></div>' +
                 '<div id="response" class="hidden"><div id="messages"></div></div>' +
-                '<div id="progress-upload">' +
-                '<div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar" ' +
-                'aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div></div></label></div>'
+                '<div id="progress-upload" class="mt-4">' +
+                '<div class="progress-bar progress-bar-info progress-bar-striped progress-bar-animated active" ' +
+                'role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div></div></label></div>'
             );
 
             modal.modal('show');

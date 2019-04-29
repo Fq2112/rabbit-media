@@ -16,41 +16,30 @@
 
         body {
             font-family: open sans, tahoma, sans-serif;
-            margin: 0;
-            height: 100%;
             -webkit-print-color-adjust: exact;
         }
 
-        @if($order->status_payment > 1)
-        .container {
-            background: linear-gradient(rgba(255, 255, 255, .9), rgba(255, 255, 255, .9)),
-            url("{{asset('images/bg_invoice_paid.jpg')}}") no-repeat center;
-            -webkit-background-size: cover;
-            -moz-background-size: cover;
-            -o-background-size: cover;
-            background-size: cover;
-            padding: 30px;
+        .watermark {
+            position: absolute;
+            top: 0;
+            right: 0;
+            left: 0;
+            bottom: 0;
+            width: 100%;
             height: 100%;
+            opacity: .13;
         }
 
-        @else
         .container {
-            background: linear-gradient(rgba(255, 255, 255, .9), rgba(255, 255, 255, .9)),
-            url("{{asset('images/bg_invoice_unpaid.jpg')}}") no-repeat center;
-            -webkit-background-size: cover;
-            -moz-background-size: cover;
-            -o-background-size: cover;
-            background-size: cover;
-            padding: 30px;
+            width: 80%;
             height: 100%;
+            margin: 0 auto;
         }
-
-        @endif
 
         .invoice {
             position: absolute;
-            left: -6.5rem;
-            top: 15rem;
+            left: -6.2rem;
+            top: 13.5rem;
             font-weight: 600;
             font-size: 48px;
             -webkit-transform: rotate(-90deg);
@@ -97,11 +86,11 @@
     </style>
 </head>
 <body onload="window.print()">
+<img class="watermark"
+     src="{{$order->status_payment > 1 ? asset('images/bg_invoice_paid.jpg') : asset('images/bg_invoice_unpaid.jpg')}}">
 <div class="container">
-    <div class="invoice">
-        Invoice <span style="color: #592f83">{{str_pad($order->id, 4, 0, STR_PAD_LEFT)}}</span>
-    </div>
-    <table cellspacing="0" cellpadding="0" style="margin: 2.5rem 0 0 3rem">
+    <div class="invoice">Invoice <span style="color: #592f83">{{str_pad($order->id, 4, 0, STR_PAD_LEFT)}}</span></div>
+    <table cellspacing="0" cellpadding="0" style="margin-top: 4.5rem">
         <tr>
             <td>
                 <table cellspacing="0" cellpadding="0"
