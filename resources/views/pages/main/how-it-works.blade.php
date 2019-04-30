@@ -321,6 +321,16 @@
             transform: none;
         }
 
+        .image-right {
+            float: right;
+            margin-left: 1rem;
+        }
+
+        .image-left {
+            float: left;
+            margin-right: 1rem;
+        }
+
         .post-wrapper .post:nth-child(even) {
             float: right;
         }
@@ -512,6 +522,18 @@
         .nicescroll-rails {
             width: 8px !important;
         }
+
+        #particles-js canvas {
+            display: block;
+            vertical-align: bottom;
+        }
+
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+        }
     </style>
 </head>
 <body class="use-nicescroll">
@@ -540,10 +562,10 @@
     <div class="stem"></div>
     <div class="stem-background"></div>
 </div>
-
 <div class="section main-content">
-    <div class="section-inner">
+    <div id="particles-js" style="width: 100%;height: 100%"></div>
 
+    <div class="section-inner">
         <div class="stem-padding"></div>
 
         <div class="post-wrapper">
@@ -558,8 +580,8 @@
                     <h2 class="post-title">{{\Faker\Factory::create()->jobTitle}}</h2>
                     <div class="entry-content">
                         <p>
-                            <img src="{{\Faker\Factory::create()->imageUrl()}}" class="img-fluid rounded ml-3"
-                                 alt="Image" style="float: right;width: 250px;">
+                            <img src="{{\Faker\Factory::create()->imageUrl()}}" class="img-fluid rounded image-right"
+                                 alt="Image" width="240px">
                             {{\Faker\Factory::create()->paragraphs(rand(2,3), true)}}
                         </p>
                     </div>
@@ -577,8 +599,8 @@
                     <h2 class="post-title">{{\Faker\Factory::create()->jobTitle}}</h2>
                     <div class="entry-content">
                         <p>
-                            <img src="{{\Faker\Factory::create()->imageUrl()}}" class="img-fluid rounded mr-3"
-                                 alt="Image" style="float: left;width: 250px;">
+                            <img src="{{\Faker\Factory::create()->imageUrl()}}" class="img-fluid rounded image-left"
+                                 alt="Image">
                             {{\Faker\Factory::create()->paragraphs(rand(2,3), true)}}
                         </p>
                     </div>
@@ -596,8 +618,8 @@
                     <h2 class="post-title">{{\Faker\Factory::create()->jobTitle}}</h2>
                     <div class="entry-content">
                         <p>
-                            <img src="{{\Faker\Factory::create()->imageUrl()}}" class="img-fluid rounded ml-3"
-                                 alt="Image" style="float: right;width: 250px;">
+                            <img src="{{\Faker\Factory::create()->imageUrl()}}" class="img-fluid rounded image-right"
+                                 alt="Image">
                             {{\Faker\Factory::create()->paragraphs(rand(2,3), true)}}
                         </p>
                     </div>
@@ -615,8 +637,8 @@
                     <h2 class="post-title">{{\Faker\Factory::create()->jobTitle}}</h2>
                     <div class="entry-content">
                         <p>
-                            <img src="{{\Faker\Factory::create()->imageUrl()}}" class="img-fluid rounded mr-3"
-                                 alt="Image" style="float: left;width: 250px;">
+                            <img src="{{\Faker\Factory::create()->imageUrl()}}" class="img-fluid rounded image-left"
+                                 alt="Image">
                             {{\Faker\Factory::create()->paragraphs(rand(2,3), true)}}
                         </p>
                     </div>
@@ -634,8 +656,8 @@
                     <h2 class="post-title">{{\Faker\Factory::create()->jobTitle}}</h2>
                     <div class="entry-content">
                         <p>
-                            <img src="{{\Faker\Factory::create()->imageUrl()}}" class="img-fluid rounded ml-3"
-                                 alt="Image" style="float: right;width: 250px;">
+                            <img src="{{\Faker\Factory::create()->imageUrl()}}" class="img-fluid rounded image-right"
+                                 alt="Image">
                             {{\Faker\Factory::create()->paragraphs(rand(2,3), true)}}
                         </p>
                     </div>
@@ -653,8 +675,8 @@
                     <h2 class="post-title">{{\Faker\Factory::create()->jobTitle}}</h2>
                     <div class="entry-content">
                         <p>
-                            <img src="{{\Faker\Factory::create()->imageUrl()}}" class="img-fluid rounded mr-3"
-                                 alt="Image" style="float: left;width: 250px;">
+                            <img src="{{\Faker\Factory::create()->imageUrl()}}" class="img-fluid rounded image-left"
+                                 alt="Image">
                             {{\Faker\Factory::create()->paragraphs(rand(2,3), true)}}
                         </p>
                     </div>
@@ -663,7 +685,6 @@
         </div>
 
         <div class="single-stem-icon scroll-to-top trigger-scroll-to-top"></div>
-
     </div>
 </div>
 
@@ -693,6 +714,7 @@
 <script src="{{asset('admins/modules/selectivizr-min.js')}}"></script>
 <script src="{{asset('admins/modules/nicescroll/jquery.nicescroll.js')}}"></script>
 <script src="{{asset('admins/modules/checkMobileDevice.js')}}"></script>
+<script src="{{asset('admins/modules/particles.min.js')}}"></script>
 <script>
     (function ($) {
 
@@ -707,6 +729,8 @@
             $(window).scroll();
 
             window.mobilecheck() ? $("body").removeClass('use-nicescroll') : '';
+            window.mobilecheck() ? $(".entry-content img").removeClass('image-left image-right') : '';
+            window.mobilecheck() ? $("#particles-js").remove() : '';
 
             $(".use-nicescroll").niceScroll({
                 cursorcolor: "rgba(49, 40, 85, 1)",
@@ -892,6 +916,108 @@
         var x = document.getElementsByTagName('script')[0];
         x.parentNode.insertBefore(s, x);
     })();
+
+    particlesJS('particles-js', {
+        'particles': {
+            'number': {
+                'value': 80,
+                'density': {
+                    'enable': true,
+                    'value_area': 800
+                }
+            },
+            'color': {
+                'value': ['#fff']
+            },
+            'shape': {
+                'type': 'circle',
+                'stroke': {
+                    'width': 0,
+                    'color': '#000'
+                },
+                'polygon': {
+                    'nb_sides': 5
+                }
+            },
+            'opacity': {
+                'value': 0.5,
+                'random': false,
+                'anim': {
+                    'enable': false,
+                    'speed': 1,
+                    'opacity_min': 0.1,
+                    'sync': false
+                }
+            },
+            'size': {
+                'value': 3,
+                'random': true,
+                'anim': {
+                    'enable': false,
+                    'speed': 40,
+                    'size_min': 0.1,
+                    'sync': false
+                }
+            },
+            'line_linked': {
+                'enable': true,
+                'distance': 150,
+                'color': '#fff',
+                'opacity': 0.4,
+                'width': 1
+            },
+            "move": {
+                "enable": true,
+                "speed": 6,
+                "direction": "none",
+                "random": false,
+                "straight": false,
+                "out_mode": "out",
+                "bounce": false,
+                "attract": {"enable": false, "rotateX": 600, "rotateY": 1200}
+            }
+        },
+        'interactivity': {
+            'detect_on': 'canvas',
+            'events': {
+                'onhover': {
+                    'enable': true,
+                    'mode': 'grab'
+                },
+                'onclick': {
+                    'enable': false,
+                    'mode': 'push'
+                },
+                'resize': true
+            },
+            'modes': {
+                'grab': {
+                    'distance': 300,
+                    'line_linked': {
+                        'opacity': .5
+                    }
+                },
+                'bubble': {
+                    'distance': 400,
+                    'size': 10,
+                    'duration': 2,
+                    'opacity': .5,
+                    'speed': 3
+                },
+                'repulse': {
+                    'distance': 200,
+                    'duration': 0.4
+                },
+                'push': {
+                    'particles_nb': 4
+                },
+                'remove': {
+                    'particles_nb': 2
+                }
+            }
+        },
+        'retina_detect': true
+    });
 </script>
 </body>
 </html>
