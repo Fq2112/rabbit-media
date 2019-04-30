@@ -265,17 +265,11 @@
             transition-duration: 0.5s;
         }
 
-        .stem-padding,
-        .single-stem-icon {
+        .stem-padding {
             width: 60px;
             height: 60px;
             margin: 0 auto;
             background: transparent url({{asset('images/how-it-works/stem-mask.png')}}) repeat-y top center;
-        }
-
-        .single-stem-icon.scroll-to-top {
-            cursor: pointer;
-            background-image: url({{asset('images/how-it-works/scroll-to-top-icon.png')}});
         }
 
         /*==========  Post wrapper ==========*/
@@ -363,6 +357,10 @@
             background-image: url({{asset('images/how-it-works/twitter-icon.png')}});
         }
 
+        .post-wrapper .post.scroll-to-top .stem-overlay .icon {
+            background-image: url({{asset('images/how-it-works/scroll-to-top-icon.png')}});
+        }
+
         .post-wrapper .post .stem-overlay {
             position: absolute;
             top: 0;
@@ -421,8 +419,7 @@
                 left: 80px;
             }
 
-            .stem-padding,
-            .single-stem-icon {
+            .stem-padding {
                 margin: 0;
                 float: left;
                 margin-left: 50px;
@@ -469,8 +466,7 @@
                 left: 60px;
             }
 
-            .stem-padding,
-            .single-stem-icon {
+            .stem-padding {
                 margin-left: 30px;
             }
         }
@@ -664,7 +660,7 @@
                 </div>
             </article>
 
-            <article class="post music-icon" data-stem-color="blue">
+            <article class="post music-icon" data-stem-color="green">
                 <div class="stem-overlay">
                     <div class="icon"></div>
                     <div class="stem-mask"></div>
@@ -682,9 +678,14 @@
                     </div>
                 </div>
             </article>
-        </div>
 
-        <div class="single-stem-icon scroll-to-top trigger-scroll-to-top"></div>
+            <article class="post scroll-to-top trigger-scroll-to-top" data-stem-color="blue">
+                <div class="stem-overlay">
+                    <div class="icon"></div>
+                    <div class="stem-mask"></div>
+                </div>
+            </article>
+        </div>
     </div>
 </div>
 
