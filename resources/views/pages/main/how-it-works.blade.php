@@ -596,7 +596,7 @@
                     <div class="entry-content">
                         <p>
                             <img src="{{\Faker\Factory::create()->imageUrl()}}" class="img-fluid rounded image-left"
-                                 alt="Image">
+                                 alt="Image" width="240px">
                             {{\Faker\Factory::create()->paragraphs(rand(2,3), true)}}
                         </p>
                     </div>
@@ -615,7 +615,7 @@
                     <div class="entry-content">
                         <p>
                             <img src="{{\Faker\Factory::create()->imageUrl()}}" class="img-fluid rounded image-right"
-                                 alt="Image">
+                                 alt="Image" width="240px">
                             {{\Faker\Factory::create()->paragraphs(rand(2,3), true)}}
                         </p>
                     </div>
@@ -634,7 +634,7 @@
                     <div class="entry-content">
                         <p>
                             <img src="{{\Faker\Factory::create()->imageUrl()}}" class="img-fluid rounded image-left"
-                                 alt="Image">
+                                 alt="Image" width="240px">
                             {{\Faker\Factory::create()->paragraphs(rand(2,3), true)}}
                         </p>
                     </div>
@@ -653,7 +653,7 @@
                     <div class="entry-content">
                         <p>
                             <img src="{{\Faker\Factory::create()->imageUrl()}}" class="img-fluid rounded image-right"
-                                 alt="Image">
+                                 alt="Image" width="240px">
                             {{\Faker\Factory::create()->paragraphs(rand(2,3), true)}}
                         </p>
                     </div>
@@ -672,7 +672,7 @@
                     <div class="entry-content">
                         <p>
                             <img src="{{\Faker\Factory::create()->imageUrl()}}" class="img-fluid rounded image-left"
-                                 alt="Image">
+                                 alt="Image" width="240px">
                             {{\Faker\Factory::create()->paragraphs(rand(2,3), true)}}
                         </p>
                     </div>
