@@ -20,4 +20,9 @@ class OrderLogs extends Model
     {
         return $this->belongsTo(Admin::class, 'admin_id');
     }
+
+    public function getOrderRevision()
+    {
+        return $this->hasMany(OrderRevision::class, 'log_id');
+    }
 }

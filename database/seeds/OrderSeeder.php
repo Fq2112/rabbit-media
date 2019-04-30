@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\OrderRevision;
 use App\Models\OrderLogs;
 use App\Models\Schedule;
 use App\Models\PaymentMethod;
@@ -48,11 +49,25 @@ class OrderSeeder extends Seeder
                 'pemesanan_id' => $order->id,
             ]);
 
-            OrderLogs::create([
+            $log = OrderLogs::create([
                 'pemesanan_id' => $order->id,
                 'admin_id' => rand(Admin::min('id'), Admin::max('id')),
                 'deskripsi' => $faker->paragraph,
-                'files' => [rand(1, 2) . ".jpg", rand(1, 3) . ".jpg", rand(1, 4) . ".jpg", rand(1, 5) . ".jpg"]
+                'files' => [rand(1, 2) . ".jpg", rand(1, 3) . ".jpg", rand(1, 4) . ".jpg", rand(1, 5) . ".jpg"],
+                'link' => $faker->imageUrl(),
+                'isComplete' => true,
+            ]);
+
+            OrderRevision::create([
+                'log_id' => $log->id,
+                'judul' => $faker->sentence,
+                'deskripsi' => '<p align="justify">' . $faker->paragraph . '</p>'
+            ]);
+
+            OrderRevision::create([
+                'log_id' => $log->id,
+                'judul' => $faker->sentence,
+                'deskripsi' => '<p align="justify">' . $faker->paragraph . '</p>'
             ]);
         }
 

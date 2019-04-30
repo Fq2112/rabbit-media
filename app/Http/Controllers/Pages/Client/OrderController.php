@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Pages\Client;
 
 use App\Events\Clients\PaymentDetails;
 use App\Mail\Clients\OrderDetailsEmail;
+use App\Models\Feedback;
 use App\Models\JenisStudio;
 use App\Models\layanan;
 use App\Models\OrderLogs;
+use App\Models\OrderRevision;
 use App\Models\PaymentMethod;
 use App\Models\Pemesanan;
 use App\Models\Schedule;
@@ -126,12 +128,17 @@ class OrderController extends Controller
             $meeting = array('meeting_location' => $row['meeting_location'] != "" ? $row['meeting_location'] : '(Kosong)',
                 'deskripsi' => $row['deskripsi'] != "" ? $row['deskripsi'] : '(Kosong)');
 
-            $orderlog = array(
+            $orderLog = array(
                 'log_id' => $log != "" ? $log->id : null,
                 'log_desc' => $log != "" ? $log->deskripsi : null,
                 'log_files' => $log != "" ? $log->files : null,
+                'log_link' => $log != "" ? $log->link : null,
+                'log_isComplete' => $log != "" ? $log->isComplete : false,
                 'admin_name' => $log != "" ? $log->getAdmin->name : null,
+                'total_rev' => $log != "" ? $log->getOrderRevision->count() : 0,
+                'check_feedback' => Feedback::where('user_id', Auth::id())->count()
             );
+
             if ($log != "") {
                 $ava = array('admin_ava' => $log->getAdmin->ava != "" ?
                     asset('storage/users/ava/' . $log->getAdmin->ava) : asset('images/avatar.png'));
@@ -141,7 +148,7 @@ class OrderController extends Controller
 
             $result['data'][$i] = array_replace($paid, $id, $invoice, $result['data'][$i], $pl, $price, $pm, $pc,
                 $created_at, $bookDate, $orderDate, $paidDate, $deadline, $status, $studio, $jenis, $meeting,
-                $orderlog, $ava);
+                $orderLog, $ava);
             $i = $i + 1;
         }
 

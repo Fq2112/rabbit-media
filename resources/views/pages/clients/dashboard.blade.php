@@ -309,8 +309,8 @@
         function successLoad(data, date, page) {
             var title, total, $date, pagination = '', $page = '',
                 $color, $col, $display, $invoice, $cursor,
-                $isHours, $isQty, $isStudio, $isMeeting, $isDesc,
-                $isAcc, $status, $pm, $isLog, $logID, $logDesc, $admin,
+                $isHours, $isQty, $isStudio, $isMeeting, $isDesc, $isAcc, $status, $pm,
+                $isLog, $logID, $logDesc, $logLink, $logIsComplete, $logStats, $admin,
                 $pay, $param_pay, $class_pay,
                 $upload, $param_upload, $class_upload,
                 $abort, $param_abort, $label_abort;
@@ -359,8 +359,17 @@
 
                 $isLog = val.log_id != null ? '' : 'none';
                 $logID = val.log_id != null ? val.log_id : '';
-                $logDesc = val.log_desc != null ? val.log_desc : '(Kosong)';
-                $admin = val.admin_name != null ? val.admin_name : '(Kosong)';
+                $logDesc = val.log_id != null ? val.log_desc : '(Kosong)';
+                $logLink = val.log_id != null ? val.log_link : '(Kosong)';
+                $logIsComplete = val.log_id != null ? val.log_isComplete : false;
+                $admin = val.log_id != null ? val.admin_name : '(Kosong)';
+                if (val.log_isComplete == false && val.total_rev <= 0) {
+                    $logStats = 'Proses Pengerjaan';
+                } else if (val.log_isComplete == false && val.total_rev > 0) {
+                    $logStats = 'Revisi';
+                } else {
+                    $logStats = 'Selesai (File Diterima)'
+                }
 
                 $col = val.expired == false && val.status_payment <= 1 ? '-11' : '';
                 $display = val.expired == false && val.status_payment <= 1 ? '' : 'none';
@@ -488,9 +497,16 @@
                     '<div id="ld-' + val.id + '" class="panel-collapse collapse mt-2" ' +
                     'aria-labelledby="ld-' + val.id + '" data-parent=".accordion">' +
                     '<div class="panel-body">' +
-                    '<small>Description</small><p class="mb-2" style="font-size: 14px">' + $logDesc + '</p>' +
-                    '<small>Attachments</small>' +
+                    '<small class="text-uppercase">Description</small>' +
+                    '<p class="mb-2" style="font-size: 14px">' + $logDesc + '</p>' +
+                    '<small class="text-uppercase">Attachments</small>' +
                     '<div id="attachments-' + $logID + '" class="mb-3" data-chocolat-title="Attachments"></div>' +
+                    '<small class="text-uppercase">Link</small><ul class="list-inline"><li class="list-inline-item">' +
+                    '<a class="tag tag-plans" href="' + $logLink + '" target="_blank"><i class="fa fa-globe mr-2"></i>' +
+                    '<span style="font-weight: 600">' + $logLink + '</span></a></li></ul>' +
+                    '<small class="text-uppercase">Status</small><ul class="list-inline">' +
+                    '<li class="list-inline-item"><a class="tag tag-plans"><i class="fa fa-chart-line mr-2"></i>' +
+                    '<span style="font-weight: 600">' + $logStats + '</span></a></li></ul>' +
                     '<small>by <cite>' + $admin + '</cite> <img src="' + val.admin_ava + '" ' +
                     'class="img-fluid img-thumbnail mb-1" style="border-radius: 100%;width: 32px"></small>' +
                     '</div></div><hr class="m-0"></div>' +

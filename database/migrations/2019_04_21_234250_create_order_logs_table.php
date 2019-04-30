@@ -14,7 +14,7 @@ class CreateOrderLogsTable extends Migration
     public function up()
     {
         Schema::create('order_logs', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->integer('pemesanan_id')->unsigned()->nullable();
             $table->foreign('pemesanan_id')->references('id')->on('pemesanans')
                 ->onUpdate('CASCADE')->onDelete('CASCADE');
@@ -23,6 +23,8 @@ class CreateOrderLogsTable extends Migration
                 ->onUpdate('CASCADE')->onDelete('CASCADE');
             $table->text('deskripsi');
             $table->text('files')->nullable();
+            $table->string('link')->nullable();
+            $table->boolean('isComplete')->default(false);
             $table->timestamps();
         });
     }
