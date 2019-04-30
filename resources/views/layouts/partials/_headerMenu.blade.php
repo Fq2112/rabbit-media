@@ -14,8 +14,8 @@
             </li>
             <li class="{{\Illuminate\Support\Facades\Request::is('services*') ? 'active' : ''}}">
                 <a href="{{route('show.service')}}">Services</a></li>
-            <li class="{{\Illuminate\Support\Facades\Request::is('about*') ? 'active' : ''}}">
-                <a href="{{route('about')}}">About Us</a></li>
+            <li class="{{\Illuminate\Support\Facades\Request::is('how-it-works*') ? 'active' : ''}}">
+                <a href="{{route('show.how-it-works')}}" target="_blank">How It Works</a></li>
             <li class="{{\Illuminate\Support\Facades\Request::is('feedback*') ? 'active' : ''}}">
                 <a href="{{route('feedback')}}">Feedback</a></li>
             @if(Auth::check() || Auth::guard('admin')->check())

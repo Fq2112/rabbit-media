@@ -53,6 +53,11 @@ class UserController extends Controller
         return view('pages.main.info', compact('info'));
     }
 
+    public function showHowItWorks()
+    {
+        return view('pages.main.how-it-works');
+    }
+
     public function faq()
     {
         $faqs = Faq::all();

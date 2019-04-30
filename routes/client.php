@@ -19,6 +19,11 @@ Route::group(['namespace' => 'Pages', 'prefix' => '/'], function () {
         'as' => 'home'
     ]);
 
+    Route::get('how-it-works', [
+        'uses' => 'UserController@showHowItWorks',
+        'as' => 'show.how-it-works'
+    ]);
+
     Route::get('about', [
         'uses' => 'UserController@about',
         'as' => 'about'

@@ -343,17 +343,16 @@
                 $isDesc = val.deskripsi != "" ? 'block' : 'none';
                 $isAcc = val.isAccept == 1 ? 'inline-block' : 'none';
 
-                if (val.isAbort == true || (val.expired == true && val.payment_type == null && val.status_payment == 0)
-                    || (val.expired == true && val.payment_type != null && val.status_payment == 0)) {
+                if (val.expired == true && val.isAbort == true) {
                     $status = 'Dibatalkan';
                 } else if (val.expired == false && val.payment_type == null && val.status_payment == 0) {
                     $status = 'Belum Lunas';
-                } else if (val.expired == false && val.payment_type != null && val.status_payment == 0) {
-                    $status = 'Menunggu Verifikasi';
                 } else if (val.expired == false && val.status_payment == 1) {
                     $status = 'DP (Down Payment)';
-                } else {
+                } else if (val.expired == false && val.status_payment == 2) {
                     $status = 'Lunas';
+                } else {
+                    $status = 'Menunggu Verifikasi';
                 }
 
                 $pm = val.pm != null ? '<span style="font-weight: 600">' + val.pm + '</span> (' + val.pc + ')' : '&ndash;';

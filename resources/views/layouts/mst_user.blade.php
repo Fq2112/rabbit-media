@@ -137,7 +137,7 @@
                 &copy;&nbsp;{{now()->format('Y')}} Rabbit Media – Digital Creative Service. All rights reserved.<br>
                 Template by <a href="https://colorlib.com" target="_blank">Colorlib</a>. Designed & Developed by <a
                         href="{{route('about')}}">Rabbit Media</a>.<br>
-                <a href="{{route('about')}}#contact-us">Contact Us</a> <span class="bullet"></span>
+                <a href="{{route('about')}}">About Us</a> <span class="bullet"></span>
                 <a href="{{route('info')}}">Privacy Policy</a> <span class="bullet"></span>
                 <a href="{{route('info')}}">Terms & Conditions</a> <span class="bullet"></span>
                 <a href="{{route('faq')}}">FAQ</a>
