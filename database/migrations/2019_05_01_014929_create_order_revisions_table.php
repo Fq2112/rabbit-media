@@ -20,6 +20,7 @@ class CreateOrderRevisionsTable extends Migration
                 ->onUpdate('CASCADE')->onDelete('CASCADE');
             $table->string('judul');
             $table->text('deskripsi');
+            $table->boolean('isPass')->default(0);
             $table->timestamps();
         });
     }

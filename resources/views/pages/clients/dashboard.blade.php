@@ -310,10 +310,11 @@
             var title, total, $date, pagination = '', $page = '',
                 $color, $col, $display, $invoice, $cursor,
                 $isHours, $isQty, $isStudio, $isMeeting, $isDesc, $isAcc, $status, $pm,
-                $isLog, $logID, $logDesc, $logLink, $logIsComplete, $logStats, $admin,
+                $isLog, $logID, $logDesc, $logLink, $logIsReady, $logIsComplete, $logStats, $admin,
                 $pay, $param_pay, $class_pay,
                 $upload, $param_upload, $class_upload,
-                $abort, $param_abort, $label_abort;
+                $abort, $param_abort, $label_abort,
+                $review, $col_review, $param_review, $class_review;
 
             if (data.total > 0) {
                 title = data.total > 1 ? 'Showing <strong>' + data.total + '</strong> order status' :
@@ -361,14 +362,31 @@
                 $logID = val.log_id != null ? val.log_id : '';
                 $logDesc = val.log_id != null ? val.log_desc : '(Kosong)';
                 $logLink = val.log_id != null ? val.log_link : '(Kosong)';
+                $logIsReady = val.log_id != null ? val.log_isReady : false;
                 $logIsComplete = val.log_id != null ? val.log_isComplete : false;
                 $admin = val.log_id != null ? val.admin_name : '(Kosong)';
-                if (val.log_isComplete == false && val.total_rev <= 0) {
-                    $logStats = 'Proses Pengerjaan';
-                } else if (val.log_isComplete == false && val.total_rev > 0) {
-                    $logStats = 'Revisi';
+                if ($logIsComplete == true) {
+                    $logStats = 'Selesai (File Diterima)';
+                    $review = 'none';
+                    $col_review = '';
+                    $class_review = '';
+                    $param_review = '';
                 } else {
-                    $logStats = 'Selesai (File Diterima)'
+                    if ($logIsReady == false) {
+                        $logStats = 'Proses Pengerjaan';
+                        $review = '';
+                        $col_review = '';
+                        $class_review = '';
+                        $param_review = val.id + ",'" + val.invoice + "'," + $logID + "," + $logIsReady +
+                            "," + val.total_rev + "," + val.check_feedback;
+                    } else {
+                        $logStats = 'Revisi';
+                        $review = '';
+                        $col_review = '-11';
+                        $class_review = 'ld ld-breath';
+                        $param_review = val.id + ",'" + val.invoice + "'," + $logID + "," + $logIsReady +
+                            "," + val.total_rev + "," + val.check_feedback;
+                    }
                 }
 
                 $col = val.expired == false && val.status_payment <= 1 ? '-11' : '';
@@ -497,7 +515,9 @@
                     '<div id="ld-' + val.id + '" class="panel-collapse collapse mt-2" ' +
                     'aria-labelledby="ld-' + val.id + '" data-parent=".accordion">' +
                     '<div class="panel-body">' +
-                    '<small class="text-uppercase">Description</small>' +
+                    '<div class="row">' +
+                    '<div class="col' + $col_review + '">' +
+                    '<div class="row"><div class="col"><small class="text-uppercase">Description</small>' +
                     '<p class="mb-2" style="font-size: 14px">' + $logDesc + '</p>' +
                     '<small class="text-uppercase">Attachments</small>' +
                     '<div id="attachments-' + $logID + '" class="mb-3" data-chocolat-title="Attachments"></div>' +
@@ -508,8 +528,14 @@
                     '<li class="list-inline-item"><a class="tag tag-plans"><i class="fa fa-chart-line mr-2"></i>' +
                     '<span style="font-weight: 600">' + $logStats + '</span></a></li></ul>' +
                     '<small>by <cite>' + $admin + '</cite> <img src="' + val.admin_ava + '" ' +
-                    'class="img-fluid img-thumbnail mb-1" style="border-radius: 100%;width: 32px"></small>' +
-                    '</div></div><hr class="m-0"></div>' +
+                    'class="img-fluid img-thumbnail mb-1" style="border-radius: 100%;width: 32px"></small></div></div></div>' +
+                    '<div class="col-1 justify-content-center align-self-center" style="display: ' + $review + '">' +
+                    '<div class="row"><div class="col"><div class="anim-icon anim-icon-md review ' + $class_review + '" ' +
+                    'onclick="review(' + $param_review + ')" data-toggle="tooltip" ' +
+                    'data-placement="bottom" title="Ulas Hasil" style="font-size: 25px;">' +
+                    '<input id="review' + val.id + '" type="checkbox" checked>' +
+                    '<label for="review' + val.id + '"></label></div></div></div></div>' +
+                    '</div></div></div><hr class="m-0"></div>' +
 
                     '</div></div></div></div>' +
 
@@ -547,7 +573,7 @@
                     '</blockquote></div></li>'
                 );
 
-                if (val.log_id != null) {
+                if ($logID != null) {
                     $.each(val.log_files, function (i, file) {
                         $("#attachments-" + $logID).append(
                             '<a class="chocolat-image mr-2" href="{{asset('images/big-images/nature_big_')}}' + file + '">' +
@@ -952,6 +978,20 @@
                     $("#abort" + id).prop('checked', true);
                 }
             });
+        }
+
+        function review(id, invoice, logID, isReady, total_rev, isFeedback) {
+            if (isReady == false) {
+                swal({
+                    title: 'PERHATIAN!',
+                    text: 'Saat ini Anda tidak dapat mengulas (merevisi) pesanan Anda, karena masih dalam proses pengerjaan!',
+                    icon: 'warning'
+                }).then(function () {
+                    $("#review" + id).prop('checked', true);
+                });
+            } else {
+                //
+            }
         }
     </script>
 @endpush

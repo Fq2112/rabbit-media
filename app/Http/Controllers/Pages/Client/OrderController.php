@@ -133,6 +133,7 @@ class OrderController extends Controller
                 'log_desc' => $log != "" ? $log->deskripsi : null,
                 'log_files' => $log != "" ? $log->files : null,
                 'log_link' => $log != "" ? $log->link : null,
+                'log_isReady' => $log != "" ? $log->isReady : false,
                 'log_isComplete' => $log != "" ? $log->isComplete : false,
                 'admin_name' => $log != "" ? $log->getAdmin->name : null,
                 'total_rev' => $log != "" ? $log->getOrderRevision->count() : 0,

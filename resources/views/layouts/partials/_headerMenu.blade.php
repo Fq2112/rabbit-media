@@ -7,7 +7,7 @@
                 <a href="{{route('show.portfolio')}}">Portfolios</a>
                 <ul class="dropdown">
                     @foreach(\App\Models\JenisPortofolio::orderBy('nama')->get() as $row)
-                        <li><a href="{{route('show.portfolio')}}?q={{$row->id}}">
+                        <li><a href="{{route('show.portfolio')}}?category={{$row->id}}">
                                 <i class="{{$row->icon}} mr-2"></i>{{$row->nama}}</a></li>
                     @endforeach
                 </ul>

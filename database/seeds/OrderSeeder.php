@@ -55,19 +55,22 @@ class OrderSeeder extends Seeder
                 'deskripsi' => $faker->paragraph,
                 'files' => [rand(1, 2) . ".jpg", rand(1, 3) . ".jpg", rand(1, 4) . ".jpg", rand(1, 5) . ".jpg"],
                 'link' => $faker->imageUrl(),
+                'isReady' => true,
                 'isComplete' => true,
             ]);
 
             OrderRevision::create([
                 'log_id' => $log->id,
                 'judul' => $faker->sentence,
-                'deskripsi' => '<p align="justify">' . $faker->paragraph . '</p>'
+                'deskripsi' => '<p align="justify">' . $faker->paragraph . '</p>',
+                'isPass' => true
             ]);
 
             OrderRevision::create([
                 'log_id' => $log->id,
                 'judul' => $faker->sentence,
-                'deskripsi' => '<p align="justify">' . $faker->paragraph . '</p>'
+                'deskripsi' => '<p align="justify">' . $faker->paragraph . '</p>',
+                'isPass' => true
             ]);
         }
 

@@ -24,6 +24,7 @@ class CreateOrderLogsTable extends Migration
             $table->text('deskripsi');
             $table->text('files')->nullable();
             $table->string('link')->nullable();
+            $table->boolean('isReady')->default(false);
             $table->boolean('isComplete')->default(false);
             $table->timestamps();
         });
