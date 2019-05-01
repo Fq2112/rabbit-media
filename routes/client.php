@@ -117,6 +117,11 @@ Route::group(['namespace' => 'Pages', 'prefix' => '/'], function () {
                 'as' => 'invoice.order'
             ]);
 
+            Route::post('log/review', [
+                'uses' => 'OrderController@orderLogReview',
+                'as' => 'review.orderLog'
+            ]);
+
         });
 
     });

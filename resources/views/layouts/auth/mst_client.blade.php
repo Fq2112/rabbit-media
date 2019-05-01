@@ -7,6 +7,7 @@
     <link href="{{asset('css/myTags.css')}}" rel="stylesheet">
     <link href="{{asset('css/myAccordion.css')}}" rel="stylesheet">
     <link href="{{asset('css/fileUploader.css')}}" rel="stylesheet">
+    <link href="{{asset('admins/modules/summernote/summernote-bs4.css')}}" rel="stylesheet">
     <style>
         .site-wrapper_left-col .logo:before {
             content: '{{substr($user->name,0,1)}}';
@@ -64,6 +65,7 @@
     </div>
 @endsection
 @push('scripts')
+    <script src="{{asset('admins/modules/summernote/summernote-bs4.js')}}"></script>
     <script>
         var CURRENT_URL = window.location.href.split('#')[0].split('?')[0],
             $SIDEBAR_MENU = $('#sidebar-menu'), $TREE_TOGGLE = $('.nav-header');

@@ -18,7 +18,6 @@ class CreateOrderRevisionsTable extends Migration
             $table->integer('log_id')->unsigned()->nullable();
             $table->foreign('log_id')->references('id')->on('order_logs')
                 ->onUpdate('CASCADE')->onDelete('CASCADE');
-            $table->string('judul');
             $table->text('deskripsi');
             $table->boolean('isPass')->default(0);
             $table->timestamps();

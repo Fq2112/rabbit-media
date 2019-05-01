@@ -338,4 +338,17 @@ class OrderController extends Controller
             'plan_price', 'invoice', 'totalPlan', 'price_totalPlan', 'totalHours', 'price_totalHours',
             'totalQty', 'price_totalQty', 'totalStudio', 'price_totalStudio', 'amountToPay'));
     }
+
+    public function orderLogReview(Request $request)
+    {
+        $log = OrderLogs::find($request->id);
+        if ($request->check_form == 'revisi') {
+            OrderRevision::create([
+                'log_id' => $log->id,
+                'judul' => $request->judul,
+                'deskripsi' => $request->deskripsi
+            ]);
+        }
+        $log->update(['isComplete' => true]);
+    }
 }

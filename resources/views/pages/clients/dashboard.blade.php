@@ -163,6 +163,37 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="reviewModal" tabindex="-1" role="dialog" aria-labelledby="reviewModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="review-form" method="post" action="{{route('review.orderLog')}}">
+                    {{csrf_field()}}
+                    <input type="hidden" name="log_id">
+                    <input type="hidden" name="check_form">
+                    <div class="modal-body">
+                        <p align="justify">Mohon untuk menjelaskan secara rinci mengenai revisi Anda!</p>
+                        <div class="row form-group">
+                            <div class="col">
+                                <textarea class="summernote form-control" name="deskripsi" id="deskripsi"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
 @push('scripts')
     <script>
@@ -310,7 +341,7 @@
             var title, total, $date, pagination = '', $page = '',
                 $color, $col, $display, $invoice, $cursor,
                 $isHours, $isQty, $isStudio, $isMeeting, $isDesc, $isAcc, $status, $pm,
-                $isLog, $logID, $logDesc, $logLink, $logIsReady, $logIsComplete, $logStats, $admin,
+                $isLog, $logID, $logDesc, $logLink, $logIsReady, $logIsComplete, $logStats, $totalRev, $admin,
                 $pay, $param_pay, $class_pay,
                 $upload, $param_upload, $class_upload,
                 $abort, $param_abort, $label_abort,
@@ -364,6 +395,7 @@
                 $logLink = val.log_id != null ? val.log_link : '(Kosong)';
                 $logIsReady = val.log_id != null ? val.log_isReady : false;
                 $logIsComplete = val.log_id != null ? val.log_isComplete : false;
+                $totalRev = val.log_id != null ? 2 - parseInt(val.total_rev) : 2;
                 $admin = val.log_id != null ? val.admin_name : '(Kosong)';
                 if ($logIsComplete == true) {
                     $logStats = 'Selesai (File Diterima)';
@@ -377,15 +409,15 @@
                         $review = '';
                         $col_review = '';
                         $class_review = '';
-                        $param_review = val.id + ",'" + val.invoice + "'," + $logID + "," + $logIsReady +
-                            "," + val.total_rev + "," + val.check_feedback;
+                        $param_review = "'" + val.invoice + "'," + $logID + "," + $logIsReady +
+                            "," + $totalRev + "," + val.check_feedback;
                     } else {
-                        $logStats = 'Revisi';
+                        $logStats = 'Siap Revisi (Tersisa ' + $totalRev + 'x Revisi)';
                         $review = '';
                         $col_review = '-11';
                         $class_review = 'ld ld-breath';
-                        $param_review = val.id + ",'" + val.invoice + "'," + $logID + "," + $logIsReady +
-                            "," + val.total_rev + "," + val.check_feedback;
+                        $param_review = "'" + val.invoice + "'," + $logID + "," + $logIsReady +
+                            "," + $totalRev + "," + val.check_feedback;
                     }
                 }
 
@@ -533,8 +565,8 @@
                     '<div class="row"><div class="col"><div class="anim-icon anim-icon-md review ' + $class_review + '" ' +
                     'onclick="review(' + $param_review + ')" data-toggle="tooltip" ' +
                     'data-placement="bottom" title="Ulas Hasil" style="font-size: 25px;">' +
-                    '<input id="review' + val.id + '" type="checkbox" checked>' +
-                    '<label for="review' + val.id + '"></label></div></div></div></div>' +
+                    '<input id="review' + $logID + '" type="checkbox" checked>' +
+                    '<label for="review' + $logID + '"></label></div></div></div></div>' +
                     '</div></div></div><hr class="m-0"></div>' +
 
                     '</div></div></div></div>' +
@@ -980,18 +1012,57 @@
             });
         }
 
-        function review(id, invoice, logID, isReady, total_rev, isFeedback) {
+        function review(invoice, logID, isReady, totalRev, isFeedback) {
+            var modal = $("#reviewModal");
             if (isReady == false) {
                 swal({
                     title: 'PERHATIAN!',
                     text: 'Saat ini Anda tidak dapat mengulas (merevisi) pesanan Anda, karena masih dalam proses pengerjaan!',
                     icon: 'warning'
                 }).then(function () {
-                    $("#review" + id).prop('checked', true);
+                    $("#review" + logID).prop('checked', true);
                 });
             } else {
-                //
+                swal({
+                    title: 'Results Review',
+                    text: 'Apakah Anda sudah puas dengan hasilnya? Jika belum silahkan klik tombol "Revisi" berikut.',
+                    icon: 'warning',
+                    dangerMode: true,
+                    buttons: ["Revisi", "Ya, saya puas!"],
+                    closeOnEsc: false,
+                    closeOnClickOutside: false,
+                }).then((confirm) => {
+                    if (confirm) {
+                        $("#review-form input[name=log_id]").val(logID);
+                        $("#review-form input[name=check_form]").val('puas');
+                        $("#review-form")[0].submit();
+
+                    } else {
+                        $(".summernote").summernote({
+                            dialogsInBody: true,
+                            height: 200,
+                        });
+
+                        $("#review-form input[name=log_id]").val(logID);
+                        $("#review-form input[name=check_form]").val('revisi');
+                        modal.modal('show');
+
+                        modal.on('hidden.bs.modal', function () {
+                            $("#review" + logID).prop('checked', true);
+                        });
+                    }
+                });
             }
         }
+
+        $("#review-form").on('submit', function (e) {
+            e.preventDefault();
+            if ($('.summernote').summernote('isEmpty')) {
+                swal('PERHATIAN!', 'Anda harus menuliskan beberapa kata mengenai revisi Anda!', 'warning');
+
+            } else {
+                $(this)[0].submit();
+            }
+        });
     </script>
 @endpush
