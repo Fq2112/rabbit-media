@@ -137,7 +137,6 @@ class OrderController extends Controller
                 'log_isComplete' => $log != "" ? $log->isComplete : false,
                 'admin_name' => $log != "" ? $log->getAdmin->name : null,
                 'total_rev' => $log != "" ? $log->getOrderRevision->count() : 0,
-                'check_feedback' => Feedback::where('user_id', Auth::id())->count()
             );
 
             if ($log != "") {
@@ -341,14 +340,23 @@ class OrderController extends Controller
 
     public function orderLogReview(Request $request)
     {
-        $log = OrderLogs::find($request->id);
+        $log = OrderLogs::find($request->log_id);
         if ($request->check_form == 'revisi') {
-            OrderRevision::create([
-                'log_id' => $log->id,
-                'judul' => $request->judul,
-                'deskripsi' => $request->deskripsi
-            ]);
+            if ($log->getOrderRevision->count() < 2) {
+                OrderRevision::create([
+                    'log_id' => $log->id,
+                    'deskripsi' => $request->deskripsi
+                ]);
+
+                return back()->with('update', 'Permintaan revisi berhasil dikirimkan! Mohon untuk menunggu hasil revisinya, terimakasih.');
+            } else {
+                return back()->with('error_revision', 'Permintaan revisi gagal dikirimkan, karena kesempatan revisi Anda telah habis!');
+            }
+
+        } else {
+            $log->update(['isComplete' => true]);
+
+            return back()->with('complete', 'Pesanan Anda telah selesai! File pesanan Anda akan segera kami kirimkan melalui flashdrive atau google drive, terimakasih.');
         }
-        $log->update(['isComplete' => true]);
     }
 }

@@ -12,8 +12,7 @@
                         <div class="col-12">
                             <h3 class="site-section-heading text-center" data-aos="fade-right">Feedback</h3>
                             <h5 class="text-center" data-aos="fade-left">Beri kami ulasan dengan membagikan pengalaman
-                                Anda tentang
-                                layanan kami!</h5>
+                                Anda tentang layanan kami!</h5>
                         </div>
                     </div>
                     <div class="row mb-3">

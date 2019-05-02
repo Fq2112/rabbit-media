@@ -19,7 +19,6 @@ class CreateOrderRevisionsTable extends Migration
             $table->foreign('log_id')->references('id')->on('order_logs')
                 ->onUpdate('CASCADE')->onDelete('CASCADE');
             $table->text('deskripsi');
-            $table->boolean('isPass')->default(0);
             $table->timestamps();
         });
     }

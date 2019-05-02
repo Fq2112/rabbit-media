@@ -157,7 +157,7 @@ class UserController extends Controller
             ]);
 
             return back()->with('update', 'Terima kasih ' . Auth::user()->name . ' atas ulasannya! ' .
-                'Dengan begitu kami dapat berpotensi menjadi perusahaan yang lebih baik lagi.');
+                'Dengan begitu kami dapat berpotensi menjadi agensi yang lebih baik lagi.');
 
         } else {
             Feedback::find($request->check_form)->update([

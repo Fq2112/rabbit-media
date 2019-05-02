@@ -166,7 +166,7 @@
 
     <div class="modal fade" id="reviewModal" tabindex="-1" role="dialog" aria-labelledby="reviewModalLabel"
          aria-hidden="true">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title"></h5>
@@ -194,6 +194,74 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="feedbackModal" tabindex="-1" role="dialog" aria-labelledby="feedbackModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Review Us</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{{route('feedback.submit')}}" method="POST">
+                    {{csrf_field()}}
+                    <input type="hidden" name="check_form" value="create">
+                    <div class="modal-body">
+                        <div class="row form-group">
+                            <div class="col-12">
+                                <fieldset id="rating" class="rating" aria-required="true">
+                                    <label class="full" for="star5" data-toggle="tooltip" title="Best"></label>
+                                    <input type="radio" id="star5" name="rating" value="5" required>
+
+                                    <label class="half" for="star4half" data-toggle="tooltip"
+                                           title="Awesome"></label>
+                                    <input type="radio" id="star4half" name="rating" value="4.5">
+
+                                    <label class="full" for="star4" data-toggle="tooltip"
+                                           title="Pretty good"></label>
+                                    <input type="radio" id="star4" name="rating" value="4">
+
+                                    <label class="half" for="star3half" data-toggle="tooltip" title="Good"></label>
+                                    <input type="radio" id="star3half" name="rating" value="3.5">
+
+                                    <label class="full" for="star3" data-toggle="tooltip" title="Standard"></label>
+                                    <input type="radio" id="star3" name="rating" value="3">
+
+                                    <label class="half" for="star2half" data-toggle="tooltip"
+                                           title="Kinda bad"></label>
+                                    <input type="radio" id="star2half" name="rating" value="2.5">
+
+                                    <label class="full" for="star2" data-toggle="tooltip" title="Bad"></label>
+                                    <input type="radio" id="star2" name="rating" value="2">
+
+                                    <label class="half" for="star1half" data-toggle="tooltip"
+                                           title="Too bad"></label>
+                                    <input type="radio" id="star1half" name="rating" value="1.5">
+
+                                    <label class="full" for="star1" data-toggle="tooltip" title="Pathetic"></label>
+                                    <input type="radio" id="star1" name="rating" value="1">
+
+                                    <label class="half" for="starhalf" data-toggle="tooltip"
+                                           title="Sucks big time"></label>
+                                    <input type="radio" id="starhalf" name="rating" value="0.5">
+                                </fieldset>
+
+                                <textarea name="comment" id="comment" class="form-control" style="resize: vertical"
+                                          placeholder="Bagikan pengalaman Anda tentang layanan kami disini&hellip;"
+                                          required autofocus></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
 @push('scripts')
     <script>
@@ -205,6 +273,32 @@
             @else
             uploadPaymentProof('{{$findOrder->id}}', '{{$findOrder->payment_proof}}', '{{$req_invoice}}');
             @endif
+            @endif
+
+            @if(session('complete'))
+            swal({
+                title: 'Success!',
+                text: '{{session('complete')}}',
+                icon: 'success',
+            }).then(function () {
+                @if(\App\Models\Feedback::where('user_id', Auth::id())->count() <= 0)
+                swal({
+                    title: 'Review Us',
+                    text: 'Beri kami ulasan dengan membagikan pengalaman Anda tentang layanan kami!',
+                    icon: 'warning',
+                    dangerMode: true,
+                    buttons: ["Tidak Sekarang", "Ya"],
+                    closeOnEsc: false,
+                    closeOnClickOutside: false,
+                }).then((confirm) => {
+                    if (confirm) {
+                        $("#feedbackModal").modal('show');
+                    } else {
+                        swal('Success!', 'Anda dapat mengulas kami nanti pada halaman "Feedback", terimakasih :)', 'success');
+                    }
+                });
+                @endif
+            });
             @endif
 
             window.mobilecheck() ?
@@ -341,11 +435,11 @@
             var title, total, $date, pagination = '', $page = '',
                 $color, $col, $display, $invoice, $cursor,
                 $isHours, $isQty, $isStudio, $isMeeting, $isDesc, $isAcc, $status, $pm,
-                $isLog, $logID, $logDesc, $logLink, $logIsReady, $logIsComplete, $logStats, $totalRev, $admin,
+                $isLog, $logID, $logDesc, $logLink, $logIsReady, $logIsComplete, $logStats, $revChance, $admin,
                 $pay, $param_pay, $class_pay,
                 $upload, $param_upload, $class_upload,
                 $abort, $param_abort, $label_abort,
-                $review, $col_review, $param_review, $class_review;
+                $review, $col_review, $param_review, $class_review, $tooltip_review;
 
             if (data.total > 0) {
                 title = data.total > 1 ? 'Showing <strong>' + data.total + '</strong> order status' :
@@ -395,31 +489,31 @@
                 $logLink = val.log_id != null ? val.log_link : '(Kosong)';
                 $logIsReady = val.log_id != null ? val.log_isReady : false;
                 $logIsComplete = val.log_id != null ? val.log_isComplete : false;
-                $totalRev = val.log_id != null ? 2 - parseInt(val.total_rev) : 2;
+                $revChance = val.log_id != null ? 2 - parseInt(val.total_rev) : 2;
                 $admin = val.log_id != null ? val.admin_name : '(Kosong)';
                 if ($logIsComplete == true) {
-                    $logStats = 'Selesai (File Diterima)';
+                    $logStats = '<span style="font-weight: 600">Pesanan Selesai</span>';
                     $review = 'none';
                     $col_review = '';
                     $class_review = '';
                     $param_review = '';
                 } else {
                     if ($logIsReady == false) {
-                        $logStats = 'Proses Pengerjaan';
+                        $logStats = '<span style="font-weight: 600">Proses Pengerjaan</span>';
                         $review = '';
                         $col_review = '';
                         $class_review = '';
-                        $param_review = "'" + val.invoice + "'," + $logID + "," + $logIsReady +
-                            "," + $totalRev + "," + val.check_feedback;
+                        $param_review = "'" + val.invoice + "'," + $logID + "," + $logIsReady + "," + $revChance;
                     } else {
-                        $logStats = 'Siap Revisi (Tersisa ' + $totalRev + 'x Revisi)';
+                        $logStats = 'Siap Revisi (kesempatan revisi: ' +
+                            '<span style="font-weight: 600">' + $revChance + '</span>x)';
                         $review = '';
                         $col_review = '-11';
                         $class_review = 'ld ld-breath';
-                        $param_review = "'" + val.invoice + "'," + $logID + "," + $logIsReady +
-                            "," + $totalRev + "," + val.check_feedback;
+                        $param_review = "'" + val.invoice + "'," + $logID + "," + $logIsReady + "," + $revChance;
                     }
                 }
+                $tooltip_review = $revChance <= 0 ? 'Konfirmasi Pesanan' : 'Ulas Hasil';
 
                 $col = val.expired == false && val.status_payment <= 1 ? '-11' : '';
                 $display = val.expired == false && val.status_payment <= 1 ? '' : 'none';
@@ -556,15 +650,15 @@
                     '<small class="text-uppercase">Link</small><ul class="list-inline"><li class="list-inline-item">' +
                     '<a class="tag tag-plans" href="' + $logLink + '" target="_blank"><i class="fa fa-globe mr-2"></i>' +
                     '<span style="font-weight: 600">' + $logLink + '</span></a></li></ul>' +
-                    '<small class="text-uppercase">Status</small><ul class="list-inline">' +
-                    '<li class="list-inline-item"><a class="tag tag-plans"><i class="fa fa-chart-line mr-2"></i>' +
-                    '<span style="font-weight: 600">' + $logStats + '</span></a></li></ul>' +
+                    '<small class="text-uppercase">Status</small>' +
+                    '<ul class="list-inline"><li class="list-inline-item">' +
+                    '<a class="tag tag-plans"><i class="fa fa-chart-line mr-2"></i>' + $logStats + '</a></li></ul>' +
                     '<small>by <cite>' + $admin + '</cite> <img src="' + val.admin_ava + '" ' +
                     'class="img-fluid img-thumbnail mb-1" style="border-radius: 100%;width: 32px"></small></div></div></div>' +
                     '<div class="col-1 justify-content-center align-self-center" style="display: ' + $review + '">' +
                     '<div class="row"><div class="col"><div class="anim-icon anim-icon-md review ' + $class_review + '" ' +
                     'onclick="review(' + $param_review + ')" data-toggle="tooltip" ' +
-                    'data-placement="bottom" title="Ulas Hasil" style="font-size: 25px;">' +
+                    'data-placement="bottom" title="' + $tooltip_review + '" style="font-size: 25px;">' +
                     '<input id="review' + $logID + '" type="checkbox" checked>' +
                     '<label for="review' + $logID + '"></label></div></div></div></div>' +
                     '</div></div></div><hr class="m-0"></div>' +
@@ -1012,8 +1106,14 @@
             });
         }
 
-        function review(invoice, logID, isReady, totalRev, isFeedback) {
-            var modal = $("#reviewModal");
+        function review(invoice, logID, isReady, revChance) {
+            var input = $("#deskripsi");
+            input.summernote({
+                dialogsInBody: true,
+                minHeight: 250,
+            });
+            input.summernote('code', '');
+
             if (isReady == false) {
                 swal({
                     title: 'PERHATIAN!',
@@ -1023,45 +1123,78 @@
                     $("#review" + logID).prop('checked', true);
                 });
             } else {
-                swal({
-                    title: 'Results Review',
-                    text: 'Apakah Anda sudah puas dengan hasilnya? Jika belum silahkan klik tombol "Revisi" berikut.',
-                    icon: 'warning',
-                    dangerMode: true,
-                    buttons: ["Revisi", "Ya, saya puas!"],
-                    closeOnEsc: false,
-                    closeOnClickOutside: false,
-                }).then((confirm) => {
-                    if (confirm) {
-                        $("#review-form input[name=log_id]").val(logID);
-                        $("#review-form input[name=check_form]").val('puas');
-                        $("#review-form")[0].submit();
-
-                    } else {
-                        $(".summernote").summernote({
-                            dialogsInBody: true,
-                            height: 200,
-                        });
-
-                        $("#review-form input[name=log_id]").val(logID);
-                        $("#review-form input[name=check_form]").val('revisi');
-                        modal.modal('show');
-
-                        modal.on('hidden.bs.modal', function () {
+                if (revChance <= 0) {
+                    swal({
+                        title: 'Order Confirm',
+                        text: 'File pesanan Anda akan segera kami kirimkan sesaat setelah Anda menekan tombol "Ya" berikut.',
+                        icon: 'warning',
+                        dangerMode: true,
+                        buttons: ["Tidak", "Ya"],
+                        closeOnEsc: false,
+                        closeOnClickOutside: false,
+                    }).then((confirm) => {
+                        if (confirm) {
+                            $("#review-form input[name=log_id]").val(logID);
+                            $("#review-form input[name=check_form]").val('puas');
+                            $("#review-form")[0].submit();
+                        } else {
                             $("#review" + logID).prop('checked', true);
-                        });
-                    }
-                });
+                        }
+                    });
+
+                } else {
+                    swal({
+                        title: 'Results Review',
+                        text: 'Apakah Anda sudah puas dengan hasilnya? Jika belum silahkan klik tombol "Revisi" berikut.',
+                        icon: 'warning',
+                        dangerMode: true,
+                        buttons: ["Revisi", "Ya, saya puas!"],
+                        closeOnEsc: false,
+                        closeOnClickOutside: false,
+                    }).then((confirm) => {
+                        if (confirm) {
+                            $("#review-form input[name=log_id]").val(logID);
+                            $("#review-form input[name=check_form]").val('puas');
+                            $("#review-form")[0].submit();
+
+                        } else {
+                            var modal = $("#reviewModal");
+
+                            $("#reviewModal .modal-title")
+                                .html('Results Review: <span style="font-weight: 600">' + invoice + '</span>');
+                            $("#review-form input[name=log_id]").val(logID);
+                            $("#review-form input[name=check_form]").val('revisi');
+                            modal.modal('show');
+
+                            modal.on('hidden.bs.modal', function () {
+                                $("#review" + logID).prop('checked', true);
+                            });
+                        }
+                    });
+                }
             }
         }
 
         $("#review-form").on('submit', function (e) {
             e.preventDefault();
-            if ($('.summernote').summernote('isEmpty')) {
-                swal('PERHATIAN!', 'Anda harus menuliskan beberapa kata mengenai revisi Anda!', 'warning');
+            if ($('#deskripsi').summernote('isEmpty')) {
+                swal('PERHATIAN!', 'Mohon untuk memberikan penjelasan secara rinci terkait revisi Anda!', 'warning');
 
             } else {
-                $(this)[0].submit();
+                swal({
+                    title: 'Apakah Anda yakin?',
+                    text: 'Karena Anda tidak dapat menyunting maupun menghapus permintaan revisi Anda ' +
+                        'maka pastikan semuanya telah Anda cantumkan/jelaskan secara rinci!',
+                    icon: 'warning',
+                    dangerMode: true,
+                    buttons: ["Tidak", "Ya"],
+                    closeOnEsc: false,
+                    closeOnClickOutside: false,
+                }).then((confirm) => {
+                    if (confirm) {
+                        $(this)[0].submit();
+                    }
+                });
             }
         });
     </script>

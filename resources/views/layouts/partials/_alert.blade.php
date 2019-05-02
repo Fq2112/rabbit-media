@@ -38,6 +38,9 @@
 
     @elseif(session('error'))
     swal('Profile Settings', '{{ session('error') }}', 'error');
+
+    @elseif(session('error_revision'))
+    swal('Error!', '{{ session('error_revision') }}', 'error');
     @endif
 
     @if (count($errors) > 0)

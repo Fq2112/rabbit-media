@@ -62,13 +62,11 @@ class OrderSeeder extends Seeder
             OrderRevision::create([
                 'log_id' => $log->id,
                 'deskripsi' => '<p align="justify">' . $faker->paragraph . '</p>',
-                'isPass' => true
             ]);
 
             OrderRevision::create([
                 'log_id' => $log->id,
                 'deskripsi' => '<p align="justify">' . $faker->paragraph . '</p>',
-                'isPass' => true
             ]);
         }
 
