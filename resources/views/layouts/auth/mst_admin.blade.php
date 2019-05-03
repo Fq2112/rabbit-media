@@ -40,8 +40,11 @@
     $contacts = \App\Models\Contact::where('created_at', '>=', today()->subDays('3')->toDateTimeString())
     ->orderByDesc('id')->get();
 
-    $orders = \App\Models\Pemesanan::where('isPaid',false)->wherenotnull('payment_proof')
-    ->whereDate('created_at', '>=', now()->subDay())->orderByDesc('id')->get();
+    $orders = \App\Models\Pemesanan::where('isAccept',false)->orderByDesc('id')->get();
+
+    $pays = \App\Models\Pemesanan::where('isAccept',true)->where('start', '>', now()->addDays(2))
+    ->whereNotNull('payment_id')->whereNotNull('payment_proof')->where('status_payment' ,'<=', 1)
+    ->orderByDesc('id')->get();
 @endphp
 <div id="app">
     <div class="main-wrapper main-wrapper-1">
@@ -108,17 +111,33 @@
                     <div class="dropdown-menu dropdown-list dropdown-menu-right">
                         <div class="dropdown-header">Orders</div>
                         <div class="dropdown-list-content dropdown-list-message">
-                            @if(count($orders) > 0)
+                            @if(count($orders) > 0 && (Auth::guard('admin')->user()->isRoot() || Auth::guard('admin')->user()->isCEO()))
                                 @foreach($orders as $row)
-                                    <a href="{{route('table.orders'.'?q='.$row->getUser->name)}}" class="dropdown-item">
+                                    <a href="{{route('table.orders').'?q='.$row->getUser->name}}" class="dropdown-item">
                                         <div class="dropdown-item-avatar">
-                                            <img src="{{asset('images/services/'.$row->getLayanan->getJenisLayanan->icon)}}"
-                                                 class="rounded-circle" alt="Icon">
+                                            <img class="img-fluid" alt="Icon" src="{{asset('images/services/'.
+                                            $row->getLayanan->getJenisLayanan->icon)}}">
                                         </div>
                                         <div class="dropdown-item-desc">
-                                            <b>{{$row->getLayanan}}</b>
-                                            <p>{{$row->deskripsi}}</p>
-                                            <div class="time">{{\Carbon\Carbon::parse($row->created_at)->diffForHumans()}}</div>
+                                            <b>{{$row->getLayanan->paket}}</b>
+                                            <p>{{$row->judul}}</p>
+                                            <div class="time">
+                                                {{\Carbon\Carbon::parse($row->created_at)->diffForHumans()}}</div>
+                                        </div>
+                                    </a>
+                                @endforeach
+                            @elseif(count($pays) > 0 && (Auth::guard('admin')->user()->isRoot() || Auth::guard('admin')->user()->isAdmin()))
+                                @foreach($pays as $row)
+                                    <a href="{{route('table.orders').'?q='.$row->getUser->name}}" class="dropdown-item">
+                                        <div class="dropdown-item-avatar">
+                                            <img class="img-fluid" alt="Icon" src="{{asset('images/services/'.
+                                            $row->getLayanan->getJenisLayanan->icon)}}">
+                                        </div>
+                                        <div class="dropdown-item-desc">
+                                            <b>{{$row->getLayanan->paket}}</b>
+                                            <p>{{$row->judul}}</p>
+                                            <div class="time">
+                                                {{\Carbon\Carbon::parse($row->created_at)->diffForHumans()}}</div>
                                         </div>
                                     </a>
                                 @endforeach
@@ -128,7 +147,7 @@
                                         <img src="{{asset('images/searchPlace.png')}}" class="img-fluid">
                                     </div>
                                     <div class="dropdown-item-desc">
-                                        <p>There seems to be none of the order was found this 3 days&hellip;</p>
+                                        <p>There seems to be none of the order was found&hellip;</p>
                                     </div>
                                 </a>
                             @endif

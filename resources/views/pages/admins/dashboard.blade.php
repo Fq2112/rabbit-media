@@ -111,12 +111,13 @@
                                             </td>
                                             <td class="font-weight-600">{{$order->getUser->name}}</td>
                                             <td>
-                                                <img src="{{$order->isPaid == true ? asset('images/stamp_paid.png') :
-                                            asset('images/stamp_unpaid.png')}}" class="img-fluid" width="100">
+                                                <img src="{{$order->status_payment >= 1 ?
+                                                asset('images/stamp_paid.png') : asset('images/stamp_unpaid.png')}}"
+                                                     class="img-fluid" width="100">
                                             </td>
                                             <td>{{\Carbon\Carbon::parse($order->created_at)->addWeek()->format('j F Y')}}</td>
                                             <td>
-                                                <a href="{{route('table.orders'.'?q='.$order->getUser->name)}}"
+                                                <a href="{{route('table.orders').'?q='.$order->getUser->name}}"
                                                    class="btn btn-primary">Detail</a>
                                             </td>
                                         </tr>
@@ -196,7 +197,7 @@
                         @for($i=1;$i<=12;$i++)
                                 @php
                                     $total = 0;
-                                    $orders = \App\Models\Pemesanan::where('isPaid',true)->whereMonth('date_payment',$i);
+                                    $orders = \App\Models\Pemesanan::where('status_payment',2)->whereMonth('date_payment',$i);
                                     if($orders->count() > 0){
                                         foreach ($orders->get() as $row){
                                             $total += $row->total_payment;
@@ -224,7 +225,7 @@
                             @for($i=1;$i<=12;$i++)
                                     @php
                                         $total = 0;
-                                        $orders = \App\Models\Pemesanan::where('isPaid',true)->whereMonth('date_payment',$i);
+                                        $orders = \App\Models\Pemesanan::where('status_payment',2)->whereMonth('date_payment',$i);
                                         if($orders->count() > 0){
                                             foreach ($orders->get() as $row){
                                                 $total += $row->total_payment;

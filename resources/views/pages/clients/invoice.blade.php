@@ -30,6 +30,14 @@
             opacity: .13;
         }
 
+        .sign {
+            position: absolute;
+            top: 38.5rem;
+            left: 31.5rem;
+            width: 150px;
+            display: {{$order->status_payment > 1 ? '' : 'none'}};
+        }
+
         .container {
             width: 80%;
             height: 100%;
@@ -63,14 +71,6 @@
             border-collapse: collapse;
         }
 
-        .sign {
-            background-image: url("{{asset('images/stamp_rabbit.png')}}");
-            background-repeat: no-repeat;
-            background-position: 80px 10px;
-            background-size: 144px;
-            margin-top: 1em;
-        }
-
         a {
             font-size: 14px;
             text-decoration: none;
@@ -86,8 +86,9 @@
     </style>
 </head>
 <body onload="window.print()">
-<img class="watermark"
+<img class="watermark" alt="watermark"
      src="{{$order->status_payment > 1 ? asset('images/bg_invoice_paid.jpg') : asset('images/bg_invoice_unpaid.jpg')}}">
+<img class="sign" alt="stamp" src="{{asset('images/stamp_rabbit.png')}}">
 <div class="container">
     <div class="invoice">Invoice <span style="color: #592f83">{{str_pad($order->id, 4, 0, STR_PAD_LEFT)}}</span></div>
     <table cellspacing="0" cellpadding="0" style="margin-top: 4.5rem">
@@ -234,7 +235,7 @@
                         <td>&nbsp;</td>
                         <td>&nbsp;</td>
                     </tr>
-                    <tr class="{{$order->status_payment > 1 ? 'sign' : ''}}">
+                    <tr>
                         <td>&nbsp;</td>
                         <td>&nbsp;</td>
                         <td>Surabaya, {{now()->format('j F Y')}}<br><br><br><br>Admin<br><br><br></td>
