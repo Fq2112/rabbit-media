@@ -505,8 +505,7 @@
                         $class_review = '';
                         $param_review = "'" + val.invoice + "'," + $logID + "," + $logIsReady + "," + $revChance;
                     } else {
-                        $logStats = 'Siap Revisi (kesempatan revisi: ' +
-                            '<span style="font-weight: 600">' + $revChance + '</span>x)';
+                        $logStats = 'Kesempatan Revisi: <span style="font-weight: 600">' + $revChance + '</span>x';
                         $review = '';
                         $col_review = '-11';
                         $class_review = 'ld ld-breath';

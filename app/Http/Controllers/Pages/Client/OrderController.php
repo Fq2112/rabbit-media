@@ -347,6 +347,7 @@ class OrderController extends Controller
                     'log_id' => $log->id,
                     'deskripsi' => $request->deskripsi
                 ]);
+                $log->update(['isReady' => false]);
 
                 return back()->with('update', 'Permintaan revisi berhasil dikirimkan! Mohon untuk menunggu hasil revisinya, terimakasih.');
             } else {
