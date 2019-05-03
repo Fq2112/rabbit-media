@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Pages\Client;
 
 use App\Events\Clients\PaymentDetails;
 use App\Mail\Clients\OrderDetailsEmail;
-use App\Models\Feedback;
 use App\Models\JenisStudio;
 use App\Models\layanan;
 use App\Models\OrderLogs;
@@ -349,15 +348,18 @@ class OrderController extends Controller
                 ]);
                 $log->update(['isReady' => false]);
 
-                return back()->with('update', 'Permintaan revisi berhasil dikirimkan! Mohon untuk menunggu hasil revisinya, terimakasih.');
+                return back()->with('update', 'Permintaan revisi berhasil dikirimkan! ' .
+                    'Mohon untuk menunggu hasil revisinya, terimakasih.');
             } else {
-                return back()->with('error_revision', 'Permintaan revisi gagal dikirimkan, karena kesempatan revisi Anda telah habis!');
+                return back()->with('error_revision', 'Permintaan revisi gagal dikirimkan, ' .
+                    'karena kesempatan revisi Anda telah habis!');
             }
 
         } else {
             $log->update(['isComplete' => true]);
 
-            return back()->with('complete', 'Pesanan Anda telah selesai! File pesanan Anda akan segera kami kirimkan melalui flashdrive atau google drive, terimakasih.');
+            return back()->with('complete', 'Pesanan Anda telah selesai! ' .
+                'File pesanan Anda akan segera kami kirimkan melalui flashdrive atau google drive, terimakasih.');
         }
     }
 }

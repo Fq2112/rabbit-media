@@ -1020,5 +1020,6 @@
         'retina_detect': true
     });
 </script>
+@include('layouts.partials._notification')
 </body>
 </html>

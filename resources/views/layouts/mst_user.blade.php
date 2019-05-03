@@ -193,6 +193,7 @@
 @include('layouts.partials._scripts')
 @include('layouts.partials._alert')
 @include('layouts.partials._confirm')
+@include('layouts.partials._notification')
 @stack('scripts')
 </body>
 </html>
