@@ -6,6 +6,7 @@
           href="{{asset('admins/modules/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css')}}">
     <link rel="stylesheet" href="{{asset('admins/modules/datatables/Select-1.2.4/css/select.bootstrap4.min.css')}}">
     <link rel="stylesheet" href="{{asset('admins/modules/datatables/Buttons-1.5.6/css/buttons.dataTables.min.css')}}">
+    <link rel="stylesheet" href="{{asset('admins/modules/bootstrap-social/bootstrap-social.css')}}">
     <style>
         #password + .glyphicon, #confirm + .glyphicon,
         #curr_password + .glyphicon, #as-password + .glyphicon, #as-confirm + .glyphicon {
@@ -27,6 +28,79 @@
         .modal-footer {
             padding: 1rem !important;
             border-top: 1px solid #e9ecef !important;
+        }
+
+
+        .btn-instagram {
+            background-color: #C13584;
+        }
+
+        .btn-instagram:focus, .btn-instagram.focus {
+            background-color: #a52f6e;
+        }
+
+        .btn-instagram:hover {
+            background-color: #a52f6e;
+        }
+
+        .btn-instagram:active, .btn-instagram.active, .open > .dropdown-toggle.btn-instagram {
+            background-color: #a52f6e;
+        }
+
+        .btn-instagram:active:hover, .btn-instagram.active:hover, .open > .dropdown-toggle.btn-instagram:hover, .btn-instagram:active:focus, .btn-instagram.active:focus, .open > .dropdown-toggle.btn-instagram:focus, .btn-instagram:active.focus, .btn-instagram.active.focus, .open > .dropdown-toggle.btn-instagram.focus {
+            background-color: #872a55;
+        }
+
+        .btn-instagram.disabled:hover, .btn-instagram[disabled]:hover, fieldset[disabled] .btn-instagram:hover, .btn-instagram.disabled:focus, .btn-instagram[disabled]:focus, fieldset[disabled] .btn-instagram:focus, .btn-instagram.disabled.focus, .btn-instagram[disabled].focus, fieldset[disabled] .btn-instagram.focus {
+            background-color: #C13584;
+        }
+
+        .btn-instagram .badge {
+            color: #C13584;
+        }
+
+        .btn-whatsapp {
+            color: #fff;
+            background-color: #25d366;
+            border-color: rgba(0, 0, 0, 0.2)
+        }
+
+        .btn-whatsapp:focus, .btn-whatsapp.focus {
+            color: #fff;
+            background-color: #20af57;
+            border-color: rgba(0, 0, 0, 0.2)
+        }
+
+        .btn-whatsapp:hover {
+            color: #fff;
+            background-color: #20af57;
+            border-color: rgba(0, 0, 0, 0.2)
+        }
+
+        .btn-whatsapp:active, .btn-whatsapp.active, .open > .dropdown-toggle.btn-whatsapp {
+            color: #fff;
+            background-color: #20af57;
+            border-color: rgba(0, 0, 0, 0.2)
+        }
+
+        .btn-whatsapp:active:hover, .btn-whatsapp.active:hover, .open > .dropdown-toggle.btn-whatsapp:hover, .btn-whatsapp:active:focus, .btn-whatsapp.active:focus, .open > .dropdown-toggle.btn-whatsapp:focus, .btn-whatsapp:active.focus, .btn-whatsapp.active.focus, .open > .dropdown-toggle.btn-whatsapp.focus {
+            color: #fff;
+            background-color: #16873c;
+            border-color: rgba(0, 0, 0, 0.2)
+        }
+
+        .btn-whatsapp:active, .btn-whatsapp.active, .open > .dropdown-toggle.btn-whatsapp {
+            background-image: none
+        }
+
+        .btn-whatsapp.disabled:hover, .btn-whatsapp[disabled]:hover, fieldset[disabled] .btn-whatsapp:hover, .btn-whatsapp.disabled:focus, .btn-whatsapp[disabled]:focus, fieldset[disabled] .btn-whatsapp:focus, .btn-whatsapp.disabled.focus, .btn-whatsapp[disabled].focus, fieldset[disabled] .btn-whatsapp.focus {
+            background-color: #25d366;
+            border-color: rgba(0, 0, 0, 0.2)
+        }
+
+        .btn-whatsapp .badge {
+            color: #25d366;
+            background-color: #fff
         }
     </style>
 @endpush
@@ -65,8 +139,7 @@
                                         <th>Role</th>
                                         <th>Created at</th>
                                         <th>Last Update</th>
-                                        @if(Auth::guard('admin')->user()->isRoot())
-                                            <th>Action</th>@endif
+                                        <th>Action</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -86,6 +159,10 @@
                                             } else{
                                                 $badge = 'danger';
                                             }
+
+                                            $created_at = \Carbon\Carbon::parse($admin->created_at)->format('j F Y');
+                                            $updated_at = \Carbon\Carbon::parse($admin->updated_at)->diffForHumans();
+                                            $orders = $admin->getOrderLog != null ? $admin->getOrderLog->count() : 0;
                                         @endphp
                                         <tr>
                                             <td style="vertical-align: middle" align="center">{{$no++}}</td>
@@ -105,8 +182,8 @@
                                                 {{\Carbon\Carbon::parse($admin->created_at)->format('j F Y')}}</td>
                                             <td style="vertical-align: middle"
                                                 align="center">{{$admin->updated_at->diffForHumans()}}</td>
-                                            @if(Auth::guard('admin')->user()->isRoot())
-                                                <td style="vertical-align: middle" align="center">
+                                            <td style="vertical-align: middle" align="center">
+                                                @if(Auth::guard('admin')->user()->isRoot())
                                                     <div class="btn-group">
                                                         <button type="button" class="btn btn-primary"
                                                                 onclick="editProfile('{{$admin->id}}',
@@ -119,6 +196,14 @@
                                                                 aria-expanded="false"></button>
                                                         <div class="dropdown-menu" aria-labelledby="option">
                                                             <a class="dropdown-item" href="javascript:void(0)"
+                                                               onclick="openProfile('{{$admin->id}}','{{$admin->ava}}',
+                                                                       '{{$admin->email}}','{{$admin->name}}',
+                                                                       '{{$admin->role}}','{{$admin->deskripsi}}',
+                                                                       '{{$admin->facebook}}','{{$admin->twitter}}',
+                                                                       '{{$admin->instagram}}','{{$admin->whatsapp}}',
+                                                                       '{{$created_at}}','{{$updated_at}}','{{$orders}}')">
+                                                                <i class="fas fa-info-circle mr-2"></i>Details</a>
+                                                            <a class="dropdown-item" href="javascript:void(0)"
                                                                onclick="accountSettings('{{$admin->id}}',
                                                                        '{{$admin->email}}','{{$admin->role}}')">
                                                                 <i class="fa fa-user-cog mr-2"></i>Settings</a>
@@ -127,8 +212,18 @@
                                                                 <i class="fa fa-trash-alt mr-2"></i>Delete</a>
                                                         </div>
                                                     </div>
-                                                </td>
-                                            @endif
+                                                @else
+                                                    <button class="btn btn-info" data-toggle="tooltip" title="Details"
+                                                            data-placement="left" onclick="openProfile('{{$admin->id}}',
+                                                            '{{$admin->ava}}','{{$admin->email}}','{{$admin->name}}',
+                                                            '{{$admin->role}}','{{$admin->deskripsi}}',
+                                                            '{{$admin->facebook}}','{{$admin->twitter}}',
+                                                            '{{$admin->instagram}}','{{$admin->whatsapp}}',
+                                                            '{{$created_at}}','{{$updated_at}}','{{$orders}}')">
+                                                        <i class="fas fa-info-circle"></i>
+                                                    </button>
+                                                @endif
+                                            </td>
                                         </tr>
                                     @endforeach
                                     </tbody>
@@ -417,6 +512,65 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="detailModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col">
+                            <div class="card profile-widget">
+                                <div class="profile-widget-header">
+                                    <img id="avatar" alt="avatar" src="#" class="rounded-circle profile-widget-picture">
+                                    <div class="profile-widget-items">
+                                        <div class="profile-widget-item">
+                                            <div class="profile-widget-item-label">Orders</div>
+                                            <div class="profile-widget-item-value" id="orders" data-toggle="tooltip"
+                                                 title="Order Managed" data-placement="bottom"></div>
+                                        </div>
+                                        <div class="profile-widget-item">
+                                            <div class="profile-widget-item-label">Member Since</div>
+                                            <div class="profile-widget-item-value" id="create"></div>
+                                        </div>
+                                        <div class="profile-widget-item">
+                                            <div class="profile-widget-item-label">Last Update</div>
+                                            <div class="profile-widget-item-value" id="update"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="profile-widget-description"></div>
+                                <div class="card-footer pt-0">
+                                    <div class="font-weight-bold mb-2" id="socmed_title"></div>
+                                    <a href="#" class="btn btn-social-icon btn-google">
+                                        <i class="fas fa-envelope"></i>
+                                    </a>
+                                    <a href="#" class="btn btn-social-icon btn-facebook">
+                                        <i class="fab fa-facebook-f"></i>
+                                    </a>
+                                    <a href="#" class="btn btn-social-icon btn-twitter">
+                                        <i class="fab fa-twitter"></i>
+                                    </a>
+                                    <a href="#" class="btn btn-social-icon btn-instagram">
+                                        <i class="fab fa-instagram"></i>
+                                    </a>
+                                    <a href="#" class="btn btn-social-icon btn-whatsapp">
+                                        <i class="fab fa-whatsapp"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 @push("scripts")
     <script src="{{asset('admins/modules/datatables/datatables.min.js')}}"></script>
@@ -575,6 +729,38 @@
                 txt.val(names);
                 $("#ep-txt_ava[data-toggle=tooltip]").attr('data-original-title', names).tooltip('show');
             });
+        }
+
+        function openProfile(id, ava, email, name, role, deskripsi, facebook, twitter, instagram, whatsapp,
+                             create, update, orders) {
+            var $path = ava == "" ? '{{asset('images/avatar.png')}}' : '{{asset('storage/admins/ava/')}}/' + ava,
+                $desc = deskripsi != null ? deskripsi : '(empty)', $orders = orders > 999 ? '999+' : orders,
+                $fb = facebook != null ? 'https://fb.com/' + facebook : '#',
+                $tw = twitter != null ? 'https://twitter.com/' + twitter : '#',
+                $ig = instagram != null ? 'https://instagram.com/' + instagram : '#',
+                $wa = whatsapp != null ?
+                    'https://web.whatsapp.com/send?text=Halo, ' + name + '!&phone=' + whatsapp + '&abid=' + whatsapp : '#';
+
+            $("#detailModal .modal-title").text(name.split(/\s+/).slice(0, 1).join(" ") + "'s Profile");
+            $("#avatar").attr('src', $path);
+            $("#orders").text($orders);
+            $("#create").text(create);
+            $("#update").text(update);
+
+            $(".profile-widget-description").html(
+                '<div class="profile-widget-name">' + name + ' ' +
+                '<div class="text-muted d-inline font-weight-normal text-uppercase">' +
+                '<div class="slash"></div> ' + role + '</div></div>' + $desc
+            );
+
+            $("#socmed_title").text('Follow ' + name.split(/\s+/).slice(0, 1).join(" ") + ' On');
+            $(".btn-google").attr('href', 'mailto:' + email);
+            $(".btn-facebook").attr('href', $fb);
+            $(".btn-twitter").attr('href', $tw);
+            $(".btn-instagram").attr('href', $ig);
+            $(".btn-whatsapp").attr('href', $wa);
+
+            $("#detailModal").modal('show');
         }
     </script>
 @endpush

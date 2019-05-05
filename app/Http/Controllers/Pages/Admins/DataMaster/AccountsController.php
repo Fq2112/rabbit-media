@@ -11,6 +11,12 @@ use App\Http\Controllers\Controller;
 
 class AccountsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('root')->except(['showAdminsTable', 'showUsersTable']);
+        $this->middleware('ceo')->only(['showAdminsTable', 'showUsersTable']);
+    }
+
     public function showAdminsTable()
     {
         $admins = Admin::all();

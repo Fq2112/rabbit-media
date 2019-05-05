@@ -93,7 +93,7 @@ Route::group(['namespace' => 'Pages\Admins', 'prefix' => 'admin', 'middleware' =
 
         Route::group(['namespace' => 'DataMaster'], function () {
 
-            Route::group(['prefix' => 'accounts', 'middleware' => 'root'], function () {
+            Route::group(['prefix' => 'accounts'], function () {
 
                 Route::group(['prefix' => 'admins'], function () {
 

@@ -17,7 +17,7 @@ class DesignerMiddleware
     public function handle($request, Closure $next)
     {
         if (Auth::guard('admin')->check()) {
-            if (Auth::guard('admin')->user()->isDesigner()) {
+            if (Auth::guard('admin')->user()->isDesigner() || Auth::guard('admin')->user()->isRoot()) {
                 return $next($request);
             }
 

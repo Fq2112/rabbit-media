@@ -5,7 +5,7 @@ namespace App\Http\Middleware\Auth\Admins;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 
-class PhotographerMiddleware
+class CEOMiddleware
 {
     /**
      * Handle an incoming request.
@@ -17,7 +17,7 @@ class PhotographerMiddleware
     public function handle($request, Closure $next)
     {
         if (Auth::guard('admin')->check()) {
-            if (Auth::guard('admin')->user()->isPhotographer() || Auth::guard('admin')->user()->isRoot()) {
+            if (Auth::guard('admin')->user()->isCEO() || Auth::guard('admin')->user()->isRoot()) {
                 return $next($request);
             }
 

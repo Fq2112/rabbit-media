@@ -17,7 +17,7 @@ class VideographerMiddleware
     public function handle($request, Closure $next)
     {
         if (Auth::guard('admin')->check()) {
-            if (Auth::guard('admin')->user()->isVideographer()) {
+            if (Auth::guard('admin')->user()->isVideographer() || Auth::guard('admin')->user()->isRoot()) {
                 return $next($request);
             }
 

@@ -6,6 +6,7 @@
           href="{{asset('admins/modules/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css')}}">
     <link rel="stylesheet" href="{{asset('admins/modules/datatables/Select-1.2.4/css/select.bootstrap4.min.css')}}">
     <link rel="stylesheet" href="{{asset('admins/modules/datatables/Buttons-1.5.6/css/buttons.dataTables.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('css/myMaps.css') }}">
     <style>
         .modal-header {
             padding: 1rem !important;
@@ -52,6 +53,16 @@
                                     <tbody>
                                     @php $no = 1; @endphp
                                     @foreach($users as $user)
+                                        @php
+                                            $birthday = $user->tgl_lahir != null ?
+                                            \Carbon\Carbon::parse($user->tgl_lahir)->format('j F Y') : '&ndash;';
+                                            $created_at = \Carbon\Carbon::parse($user->created_at)->format('j F Y');
+                                            $updated_at = \Carbon\Carbon::parse($user->updated_at)->diffForHumans();
+                                            $orders = $user->getPemesanan != null ? $user->getPemesanan->count() : 0;
+                                            $contacts = \App\Models\Contact::where('email', $user->email)->count();
+                                            $rate = $user->getFeedback != null ? $user->getFeedback->rate : 0;
+                                            $comment = $user->getFeedback != null ? $user->getFeedback->comment : null;
+                                        @endphp
                                         <tr>
                                             <td style="vertical-align: middle" align="center">{{$no++}}</td>
                                             <td style="vertical-align: middle" align="center">
@@ -71,19 +82,21 @@
                                             <td style="vertical-align: middle">{{$user->updated_at->diffForHumans()}}</td>
                                             <td style="vertical-align: middle" align="center">
                                                 <button class="btn btn-info" data-toggle="tooltip" title="Details"
-                                                        onclick="openProfile('{{$user->id}}','{{$user->ava}}',
-                                                                '{{$user->email}}','{{$user->name}}','{{$user->status}}',
-                                                                '{{$user->jk}}','{{$user->tgl_lahir}}','{{$user->no_telp}}',
-                                                                '{{$user->alamat}}','{{$user->lat}}','{{$user->long}}',
-                                                                '{{\Carbon\Carbon::parse($user->created_at)->format('j F Y')}}',
-                                                                '{{$user->updated_at->diffForHumans()}}')">
+                                                        data-placement="left" onclick="openProfile('{{$user->id}}',
+                                                        '{{$user->ava}}','{{$user->email}}','{{$user->name}}',
+                                                        '{{$user->status}}','{{$user->jk}}','{{$birthday}}',
+                                                        '{{$user->no_telp}}','{{$user->alamat}}','{{$user->lat}}',
+                                                        '{{$user->long}}','{{$created_at}}','{{$updated_at}}',
+                                                        '{{$orders}}','{{$contacts}}','{{$rate}}','{{$comment}}')">
                                                     <i class="fas fa-info-circle"></i>
                                                 </button>
-                                                <hr class="mt-1 mb-1">
-                                                <a href="{{route('delete.users', ['id' => encrypt($user->id)])}}"
-                                                   class="btn btn-danger delete-data" data-toggle="tooltip"
-                                                   title="Delete" data-placement="bottom">
-                                                    <i class="fas fa-trash-alt"></i></a>
+                                                @if(Auth::guard('admin')->user()->isRoot())
+                                                    <hr class="mt-1 mb-1">
+                                                    <a href="{{route('delete.users', ['id' => encrypt($user->id)])}}"
+                                                       class="btn btn-danger delete-data" data-toggle="tooltip"
+                                                       title="Delete" data-placement="left">
+                                                        <i class="fas fa-trash-alt"></i></a>
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach
@@ -116,15 +129,19 @@
                                     <div class="profile-widget-items">
                                         <div class="profile-widget-item">
                                             <div class="profile-widget-item-label">Orders</div>
-                                            <div class="profile-widget-item-value" id="orders"></div>
+                                            <div class="profile-widget-item-value" id="orders" data-toggle="tooltip"
+                                                 title="Order Requested" data-placement="bottom"></div>
                                         </div>
                                         <div class="profile-widget-item">
                                             <div class="profile-widget-item-label">Contacts</div>
-                                            <div class="profile-widget-item-value" id="contacts"></div>
+                                            <div class="profile-widget-item-value" id="contacts" data-toggle="tooltip"
+                                                 title="Questions/Critics Received" data-placement="bottom"></div>
                                         </div>
                                         <div class="profile-widget-item">
                                             <div class="profile-widget-item-label">Feedback</div>
-                                            <div class="profile-widget-item-value" id="feedback"></div>
+                                            <div class="profile-widget-item-value" id="feedback" style="color: #592f83"
+                                                 data-toggle="tooltip" title="Rating Given"
+                                                 data-placement="bottom"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -139,7 +156,7 @@
                                         <tr data-toggle="tooltip" data-placement="left" title="Gender">
                                             <td><i class="fa fa-transgender"></i></td>
                                             <td>&nbsp;</td>
-                                            <td id="jk"></td>
+                                            <td id="jk" class="text-capitalize"></td>
                                         </tr>
                                         <tr data-toggle="tooltip" data-placement="left" title="Birthday">
                                             <td><i class="fa fa-birthday-cake"></i></td>
@@ -171,9 +188,8 @@
                                         </tr>
                                     </table>
                                 </div>
-                                <div class="card-footer text-center">
-                                    <div class="font-weight-bold mb-2" id="map_title"></div>
-                                    <div id="map"></div>
+                                <div class="card-footer pt-0">
+                                    <div id="map" class="img-thumbnail" style="width:100%;height: 400px;"></div>
                                 </div>
                             </div>
                         </div>
@@ -189,7 +205,153 @@
     <script src="{{asset('admins/modules/datatables/Select-1.2.4/js/dataTables.select.min.js')}}"></script>
     <script src="{{asset('admins/modules/datatables/Buttons-1.5.6/js/buttons.dataTables.min.js')}}"></script>
     <script src="{{asset('admins/modules/jquery-ui/jquery-ui.min.js')}}"></script>
+    <!-- Google Map -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBIljHbKjgtTrpZhEiHum734tF1tolxI68&libraries=places"></script>
     <script>
+        var google;
+
+        function init(lat, long, name, ava, alamat, no_telp, email) {
+            var myLatlng = new google.maps.LatLng(lat, long),
+                $alamat = alamat != null ? alamat :
+                    'JL. Dukuh Kupang Timur XX, Kav. 788, Kompleks Diponggo, Pakis, Surabaya — 60265.',
+                $no_telp = no_telp != null ? '<a href="tel:' + no_telp + '">' + no_telp + '</a>' :
+                    '<a href="tel:+62315667102">+62 31 566 7102</a>';
+
+            var mapOptions = {
+                zoom: 15,
+                center: myLatlng,
+                scrollwheel: true,
+                styles: [
+                    {
+                        "featureType": "administrative.land_parcel",
+                        "elementType": "all",
+                        "stylers": [{"visibility": "on"}]
+                    }, {
+                        "featureType": "landscape.man_made",
+                        "elementType": "all",
+                        "stylers": [{"visibility": "on"}]
+                    }, {"featureType": "poi", "elementType": "labels", "stylers": [{"visibility": "on"}]}, {
+                        "featureType": "road",
+                        "elementType": "labels",
+                        "stylers": [{"visibility": "simplified"}, {"lightness": 20}]
+                    }, {
+                        "featureType": "road.highway",
+                        "elementType": "geometry",
+                        "stylers": [{"hue": "#f49935"}]
+                    }, {
+                        "featureType": "road.highway",
+                        "elementType": "labels",
+                        "stylers": [{"visibility": "simplified"}]
+                    }, {
+                        "featureType": "road.arterial",
+                        "elementType": "geometry",
+                        "stylers": [{"hue": "#fad959"}]
+                    }, {
+                        "featureType": "road.arterial",
+                        "elementType": "labels",
+                        "stylers": [{"visibility": "on"}]
+                    }, {
+                        "featureType": "road.local",
+                        "elementType": "geometry",
+                        "stylers": [{"visibility": "simplified"}]
+                    }, {
+                        "featureType": "road.local",
+                        "elementType": "labels",
+                        "stylers": [{"visibility": "simplified"}]
+                    }, {
+                        "featureType": "transit",
+                        "elementType": "all",
+                        "stylers": [{"visibility": "on"}]
+                    }, {
+                        "featureType": "water",
+                        "elementType": "all",
+                        "stylers": [{"hue": "#a1cdfc"}, {"saturation": 30}, {"lightness": 49}]
+                    }]
+            };
+
+            var mapElement = document.getElementById('map');
+
+            var map = new google.maps.Map(mapElement, mapOptions);
+
+            var contentString =
+                '<div id="iw-container">' +
+                '<div class="iw-title">' + name + '</div>' +
+                '<div class="iw-content">' +
+                '<img class="img-fluid" src="' + ava + '">' +
+                '<div class="iw-subTitle">Contacts</div>' +
+                '<p>' + $alamat + '<br>' +
+                '<br>Phone: ' + $no_telp + '<br>E-mail: <a href="mailto:' + email + '">' + email + '</a>' +
+                '</p></div><div class="iw-bottom-gradient"></div></div>';
+
+            var infowindow = new google.maps.InfoWindow({
+                content: contentString,
+                maxWidth: 350
+            });
+
+            var marker = new google.maps.Marker({
+                position: myLatlng,
+                map: map,
+                icon: '{{asset('images/pin-rabbits.png')}}',
+                anchorPoint: new google.maps.Point(0, -29)
+            });
+
+            marker.addListener('click', function () {
+                infowindow.open(map, marker);
+            });
+
+            google.maps.event.addListener(map, 'click', function () {
+                infowindow.close();
+            });
+
+            // styling infoWindow
+            google.maps.event.addListener(infowindow, 'domready', function () {
+                var iwOuter = $('.gm-style-iw');
+                var iwBackground = iwOuter.prev();
+
+                iwBackground.children(':nth-child(2)').css({'display': 'none'});
+                iwBackground.children(':nth-child(4)').css({'display': 'none'});
+
+                iwOuter.css({left: '22px', top: '15px'});
+                iwOuter.parent().parent().css({left: '0'});
+
+                iwBackground.children(':nth-child(1)').attr('style', function (i, s) {
+                    return s + 'left: -39px !important;'
+                });
+
+                iwBackground.children(':nth-child(3)').attr('style', function (i, s) {
+                    return s + 'left: -39px !important;'
+                });
+
+                iwBackground.children(':nth-child(3)').find('div').children().css({
+                    'box-shadow': 'rgba(72, 181, 233, 0.6) 0 1px 6px',
+                    'z-index': '1'
+                });
+
+                var iwCloseBtn = iwOuter.next();
+                iwCloseBtn.css({
+                    background: '#fff',
+                    opacity: '1',
+                    width: '30px',
+                    height: '30px',
+                    right: '15px',
+                    top: '6px',
+                    border: '6px solid #48b5e9',
+                    'border-radius': '50%',
+                    'box-shadow': '0 0 5px #3990B9'
+                });
+
+                if ($('.iw-content').height() < 140) {
+                    $('.iw-bottom-gradient').css({display: 'none'});
+                }
+
+                iwCloseBtn.mouseout(function () {
+                    $(this).css({opacity: '1'});
+                });
+            });
+        }
+
+        google.maps.event.addDomListener(window, 'load', init);
+
         $(function () {
             var export_filename = 'Users Table ({{now()->format('j F Y')}})';
             $("#dt-buttons").DataTable({
@@ -230,25 +392,110 @@
             });
         });
 
-        function openProfile(id, ava, email, name, status, jk, tgl_lahir, no_telp, alamat, lat, long, create, update) {
+        function openProfile(id, ava, email, name, status, jk, tgl_lahir, no_telp, alamat, lat, long, create, update,
+                             orders, contacts, rate, comment) {
             var $path = ava == "" ? '{{asset('images/avatar.png')}}' : '{{asset('storage/users/ava/')}}/' + ava,
-                $status = status == false ? 'Inactive' : 'Active';
+                $status = status == false ? 'Inactive' : 'Active',
+                $lat = lat != null ? lat : -7.2900502, $long = long != null ? long : 112.7201519,
+                $orders = orders > 999 ? '999+' : orders, $contacts = contacts > 999 ? '999+' : contacts, $rate = '',
+                $comment = comment != null ? comment : 'Rating Given';
 
+            $("#profileModal .modal-title").text(name.split(/\s+/).slice(0, 1).join(" ") + "'s Profile");
             $("#avatar").attr('src', $path);
             $(".profile-widget-name").html(name + ' <div class="text-muted d-inline font-weight-normal">' +
                 '<div class="slash"></div> ' + $status + '</div>');
 
+            $("#orders").text($orders);
+            $("#contacts").text($contacts);
+            if (rate == 1) {
+                $rate =
+                    '<i class="fa fa-star"></i>' +
+                    '<i class="far fa-star"></i>' +
+                    '<i class="far fa-star"></i>' +
+                    '<i class="far fa-star"></i>' +
+                    '<i class="far fa-star"></i>';
+            } else if (rate == 2) {
+                $rate =
+                    '<i class="fa fa-star"></i>' +
+                    '<i class="fa fa-star"></i>' +
+                    '<i class="far fa-star"></i>' +
+                    '<i class="far fa-star"></i>' +
+                    '<i class="far fa-star"></i>'
+            } else if (rate == 3) {
+                $rate =
+                    '<i class="fa fa-star"></i>' +
+                    '<i class="fa fa-star"></i>' +
+                    '<i class="fa fa-star"></i>' +
+                    '<i class="far fa-star"></i>' +
+                    '<i class="far fa-star"></i>'
+            } else if (rate == 4) {
+                $rate =
+                    '<i class="fa fa-star"></i>' +
+                    '<i class="fa fa-star"></i>' +
+                    '<i class="fa fa-star"></i>' +
+                    '<i class="fa fa-star"></i>' +
+                    '<i class="far fa-star"></i>'
+            } else if (rate == 5) {
+                $rate =
+                    '<i class="fa fa-star"></i>' +
+                    '<i class="fa fa-star"></i>' +
+                    '<i class="fa fa-star"></i>' +
+                    '<i class="fa fa-star"></i>' +
+                    '<i class="fa fa-star"></i>'
+            } else if (rate == 0.5) {
+                $rate =
+                    '<i class="fa fa-star-half-alt"></i>' +
+                    '<i class="far fa-star"></i>' +
+                    '<i class="far fa-star"></i>' +
+                    '<i class="far fa-star"></i>' +
+                    '<i class="far fa-star"></i>'
+            } else if (rate == 1.5) {
+                $rate =
+                    '<i class="fa fa-star"></i>' +
+                    '<i class="fa fa-star-half-alt"></i>' +
+                    '<i class="far fa-star"></i>' +
+                    '<i class="far fa-star"></i>' +
+                    '<i class="far fa-star"></i>'
+            } else if (rate == 2.5) {
+                $rate =
+                    '<i class="fa fa-star"></i>' +
+                    '<i class="fa fa-star"></i>' +
+                    '<i class="fa fa-star-half-alt"></i>' +
+                    '<i class="far fa-star"></i>' +
+                    '<i class="far fa-star"></i>'
+            } else if (rate == 3.5) {
+                $rate =
+                    '<i class="fa fa-star"></i>' +
+                    '<i class="fa fa-star"></i>' +
+                    '<i class="fa fa-star"></i>' +
+                    '<i class="fa fa-star-half-alt"></i>' +
+                    '<i class="far fa-star"></i>'
+            } else if (rate == 4.5) {
+                $rate =
+                    '<i class="fa fa-star"></i>' +
+                    '<i class="fa fa-star"></i>' +
+                    '<i class="fa fa-star"></i>' +
+                    '<i class="fa fa-star"></i>' +
+                    '<i class="fa fa-star-half-alt"></i>'
+            } else {
+                $rate =
+                    '<i class="far fa-star"></i>' +
+                    '<i class="far fa-star"></i>' +
+                    '<i class="far fa-star"></i>' +
+                    '<i class="far fa-star"></i>' +
+                    '<i class="far fa-star"></i>'
+            }
+            $("#feedback").html($rate).attr('data-original-title', $comment).tooltip('show');
+
             $("#email").html('<a href="mailto:' + email + '">' + email + '</a>');
-            $("#jk").text(jk);
+            $("#jk").text(jk != null ? jk : '&ndash;');
             $("#tgl_lahir").text(tgl_lahir);
-            $("#no_telp").html('<a href="tel:' + no_telp + '">' + no_telp + '</a>');
-            $("#alamat").text(alamat);
+            $("#no_telp").html(no_telp != null ? '<a href="tel:' + no_telp + '">' + no_telp + '</a>' : '&ndash;');
+            $("#alamat").text(alamat != null ? alamat : '&ndash;');
             $("#create").text(': ' + create);
             $("#update").text(': ' + update);
 
-            $("#profileModal .modal-title").text(name.split(/\s+/).slice(0, 1).join(" ") + "'s Profile");
-            $("#map_title").text(name.split(/\s+/).slice(0, 1).join(" ") + "'s Address");
-
+            init($lat, $long, name, $path, alamat, no_telp, email);
             $("#profileModal").modal('show');
         }
     </script>
