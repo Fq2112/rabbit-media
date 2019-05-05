@@ -22,8 +22,7 @@
                                 </div>
                             </div>
 
-                            <small style="cursor: pointer; color: #592f83" id="show_password_settings">Change Password
-                                ?
+                            <small style="cursor: pointer; color: #592f83" id="show_password_settings">Change Password ?
                             </small>
                             <div id="password_settings" style="display: none">
                                 <div id="error_curr_pass" class="row form-group has-feedback">

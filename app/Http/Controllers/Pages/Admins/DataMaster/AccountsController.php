@@ -1,14 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Admins\DataMaster;
+namespace App\Http\Controllers\Pages\Admins\DataMaster;
 
-use App\Agencies;
-use App\PartnerCredential;
-use App\Seekers;
 use App\User;
 use App\Admin;
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ConnectException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -20,7 +15,7 @@ class AccountsController extends Controller
     {
         $admins = Admin::all();
 
-        return view('_admins.tables.accounts.admin-table', compact('admins'));
+        return view('pages.admins.dataMaster.accounts.admin-table', compact('admins'));
     }
 
     public function createAdmins(Request $request)
@@ -35,10 +30,10 @@ class AccountsController extends Controller
 
         if ($request->hasfile('ava')) {
             $name = $request->file('ava')->getClientOriginalName();
-            $request->file('ava')->storeAs('public/admins', $name);
+            $request->file('ava')->storeAs('public/admins/ava', $name);
 
         } else {
-            $name = 'avatar.png';
+            $name = null;
         }
 
         Admin::create([
@@ -53,16 +48,16 @@ class AccountsController extends Controller
 
     public function updateProfileAdmins(Request $request)
     {
-        $admin = Admin::find($request->id);
+        $admin = Admin::find($request->admin_id);
         $this->validate($request, [
             'ava' => 'image|mimes:jpg,jpeg,gif,png|max:2048',
         ]);
         if ($request->hasFile('ava')) {
             $name = $request->file('ava')->getClientOriginalName();
             if ($admin->ava != '' || $admin->ava != 'avatar.png') {
-                Storage::delete('public/admins/' . $admin->ava);
+                Storage::delete('public/admins/ava/' . $admin->ava);
             }
-            $request->file('ava')->storeAs('public/admins', $name);
+            $request->file('ava')->storeAs('public/admins/ava', $name);
 
         } else {
             $name = $admin->ava;
@@ -77,8 +72,7 @@ class AccountsController extends Controller
 
     public function updateAccountAdmins(Request $request)
     {
-        $admin = Admin::find($request->id);
-
+        $admin = Admin::find($request->admin_id);
         if (!Hash::check($request->password, $admin->password)) {
             return back()->with('error', '' . $admin->name . '\'s current password is incorrect!');
 
@@ -101,7 +95,7 @@ class AccountsController extends Controller
     {
         $admin = Admin::find(decrypt($id));
         if ($admin->ava != '' || $admin->ava != 'avatar.png') {
-            Storage::delete('public/admins/' . $admin->ava);
+            Storage::delete('public/admins/ava/' . $admin->ava);
         }
         $admin->forceDelete();
 
@@ -112,122 +106,17 @@ class AccountsController extends Controller
     {
         $users = User::all();
 
-        return view('_admins.tables.accounts.user-table', compact('users'));
+        return view('pages.admins.dataMaster.accounts.user-table', compact('users'));
     }
 
     public function deleteUsers($id)
     {
         $user = User::find(decrypt($id));
-        if ($user->ava != '' || $user->ava != 'seeker.png' || $user->ava != 'agency.png') {
-            Storage::delete('public/users/' . $user->ava);
+        if ($user->ava != '') {
+            Storage::delete('public/users/ava/' . $user->ava);
         }
         $user->forceDelete();
-        if ($user->isAgency()) {
-            $this->deletePartnersAgencies($user);
-
-        } elseif ($user->isSeeker()) {
-            $this->deletePartnersSeekers($user);
-        }
 
         return back()->with('success', '' . $user->name . ' is successfully deleted!');
-    }
-
-    public function showAgenciesTable()
-    {
-        $agencies = Agencies::all();
-
-        return view('_admins.tables.accounts.agency-table', compact('agencies'));
-    }
-
-    public function deleteAgencies($id)
-    {
-        $agency = Agencies::find(decrypt($id));
-        $user = User::find($agency->user_id);
-        if ($user->ava != '' || $user->ava != 'agency.png') {
-            Storage::delete('public/users/' . $user->ava);
-        }
-        $user->forceDelete();
-        $this->deletePartnersAgencies($user);
-
-        return back()->with('success', '' . $user->name . ' is successfully deleted!');
-    }
-
-    private function deletePartnersAgencies($user)
-    {
-        $data = array('email' => $user->email, 'judul' => null);
-        $partners = PartnerCredential::where('status', true)->where('isSync', true)
-            ->whereDate('api_expiry', '>=', today())->get();
-        if (count($partners) > 0) {
-            foreach ($partners as $partner) {
-                $client = new Client([
-                    'base_uri' => $partner->uri,
-                    'defaults' => [
-                        'exceptions' => false
-                    ]
-                ]);
-
-                try {
-                    $client->delete($partner->uri . '/api/SISKA/vacancies/delete', [
-                        'form_params' => [
-                            'key' => $partner->api_key,
-                            'secret' => $partner->api_secret,
-                            'check_form' => 'agency',
-                            'agencies' => $data,
-                        ]
-                    ]);
-                } catch (ConnectException $e) {
-                    //
-                }
-            }
-
-        }
-    }
-
-    public function showSeekersTable()
-    {
-        $seekers = Seekers::all();
-
-        return view('_admins.tables.accounts.seeker-table', compact('seekers'));
-    }
-
-    public function deleteSeekers($id)
-    {
-        $seeker = Seekers::find(decrypt($id));
-        $user = User::find($seeker->user_id);
-        if ($user->ava != '' || $user->ava != 'seeker.png') {
-            Storage::delete('public/users/' . $user->ava);
-        }
-        $user->forceDelete();
-        $this->deletePartnersSeekers($user);
-
-        return back()->with('success', '' . $user->name . ' is successfully deleted!');
-    }
-
-    private function deletePartnersSeekers($user)
-    {
-        $partners = PartnerCredential::where('status', true)->where('isSync', true)
-            ->whereDate('api_expiry', '>=', today())->get();
-        if (count($partners) > 0) {
-            foreach ($partners as $partner) {
-                $client = new Client([
-                    'base_uri' => $partner->uri,
-                    'defaults' => [
-                        'exceptions' => false
-                    ]
-                ]);
-
-                try {
-                    $client->delete($partner->uri . '/api/SISKA/seekers/delete', [
-                        'form_params' => [
-                            'key' => $partner->api_key,
-                            'secret' => $partner->api_secret,
-                            'email' => $user->email,
-                        ]
-                    ]);
-                } catch (ConnectException $e) {
-                    //
-                }
-            }
-        }
     }
 }

@@ -107,12 +107,12 @@ Route::group(['namespace' => 'Pages\Admins', 'prefix' => 'admin', 'middleware' =
                         'as' => 'create.admins'
                     ]);
 
-                    Route::put('{id}/update/profile', [
+                    Route::put('profile/update', [
                         'uses' => 'AccountsController@updateProfileAdmins',
                         'as' => 'update.profile.admins'
                     ]);
 
-                    Route::put('{id}/update/account', [
+                    Route::put('account/update', [
                         'uses' => 'AccountsController@updateAccountAdmins',
                         'as' => 'update.account.admins'
                     ]);

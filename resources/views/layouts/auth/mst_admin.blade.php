@@ -10,6 +10,7 @@
     <!-- General CSS Files -->
     <link rel="stylesheet" href="{{asset('admins/modules/bootstrap/css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('fonts/fontawesome/css/all.css')}}">
+    <link rel="stylesheet" href="{{asset('css/glyphicons.css')}}">
     <!-- Page Specific CSS File -->
     <link rel="stylesheet" href="{{asset('admins/modules/bootstrap-select/dist/css/bootstrap-select.min.css')}}">
     <link rel="stylesheet" href="{{asset('admins/modules/sweetalert/sweetalert2.css')}}">
@@ -216,6 +217,7 @@
 <script src="{{asset('admins/modules/nicescroll/jquery.nicescroll.js')}}"></script>
 <script src="{{asset('admins/modules/moment.min.js')}}"></script>
 <script src="{{asset('admins/js/stisla.js')}}"></script>
+<script src="{{asset('js/hideShowPassword.min.js')}}"></script>
 
 <!-- Page Specific JS File -->
 <script src="{{asset('admins/modules/bootstrap-select/dist/js/bootstrap-select.min.js')}}"></script>
