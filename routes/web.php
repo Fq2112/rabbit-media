@@ -50,27 +50,31 @@ Route::group(['namespace' => 'Pages\Admins', 'prefix' => 'admin', 'middleware' =
         'as' => 'home-admin'
     ]);
 
-    Route::get('profile', [
-        'uses' => 'AccountController@editProfile',
-        'as' => 'admin.edit.profile'
-    ]);
+    Route::group(['prefix' => 'account'], function () {
 
-    Route::put('profile/update', [
-        'uses' => 'AdminController@updateProfile',
-        'as' => 'admin.update.profile'
-    ]);
+        Route::get('profile', [
+            'uses' => 'AdminController@editProfile',
+            'as' => 'admin.edit.profile'
+        ]);
 
-    Route::get('settings', [
-        'uses' => 'AccountController@accountSettings',
-        'as' => 'admin.settings'
-    ]);
+        Route::put('profile/update', [
+            'uses' => 'AdminController@updateProfile',
+            'as' => 'admin.update.profile'
+        ]);
 
-    Route::put('account/update', [
-        'uses' => 'AdminController@updateAccount',
-        'as' => 'admin.update.account'
-    ]);
+        Route::get('settings', [
+            'uses' => 'AdminController@accountSettings',
+            'as' => 'admin.settings'
+        ]);
 
-    Route::group(['prefix' => 'inbox'], function () {
+        Route::put('settings/update', [
+            'uses' => 'AdminController@updateAccount',
+            'as' => 'admin.update.account'
+        ]);
+
+    });
+
+    Route::group(['prefix' => 'inbox', 'middleware' => 'inbox'], function () {
 
         Route::get('/', [
             'uses' => 'AdminController@showInbox',

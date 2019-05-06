@@ -1069,7 +1069,7 @@
         }
 
         function setImage(image) {
-            if (image != null) {
+            if (image != "") {
                 $("#messages").html('<strong>' + image + '</strong>');
                 $('#start').addClass("hidden");
                 $('#response').removeClass("hidden");

@@ -27,7 +27,7 @@
                             asset('images/avatar.png')}}">{{Auth::user()->name}}
                         @elseif(Auth::guard('admin')->check())
                             <img class="img-thumbnail show_ava" src="{{Auth::guard('admin')->user()->ava != "" ?
-                            asset('storage/users/ava/'.Auth::guard('admin')->user()->ava) :
+                            asset('storage/admins/ava/'.Auth::guard('admin')->user()->ava) :
                             asset('images/avatar.png')}}">{{Auth::guard('admin')->user()->name}}
                         @endif
                     </a>

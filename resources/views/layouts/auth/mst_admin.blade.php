@@ -38,6 +38,7 @@
 </head>
 <body class="use-nicescroll">
 @php
+    $role = Auth::guard('admin')->user();
     $contacts = \App\Models\Contact::where('created_at', '>=', today()->subDays('3')->toDateTimeString())
     ->orderByDesc('id')->get();
 
@@ -56,55 +57,59 @@
                         <i class="fas fa-bars"></i></a></li>
             </ul>
             <ul class="navbar-nav navbar-right">
-                <li class="dropdown dropdown-list-toggle">
-                    <a href="javascript:void(0)" data-toggle="dropdown"
-                       class="nav-link nav-link-lg message-toggle {{count($contacts) > 0 ? 'beep' : ''}}">
-                        <i class="far fa-envelope"></i></a>
-                    <div class="dropdown-menu dropdown-list dropdown-menu-right">
-                        <div class="dropdown-header">Messages</div>
-                        <div class="dropdown-list-content dropdown-list-message">
-                            @if(count($contacts) > 0)
-                                @foreach($contacts as $row)
-                                    @php $user = \App\User::where('email',$row->email); @endphp
-                                    <a href="{{route('admin.inbox', ['id' => $row->id])}}" class="dropdown-item">
-                                        <div class="dropdown-item-avatar">
-                                            @if($user->count())
-                                                @if($user->first()->ava == "")
+                @if($role->isRoot() || $role->isCEO() || $role->isCTO() || $role->isAdmin())
+                    <li class="dropdown dropdown-list-toggle">
+                        <a href="javascript:void(0)" data-toggle="dropdown"
+                           class="nav-link nav-link-lg message-toggle {{count($contacts) > 0 ? 'beep' : ''}}">
+                            <i class="far fa-envelope"></i></a>
+                        <div class="dropdown-menu dropdown-list dropdown-menu-right">
+                            <div class="dropdown-header">Messages</div>
+                            <div class="dropdown-list-content dropdown-list-message">
+                                @if(count($contacts) > 0)
+                                    @foreach($contacts as $row)
+                                        @php $user = \App\User::where('email',$row->email); @endphp
+                                        <a href="{{route('admin.inbox', ['id' => $row->id])}}" class="dropdown-item">
+                                            <div class="dropdown-item-avatar">
+                                                @if($user->count())
+                                                    @if($user->first()->ava == "")
+                                                        <img src="{{asset('admins/img/avatar/avatar-'.rand(1,5).'.png')}}"
+                                                             class="rounded-circle" alt="Avatar">
+                                                    @else
+                                                        <img src="{{asset('storage/users/ava/'.$user->first()->ava)}}"
+                                                             class="rounded-circle" alt="Avatar">
+                                                    @endif
+                                                @else
                                                     <img src="{{asset('admins/img/avatar/avatar-'.rand(1,5).'.png')}}"
                                                          class="rounded-circle" alt="Avatar">
-                                                @else
-                                                    <img src="{{asset('storage/users/ava/'.$user->first()->ava)}}"
-                                                         class="rounded-circle" alt="Avatar">
                                                 @endif
-                                            @else
-                                                <img src="{{asset('admins/img/avatar/avatar-'.rand(1,5).'.png')}}"
-                                                     class="rounded-circle" alt="Avatar">
-                                            @endif
+                                            </div>
+                                            <div class="dropdown-item-desc">
+                                                <b>{{$row->name}}</b>
+                                                <p>{{$row->subject}}</p>
+                                                <div class="time">{{\Carbon\Carbon::parse($row->created_at)->diffForHumans()}}</div>
+                                            </div>
+                                        </a>
+                                    @endforeach
+                                @else
+                                    <a class="dropdown-item">
+                                        <div class="dropdown-item-avatar">
+                                            <img src="{{asset('images/searchPlace.png')}}" class="img-fluid">
                                         </div>
                                         <div class="dropdown-item-desc">
-                                            <b>{{$row->name}}</b>
-                                            <p>{{$row->subject}}</p>
-                                            <div class="time">{{\Carbon\Carbon::parse($row->created_at)->diffForHumans()}}</div>
+                                            <p>There seems to be none of the feedback was found this 3 days&hellip;</p>
                                         </div>
                                     </a>
-                                @endforeach
-                            @else
-                                <a class="dropdown-item">
-                                    <div class="dropdown-item-avatar">
-                                        <img src="{{asset('images/searchPlace.png')}}" class="img-fluid">
-                                    </div>
-                                    <div class="dropdown-item-desc">
-                                        <p>There seems to be none of the feedback was found this 3 days&hellip;</p>
-                                    </div>
+                                @endif
+                            </div>
+                            <div class="dropdown-footer text-center">
+                                <a href="{{route('admin.inbox')}}">More Messages<i
+                                            class="fas fa-chevron-right ml-2"></i>
                                 </a>
-                            @endif
+                            </div>
                         </div>
-                        <div class="dropdown-footer text-center">
-                            <a href="{{route('admin.inbox')}}">More Messages<i class="fas fa-chevron-right ml-2"></i>
-                            </a>
-                        </div>
-                    </div>
-                </li>
+                    </li>
+                @endif
+
                 <li class="dropdown dropdown-list-toggle">
                     <a href="javascript:void(0)" data-toggle="dropdown"
                        class="nav-link notification-toggle nav-link-lg {{count($orders) > 0 ? 'beep' : ''}}">
@@ -112,7 +117,7 @@
                     <div class="dropdown-menu dropdown-list dropdown-menu-right">
                         <div class="dropdown-header">Orders</div>
                         <div class="dropdown-list-content dropdown-list-message">
-                            @if(count($orders) > 0 && (Auth::guard('admin')->user()->isRoot() || Auth::guard('admin')->user()->isCEO()))
+                            @if(count($orders) > 0 && ($role->isRoot() || $role->isCEO()))
                                 @foreach($orders as $row)
                                     <a href="{{route('table.orders').'?q='.$row->getUser->name}}" class="dropdown-item">
                                         <div class="dropdown-item-avatar">
@@ -127,7 +132,7 @@
                                         </div>
                                     </a>
                                 @endforeach
-                            @elseif(count($pays) > 0 && (Auth::guard('admin')->user()->isRoot() || Auth::guard('admin')->user()->isAdmin()))
+                            @elseif(count($pays) > 0 && ($role->isRoot() || $role->isAdmin()))
                                 @foreach($pays as $row)
                                     <a href="{{route('table.orders').'?q='.$row->getUser->name}}" class="dropdown-item">
                                         <div class="dropdown-item-avatar">
@@ -158,11 +163,13 @@
                         </div>
                     </div>
                 </li>
+
                 <li class="dropdown">
                     <a href="javascript:void(0)" data-toggle="dropdown"
                        class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-                        <img alt="image" src="{{asset('admins/img/avatar/avatar-1.png')}}" class="rounded-circle mr-1">
-                        <div class="d-sm-none d-lg-inline-block">{{Auth::guard('admin')->user()->name}}</div>
+                        <img alt="image" src="{{$role->ava != "" ? asset('storage/admins/ava/'.$role->ava) :
+                        asset('admins/img/avatar/avatar-'.rand(1,5).'.png')}}" class="rounded-circle mr-1">
+                        <div class="d-sm-none d-lg-inline-block">{{$role->name}}</div>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">
                         <a href="{{route('admin.edit.profile')}}" class="dropdown-item has-icon">
@@ -231,7 +238,7 @@
 <script src="{{asset('admins/js/custom.js')}}"></script>
 <script>
     @if(session('signed'))
-    swal('Signed In!', 'Halo {{Auth::guard('admin')->user()->name}}! Anda telah masuk.', 'success');
+    swal('Signed In!', 'Halo {{$role->name}}! Anda telah masuk.', 'success');
     @endif
 </script>
 @include('layouts.partials._confirm')

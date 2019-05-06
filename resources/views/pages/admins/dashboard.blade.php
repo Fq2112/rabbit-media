@@ -1,6 +1,6 @@
 @extends('layouts.auth.mst_admin')
 @section('title', 'The Rabbits: Dashboard | Rabbit Media – Digital Creative Service')
-
+@php $role = Auth::guard('admin')->user(); @endphp
 @section('content')
     <section class="section">
         <div class="section-header">
@@ -8,64 +8,72 @@
         </div>
         <div class="row">
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                <div class="card card-statistic-1" onclick="openTableAdmins()" style="cursor: pointer;">
-                    <div class="card-icon bg-primary">
-                        <i class="fas fa-user-secret"></i>
-                    </div>
-                    <div class="card-wrap">
-                        <div class="card-header">
-                            <h4>Rabbits</h4>
+                <a href="{{route('table.admins')}}">
+                    <div class="card card-statistic-1">
+                        <div class="card-icon bg-primary">
+                            <i class="fas fa-user-secret"></i>
                         </div>
-                        <div class="card-body">
-                            {{count($admins)}}
+                        <div class="card-wrap">
+                            <div class="card-header">
+                                <h4>Rabbits</h4>
+                            </div>
+                            <div class="card-body">
+                                {{count($admins)}}
+                            </div>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                <div class="card card-statistic-1" onclick="openTableUsers()" style="cursor: pointer;">
-                    <div class="card-icon bg-info">
-                        <i class="fas fa-user-tie"></i>
-                    </div>
-                    <div class="card-wrap">
-                        <div class="card-header">
-                            <h4>Clients</h4>
+                <a href="{{route('table.users')}}">
+                    <div class="card card-statistic-1">
+                        <div class="card-icon bg-info">
+                            <i class="fas fa-user-tie"></i>
                         </div>
-                        <div class="card-body">
-                            {{count($users)}}
+                        <div class="card-wrap">
+                            <div class="card-header">
+                                <h4>Clients</h4>
+                            </div>
+                            <div class="card-body">
+                                {{count($users)}}
+                            </div>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                <div class="card card-statistic-1" onclick="openTableOrders()" style="cursor: pointer;">
-                    <div class="card-icon bg-success">
-                        <i class="fas fa-dollar-sign"></i>
-                    </div>
-                    <div class="card-wrap">
-                        <div class="card-header">
-                            <h4>Orders</h4>
+                <a href="{{route('table.orders')}}">
+                    <div class="card card-statistic-1">
+                        <div class="card-icon bg-success">
+                            <i class="fas fa-dollar-sign"></i>
                         </div>
-                        <div class="card-body">
-                            {{count($orders)}}
+                        <div class="card-wrap">
+                            <div class="card-header">
+                                <h4>Orders</h4>
+                            </div>
+                            <div class="card-body">
+                                {{count($orders)}}
+                            </div>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                <div class="card card-statistic-1" onclick="openTableFeedback()" style="cursor: pointer;">
-                    <div class="card-icon bg-warning">
-                        <i class="fas fa-comment-dots"></i>
-                    </div>
-                    <div class="card-wrap">
-                        <div class="card-header">
-                            <h4>Feedback</h4>
+                <a href="{{route('table.feedback')}}">
+                    <div class="card card-statistic-1">
+                        <div class="card-icon bg-warning">
+                            <i class="fas fa-comment-dots"></i>
                         </div>
-                        <div class="card-body">
-                            {{count($feedback)}}
+                        <div class="card-wrap">
+                            <div class="card-header">
+                                <h4>Feedback</h4>
+                            </div>
+                            <div class="card-body">
+                                {{count($feedback)}}
+                            </div>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
         </div>
 
@@ -156,7 +164,8 @@
                     <div class="card-body p-0">
                         <div class="tickets-list">
                             @foreach(\App\Models\Contact::orderByDesc('id')->take(3)->get() as $row)
-                                <a href="{{route('admin.inbox', ['id' => $row->id])}}" class="ticket-item">
+                                <a href="javascript:void(0)" class="ticket-item"
+                                   onclick="openInbox('{{route('admin.inbox', ['id' => $row->id])}}')">
                                     <div class="ticket-title">
                                         <h4>{{$row->subject}}</h4>
                                     </div>
@@ -168,9 +177,8 @@
                                     </div>
                                 </a>
                             @endforeach
-                            <a href="{{route('admin.inbox')}}" class="ticket-item ticket-more">
-                                View All <i class="fas fa-chevron-right"></i>
-                            </a>
+                            <a href="javascript:void(0)" onclick="openInbox('{{route('admin.inbox')}}')"
+                               class="ticket-item ticket-more">View All <i class="fas fa-chevron-right"></i></a>
                         </div>
                     </div>
                 </div>
@@ -277,35 +285,9 @@
             }
         });
 
-        function openTableAdmins() {
-            @if(Auth::guard('admin')->user()->isRoot() || Auth::guard('admin')->user()->isCEO())
-                window.location.href = "{{route('table.admins')}}";
-            @else
-            swal('ATTENTION!', 'This feature only for CEO or ROOT.', 'warning');
-            @endif
-        }
-
-        function openTableUsers() {
-            @if(Auth::guard('admin')->user()->isRoot() || Auth::guard('admin')->user()->isCEO())
-                window.location.href = "{{route('table.users')}}";
-            @else
-            swal('ATTENTION!', 'This feature only for CEO or ROOT.', 'warning');
-            @endif
-        }
-
-        function openTableOrders() {
-            @if(Auth::guard('admin')->user()->isRoot() || Auth::guard('admin')->user()->isCEO() ||
-            Auth::guard('admin')->user()->isAdmin() || Auth::guard('admin')->user()->isCTO())
-                window.location.href = "{{route('table.orders')}}";
-            @else
-            swal('ATTENTION!', 'This feature only for CEO, CTO, Admin, and ROOT.', 'warning');
-            @endif
-        }
-
-        function openTableFeedback() {
-            @if(Auth::guard('admin')->user()->isRoot() || Auth::guard('admin')->user()->isCEO() ||
-            Auth::guard('admin')->user()->isAdmin() || Auth::guard('admin')->user()->isCTO())
-                window.location.href = "{{route('table.users')}}";
+        function openInbox(href) {
+            @if($role->isRoot() || $role->isCEO() || $role->isCTO() || $role->isAdmin())
+                window.location.href = href;
             @else
             swal('ATTENTION!', 'This feature only for CEO, CTO, Admin, and ROOT.', 'warning');
             @endif

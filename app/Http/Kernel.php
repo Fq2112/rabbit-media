@@ -71,7 +71,8 @@ class Kernel extends HttpKernel
         'photographer' => \App\Http\Middleware\Auth\Admins\PhotographerMiddleware::class,
         'videographer' => \App\Http\Middleware\Auth\Admins\VideographerMiddleware::class,
         'designer' => \App\Http\Middleware\Auth\Admins\DesignerMiddleware::class,
-        'invoice' => \App\Http\Middleware\Auth\Clients\InvoiceMiddleware::class,
+        'invoice' => \App\Http\Middleware\Auth\Pages\InvoiceMiddleware::class,
+        'inbox' => \App\Http\Middleware\Auth\Pages\InboxMiddleware::class,
     ];
 
     /**

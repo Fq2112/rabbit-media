@@ -54,14 +54,14 @@
                                     @php $no = 1; @endphp
                                     @foreach($users as $user)
                                         @php
-                                            $birthday = $user->tgl_lahir != null ?
+                                            $birthday = $user->tgl_lahir != "" ?
                                             \Carbon\Carbon::parse($user->tgl_lahir)->format('j F Y') : '&ndash;';
                                             $created_at = \Carbon\Carbon::parse($user->created_at)->format('j F Y');
                                             $updated_at = \Carbon\Carbon::parse($user->updated_at)->diffForHumans();
                                             $orders = $user->getPemesanan != null ? $user->getPemesanan->count() : 0;
                                             $contacts = \App\Models\Contact::where('email', $user->email)->count();
                                             $rate = $user->getFeedback != null ? $user->getFeedback->rate : 0;
-                                            $comment = $user->getFeedback != null ? $user->getFeedback->comment : null;
+                                            $comment = $user->getFeedback != null ? $user->getFeedback->comment : "";
                                         @endphp
                                         <tr>
                                             <td style="vertical-align: middle" align="center">{{$no++}}</td>
@@ -212,9 +212,9 @@
 
         function init(lat, long, name, ava, alamat, no_telp, email) {
             var myLatlng = new google.maps.LatLng(lat, long),
-                $alamat = alamat != null ? alamat :
+                $alamat = alamat != "" ? alamat :
                     'JL. Dukuh Kupang Timur XX, Kav. 788, Kompleks Diponggo, Pakis, Surabaya — 60265.',
-                $no_telp = no_telp != null ? '<a href="tel:' + no_telp + '">' + no_telp + '</a>' :
+                $no_telp = no_telp != "" ? '<a href="tel:' + no_telp + '">' + no_telp + '</a>' :
                     '<a href="tel:+62315667102">+62 31 566 7102</a>';
 
             var mapOptions = {
@@ -396,9 +396,9 @@
                              orders, contacts, rate, comment) {
             var $path = ava == "" ? '{{asset('images/avatar.png')}}' : '{{asset('storage/users/ava/')}}/' + ava,
                 $status = status == false ? 'Inactive' : 'Active',
-                $lat = lat != null ? lat : -7.2900502, $long = long != null ? long : 112.7201519,
+                $lat = lat != "" ? lat : -7.2900502, $long = long != "" ? long : 112.7201519,
                 $orders = orders > 999 ? '999+' : orders, $contacts = contacts > 999 ? '999+' : contacts, $rate = '',
-                $comment = comment != null ? comment : 'Rating Given';
+                $comment = comment != "" ? comment : 'Rating Given';
 
             $("#profileModal .modal-title").text(name.split(/\s+/).slice(0, 1).join(" ") + "'s Profile");
             $("#avatar").attr('src', $path);
@@ -488,10 +488,10 @@
             $("#feedback").html($rate).attr('data-original-title', $comment).tooltip('show');
 
             $("#email").html('<a href="mailto:' + email + '">' + email + '</a>');
-            $("#jk").text(jk != null ? jk : '&ndash;');
+            $("#jk").text(jk != "" ? jk : '&ndash;');
             $("#tgl_lahir").text(tgl_lahir);
-            $("#no_telp").html(no_telp != null ? '<a href="tel:' + no_telp + '">' + no_telp + '</a>' : '&ndash;');
-            $("#alamat").text(alamat != null ? alamat : '&ndash;');
+            $("#no_telp").html(no_telp != "" ? '<a href="tel:' + no_telp + '">' + no_telp + '</a>' : '&ndash;');
+            $("#alamat").text(alamat != "" ? alamat : '&ndash;');
             $("#create").text(': ' + create);
             $("#update").text(': ' + update);
 

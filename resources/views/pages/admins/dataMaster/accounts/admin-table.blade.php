@@ -121,13 +121,15 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card">
-                        <div class="card-header">
-                            <div class="card-header-form">
-                                <button onclick="createAdmin()" class="btn btn-primary text-uppercase">
-                                    <strong><i class="fas fa-plus mr-2"></i>Create</strong>
-                                </button>
+                        @if(Auth::guard('admin')->user()->isRoot())
+                            <div class="card-header">
+                                <div class="card-header-form">
+                                    <button onclick="createAdmin()" class="btn btn-primary text-uppercase">
+                                        <strong><i class="fas fa-plus mr-2"></i>Create</strong>
+                                    </button>
+                                </div>
                             </div>
-                        </div>
+                        @endif
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-striped" id="dt-buttons">
@@ -734,11 +736,11 @@
         function openProfile(id, ava, email, name, role, deskripsi, facebook, twitter, instagram, whatsapp,
                              create, update, orders) {
             var $path = ava == "" ? '{{asset('images/avatar.png')}}' : '{{asset('storage/admins/ava/')}}/' + ava,
-                $desc = deskripsi != null ? deskripsi : '(empty)', $orders = orders > 999 ? '999+' : orders,
-                $fb = facebook != null ? 'https://fb.com/' + facebook : '#',
-                $tw = twitter != null ? 'https://twitter.com/' + twitter : '#',
-                $ig = instagram != null ? 'https://instagram.com/' + instagram : '#',
-                $wa = whatsapp != null ?
+                $desc = deskripsi != "" ? deskripsi : '(empty)', $orders = orders > 999 ? '999+' : orders,
+                $fb = facebook != "" ? 'https://fb.com/' + facebook : '#',
+                $tw = twitter != "" ? 'https://twitter.com/' + twitter : '#',
+                $ig = instagram != "" ? 'https://instagram.com/' + instagram : '#',
+                $wa = whatsapp != "" ?
                     'https://web.whatsapp.com/send?text=Halo, ' + name + '!&phone=' + whatsapp + '&abid=' + whatsapp : '#';
 
             $("#detailModal .modal-title").text(name.split(/\s+/).slice(0, 1).join(" ") + "'s Profile");

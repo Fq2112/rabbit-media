@@ -1,9 +1,7 @@
 <?php
 
-namespace App\Http\Middleware\Auth\Clients;
+namespace App\Http\Middleware\Auth\Pages;
 
-use App\Agencies;
-use App\ConfirmAgency;
 use App\Models\Pemesanan;
 use Closure;
 use Illuminate\Support\Facades\Auth;
