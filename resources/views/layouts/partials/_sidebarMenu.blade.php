@@ -22,7 +22,7 @@
         <a href="javascript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown">
             <i class="fas fa-building"></i><span>Company Profile</span></a>
         <ul class="dropdown-menu">
-            <li class="{{\Illuminate\Support\Facades\Request::is('admin/tables/company-profile*') ?
+            <li class="{{\Illuminate\Support\Facades\Request::is('admin/tables/company-profile') ?
             'active' : ''}}"><a href="{{route('show.company.profile')}}" class="nav-link">About</a></li>
             <li class="{{\Illuminate\Support\Facades\Request::is('admin/tables/company-profile/faqs*') ?
             'active' : ''}}"><a href="{{route('table.faqs')}}" class="nav-link">FAQ</a></li>

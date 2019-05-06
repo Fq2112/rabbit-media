@@ -95,9 +95,7 @@ class UserController extends Controller
             $portfolio['cover'] == 'img_3.jpg' || $portfolio['cover'] == 'img_4.jpg' ||
             $portfolio['cover'] == 'img_5.jpg' || $portfolio['cover'] == 'img_6.jpg' ||
             $portfolio['cover'] == 'img_7.jpg' ? asset('images/' . $portfolio['cover']) :
-                asset('storage/portofolio/' . strtolower(str_replace
-                        (' ', '_', JenisPortofolio::find($portfolio['jenis_id'])->nama)
-                        . '/' . $portfolio['id'] . '/' . $portfolio['cover'])));
+                asset('storage/portofolio/cover/' . $portfolio['cover']));
 
             $portfolios['data'][$i] = array_replace($jenis, $portfolios['data'][$i], $galleries, $encrypt, $cover);
             $i = $i + 1;

@@ -2,259 +2,195 @@
 
 namespace App\Http\Controllers\Admins\DataMaster;
 
-use App\FungsiKerja;
-use App\Industri;
-use App\JobLevel;
-use App\JobType;
-use App\Jurusanpend;
-use App\Salaries;
-use App\Tingkatpend;
+use App\Models\layanan;
+use App\Models\PaymentCategory;
+use App\Models\PaymentMethod;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class FeaturesController extends Controller
 {
-    public function showDegreesTable()
+    public function showPaymentCategoriesTable()
     {
-        $degrees = Tingkatpend::all();
+        $categories = PaymentCategory::all();
 
-        return view('_admins.tables.requirements.degree-table', compact('degrees'));
+        return view('_admins.tables.webContents.paymentCategory-table', compact('categories'));
     }
 
-    public function createDegrees(Request $request)
+    public function createPaymentCategories(Request $request)
     {
-        Tingkatpend::create(['name' => $request->name]);
+        PaymentCategory::create([
+            'name' => $request->name,
+            'caption' => $request->caption
+        ]);
 
         return back()->with('success', '' . $request->name . ' is successfully created!');
     }
 
-    public function updateDegrees(Request $request)
+    public function updatePaymentCategories(Request $request)
     {
-        $degree = Tingkatpend::find($request->id);
-        $degree->update(['name' => $request->name]);
+        $category = PaymentCategory::find($request->id);
+        $category->update([
+            'name' => $request->name,
+            'caption' => $request->caption
+        ]);
 
-        return back()->with('success', '' . $degree->name . ' is successfully updated!');
+        return back()->with('success', '' . $category->name . ' is successfully updated!');
     }
 
-    public function deleteDegrees($id)
+    public function deletePaymentCategories($id)
     {
-        $degree = Tingkatpend::find(decrypt($id));
-        $degree->delete();
+        $category = PaymentCategory::find(decrypt($id));
+        $category->delete();
 
-        return back()->with('success', '' . $degree->name . ' is successfully deleted!');
+        return back()->with('success', '' . $category->name . ' is successfully deleted!');
     }
 
-    public function showMajorsTable()
+    public function showPaymentMethodsTable()
     {
-        $majors = Jurusanpend::all();
+        $methods = PaymentMethod::all();
 
-        return view('_admins.tables.requirements.major-table', compact('majors'));
+        return view('_admins.tables.webContents.paymentMethod-table', compact('methods'));
     }
 
-    public function createMajors(Request $request)
+    public function createPaymentMethods(Request $request)
     {
-        Jurusanpend::create(['name' => $request->name]);
+        $this->validate($request, [
+            'logo' => 'required|image|mimes:jpg,jpeg,gif,png|max:1024',
+        ]);
+
+        $name = $request->file('logo')->getClientOriginalName();
+        $request->file('logo')->move(public_path('images\paymentMethod'), $name);
+
+        PaymentMethod::create([
+            'logo' => $name,
+            'name' => $request->name,
+            'payment_category_id' => $request->category_id,
+            'account_name' => $request->account_name,
+            'account_number' => $request->account_number,
+        ]);
 
         return back()->with('success', '' . $request->name . ' is successfully created!');
     }
 
-    public function updateMajors(Request $request)
+    public function updatePaymentMethods(Request $request)
     {
-        $major = Jurusanpend::find($request->id);
-        $major->update(['name' => $request->name]);
-
-        return back()->with('success', '' . $major->name . ' is successfully updated!');
-    }
-
-    public function deleteMajors($id)
-    {
-        $major = Jurusanpend::find(decrypt($id));
-        $major->delete();
-
-        return back()->with('success', '' . $major->name . ' is successfully deleted!');
-    }
-
-    public function showIndustriesTable()
-    {
-        $industries = Industri::all();
-
-        return view('_admins.tables.requirements.industry-table', compact('industries'));
-    }
-
-    public function createIndustries(Request $request)
-    {
-        $this->validate($request, [
-            'icon' => 'required|image|mimes:jpg,jpeg,gif,png,svg|max:200',
-            'nama' => 'required|string|max:191',
-        ]);
-
-        $name = $request->file('icon')->getClientOriginalName();
-        $request->file('icon')->move(public_path('images\industries'), $name);
-
-        Industri::create([
-            'icon' => $name,
-            'nama' => $request->nama
-        ]);
-
-        return back()->with('success', '' . $request->nama . ' is successfully created!');
-    }
-
-    public function updateIndustries(Request $request)
-    {
-        $industry = Industri::find($request->id);
+        $method = PaymentMethod::find($request->id);
 
         $this->validate($request, [
-            'icon' => 'image|mimes:jpg,jpeg,gif,png,svg|max:200',
-            'nama' => 'required|string|max:191',
+            'logo' => 'image|mimes:jpg,jpeg,gif,png|max:1024',
         ]);
 
-        if ($request->hasfile('icon')) {
-            $name = $request->file('icon')->getClientOriginalName();
-            if ($industry->icon != '') {
-                unlink(public_path('images\industries/' . $industry->icon));
+        if ($request->hasfile('logo')) {
+            $name = $request->file('logo')->getClientOriginalName();
+            if ($method->logo != '') {
+                unlink(public_path('images\paymentMethod/' . $method->logo));
             }
-            $request->file('icon')->move(public_path('images\industries'), $name);
+            $request->file('logo')->move(public_path('images\paymentMethod'), $name);
 
         } else {
-            $name = $industry->icon;
+            $name = $method->logo;
         }
 
-        $industry->update([
-            'icon' => $name,
-            'nama' => $request->nama
+        $method->update([
+            'logo' => $name,
+            'name' => $request->name,
+            'payment_category_id' => $request->category_id,
+            'account_name' => $request->account_name,
+            'account_number' => $request->account_number,
         ]);
 
-        return back()->with('success', '' . $industry->nama . ' is successfully updated!');
+        return back()->with('success', '' . $method->name . ' is successfully updated!');
     }
 
-    public function deleteIndustries($id)
+    public function deletePaymentMethods($id)
     {
-        $industry = Industri::find(decrypt($id));
-        if ($industry->icon != '') {
-            unlink(public_path('images\industries/' . $industry->icon));
+        $method = PaymentMethod::find(decrypt($id));
+        if ($method->logo != '') {
+            unlink(public_path('images\paymentMethod/' . $method->logo));
         }
-        $industry->delete();
+        $method->delete();
 
-        return back()->with('success', '' . $industry->nama . ' is successfully deleted!');
+        return back()->with('success', '' . $method->name . ' is successfully deleted!');
     }
 
-    public function showJobFunctionsTable()
+    public function showPlansTable()
     {
-        $functions = FungsiKerja::all();
+        $plans = layanan::all();
 
-        return view('_admins.tables.requirements.jobFunction-table', compact('functions'));
+        return view('_admins.tables.webContents.plan-table', compact('plans'));
     }
 
-    public function createJobFunctions(Request $request)
+    public function createPlans(Request $request)
     {
-        FungsiKerja::create(['nama' => $request->nama]);
+        $checkIsBest = layanan::where('isBest', true)->count();
+        if ($checkIsBest > 0 && $request->isBest == true) {
+            foreach (layanan::where('isBest', true)->get() as $row) {
+                $row->update([
+                    'caption' => 'Job Posting ' . $row->name . ' Package',
+                    'isBest' => false
+                ]);
+            }
+        }
 
-        return back()->with('success', '' . $request->nama . ' is successfully created!');
+        layanan::create([
+            'name' => $request->name,
+            'caption' => $request->caption,
+            'price' => $request->price,
+            'discount' => $request->discount,
+            'job_ads' => $request->job_ads,
+            'isQuiz' => $request->isQuiz == 1 ? true : false,
+            'quiz_applicant' => $request->quiz_applicant == null ? 0 : $request->quiz_applicant,
+            'price_quiz_applicant' => $request->price_quiz_applicant == null ? 0 : $request->price_quiz_applicant,
+            'isPsychoTest' => $request->isPsychoTest == 1 ? true : false,
+            'psychoTest_applicant' => $request->psychoTest_applicant == null ? 0 : $request->psychoTest_applicant,
+            'price_psychoTest_applicant' => $request->price_psychoTest_applicant == null ? 0 :
+                $request->price_psychoTest_applicant,
+            'benefit' => preg_replace('/\s+/', ' ', trim($request->benefit)),
+            'isBest' => $request->isBest,
+        ]);
+
+        return back()->with('success', '' . $request->name . ' is successfully created!');
     }
 
-    public function updateJobFunctions(Request $request)
+    public function updatePlans(Request $request)
     {
-        $function = FungsiKerja::find($request->id);
-        $function->update(['nama' => $request->nama]);
+        $checkIsBest = layanan::where('isBest', true)->count();
+        if ($checkIsBest > 0 && $request->isBest == true) {
+            foreach (layanan::where('isBest', true)->get() as $row) {
+                $row->update([
+                    'caption' => 'Job Posting ' . $row->name . ' Package',
+                    'isBest' => false
+                ]);
+            }
+        }
 
-        return back()->with('success', '' . $function->nama . ' is successfully updated!');
+        $plan = layanan::find($request->id);
+        $plan->update([
+            'name' => $request->name,
+            'caption' => $request->caption,
+            'price' => $request->price,
+            'discount' => $request->discount,
+            'job_ads' => $request->job_ads,
+            'isQuiz' => $request->isQuiz == 1 ? true : false,
+            'quiz_applicant' => $request->quiz_applicant == null ? 0 : $request->quiz_applicant,
+            'price_quiz_applicant' => $request->price_quiz_applicant == null ? 0 : $request->price_quiz_applicant,
+            'isPsychoTest' => $request->isPsychoTest == 1 ? true : false,
+            'psychoTest_applicant' => $request->psychoTest_applicant == null ? 0 : $request->psychoTest_applicant,
+            'price_psychoTest_applicant' => $request->price_psychoTest_applicant == null ? 0 :
+                $request->price_psychoTest_applicant,
+            'benefit' => preg_replace('/\s+/', ' ', trim($request->benefit)),
+            'isBest' => $request->isBest,
+        ]);
+
+        return back()->with('success', '' . $plan->name . ' is successfully updated!');
     }
 
-    public function deleteJobFunctions($id)
+    public function deletePlans($id)
     {
-        $function = FungsiKerja::find(decrypt($id));
-        $function->delete();
+        $plan = layanan::find(decrypt($id));
+        $plan->delete();
 
-        return back()->with('success', '' . $function->nama . ' is successfully deleted!');
-    }
-
-    public function showJobLevelsTable()
-    {
-        $levels = JobLevel::all();
-
-        return view('_admins.tables.requirements.jobLevel-table', compact('levels'));
-    }
-
-    public function createJobLevels(Request $request)
-    {
-        JobLevel::create(['name' => $request->nama]);
-
-        return back()->with('success', '' . $request->nama . ' is successfully created!');
-    }
-
-    public function updateJobLevels(Request $request)
-    {
-        $level = JobLevel::find($request->id);
-        $level->update(['name' => $request->nama]);
-
-        return back()->with('success', '' . $level->name . ' is successfully updated!');
-    }
-
-    public function deleteJobLevels($id)
-    {
-        $level = JobLevel::find(decrypt($id));
-        $level->delete();
-
-        return back()->with('success', '' . $level->name . ' is successfully deleted!');
-    }
-
-    public function showJobTypesTable()
-    {
-        $types = JobType::all();
-
-        return view('_admins.tables.requirements.jobType-table', compact('types'));
-    }
-
-    public function createJobTypes(Request $request)
-    {
-        JobType::create(['name' => $request->nama]);
-
-        return back()->with('success', '' . $request->nama . ' is successfully created!');
-    }
-
-    public function updateJobTypes(Request $request)
-    {
-        $type = JobType::find($request->id);
-        $type->update(['name' => $request->nama]);
-
-        return back()->with('success', '' . $type->name . ' is successfully updated!');
-    }
-
-    public function deleteJobTypes($id)
-    {
-        $type = JobType::find(decrypt($id));
-        $type->delete();
-
-        return back()->with('success', '' . $type->name . ' is successfully deleted!');
-    }
-
-    public function showSalariesTable()
-    {
-        $salaries = Salaries::all();
-
-        return view('_admins.tables.requirements.salary-table', compact('salaries'));
-    }
-
-    public function createSalaries(Request $request)
-    {
-        Salaries::create(['name' => $request->nama]);
-
-        return back()->with('success', '' . $request->nama . ' is successfully created!');
-    }
-
-    public function updateSalaries(Request $request)
-    {
-        $salary = Salaries::find($request->id);
-        $salary->update(['name' => $request->nama]);
-
-        return back()->with('success', '' . $salary->name . ' is successfully updated!');
-    }
-
-    public function deleteSalaries($id)
-    {
-        $salary = Salaries::find(decrypt($id));
-        $salary->delete();
-
-        return back()->with('success', '' . $salary->name . ' is successfully deleted!');
+        return back()->with('success', '' . $plan->name . ' is successfully deleted!');
     }
 }

@@ -158,53 +158,53 @@ Route::group(['namespace' => 'Pages\Admins', 'prefix' => 'admin', 'middleware' =
                         'as' => 'update.company.profile'
                     ]);
 
-                });
+                    Route::group(['prefix' => 'faqs'], function () {
 
-                Route::group(['prefix' => 'faqs', 'middleware' => 'root'], function () {
+                        Route::get('/', [
+                            'uses' => 'CompanyProfileController@showFaqTable',
+                            'as' => 'table.faqs'
+                        ]);
 
-                    Route::get('/', [
-                        'uses' => 'CompanyProfileController@showFaqTable',
-                        'as' => 'table.faqs'
-                    ]);
+                        Route::post('create', [
+                            'uses' => 'CompanyProfileController@createFaq',
+                            'as' => 'create.faqs'
+                        ]);
 
-                    Route::post('create', [
-                        'uses' => 'CompanyProfileController@createFaq',
-                        'as' => 'create.faqs'
-                    ]);
+                        Route::put('update', [
+                            'uses' => 'CompanyProfileController@updateFaq',
+                            'as' => 'update.faqs'
+                        ]);
 
-                    Route::put('{id}/update', [
-                        'uses' => 'CompanyProfileController@updateFaq',
-                        'as' => 'update.faqs'
-                    ]);
+                        Route::get('{id}/delete', [
+                            'uses' => 'CompanyProfileController@deleteFaq',
+                            'as' => 'delete.faqs'
+                        ]);
 
-                    Route::get('{id}/delete', [
-                        'uses' => 'CompanyProfileController@deleteFaq',
-                        'as' => 'delete.faqs'
-                    ]);
+                    });
 
-                });
+                    Route::group(['prefix' => 'portfolio-types'], function () {
 
-                Route::group(['prefix' => 'portfolio-types', 'middleware' => 'root'], function () {
+                        Route::get('/', [
+                            'uses' => 'CompanyProfileController@showPortfolioTypesTable',
+                            'as' => 'table.portfolio-types'
+                        ]);
 
-                    Route::get('/', [
-                        'uses' => 'CompanyProfileController@showPortfolioTypesTable',
-                        'as' => 'table.portfolio-types'
-                    ]);
+                        Route::post('create', [
+                            'uses' => 'CompanyProfileController@createPortfolioTypes',
+                            'as' => 'create.portfolio-types'
+                        ]);
 
-                    Route::post('create', [
-                        'uses' => 'CompanyProfileController@createPortfolioTypes',
-                        'as' => 'create.portfolio-types'
-                    ]);
+                        Route::put('update', [
+                            'uses' => 'CompanyProfileController@updatePortfolioTypes',
+                            'as' => 'update.portfolio-types'
+                        ]);
 
-                    Route::put('{id}/update', [
-                        'uses' => 'CompanyProfileController@updatePortfolioTypes',
-                        'as' => 'update.portfolio-types'
-                    ]);
+                        Route::get('{id}/delete', [
+                            'uses' => 'CompanyProfileController@deletePortfolioTypes',
+                            'as' => 'delete.portfolio-types'
+                        ]);
 
-                    Route::get('{id}/delete', [
-                        'uses' => 'CompanyProfileController@deletePortfolioTypes',
-                        'as' => 'delete.portfolio-types'
-                    ]);
+                    });
 
                 });
 
@@ -220,7 +220,7 @@ Route::group(['namespace' => 'Pages\Admins', 'prefix' => 'admin', 'middleware' =
                         'as' => 'create.portfolios'
                     ]);
 
-                    Route::put('{id}/update', [
+                    Route::put('update', [
                         'uses' => 'CompanyProfileController@updatePortfolios',
                         'as' => 'update.portfolios'
                     ]);
@@ -244,7 +244,7 @@ Route::group(['namespace' => 'Pages\Admins', 'prefix' => 'admin', 'middleware' =
                         'as' => 'create.portfolio-galleries'
                     ]);
 
-                    Route::put('{id}/update', [
+                    Route::put('update', [
                         'uses' => 'CompanyProfileController@updatePortfolioGalleries',
                         'as' => 'update.portfolio-galleries'
                     ]);
@@ -272,7 +272,7 @@ Route::group(['namespace' => 'Pages\Admins', 'prefix' => 'admin', 'middleware' =
                         'as' => 'create.service-types'
                     ]);
 
-                    Route::put('{id}/update', [
+                    Route::put('update', [
                         'uses' => 'FeaturesController@updateServiceTypes',
                         'as' => 'update.service-types'
                     ]);
@@ -296,7 +296,7 @@ Route::group(['namespace' => 'Pages\Admins', 'prefix' => 'admin', 'middleware' =
                         'as' => 'create.service-pricing'
                     ]);
 
-                    Route::put('{id}/update', [
+                    Route::put('update', [
                         'uses' => 'FeaturesController@updateServicePricing',
                         'as' => 'update.service-pricing'
                     ]);
@@ -320,7 +320,7 @@ Route::group(['namespace' => 'Pages\Admins', 'prefix' => 'admin', 'middleware' =
                         'as' => 'create.PaymentCategories'
                     ]);
 
-                    Route::put('{id}/update', [
+                    Route::put('update', [
                         'uses' => 'FeaturesController@updatePaymentCategories',
                         'as' => 'update.PaymentCategories'
                     ]);
@@ -344,7 +344,7 @@ Route::group(['namespace' => 'Pages\Admins', 'prefix' => 'admin', 'middleware' =
                         'as' => 'create.PaymentMethods'
                     ]);
 
-                    Route::put('{id}/update', [
+                    Route::put('update', [
                         'uses' => 'FeaturesController@updatePaymentMethods',
                         'as' => 'update.PaymentMethods'
                     ]);
@@ -371,7 +371,7 @@ Route::group(['namespace' => 'Pages\Admins', 'prefix' => 'admin', 'middleware' =
                         'as' => 'table.feedback'
                     ]);
 
-                    Route::put('{id}/update', [
+                    Route::put('update', [
                         'uses' => 'TransactionClientController@updateFeedback',
                         'as' => 'table.feedback.update'
                     ]);
@@ -390,7 +390,7 @@ Route::group(['namespace' => 'Pages\Admins', 'prefix' => 'admin', 'middleware' =
                         'as' => 'table.orders'
                     ]);
 
-                    Route::put('{id}/update', [
+                    Route::put('update', [
                         'uses' => 'TransactionClientController@updateOrders',
                         'as' => 'table.orders.update'
                     ]);

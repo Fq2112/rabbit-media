@@ -16,8 +16,7 @@
                             <img src="{{$row->cover == 'img_1.jpg' || $row->cover == 'img_2.jpg' ||
                             $row->cover == 'img_3.jpg' || $row->cover == 'img_4.jpg' || $row->cover == 'img_5.jpg' ||
                             $row->cover == 'img_6.jpg' || $row->cover == 'img_7.jpg' ? asset('images/'.$row->cover) :
-                            asset('storage/portofolio/'.strtolower(str_replace(' ', '_', $row->getJenisPortofolio->nama).
-                            '/'.$row->id.'/'.$row->cover))}}" alt="Cover">
+                            asset('storage/portofolio/cover/'.$row->cover)}}" alt="Cover">
                         </div>
                     </div>
                 @endforeach
