@@ -25,7 +25,6 @@
             <h1>Users Table</h1>
             <div class="section-header-breadcrumb">
                 <div class="breadcrumb-item active"><a href="{{route('home-admin')}}">Dashboard</a></div>
-                <div class="breadcrumb-item">Tables</div>
                 <div class="breadcrumb-item">Data Master</div>
                 <div class="breadcrumb-item">Accounts</div>
                 <div class="breadcrumb-item">Users</div>

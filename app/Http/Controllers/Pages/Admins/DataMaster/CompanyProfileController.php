@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Admins\DataMaster;
+namespace App\Http\Controllers\Pages\Admins\DataMaster;
 
 use App\Carousel;
 use App\Cities;
+use App\Models\About;
 use App\Nations;
 use App\PaymentCategory;
 use App\PaymentMethod;
@@ -14,72 +15,53 @@ use App\Http\Controllers\Controller;
 
 class CompanyProfileController extends Controller
 {
-    public function showCarouselsTable()
+    public function showCompanyProfile()
     {
-        $carousels = Carousel::all();
+        $about = About::first();
 
-        return view('_admins.tables.webContents.carousel-table', compact('carousels'));
+        return view('pages.admins.dataMaster.company.about', compact('about'));
     }
 
-    public function createCarousels(Request $request)
+    public function updateCompanyProfile(Request $request)
     {
-        $this->validate($request, [
-            'image' => 'required|image|mimes:jpg,jpeg,gif,png|max:1024',
-            'title' => 'required|string|max:191',
-            'captions' => 'required|string|max:191',
-        ]);
+        $about = About::find($request->id);
+        if ($request->check_form == 'gs') {
+            $this->validate($request, [
+                'icon' => 'image|mimes:jpg,jpeg,gif,png|max:2048',
+            ]);
 
-        $name = $request->file('image')->getClientOriginalName();
-        $request->file('image')->move(public_path('images\carousel'), $name);
+            if ($request->hasfile('icon')) {
+                $name = $request->file('icon')->getClientOriginalName();
+                if ($about->icon != '') {
+                    unlink(public_path('images/' . $about->icon));
+                }
+                $request->file('icon')->move(public_path('images'), $name);
 
-        Carousel::create([
-            'image' => $name,
-            'title' => $request->title,
-            'captions' => $request->captions,
-        ]);
-
-        return back()->with('success', 'Carousel (' . $request->title . ') is successfully created!');
-    }
-
-    public function updateCarousels(Request $request)
-    {
-        $carousel = Carousel::find($request->id);
-
-        $this->validate($request, [
-            'image' => 'image|mimes:jpg,jpeg,gif,png|max:1024',
-            'title' => 'required|string|max:191',
-            'captions' => 'required|string|max:191',
-        ]);
-
-        if ($request->hasfile('image')) {
-            $name = $request->file('image')->getClientOriginalName();
-            if ($carousel->image != '') {
-                unlink(public_path('images\carousel/' . $carousel->image));
+            } else {
+                $name = $about->icon;
             }
-            $request->file('image')->move(public_path('images\carousel'), $name);
+
+            $about->update([
+                'icon' => $name,
+                'tagline' => $request->tagline,
+                'deskripsi' => $request->deskripsi
+            ]);
+
+            return back()->with('success', 'Rabbit\'s profile is successfully updated!');
+
+        } elseif ($request->check_form == 'vs') {
+            $about->update([
+                'visi' => $request->visi,
+                'misi' => $request->misi
+            ]);
+
+            return back()->with('success', 'Rabbit\'s mission is successfully updated!');
 
         } else {
-            $name = $carousel->image;
+            $about->update(['terms_conditions' => $request->terms_conditions]);
+
+            return back()->with('success', 'Rabbit\'s terms & conditions is successfully updated!');
         }
-
-        $carousel->update([
-            'image' => $name,
-            'title' => $request->title,
-            'captions' => $request->captions,
-        ]);
-
-        return back()->with('success', 'Carousel (' . $carousel->title . ') is successfully updated!');
-    }
-
-    public function deleteCarousels($id)
-    {
-        $carousel = Carousel::find(decrypt($id));
-        if ($carousel->image != '') {
-            unlink(public_path('images\carousel/' . $carousel->image));
-        }
-        $carousel->delete();
-
-        return back()->with('success', 'Carousel (' . $carousel->title . ') is successfully deleted!');
     }
 
     public function showPaymentCategoriesTable()

@@ -110,7 +110,6 @@
             <h1>Admins Table</h1>
             <div class="section-header-breadcrumb">
                 <div class="breadcrumb-item active"><a href="{{route('home-admin')}}">Dashboard</a></div>
-                <div class="breadcrumb-item">Tables</div>
                 <div class="breadcrumb-item">Data Master</div>
                 <div class="breadcrumb-item">Accounts</div>
                 <div class="breadcrumb-item">Admins</div>
@@ -254,19 +253,17 @@
                         <div class="row form-group">
                             <div class="col">
                                 <label class="control-label mb-0" for="ava">Avatar <sub>(optional)</sub></label>
-                                <input type="file" name="ava" style="display: none;" accept="image/*" id="ava">
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fa fa-user"></i></span>
                                     </div>
-                                    <input type="text" id="txt_ava" class="browse_files form-control"
-                                           placeholder="Upload file here..." readonly style="cursor: pointer"
-                                           data-toggle="tooltip" data-placement="top"
-                                           title="Allowed extension: jpg, jpeg, gif, png. Allowed size: < 2 MB">
-                                    <div class="input-group-append">
-                                        <button class="browse_files btn btn-primary" type="button">
-                                            <i class="fa fa-search"></i></button>
+                                    <div class="custom-file">
+                                        <input type="file" name="ava" class="custom-file-input" id="ava">
+                                        <label class="custom-file-label" id="txt_ava">Choose File</label>
                                     </div>
+                                </div>
+                                <div class="form-text text-muted">
+                                    Allowed extension: jpg, jpeg, gif, png. Allowed size: < 2 MB
                                 </div>
                             </div>
                             <div class="col">
@@ -466,27 +463,24 @@
                             <div class="col-4 text-center align-self-center">
                                 <img class="img-thumbnail" id="ep-btn_img" style="cursor: pointer"
                                      data-toggle="tooltip" data-placement="bottom" alt="avatar" src="#"
-                                     title="Allowed extension: jpg, jpeg, gif, png. Allowed size: < 2 MB">
+                                     title="Click here to change ava!">
                             </div>
                             <div class="col-8">
                                 <div class="row form-group">
                                     <div class="col">
-                                        <label class="control-label mb-0" for="ep-ava">Avatar
-                                            <sub>(optional)</sub></label>
-                                        <input type="file" name="ava" style="display: none;" accept="image/*"
-                                               id="ep-ava">
+                                        <label class="control-label mb-0" for="ep-ava">Avatar <sub>(optional)</sub>
+                                        </label>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="fa fa-user"></i></span>
                                             </div>
-                                            <input type="text" id="ep-txt_ava" class="browse_files form-control"
-                                                   placeholder="Upload file here..." readonly style="cursor: pointer"
-                                                   data-toggle="tooltip" data-placement="top"
-                                                   title="Allowed extension: jpg, jpeg, gif, png. Allowed size: < 2 MB">
-                                            <div class="input-group-append">
-                                                <button class="browse_files btn btn-primary" type="button">
-                                                    <i class="fa fa-search"></i></button>
+                                            <div class="custom-file">
+                                                <input type="file" name="ava" class="custom-file-input" id="ep-ava">
+                                                <label class="custom-file-label" id="ep-txt_ava">Choose File</label>
                                             </div>
+                                        </div>
+                                        <div class="form-text text-muted">
+                                            Allowed extension: jpg, jpeg, gif, png. Allowed size: < 2 MB
                                         </div>
                                     </div>
                                 </div>
@@ -626,18 +620,11 @@
             $(".fix-label-group .bootstrap-select button").css('border-color', '#e4e6fc');
             $("#createModal").modal('show');
 
-            $(".browse_files").on('click', function () {
-                $("#ava").trigger('click');
-            });
-
             $("#ava").on('change', function () {
-                var files = $(this).prop("files");
-                var names = $.map(files, function (val) {
+                var files = $(this).prop("files"), names = $.map(files, function (val) {
                     return val.name;
-                });
-                var txt = $("#txt_ava");
-                txt.val(names);
-                $("#txt_ava[data-toggle=tooltip]").attr('data-original-title', names).tooltip('show');
+                }), text = names[0];
+                $("#txt_ava").text(text.length > 60 ? text.slice(0, 60) + "..." : text);
             });
         }
 
@@ -714,22 +701,16 @@
             $("#ep-form input[name=admin_id]").val(id);
             $("#profileModal").modal("show");
 
-            $(".browse_files").on('click', function () {
-                $("#ep-ava").trigger('click');
-            });
-
+            $("#ep-txt_ava").text(ava != "" ? ava : 'Choose File');
             $("#ep-btn_img").attr('src', $path).on('click', function () {
                 $("#ep-ava").trigger('click');
             });
 
             $("#ep-ava").on('change', function () {
-                var files = $(this).prop("files");
-                var names = $.map(files, function (val) {
+                var files = $(this).prop("files"), names = $.map(files, function (val) {
                     return val.name;
-                });
-                var txt = $("#ep-txt_ava");
-                txt.val(names);
-                $("#ep-txt_ava[data-toggle=tooltip]").attr('data-original-title', names).tooltip('show');
+                }), text = names[0];
+                $("#ep-txt_ava").text(text.length > 60 ? text.slice(0, 60) + "..." : text);
             });
         }
 

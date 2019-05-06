@@ -114,19 +114,19 @@
                                 <div class="row form-group">
                                     <div class="col">
                                         <label class="control-label mb-0" for="ava">Avatar <sub>(optional)</sub></label>
-                                        <input type="file" name="ava" style="display: none;" accept="image/*" id="ava">
                                         <div class="input-group">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="fa fa-user"></i></span>
                                             </div>
-                                            <input type="text" id="txt_ava" class="browse_files form-control"
-                                                   placeholder="Upload file here..." readonly style="cursor: pointer"
-                                                   data-toggle="tooltip" data-placement="top"
-                                                   title="Allowed extension: jpg, jpeg, gif, png. Allowed size: < 2 MB">
-                                            <div class="input-group-append">
-                                                <button class="browse_files btn btn-primary" type="button">
-                                                    <i class="fa fa-search"></i></button>
+                                            <div class="custom-file">
+                                                <input type="file" name="ava" class="custom-file-input" id="ava"
+                                                       required>
+                                                <label class="custom-file-label" id="txt_ava">
+                                                    {{$admin->ava != "" ? $admin->ava : 'Choose File'}}</label>
                                             </div>
+                                        </div>
+                                        <div class="form-text text-muted">
+                                            Allowed extension: jpg, jpeg, gif, png. Allowed size: < 2 MB
                                         </div>
                                     </div>
                                 </div>
@@ -165,18 +165,11 @@
 @endsection
 @push("scripts")
     <script>
-        $(".browse_files").on('click', function () {
-            $("#ava").trigger('click');
-        });
-
         $("#ava").on('change', function () {
-            var files = $(this).prop("files");
-            var names = $.map(files, function (val) {
+            var files = $(this).prop("files"), names = $.map(files, function (val) {
                 return val.name;
-            });
-            var txt = $("#txt_ava");
-            txt.val(names);
-            $("#txt_ava[data-toggle=tooltip]").attr('data-original-title', names).tooltip('show');
+            }), text = names[0];
+            $("#txt_ava").text(text.length > 60 ? text.slice(0, 60) + "..." : text);
         });
     </script>
 @endpush

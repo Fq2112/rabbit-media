@@ -146,26 +146,16 @@ Route::group(['namespace' => 'Pages\Admins', 'prefix' => 'admin', 'middleware' =
 
             Route::group(['prefix' => 'company-profile'], function () {
 
-                Route::group(['prefix' => 'abouts', 'middleware' => 'root'], function () {
+                Route::group(['middleware' => 'inbox'], function () {
 
                     Route::get('/', [
-                        'uses' => 'CompanyProfileController@showAboutsTable',
-                        'as' => 'table.abouts'
+                        'uses' => 'CompanyProfileController@showCompanyProfile',
+                        'as' => 'show.company.profile'
                     ]);
 
-                    Route::post('create', [
-                        'uses' => 'CompanyProfileController@createAbouts',
-                        'as' => 'create.abouts'
-                    ]);
-
-                    Route::put('{id}/update', [
-                        'uses' => 'CompanyProfileController@updateAbouts',
-                        'as' => 'update.abouts'
-                    ]);
-
-                    Route::get('{id}/delete', [
-                        'uses' => 'CompanyProfileController@deleteAbouts',
-                        'as' => 'delete.abouts'
+                    Route::put('update', [
+                        'uses' => 'CompanyProfileController@updateCompanyProfile',
+                        'as' => 'update.company.profile'
                     ]);
 
                 });
