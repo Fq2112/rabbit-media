@@ -185,7 +185,10 @@
                         extend: 'print',
                         className: 'btn btn-primary assets-select-btn export-print'
                     }
-                ]
+                ],
+                fnDrawCallback: function (oSettings) {
+                    $('.use-nicescroll').getNiceScroll().resize();
+                },
             });
         });
 

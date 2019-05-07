@@ -1,5 +1,5 @@
 @extends('layouts.auth.mst_admin')
-@section('title', 'The Rabbits: Portfolios Table | Rabbit Media – Digital Creative Service')
+@section('title', 'The Rabbits: Service Types Table | Rabbit Media – Digital Creative Service')
 @push('styles')
     <link rel="stylesheet" href="{{asset('admins/modules/datatables/datatables.min.css')}}">
     <link rel="stylesheet"
@@ -27,12 +27,12 @@
 @section('content')
     <section class="section">
         <div class="section-header">
-            <h1>Portfolios Table</h1>
+            <h1>Service Types Table</h1>
             <div class="section-header-breadcrumb">
                 <div class="breadcrumb-item active"><a href="{{route('home-admin')}}">Dashboard</a></div>
                 <div class="breadcrumb-item">Data Master</div>
-                <div class="breadcrumb-item">Company Profile</div>
-                <div class="breadcrumb-item">Portfolios</div>
+                <div class="breadcrumb-item">Features</div>
+                <div class="breadcrumb-item">Service Types</div>
             </div>
         </div>
 
@@ -42,7 +42,7 @@
                     <div class="card">
                         <div class="card-header">
                             <div class="card-header-form">
-                                <button onclick="createPortfolio()" class="btn btn-primary text-uppercase">
+                                <button onclick="createServiceType()" class="btn btn-primary text-uppercase">
                                     <strong><i class="fas fa-plus mr-2"></i>Create</strong>
                                 </button>
                             </div>
@@ -54,8 +54,8 @@
                                     <thead>
                                     <tr>
                                         <th class="text-center">#</th>
-                                        <th>Type</th>
                                         <th>Details</th>
+                                        <th class="text-center">Category</th>
                                         <th class="text-center">Created at</th>
                                         <th class="text-center">Last Update</th>
                                         <th>Action</th>
@@ -63,42 +63,32 @@
                                     </thead>
                                     <tbody>
                                     @php $no = 1; @endphp
-                                    @foreach($portfolios as $row)
-                                        @php
-                                            $cover = $row->cover == 'img_1.jpg' || $row->cover == 'img_2.jpg' ||
-                                            $row->cover == 'img_3.jpg' || $row->cover == 'img_4.jpg' ||
-                                            $row->cover == 'img_5.jpg' || $row->cover == 'img_6.jpg' ||
-                                            $row->cover == 'img_7jpg' ? asset('images/'.$row->cover) :
-                                            asset('storage/portofolio/cover/'.$row->cover);
-                                        @endphp
+                                    @foreach($types as $type)
                                         <tr>
                                             <td style="vertical-align: middle" align="center">{{$no++}}</td>
                                             <td style="vertical-align: middle;">
-                                                <strong><i class="{{$row->getJenisPortofolio->icon}} mr-2"></i>{{ucfirst
-                                                ($row->getJenisPortofolio->nama)}}</strong>
-                                            </td>
-                                            <td style="vertical-align: middle;">
-                                                <a href="{{route('show.portfolio.gallery', ['jenis' =>
-                                                strtolower(str_replace(' ', '-',$row->getJenisPortofolio->nama)),
-                                                'id' => encrypt($row->id)])}}" target="_blank">
-                                                    <img class="img-thumbnail float-left mr-2" alt="Cover"
-                                                         src="{{$cover}}" width="100">
-                                                    <strong>{{$row->nama}}</strong>
-                                                </a>
-                                                <p>{{$row->deskripsi}}</p>
+                                                <img class="img-fluid float-left mr-2" alt="icon" width="64"
+                                                     src="{{asset('images/services/'.$type->icon)}}">
+                                                <strong>{{$type->nama}}</strong>
+                                                <p>{{$type->deskripsi}}</p>
                                             </td>
                                             <td style="vertical-align: middle" align="center">
-                                                {{\Carbon\Carbon::parse($row->created_at)->format('j F Y')}}</td>
+                                                <span class="badge badge-{{$type->isPack == true ? 'primary' :
+                                                'info'}}"><strong>{{$type->isPack == true ? 'PACK' :
+                                                'SINGLE'}}</strong></span>
+                                            </td>
                                             <td style="vertical-align: middle" align="center">
-                                                {{$row->updated_at->diffForHumans()}}</td>
+                                                {{\Carbon\Carbon::parse($type->created_at)->format('j F Y')}}</td>
+                                            <td style="vertical-align: middle" align="center">
+                                                {{$type->updated_at->diffForHumans()}}</td>
                                             <td style="vertical-align: middle" align="center">
                                                 <button data-placement="left" data-toggle="tooltip" title="Edit"
-                                                        type="button" class="btn btn-warning" onclick="editPortfolio
-                                                        ('{{$row->id}}','{{$row->jenis_id}}','{{$row->nama}}',
-                                                        '{{$row->deskripsi}}','{{$row->cover}}')">
+                                                        type="button" class="btn btn-warning" onclick="editServiceType
+                                                        ('{{$type->id}}','{{$type->icon}}','{{$type->nama}}',
+                                                        '{{$type->deskripsi}}','{{$type->isPack}}')">
                                                     <i class="fa fa-edit"></i></button>
                                                 <hr class="mt-1 mb-1">
-                                                <a href="{{route('delete.portfolios',['id'=>encrypt($row->id)])}}"
+                                                <a href="{{route('delete.service-types',['id'=>encrypt($type->id)])}}"
                                                    class="btn btn-danger delete-data" data-toggle="tooltip"
                                                    title="Delete" data-placement="left">
                                                     <i class="fas fa-trash-alt"></i></a>
@@ -115,7 +105,7 @@
         </div>
     </section>
 
-    <div class="modal fade" id="portfolioModal" tabindex="-1" role="dialog" aria-labelledby="portfolioModalLabel"
+    <div class="modal fade" id="serviceTypeModal" tabindex="-1" role="dialog" aria-labelledby="serviceTypeModalLabel"
          aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -125,7 +115,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form id="form-portfolio" method="post" action="{{route('create.portfolios')}}"
+                <form id="form-serviceType" method="post" action="{{route('create.service-types')}}"
                       enctype="multipart/form-data">
                     {{csrf_field()}}
                     <input type="hidden" name="_method">
@@ -133,34 +123,31 @@
                     <div class="modal-body">
                         <div class="row form-group">
                             <div class="col">
-                                <label for="cover">Cover</label>
+                                <label for="icon">Icon</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fa fa-image"></i></span>
                                     </div>
                                     <div class="custom-file">
-                                        <input type="file" name="cover" class="custom-file-input" id="cover" required>
-                                        <label class="custom-file-label" id="txt_cover">Choose File</label>
+                                        <input type="file" name="icon" class="custom-file-input" id="icon" required>
+                                        <label class="custom-file-label" id="txt_icon">Choose File</label>
                                     </div>
                                 </div>
                                 <div class="form-text text-muted">
                                     Allowed extension: jpg, jpeg, gif, png. Allowed size: < 2 MB
                                 </div>
                             </div>
-                            <div class="col fix-label-group">
-                                <label for="jenis_id">Type</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text fix-label-item" style="height: 2.25rem">
-                                            <i class="fab fa-font-awesome-flag"></i></span>
-                                    </div>
-                                    <select id="jenis_id" class="form-control selectpicker" title="-- Choose --"
-                                            name="jenis_id" data-live-search="true" required>
-                                        @foreach(\App\Models\JenisPortofolio::orderBy('nama')->get() as $type)
-                                            <option value="{{$type->id}}">
-                                                <i class="{{$type->icon}} mr-2"></i>{{$type->nama}}</option>
-                                        @endforeach
-                                    </select>
+                            <div class="col-4">
+                                <label for="isPack">Category</label><br>
+                                <div class="custom-control custom-radio custom-control-inline" id="isPack">
+                                    <input type="radio" class="custom-control-input" id="single" name="isPack"
+                                           value="0" required>
+                                    <label class="custom-control-label" for="single">SINGLE</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" class="custom-control-input" id="pack" name="isPack"
+                                           value="1">
+                                    <label class="custom-control-label" for="pack">PACK</label>
                                 </div>
                             </div>
                         </div>
@@ -168,7 +155,7 @@
                             <div class="col">
                                 <label for="nama">Name</label>
                                 <input id="nama" type="text" maxlength="191" name="nama" class="form-control"
-                                       placeholder="Write the portfolio name here&hellip;" required>
+                                       placeholder="Write the service type name here&hellip;" required>
                                 <span class="glyphicon glyphicon-text-width form-control-feedback"></span>
                             </div>
                         </div>
@@ -201,7 +188,7 @@
     <script src="{{asset('admins/modules/jquery-ui/jquery-ui.min.js')}}"></script>
     <script>
         $(function () {
-            var export_filename = 'Portfolios Table ({{now()->format('j F Y')}})';
+            var export_filename = 'Service Types Table ({{now()->format('j F Y')}})';
             $("#dt-buttons").DataTable({
                 dom: "<'row'<'col-sm-12 col-md-3'l><'col-sm-12 col-md-5'B><'col-sm-12 col-md-4'f>>" +
                     "<'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
@@ -243,44 +230,46 @@
             });
         });
 
-        function createPortfolio() {
-            $(".fix-label-group .bootstrap-select").addClass('p-0');
-            $(".fix-label-group .bootstrap-select button").css('border-color', '#e4e6fc');
-
-            $("#portfolioModal .modal-title").text('Create Form');
-            $("#form-portfolio").attr('action', '{{route('create.portfolios')}}');
-            $("#form-portfolio input[name=_method]").val('');
-            $("#form-portfolio input[name=id]").val('');
-            $("#form-portfolio button[type=submit]").text('Submit');
-            $("#cover").attr('required', 'required');
-            $("#txt_cover").text('Choose File');
-            $("#cover, #nama, #deskripsi").val('');
-            $("#jenis_id").val('').selectpicker('refresh');
-            $("#portfolioModal").modal('show');
+        function createServiceType() {
+            $("#serviceTypeModal .modal-title").text('Create Form');
+            $("#form-serviceType").attr('action', '{{route('create.service-types')}}');
+            $("#form-serviceType input[name=_method]").val('');
+            $("#form-serviceType input[name=id]").val('');
+            $("#form-serviceType button[type=submit]").text('Submit');
+            $("#icon").attr('required', 'required');
+            $("#txt_icon").text('Choose File');
+            $("#icon, #nama, #deskripsi").val('');
+            $("#single, #pack").prop('checked', false).trigger('change');
+            $("#serviceTypeModal").modal('show');
         }
 
-        function editPortfolio(id, jenis_id, nama, deskripsi, cover) {
-            $(".fix-label-group .bootstrap-select").addClass('p-0');
-            $(".fix-label-group .bootstrap-select button").css('border-color', '#e4e6fc');
-
-            $("#portfolioModal .modal-title").text('Edit Form');
-            $("#form-portfolio").attr('action', '{{route('update.portfolios')}}');
-            $("#form-portfolio input[name=_method]").val('PUT');
-            $("#form-portfolio input[name=id]").val(id);
-            $("#form-portfolio button[type=submit]").text('Save Changes');
-            $("#cover").removeAttr('required');
-            $("#txt_cover").text(cover.length > 30 ? cover.slice(0, 30) + "..." : cover);
+        function editServiceType(id, icon, nama, deskripsi, isPack) {
+            $("#serviceTypeModal .modal-title").text('Edit Form');
+            $("#form-serviceType").attr('action', '{{route('update.service-types')}}');
+            $("#form-serviceType input[name=_method]").val('PUT');
+            $("#form-serviceType input[name=id]").val(id);
+            $("#form-serviceType button[type=submit]").text('Save Changes');
+            $("#icon").removeAttr('required');
+            $("#txt_icon").text(icon.length > 30 ? icon.slice(0, 30) + "..." : icon);
             $("#nama").val(nama);
             $("#deskripsi").val(deskripsi);
-            $("#jenis_id").val(jenis_id).selectpicker('refresh');
-            $("#portfolioModal").modal('show');
+
+            if (isPack == true) {
+                $("#pack").prop('checked', true).trigger('change');
+                $("#single").prop('checked', false).trigger('change');
+            } else {
+                $("#single").prop('checked', true).trigger('change');
+                $("#pack").prop('checked', false).trigger('change');
+            }
+
+            $("#serviceTypeModal").modal('show');
         }
 
-        $("#cover").on('change', function () {
+        $("#icon").on('change', function () {
             var files = $(this).prop("files"), names = $.map(files, function (val) {
                 return val.name;
             }), text = names[0];
-            $("#txt_cover").text(text.length > 30 ? text.slice(0, 30) + "..." : text);
+            $("#txt_icon").text(text.length > 30 ? text.slice(0, 30) + "..." : text);
         });
     </script>
 @endpush

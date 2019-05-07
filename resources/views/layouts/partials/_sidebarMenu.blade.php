@@ -43,6 +43,10 @@
             'active' : ''}}"><a href="{{route('table.service-types')}}" class="nav-link">Service Types</a></li>
             <li class="{{\Illuminate\Support\Facades\Request::is('admin/tables/features/service-pricing*') ?
             'active' : ''}}"><a href="{{route('table.service-pricing')}}" class="nav-link">Service Pricing</a></li>
+            <li class="{{\Illuminate\Support\Facades\Request::is('admin/tables/features/studio-types*') ?
+            'active' : ''}}"><a href="{{route('table.studio-types')}}" class="nav-link">Studio Types</a></li>
+            <li class="{{\Illuminate\Support\Facades\Request::is('admin/tables/features/studios*') ?
+            'active' : ''}}"><a href="{{route('table.studios')}}" class="nav-link">Studios</a></li>
             <li class="{{\Illuminate\Support\Facades\Request::is('admin/tables/features/payment-categories*') ?
             'active' : ''}}"><a href="{{route('table.PaymentCategories')}}" class="nav-link">Payment Categories</a></li>
             <li class="{{\Illuminate\Support\Facades\Request::is('admin/tables/features/payment-methods*') ?

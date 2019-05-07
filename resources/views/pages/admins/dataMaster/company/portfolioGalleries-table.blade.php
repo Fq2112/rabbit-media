@@ -218,7 +218,7 @@
 
                         <div class="row form-group">
                             <div class="col">
-                                <label class="control-label mb-0" for="photo">Photo</label>
+                                <label for="photo">Photo</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">
@@ -242,7 +242,7 @@
                         </div>
                         <div class="row">
                             <div class="col">
-                                <label class="control-label mb-0" for="thumbnail">Video Thumbnail & URL</label>
+                                <label for="thumbnail">Video Thumbnail & URL</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">

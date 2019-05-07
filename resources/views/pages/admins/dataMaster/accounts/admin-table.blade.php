@@ -252,7 +252,7 @@
                     <div class="modal-body">
                         <div class="row form-group">
                             <div class="col">
-                                <label class="control-label mb-0" for="ava">Avatar <sub>(optional)</sub></label>
+                                <label for="ava">Avatar <sub>(optional)</sub></label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fa fa-user"></i></span>
@@ -267,7 +267,7 @@
                                 </div>
                             </div>
                             <div class="col">
-                                <label class="control-label mb-0" for="name">Full Name</label>
+                                <label for="name">Full Name</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fa fa-id-card"></i></span>
@@ -279,7 +279,7 @@
                         </div>
                         <div class="row form-group">
                             <div class="col">
-                                <label class="control-label mb-0" for="email">Email</label>
+                                <label for="email">Email</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fa fa-envelope"></i></span>
@@ -289,7 +289,7 @@
                                 </div>
                             </div>
                             <div class="col fix-label-group">
-                                <label class="control-label mb-0" for="role">Role</label>
+                                <label for="role">Role</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text fix-label-item" style="height: 2.25rem">
@@ -364,7 +364,7 @@
                         <input type="hidden" name="admin_id">
                         <div class="row form-group">
                             <div class="col">
-                                <label class="control-label mb-0" for="as-email">Email</label>
+                                <label for="as-email">Email</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fa fa-envelope"></i></span>
@@ -374,7 +374,7 @@
                                 </div>
                             </div>
                             <div class="col fix-label-group">
-                                <label class="control-label mb-0" for="as-role">Role</label>
+                                <label for="as-role">Role</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text fix-label-item" style="height: 2.25rem">
@@ -468,7 +468,7 @@
                             <div class="col-8">
                                 <div class="row form-group">
                                     <div class="col">
-                                        <label class="control-label mb-0" for="ep-ava">Avatar <sub>(optional)</sub>
+                                        <label for="ep-ava">Avatar <sub>(optional)</sub>
                                         </label>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
@@ -486,7 +486,7 @@
                                 </div>
                                 <div class="row form-group">
                                     <div class="col">
-                                        <label class="control-label mb-0" for="ep-name">Full Name</label>
+                                        <label for="ep-name">Full Name</label>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text"><i class="fa fa-id-card"></i></span>
@@ -611,7 +611,10 @@
                         extend: 'print',
                         className: 'btn btn-primary assets-select-btn export-print'
                     }
-                ]
+                ],
+                fnDrawCallback: function (oSettings) {
+                    $('.use-nicescroll').getNiceScroll().resize();
+                },
             });
         });
 

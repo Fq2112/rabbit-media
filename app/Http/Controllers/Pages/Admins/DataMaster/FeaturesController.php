@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Admins\DataMaster;
+namespace App\Http\Controllers\Pages\Admins\DataMaster;
 
+use App\Models\JenisLayanan;
 use App\Models\layanan;
 use App\Models\PaymentCategory;
 use App\Models\PaymentMethod;
@@ -10,6 +11,71 @@ use App\Http\Controllers\Controller;
 
 class FeaturesController extends Controller
 {
+    public function showServiceTypesTable()
+    {
+        $types = JenisLayanan::all();
+
+        return view('pages.admins.dataMaster.features.serviceTypes-table', compact('types'));
+    }
+
+    public function createServiceTypes(Request $request)
+    {
+        $this->validate($request, ['icon' => 'required|image|mimes:jpg,jpeg,gif,png|max:2048']);
+        if ($request->hasfile('icon')) {
+            $name = $request->file('icon')->getClientOriginalName();
+            $request->file('icon')->move(public_path('images\services'), $name);
+
+        } else {
+            $name = null;
+        }
+
+        $type = JenisLayanan::create([
+            'icon' => $name,
+            'nama' => $request->nama,
+            'deskripsi' => $request->deskripsi,
+            'isPack' => $request->isPack
+        ]);
+
+        return back()->with('success', 'Service type (' . $type->nama . ') is successfully created!');
+    }
+
+    public function updateServiceTypes(Request $request)
+    {
+        $type = JenisLayanan::find($request->id);
+
+        if ($request->hasfile('icon')) {
+            $this->validate($request, ['icon' => 'required|image|mimes:jpg,jpeg,gif,png|max:2048']);
+            $name = $request->file('icon')->getClientOriginalName();
+            if ($type->icon != '') {
+                unlink(public_path('images/services/' . $type->icon));
+            }
+            $request->file('icon')->move(public_path('images\services'), $name);
+
+        } else {
+            $name = $type->icon;
+        }
+
+        $type->update([
+            'icon' => $name,
+            'nama' => $request->nama,
+            'deskripsi' => $request->deskripsi,
+            'isPack' => $request->isPack
+        ]);
+
+        return back()->with('success', 'Service type (' . $type->nama . ') is successfully updated!');
+    }
+
+    public function deleteServiceTypes($id)
+    {
+        $type = JenisLayanan::find(decrypt($id));
+        if ($type->icon != '') {
+            unlink(public_path('images\services/' . $type->icon));
+        }
+        $type->delete();
+
+        return back()->with('success', 'Service type (' . $type->nama . ') is successfully deleted!');
+    }
+
     public function showPaymentCategoriesTable()
     {
         $categories = PaymentCategory::all();
