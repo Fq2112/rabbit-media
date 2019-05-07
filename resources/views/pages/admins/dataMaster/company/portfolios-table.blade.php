@@ -56,7 +56,8 @@
                                         <th class="text-center">#</th>
                                         <th>Type</th>
                                         <th>Details</th>
-                                        <th>Created at / Last Update</th>
+                                        <th class="text-center">Created at</th>
+                                        <th class="text-center">Last Update</th>
                                         <th>Action</th>
                                     </tr>
                                     </thead>
@@ -77,13 +78,19 @@
                                                 ($row->getJenisPortofolio->nama)}}</strong>
                                             </td>
                                             <td style="vertical-align: middle;">
-                                                <img class="img-thumbnail float-left mr-2" alt="Cover" src="{{$cover}}"
-                                                     width="100px">
-                                                <strong>{{$row->nama}}</strong>
+                                                <a href="{{route('show.portfolio.gallery', ['jenis' =>
+                                                strtolower(str_replace(' ', '-',$row->getJenisPortofolio->nama)),
+                                                'id' => encrypt($row->id)])}}" target="_blank">
+                                                    <img class="img-thumbnail float-left mr-2" alt="Cover"
+                                                         src="{{$cover}}" width="100px">
+                                                    <strong>{{$row->nama}}</strong>
+                                                </a>
                                                 <p>{{$row->deskripsi}}</p>
                                             </td>
-                                            <td style="vertical-align: middle">{{\Carbon\Carbon::parse($row->created_at)
-                                            ->format('j F Y').' / '.$row->updated_at->diffForHumans()}}</td>
+                                            <td style="vertical-align: middle" align="center">
+                                                {{\Carbon\Carbon::parse($row->created_at)->format('j F Y')}}</td>
+                                            <td style="vertical-align: middle" align="center">
+                                                {{$row->updated_at->diffForHumans()}}</td>
                                             <td style="vertical-align: middle" align="center">
                                                 <button data-placement="left" data-toggle="tooltip" title="Edit"
                                                         type="button" class="btn btn-warning" onclick="editPortfolio
@@ -199,7 +206,7 @@
                 dom: "<'row'<'col-sm-12 col-md-3'l><'col-sm-12 col-md-5'B><'col-sm-12 col-md-4'f>>" +
                     "<'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
                 columnDefs: [
-                    {"sortable": false, "targets": 4}
+                    {"sortable": false, "targets": 5}
                 ],
                 buttons: [
                     {

@@ -144,67 +144,63 @@ Route::group(['namespace' => 'Pages\Admins', 'prefix' => 'admin', 'middleware' =
 
             });
 
-            Route::group(['prefix' => 'company-profile'], function () {
+            Route::group(['prefix' => 'company-profile', 'middleware' => 'inbox'], function () {
 
-                Route::group(['middleware' => 'inbox'], function () {
+                Route::get('/', [
+                    'uses' => 'CompanyProfileController@showCompanyProfile',
+                    'as' => 'show.company.profile'
+                ]);
+
+                Route::put('update', [
+                    'uses' => 'CompanyProfileController@updateCompanyProfile',
+                    'as' => 'update.company.profile'
+                ]);
+
+                Route::group(['prefix' => 'faqs'], function () {
 
                     Route::get('/', [
-                        'uses' => 'CompanyProfileController@showCompanyProfile',
-                        'as' => 'show.company.profile'
+                        'uses' => 'CompanyProfileController@showFaqTable',
+                        'as' => 'table.faqs'
+                    ]);
+
+                    Route::post('create', [
+                        'uses' => 'CompanyProfileController@createFaq',
+                        'as' => 'create.faqs'
                     ]);
 
                     Route::put('update', [
-                        'uses' => 'CompanyProfileController@updateCompanyProfile',
-                        'as' => 'update.company.profile'
+                        'uses' => 'CompanyProfileController@updateFaq',
+                        'as' => 'update.faqs'
                     ]);
 
-                    Route::group(['prefix' => 'faqs'], function () {
+                    Route::get('{id}/delete', [
+                        'uses' => 'CompanyProfileController@deleteFaq',
+                        'as' => 'delete.faqs'
+                    ]);
 
-                        Route::get('/', [
-                            'uses' => 'CompanyProfileController@showFaqTable',
-                            'as' => 'table.faqs'
-                        ]);
+                });
 
-                        Route::post('create', [
-                            'uses' => 'CompanyProfileController@createFaq',
-                            'as' => 'create.faqs'
-                        ]);
+                Route::group(['prefix' => 'portfolio-types'], function () {
 
-                        Route::put('update', [
-                            'uses' => 'CompanyProfileController@updateFaq',
-                            'as' => 'update.faqs'
-                        ]);
+                    Route::get('/', [
+                        'uses' => 'CompanyProfileController@showPortfolioTypesTable',
+                        'as' => 'table.portfolio-types'
+                    ]);
 
-                        Route::get('{id}/delete', [
-                            'uses' => 'CompanyProfileController@deleteFaq',
-                            'as' => 'delete.faqs'
-                        ]);
+                    Route::post('create', [
+                        'uses' => 'CompanyProfileController@createPortfolioTypes',
+                        'as' => 'create.portfolio-types'
+                    ]);
 
-                    });
+                    Route::put('update', [
+                        'uses' => 'CompanyProfileController@updatePortfolioTypes',
+                        'as' => 'update.portfolio-types'
+                    ]);
 
-                    Route::group(['prefix' => 'portfolio-types'], function () {
-
-                        Route::get('/', [
-                            'uses' => 'CompanyProfileController@showPortfolioTypesTable',
-                            'as' => 'table.portfolio-types'
-                        ]);
-
-                        Route::post('create', [
-                            'uses' => 'CompanyProfileController@createPortfolioTypes',
-                            'as' => 'create.portfolio-types'
-                        ]);
-
-                        Route::put('update', [
-                            'uses' => 'CompanyProfileController@updatePortfolioTypes',
-                            'as' => 'update.portfolio-types'
-                        ]);
-
-                        Route::get('{id}/delete', [
-                            'uses' => 'CompanyProfileController@deletePortfolioTypes',
-                            'as' => 'delete.portfolio-types'
-                        ]);
-
-                    });
+                    Route::get('{id}/delete', [
+                        'uses' => 'CompanyProfileController@deletePortfolioTypes',
+                        'as' => 'delete.portfolio-types'
+                    ]);
 
                 });
 

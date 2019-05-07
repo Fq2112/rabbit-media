@@ -59,8 +59,14 @@
                                         <tr>
                                             <td style="vertical-align: middle" align="center">{{$no++}}</td>
                                             <td style="vertical-align: middle;">
-                                                <strong><i class="{{$type->icon}} mr-2"></i>{{ucfirst($type->nama)}}
-                                                </strong>
+                                                <div class="row m-0 p-0">
+                                                    <div class="col-1 mt-0 mb-0 ml-0 mr-1 p-0">
+                                                        <i class="{{$type->icon}}"></i>
+                                                    </div>
+                                                    <div class="col m-0 p-0">
+                                                        <strong>{{ucfirst($type->nama)}}</strong>
+                                                    </div>
+                                                </div>
                                             </td>
                                             <td style="vertical-align: middle">{{\Carbon\Carbon::parse($type->created_at)
                                             ->format('j F Y').' / '.$type->updated_at->diffForHumans()}}</td>

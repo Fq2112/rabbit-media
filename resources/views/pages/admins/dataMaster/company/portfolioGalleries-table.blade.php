@@ -6,6 +6,7 @@
           href="{{asset('admins/modules/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css')}}">
     <link rel="stylesheet" href="{{asset('admins/modules/datatables/Select-1.2.4/css/select.bootstrap4.min.css')}}">
     <link rel="stylesheet" href="{{asset('admins/modules/datatables/Buttons-1.5.6/css/buttons.dataTables.min.css')}}">
+    <link rel="stylesheet" href="{{asset('css/lightgallery.min.css')}}">
     <style>
         .form-control-feedback {
             position: absolute;
@@ -27,12 +28,12 @@
 @section('content')
     <section class="section">
         <div class="section-header">
-            <h1>Portfolios Table</h1>
+            <h1>Portfolio Galleries Table</h1>
             <div class="section-header-breadcrumb">
                 <div class="breadcrumb-item active"><a href="{{route('home-admin')}}">Dashboard</a></div>
                 <div class="breadcrumb-item">Data Master</div>
                 <div class="breadcrumb-item">Company Profile</div>
-                <div class="breadcrumb-item">Portfolios</div>
+                <div class="breadcrumb-item">Portfolio Galleries</div>
             </div>
         </div>
 
@@ -42,7 +43,7 @@
                     <div class="card">
                         <div class="card-header">
                             <div class="card-header-form">
-                                <button onclick="createPortfolio()" class="btn btn-primary text-uppercase">
+                                <button onclick="createGallery()" class="btn btn-primary text-uppercase">
                                     <strong><i class="fas fa-plus mr-2"></i>Create</strong>
                                 </button>
                             </div>
@@ -54,44 +55,94 @@
                                     <thead>
                                     <tr>
                                         <th class="text-center">#</th>
-                                        <th>Type</th>
+                                        <th>Portfolio</th>
                                         <th>Details</th>
-                                        <th>Created at / Last Update</th>
+                                        <th class="text-center">Created at</th>
+                                        <th class="text-center">Last Update</th>
                                         <th>Action</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     @php $no = 1; @endphp
-                                    @foreach($portfolios as $row)
-                                        @php
-                                            $cover = $row->cover == 'img_1.jpg' || $row->cover == 'img_2.jpg' ||
-                                            $row->cover == 'img_3.jpg' || $row->cover == 'img_4.jpg' ||
-                                            $row->cover == 'img_5.jpg' || $row->cover == 'img_6.jpg' ||
-                                            $row->cover == 'img_7jpg' ? asset('images/'.$row->cover) :
-                                            asset('storage/portofolio/cover/'.$row->cover);
-                                        @endphp
+                                    @foreach($galleries as $row)
                                         <tr>
                                             <td style="vertical-align: middle" align="center">{{$no++}}</td>
                                             <td style="vertical-align: middle;">
-                                                <strong><i class="{{$row->getJenisPortofolio->icon}} mr-2"></i>{{ucfirst
-                                                ($row->getJenisPortofolio->nama)}}</strong>
+                                                <a href="{{route('show.portfolio.gallery', ['jenis' => strtolower
+                                                (str_replace(' ', '-',$row->getPortofolio->getJenisPortofolio->nama)),
+                                                'id' => encrypt($row->getPortofolio->id)])}}" target="_blank">
+                                                    <div class="row m-0 p-0">
+                                                        <div class="col-2 m-0 p-0">
+                                                            <i class="{{$row->getPortofolio->getJenisPortofolio->icon}}"></i>
+                                                        </div>
+                                                        <div class="col m-0 p-0">
+                                                            <strong>{{$row->getPortofolio->nama}}</strong>
+                                                        </div>
+                                                    </div>
+                                                </a>
                                             </td>
                                             <td style="vertical-align: middle;">
-                                                <img class="img-thumbnail float-left mr-2" alt="Cover" src="{{$cover}}"
-                                                     width="100px">
+                                                <div class="row lightgallery float-left mr-0">
+                                                    @if($row->photo == 'nature_big_1.jpg' ||
+                                                    $row->photo == 'nature_big_2.jpg' ||
+                                                    $row->photo == 'nature_big_3.jpg' ||
+                                                    $row->photo == 'nature_big_4.jpg' ||
+                                                    $row->photo == 'nature_big_5.jpg' ||
+                                                    $row->photo == 'nature_big_6.jpg' ||
+                                                    $row->photo == 'nature_big_7.jpg' ||
+                                                    $row->photo == 'nature_big_8.jpg' ||
+                                                    $row->photo == 'nature_big_9.jpg' ||
+                                                    $row->thumbnail == 'nature_big_1.jpg' ||
+                                                    $row->thumbnail == 'nature_big_2.jpg' ||
+                                                    $row->thumbnail == 'nature_big_3.jpg' ||
+                                                    $row->thumbnail == 'nature_big_4.jpg' ||
+                                                    $row->thumbnail == 'nature_big_5.jpg' ||
+                                                    $row->thumbnail == 'nature_big_6.jpg' ||
+                                                    $row->thumbnail == 'nature_big_7.jpg' ||
+                                                    $row->thumbnail == 'nature_big_8.jpg' ||
+                                                    $row->thumbnail == 'nature_big_9.jpg')
+                                                        <div class="col item" data-src="{{$row->photo != "" ?
+                                                        asset('images/big-images/'.$row->photo) : $row->video}}"
+                                                             data-sub-html="<h4>{{$row->nama}}</h4><p>{{$row->deskripsi}}</p>">
+                                                            <a href="javascript:void(0)">
+                                                                <img width="100" src="{{$row->photo != "" ?
+                                                                asset('images/big-images/'.$row->photo) :
+                                                                asset('images/big-images/'.$row->thumbnail)}}"
+                                                                     alt="Thumbnail" class="img-thumbnail"></a>
+                                                        </div>
+                                                    @else
+                                                        <div class="col item" data-src="{{$row->photo!= "" ?
+                                                        asset('storage/portofolio/gallery/'.$row->photo) : $row->video}}"
+                                                             data-sub-html="<h4>{{$row->nama}}</h4><p>{{$row->deskripsi}}</p>">
+                                                            <a href="javascript:void(0)">
+                                                                <img width="100" src="{{$row->photo != "" ?
+                                                                asset('storage/portofolio/gallery/'.$row->photo) :
+                                                                asset('storage/portofolio/thumbnail/'.$row->thumbnail)}}"
+                                                                     alt="Thumbnail" class="img-thumbnail"></a>
+                                                        </div>
+                                                    @endif
+                                                </div>
                                                 <strong>{{$row->nama}}</strong>
-                                                <p>{{$row->deskripsi}}</p>
+                                                <p>{{$row->deskripsi}}
+                                                    @if($row->video != "")
+                                                        <br><a href="{{$row->video}}"
+                                                               target="_blank">{{$row->video}}</a>
+                                                    @endif
+                                                </p>
                                             </td>
-                                            <td style="vertical-align: middle">{{\Carbon\Carbon::parse($row->created_at)
-                                            ->format('j F Y').' / '.$row->updated_at->diffForHumans()}}</td>
+                                            <td style="vertical-align: middle" align="center">
+                                                {{\Carbon\Carbon::parse($row->created_at)->format('j F Y')}}</td>
+                                            <td style="vertical-align: middle" align="center">
+                                                {{$row->updated_at->diffForHumans()}}</td>
                                             <td style="vertical-align: middle" align="center">
                                                 <button data-placement="left" data-toggle="tooltip" title="Edit"
-                                                        type="button" class="btn btn-warning" onclick="editPortfolio
-                                                        ('{{$row->id}}','{{$row->jenis_id}}','{{$row->nama}}',
-                                                        '{{$row->deskripsi}}','{{$row->cover}}')">
+                                                        type="button" class="btn btn-warning" onclick="editGallery
+                                                        ('{{$row->id}}','{{$row->portofolio_id}}','{{$row->nama}}',
+                                                        '{{$row->deskripsi}}','{{$row->photo}}','{{$row->thumbnail}}',
+                                                        '{{$row->video}}')">
                                                     <i class="fa fa-edit"></i></button>
                                                 <hr class="mt-1 mb-1">
-                                                <a href="{{route('delete.portfolios',['id'=>encrypt($row->id)])}}"
+                                                <a href="{{route('delete.portfolio-galleries',['id'=>encrypt($row->id)])}}"
                                                    class="btn btn-danger delete-data" data-toggle="tooltip"
                                                    title="Delete" data-placement="left">
                                                     <i class="fas fa-trash-alt"></i></a>
@@ -108,7 +159,7 @@
         </div>
     </section>
 
-    <div class="modal fade" id="portfolioModal" tabindex="-1" role="dialog" aria-labelledby="portfolioModalLabel"
+    <div class="modal fade" id="galleryModal" tabindex="-1" role="dialog" aria-labelledby="galleryModalLabel"
          aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -118,40 +169,28 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form id="form-portfolio" method="post" action="{{route('create.portfolios')}}"
+                <form id="form-gallery" method="post" action="{{route('create.portfolio-galleries')}}"
                       enctype="multipart/form-data">
                     {{csrf_field()}}
                     <input type="hidden" name="_method">
                     <input type="hidden" name="id">
                     <div class="modal-body">
                         <div class="row form-group">
-                            <div class="col">
-                                <label class="control-label mb-0" for="cover">Cover</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fa fa-image"></i></span>
-                                    </div>
-                                    <div class="custom-file">
-                                        <input type="file" name="cover" class="custom-file-input" id="cover" required>
-                                        <label class="custom-file-label" id="txt_cover">Choose File</label>
-                                    </div>
-                                </div>
-                                <div class="form-text text-muted">
-                                    Allowed extension: jpg, jpeg, gif, png. Allowed size: < 2 MB
-                                </div>
-                            </div>
                             <div class="col fix-label-group">
-                                <label for="jenis_id">Type</label>
+                                <label for="portofolio_id">Portfolio</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text fix-label-item" style="height: 2.25rem">
                                             <i class="fab fa-font-awesome-flag"></i></span>
                                     </div>
-                                    <select id="jenis_id" class="form-control selectpicker" title="-- Choose --"
-                                            name="jenis_id" data-live-search="true" required>
+                                    <select id="portofolio_id" class="form-control selectpicker" title="-- Choose --"
+                                            name="portofolio_id" data-live-search="true" required>
                                         @foreach(\App\Models\JenisPortofolio::orderBy('nama')->get() as $type)
-                                            <option value="{{$type->id}}">
-                                                <i class="{{$type->icon}} mr-2"></i>{{$type->nama}}</option>
+                                            <optgroup label="{{ucwords($type->nama)}}">
+                                                @foreach($type->getPortofolio as $row)
+                                                    <option value="{{$row->id}}">{{$row->nama}}</option>
+                                                @endforeach
+                                            </optgroup>
                                         @endforeach
                                     </select>
                                 </div>
@@ -165,7 +204,7 @@
                                 <span class="glyphicon glyphicon-text-width form-control-feedback"></span>
                             </div>
                         </div>
-                        <div class="row has-feedback">
+                        <div class="row form-group has-feedback">
                             <div class="col">
                                 <label for="deskripsi">Description</label>
                                 <div class="input-group">
@@ -173,6 +212,58 @@
                                               placeholder="Describe it here&hellip;" required></textarea>
                                     <span class="glyphicon glyphicon-text-height form-control-feedback"
                                           style="top: 1.5rem;right: 1em;"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <div class="col">
+                                <label class="control-label mb-0" for="photo">Photo</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <input id="rb-photo" type="radio"
+                                                   aria-label="Radio button for following text input"
+                                                   name="rb-gallery" required>
+                                        </div>
+                                    </div>
+                                    <div class="custom-file">
+                                        <input type="file" name="photo" class="custom-file-input" id="photo" disabled>
+                                        <label class="custom-file-label" id="txt_photo">Choose File</label>
+                                    </div>
+                                    <div class="input-group-append">
+                                        <span class="input-group-text"><i class="fa fa-images"></i></span>
+                                    </div>
+                                </div>
+                                <div class="form-text text-muted">
+                                    Allowed extension: jpg, jpeg, gif, png. Allowed size: < 5 MB
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <label class="control-label mb-0" for="thumbnail">Video Thumbnail & URL</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <input id="rb-thumbnail" type="radio"
+                                                   aria-label="Radio button for following text input"
+                                                   name="rb-gallery">
+                                        </div>
+                                    </div>
+                                    <div class="custom-file">
+                                        <input type="file" name="thumbnail" class="custom-file-input" id="thumbnail"
+                                               disabled>
+                                        <label class="custom-file-label" id="txt_thumbnail">Choose File</label>
+                                    </div>
+                                    <input id="video" type="text" name="video" class="form-control"
+                                           placeholder="Enter the video URL here&hellip;" disabled>
+                                    <div class="input-group-append">
+                                        <span class="input-group-text"><i class="fa fa-video"></i></span>
+                                    </div>
+                                </div>
+                                <div class="form-text text-muted">
+                                    Allowed extension: jpg, jpeg, gif, png. Allowed size: < 2 MB
                                 </div>
                             </div>
                         </div>
@@ -192,14 +283,15 @@
     <script src="{{asset('admins/modules/datatables/Select-1.2.4/js/dataTables.select.min.js')}}"></script>
     <script src="{{asset('admins/modules/datatables/Buttons-1.5.6/js/buttons.dataTables.min.js')}}"></script>
     <script src="{{asset('admins/modules/jquery-ui/jquery-ui.min.js')}}"></script>
+    <script src="{{asset('js/lightgallery-all.min.js')}}"></script>
     <script>
         $(function () {
-            var export_filename = 'Portfolios Table ({{now()->format('j F Y')}})';
+            var export_filename = 'Portfolio Galleries Table ({{now()->format('j F Y')}})';
             $("#dt-buttons").DataTable({
                 dom: "<'row'<'col-sm-12 col-md-3'l><'col-sm-12 col-md-5'B><'col-sm-12 col-md-4'f>>" +
                     "<'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
                 columnDefs: [
-                    {"sortable": false, "targets": 4}
+                    {"sortable": false, "targets": 5}
                 ],
                 buttons: [
                     {
@@ -229,48 +321,106 @@
                         extend: 'print',
                         className: 'btn btn-primary assets-select-btn export-print'
                     }
-                ]
+                ],
+                fnDrawCallback: function (oSettings) {
+                    $('.use-nicescroll').getNiceScroll().resize();
+
+                    $('.lightgallery').lightGallery({
+                        loadYoutubeThumbnail: true,
+                        youtubeThumbSize: 'default',
+                    });
+                },
             });
         });
 
-        function createPortfolio() {
+        function createGallery() {
             $(".fix-label-group .bootstrap-select").addClass('p-0');
             $(".fix-label-group .bootstrap-select button").css('border-color', '#e4e6fc');
 
-            $("#portfolioModal .modal-title").text('Create Form');
-            $("#form-portfolio").attr('action', '{{route('create.portfolios')}}');
-            $("#form-portfolio input[name=_method]").val('');
-            $("#form-portfolio input[name=id]").val('');
-            $("#form-portfolio button[type=submit]").text('Submit');
-            $("#cover").attr('required', 'required');
-            $("#txt_cover").text('Choose File');
-            $("#cover, #nama, #deskripsi").val('');
-            $("#jenis_id").val('').selectpicker('refresh');
-            $("#portfolioModal").modal('show');
+            $("#galleryModal .modal-title").text('Create Form');
+            $("#form-gallery").attr('action', '{{route('create.portfolio-galleries')}}');
+            $("#form-gallery input[name=_method]").val('');
+            $("#form-gallery input[name=id]").val('');
+            $("#form-gallery button[type=submit]").text('Submit');
+            $("#portofolio_id").val('').selectpicker('refresh');
+            $("#nama, #deskripsi, #photo, #thumbnail, #video").val('');
+            $("#txt_photo, #txt_thumbnail").text('Choose File');
+            $("#rb-thumbnail, #rb-photo").prop("checked", false).trigger('change');
+            $("#photo, #thumbnail, #video").attr('disabled', 'disabled');
+            $("#galleryModal").modal('show');
         }
 
-        function editPortfolio(id, jenis_id, nama, deskripsi, cover) {
+        function editGallery(id, portofolio_id, nama, deskripsi, photo, thumbnail, video) {
             $(".fix-label-group .bootstrap-select").addClass('p-0');
             $(".fix-label-group .bootstrap-select button").css('border-color', '#e4e6fc');
 
-            $("#portfolioModal .modal-title").text('Edit Form');
-            $("#form-portfolio").attr('action', '{{route('update.portfolios')}}');
-            $("#form-portfolio input[name=_method]").val('PUT');
-            $("#form-portfolio input[name=id]").val(id);
-            $("#form-portfolio button[type=submit]").text('Save Changes');
-            $("#cover").removeAttr('required');
-            $("#txt_cover").text(cover.length > 30 ? cover.slice(0, 30) + "..." : cover);
+            $("#galleryModal .modal-title").text('Edit Form');
+            $("#form-gallery").attr('action', '{{route('update.portfolio-galleries')}}');
+            $("#form-gallery input[name=_method]").val('PUT');
+            $("#form-gallery input[name=id]").val(id);
+            $("#form-gallery button[type=submit]").text('Save Changes');
+            $("#portofolio_id").val(portofolio_id).selectpicker('refresh');
             $("#nama").val(nama);
             $("#deskripsi").val(deskripsi);
-            $("#jenis_id").val(jenis_id).selectpicker('refresh');
-            $("#portfolioModal").modal('show');
+            $("#video").val(video);
+
+            if (photo != "") {
+                $("#txt_photo").text(photo.length > 60 ? photo.slice(0, 60) + "..." : photo);
+                $("#rb-photo").click();
+            } else {
+                $("#txt_photo").text('Choose File');
+                $("#rb-thumbnail").click();
+            }
+
+            if (thumbnail != "") {
+                $("#txt_thumbnail").text(thumbnail.length > 60 ? thumbnail.slice(0, 60) + "..." : thumbnail);
+                $("#rb-thumbnail").click();
+            } else {
+                $("#txt_thumbnail").text('Choose File');
+                $("#rb-photo").click();
+            }
+
+            $("#photo, #thumbnail, #video").removeAttr('required');
+
+            $("#galleryModal").modal('show');
         }
 
-        $("#cover").on('change', function () {
+        $("#photo").on('change', function () {
             var files = $(this).prop("files"), names = $.map(files, function (val) {
                 return val.name;
             }), text = names[0];
-            $("#txt_cover").text(text.length > 30 ? text.slice(0, 30) + "..." : text);
+            $("#txt_photo").text(text.length > 60 ? text.slice(0, 60) + "..." : text);
+        });
+
+        $("#thumbnail").on('change', function () {
+            var files = $(this).prop("files"), names = $.map(files, function (val) {
+                return val.name;
+            }), text = names[0];
+            $("#txt_thumbnail").text(text.length > 30 ? text.slice(0, 30) + "..." : text);
+        });
+
+        $("#rb-photo").on('click', function () {
+            if ($(this).is(':checked')) {
+                $("#photo").removeAttr('disabled').attr('required', 'required');
+                $("#thumbnail, #video").val('').removeAttr('required').attr('disabled', 'disabled');
+                $("#txt_thumbnail").text('Choose File');
+            } else {
+                $("#photo").val('').removeAttr('required').attr('disabled', 'disabled');
+                $("#txt_photo").text('Choose File');
+                $("#thumbnail, #video").removeAttr('disabled').attr('required', 'required');
+            }
+        });
+
+        $("#rb-thumbnail").on('click', function () {
+            if ($(this).is(':checked')) {
+                $("#thumbnail, #video").removeAttr('disabled').attr('required', 'required');
+                $("#photo").val('').removeAttr('required').attr('disabled', 'disabled');
+                $("#txt_photo").text('Choose File');
+            } else {
+                $("#thumbnail, #video").val('').removeAttr('required').attr('disabled', 'disabled');
+                $("#txt_thumbnail").text('Choose File');
+                $("#photo").removeAttr('disabled').attr('required', 'required');
+            }
         });
     </script>
 @endpush
