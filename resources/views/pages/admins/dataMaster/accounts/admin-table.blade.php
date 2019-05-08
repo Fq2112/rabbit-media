@@ -706,7 +706,7 @@
 
             $("#ep-txt_ava").text(ava != "" ? ava : 'Choose File');
             $("#ep-btn_img").attr('src', $path).on('click', function () {
-                $("#ep-ava").trigger('click');
+                $("#ep-ava").click();
             });
 
             $("#ep-ava").on('change', function () {

@@ -182,6 +182,30 @@ Route::group(['namespace' => 'Pages\Admins', 'prefix' => 'admin', 'middleware' =
 
                     });
 
+                    Route::group(['prefix' => 'how-it-works'], function () {
+
+                        Route::get('/', [
+                            'uses' => 'CompanyProfileController@showHowItWorksTable',
+                            'as' => 'table.howItWorks'
+                        ]);
+
+                        Route::post('create', [
+                            'uses' => 'CompanyProfileController@createHowItWorks',
+                            'as' => 'create.howItWorks'
+                        ]);
+
+                        Route::put('update', [
+                            'uses' => 'CompanyProfileController@updateHowItWorks',
+                            'as' => 'update.howItWorks'
+                        ]);
+
+                        Route::get('{id}/delete', [
+                            'uses' => 'CompanyProfileController@deleteHowItWorks',
+                            'as' => 'delete.howItWorks'
+                        ]);
+
+                    });
+
                     Route::group(['prefix' => 'portfolio-types'], function () {
 
                         Route::get('/', [

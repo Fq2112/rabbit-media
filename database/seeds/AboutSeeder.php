@@ -1,6 +1,7 @@
 <?php
 
 use Faker\Factory;
+use App\Models\HowItWorks;
 use App\Models\Faq;
 use App\Models\About;
 use Illuminate\Database\Seeder;
@@ -30,6 +31,17 @@ class AboutSeeder extends Seeder
             Faq::create([
                 'pertanyaan' => 'What is ' . strtolower($faker->sentence) . '?',
                 'jawaban' => $faker->paragraph
+            ]);
+        }
+
+        $array = ['red', 'green', 'blue'];
+        for ($c = 1; $c <= 6; $c++) {
+            HowItWorks::create([
+                'icon' => 'step' . $c . '.png',
+                'stem_color' => $array[array_rand($array)],
+                'title' => ucwords($faker->words(rand(1, 3), true)),
+                'caption' => $faker->sentence,
+                'description' => $faker->paragraph,
             ]);
         }
     }

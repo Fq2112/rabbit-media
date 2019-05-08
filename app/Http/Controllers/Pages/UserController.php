@@ -7,6 +7,7 @@ use App\Models\About;
 use App\Models\Contact;
 use App\Models\Faq;
 use App\Models\Galeri;
+use App\Models\HowItWorks;
 use App\Models\JenisLayanan;
 use App\Models\JenisPortofolio;
 use App\Models\Portofolio;
@@ -55,7 +56,9 @@ class UserController extends Controller
 
     public function showHowItWorks()
     {
-        return view('pages.main.how-it-works');
+        $works = HowItWorks::all();
+
+        return view('pages.main.how-it-works', compact('works'));
     }
 
     public function faq()

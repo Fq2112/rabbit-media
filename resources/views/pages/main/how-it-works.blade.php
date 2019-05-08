@@ -6,6 +6,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>How It Works | Rabbit Media – Digital Creative Service</title>
+    <link rel="shortcut icon" href="{{asset('favicon.ico')}}" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300i,400,700" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
     <style>
@@ -315,16 +316,6 @@
             transform: none;
         }
 
-        .image-right {
-            float: right;
-            margin-left: 1rem;
-        }
-
-        .image-left {
-            float: left;
-            margin-right: 1rem;
-        }
-
         .post-wrapper .post:nth-child(even) {
             float: right;
         }
@@ -341,24 +332,14 @@
             right: -110px;
         }
 
-        .post-wrapper .post.music-icon .stem-overlay .icon {
-            background-image: url({{asset('images/how-it-works/music-icon.png')}});
+        .post-wrapper .post:nth-child(even) .entry-content img {
+            float: left;
+            margin-right: 1rem;
         }
 
-        .post-wrapper .post.bitbucket-icon .stem-overlay .icon {
-            background-image: url({{asset('images/how-it-works/bitbucket-icon.png')}});
-        }
-
-        .post-wrapper .post.m-icon .stem-overlay .icon {
-            background-image: url({{asset('images/how-it-works/m-icon.png')}});
-        }
-
-        .post-wrapper .post.twitter-icon .stem-overlay .icon {
-            background-image: url({{asset('images/how-it-works/twitter-icon.png')}});
-        }
-
-        .post-wrapper .post.scroll-to-top .stem-overlay .icon {
-            background-image: url({{asset('images/how-it-works/scroll-to-top-icon.png')}});
+        .post-wrapper .post:nth-child(odd) .entry-content img {
+            float: right;
+            margin-left: 1rem;
         }
 
         .post-wrapper .post .stem-overlay {
@@ -370,6 +351,7 @@
 
         .post-wrapper .post .stem-overlay .icon {
             background: transparent no-repeat center center;
+            background-size: cover;
             height: 60px;
             width: 60px;
             cursor: pointer;
@@ -565,123 +547,32 @@
         <div class="stem-padding"></div>
 
         <div class="post-wrapper">
-            <article class="post bitbucket-icon">
-                <div class="stem-overlay">
-                    <div class="icon"></div>
-                    <div class="stem-mask"></div>
-                </div>
-
-                <div class="post-content">
-                    <p class="meta">{{\Faker\Factory::create()->sentence}}</p>
-                    <h2 class="post-title">{{\Faker\Factory::create()->jobTitle}}</h2>
-                    <div class="entry-content">
-                        <p>
-                            <img src="{{\Faker\Factory::create()->imageUrl()}}" class="img-fluid rounded image-right"
-                                 alt="Image" width="240px">
-                            {{\Faker\Factory::create()->paragraphs(rand(2,3), true)}}
-                        </p>
+            @foreach($works as $work)
+                <article class="post" data-stem-color="{{$work->stem_color}}">
+                    <div class="stem-overlay">
+                        <div class="icon" style="background-color: #241837;background-image: url({{asset
+                        ('images/how-it-works/'.$work->icon)}})"></div>
+                        <div class="stem-mask"></div>
                     </div>
-                </div>
-            </article>
 
-            <article class="post m-icon" data-stem-color="green">
-                <div class="stem-overlay">
-                    <div class="icon"></div>
-                    <div class="stem-mask"></div>
-                </div>
-
-                <div class="post-content">
-                    <p class="meta">{{\Faker\Factory::create()->sentence}}</p>
-                    <h2 class="post-title">{{\Faker\Factory::create()->jobTitle}}</h2>
-                    <div class="entry-content">
-                        <p>
-                            <img src="{{\Faker\Factory::create()->imageUrl()}}" class="img-fluid rounded image-left"
-                                 alt="Image" width="240px">
-                            {{\Faker\Factory::create()->paragraphs(rand(2,3), true)}}
-                        </p>
+                    <div class="post-content">
+                        <p class="meta">{{$work->caption}}</p>
+                        <h2 class="post-title">{{$work->title}}</h2>
+                        <div class="entry-content">
+                            <p>
+                                <img src="{{asset('images/how-it-works/'.$work->icon)}}"
+                                     class="img-fluid rounded" alt="Image" width="240">
+                                {{$work->description}}
+                            </p>
+                        </div>
                     </div>
-                </div>
-            </article>
+                </article>
+            @endforeach
 
-            <article class="post music-icon" data-stem-color="blue">
+            <article class="post trigger-scroll-to-top" data-stem-color="blue">
                 <div class="stem-overlay">
-                    <div class="icon"></div>
-                    <div class="stem-mask"></div>
-                </div>
-
-                <div class="post-content">
-                    <p class="meta">{{\Faker\Factory::create()->sentence}}</p>
-                    <h2 class="post-title">{{\Faker\Factory::create()->jobTitle}}</h2>
-                    <div class="entry-content">
-                        <p>
-                            <img src="{{\Faker\Factory::create()->imageUrl()}}" class="img-fluid rounded image-right"
-                                 alt="Image" width="240px">
-                            {{\Faker\Factory::create()->paragraphs(rand(2,3), true)}}
-                        </p>
-                    </div>
-                </div>
-            </article>
-
-            <article class="post twitter-icon" data-stem-color="red">
-                <div class="stem-overlay">
-                    <div class="icon"></div>
-                    <div class="stem-mask"></div>
-                </div>
-
-                <div class="post-content">
-                    <p class="meta">{{\Faker\Factory::create()->sentence}}</p>
-                    <h2 class="post-title">{{\Faker\Factory::create()->jobTitle}}</h2>
-                    <div class="entry-content">
-                        <p>
-                            <img src="{{\Faker\Factory::create()->imageUrl()}}" class="img-fluid rounded image-left"
-                                 alt="Image" width="240px">
-                            {{\Faker\Factory::create()->paragraphs(rand(2,3), true)}}
-                        </p>
-                    </div>
-                </div>
-            </article>
-
-            <article class="post bitbucket-icon">
-                <div class="stem-overlay">
-                    <div class="icon"></div>
-                    <div class="stem-mask"></div>
-                </div>
-
-                <div class="post-content">
-                    <p class="meta">{{\Faker\Factory::create()->sentence}}</p>
-                    <h2 class="post-title">{{\Faker\Factory::create()->jobTitle}}</h2>
-                    <div class="entry-content">
-                        <p>
-                            <img src="{{\Faker\Factory::create()->imageUrl()}}" class="img-fluid rounded image-right"
-                                 alt="Image" width="240px">
-                            {{\Faker\Factory::create()->paragraphs(rand(2,3), true)}}
-                        </p>
-                    </div>
-                </div>
-            </article>
-
-            <article class="post music-icon" data-stem-color="green">
-                <div class="stem-overlay">
-                    <div class="icon"></div>
-                    <div class="stem-mask"></div>
-                </div>
-
-                <div class="post-content">
-                    <p class="meta">{{\Faker\Factory::create()->sentence}}</p>
-                    <h2 class="post-title">{{\Faker\Factory::create()->jobTitle}}</h2>
-                    <div class="entry-content">
-                        <p>
-                            <img src="{{\Faker\Factory::create()->imageUrl()}}" class="img-fluid rounded image-left"
-                                 alt="Image" width="240px">
-                            {{\Faker\Factory::create()->paragraphs(rand(2,3), true)}}
-                        </p>
-                    </div>
-                </div>
-            </article>
-
-            <article class="post scroll-to-top trigger-scroll-to-top" data-stem-color="blue">
-                <div class="stem-overlay">
-                    <div class="icon"></div>
+                    <div class="icon"
+                         style="background-image: url({{asset('images/how-it-works/scroll-to-top-icon.png')}})"></div>
                     <div class="stem-mask"></div>
                 </div>
             </article>
@@ -921,10 +812,10 @@
     particlesJS('particles-js', {
         'particles': {
             'number': {
-                'value': 80,
+                'value': 50,
                 'density': {
                     'enable': true,
-                    'value_area': 800
+                    'value_area': 1000
                 }
             },
             'color': {

@@ -162,7 +162,7 @@
         });
 
         $("#btn_mascot").on('click', function () {
-            $("#mascot").trigger('click');
+            $("#mascot").click();
         });
 
         $("#mascot").on('change', function () {

@@ -122,35 +122,46 @@
                     <input type="hidden" name="id">
                     <div class="modal-body">
                         <div class="row form-group">
-                            <div class="col">
-                                <label for="icon">Icon</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fa fa-image"></i></span>
-                                    </div>
-                                    <div class="custom-file">
-                                        <input type="file" name="icon" class="custom-file-input" id="icon" required>
-                                        <label class="custom-file-label" id="txt_icon">Choose File</label>
-                                    </div>
-                                </div>
-                                <div class="form-text text-muted">
-                                    Allowed extension: jpg, jpeg, gif, png. Allowed size: < 2 MB
-                                </div>
+                            <div class="col-2 text-center align-self-center" style="display: none">
+                                <img class="img-fluid" id="btn_img" style="cursor: pointer"
+                                     data-toggle="tooltip" data-placement="bottom" alt="cover" src="#"
+                                     title="Click here to change the icon!">
                             </div>
-                            <div class="col-4">
-                                <label for="isPack">Category</label><br>
-                                <div class="custom-control custom-radio custom-control-inline" id="isPack">
-                                    <input type="radio" class="custom-control-input" id="single" name="isPack"
-                                           value="0" required>
-                                    <label class="custom-control-label" for="single">SINGLE</label>
-                                </div>
-                                <div class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" class="custom-control-input" id="pack" name="isPack"
-                                           value="1">
-                                    <label class="custom-control-label" for="pack">PACK</label>
+                            <div class="col">
+                                <div class="row">
+                                    <div class="col">
+                                        <label for="icon">Icon</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fa fa-image"></i></span>
+                                            </div>
+                                            <div class="custom-file">
+                                                <input type="file" name="icon" class="custom-file-input" id="icon"
+                                                       required>
+                                                <label class="custom-file-label" id="txt_icon">Choose File</label>
+                                            </div>
+                                        </div>
+                                        <div class="form-text text-muted">
+                                            Allowed extension: jpg, jpeg, gif, png. Allowed size: < 2 MB
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <label for="isPack">Category</label><br>
+                                        <div class="custom-control custom-radio custom-control-inline" id="isPack">
+                                            <input type="radio" class="custom-control-input" id="single" name="isPack"
+                                                   value="0" required>
+                                            <label class="custom-control-label" for="single">SINGLE</label>
+                                        </div>
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input type="radio" class="custom-control-input" id="pack" name="isPack"
+                                                   value="1">
+                                            <label class="custom-control-label" for="pack">PACK</label>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+
                         <div class="row form-group has-feedback">
                             <div class="col">
                                 <label for="nama">Name</label>
@@ -240,6 +251,8 @@
             $("#txt_icon").text('Choose File');
             $("#icon, #nama, #deskripsi").val('');
             $("#single, #pack").prop('checked', false).trigger('change');
+
+            $("#btn_img").attr('src', '#').parent().hide();
             $("#serviceTypeModal").modal('show');
         }
 
@@ -261,6 +274,10 @@
                 $("#single").prop('checked', true).trigger('change');
                 $("#pack").prop('checked', false).trigger('change');
             }
+
+            $("#btn_img").attr('src', '{{asset('images/services')}}/' + icon).on('click', function () {
+                $("#icon").click();
+            }).parent().show();
 
             $("#serviceTypeModal").modal('show');
         }

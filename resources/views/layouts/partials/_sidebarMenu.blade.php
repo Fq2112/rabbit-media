@@ -26,6 +26,8 @@
             'active' : ''}}"><a href="{{route('show.company.profile')}}" class="nav-link">About</a></li>
             <li class="{{\Illuminate\Support\Facades\Request::is('admin/tables/company-profile/faqs*') ?
             'active' : ''}}"><a href="{{route('table.faqs')}}" class="nav-link">FAQ</a></li>
+            <li class="{{\Illuminate\Support\Facades\Request::is('admin/tables/company-profile/how-it-works*') ?
+            'active' : ''}}"><a href="{{route('table.howItWorks')}}" class="nav-link">How It Works</a></li>
             <li class="{{\Illuminate\Support\Facades\Request::is('admin/tables/company-profile/portfolio-types*') ?
             'active' : ''}}"><a href="{{route('table.portfolio-types')}}" class="nav-link">Portfolio Types</a></li>
             <li class="{{\Illuminate\Support\Facades\Request::is('admin/tables/company-profile/portfolios*') ?

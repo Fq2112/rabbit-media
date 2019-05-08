@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Pages\Admins\DataMaster;
 use App\Models\About;
 use App\Models\Faq;
 use App\Models\Galeri;
+use App\Models\HowItWorks;
 use App\Models\JenisPortofolio;
 use App\Models\Portofolio;
 use Illuminate\Http\Request;
@@ -94,6 +95,73 @@ class CompanyProfileController extends Controller
         $faq->delete();
 
         return back()->with('success', 'FAQ (' . $faq->pertanyaan . ') is successfully deleted!');
+    }
+
+    public function showHowItWorksTable()
+    {
+        $works = HowItWorks::all();
+
+        return view('pages.admins.dataMaster.company.howItWorks-table', compact('works'));
+    }
+
+    public function createHowItWorks(Request $request)
+    {
+        $this->validate($request, ['icon' => 'required|image|mimes:jpg,jpeg,gif,png|max:2048']);
+        if ($request->hasfile('icon')) {
+            $name = $request->file('icon')->getClientOriginalName();
+            $request->file('icon')->move(public_path('images\how-it-works'), $name);
+
+        } else {
+            $name = null;
+        }
+
+        $work = HowItWorks::create([
+            'icon' => $name,
+            'stem_color' => $request->stem_color,
+            'title' => $request->title,
+            'caption' => $request->caption,
+            'description' => $request->description,
+        ]);
+
+        return back()->with('success', 'Step (' . $work->title . ') is successfully added to "How It Works" page!');
+    }
+
+    public function updateHowItWorks(Request $request)
+    {
+        $work = HowItWorks::find($request->id);
+
+        if ($request->hasfile('icon')) {
+            $this->validate($request, ['icon' => 'required|image|mimes:jpg,jpeg,gif,png|max:2048']);
+            $name = $request->file('icon')->getClientOriginalName();
+            if ($work->icon != '') {
+                unlink(public_path('images/how-it-works/' . $work->icon));
+            }
+            $request->file('icon')->move(public_path('images\how-it-works'), $name);
+
+        } else {
+            $name = $work->icon;
+        }
+
+        $work->update([
+            'icon' => $name,
+            'stem_color' => $request->stem_color,
+            'title' => $request->title,
+            'caption' => $request->caption,
+            'description' => $request->description,
+        ]);
+
+        return back()->with('success', 'How it works step (' . $work->title . ') is successfully updated!');
+    }
+
+    public function deleteHowItWorks($id)
+    {
+        $work = HowItWorks::find(decrypt($id));
+        if ($work->icon != '') {
+            unlink(public_path('images\how-it-works/' . $work->icon));
+        }
+        $work->delete();
+
+        return back()->with('success', 'How it works step (' . $work->title . ') is successfully deleted!');
     }
 
     public function showPortfolioTypesTable()
