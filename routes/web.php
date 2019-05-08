@@ -306,26 +306,26 @@ Route::group(['namespace' => 'Pages\Admins', 'prefix' => 'admin', 'middleware' =
 
                     });
 
-                    Route::group(['prefix' => 'service-pricing'], function () {
+                    Route::group(['prefix' => 'services'], function () {
 
                         Route::get('/', [
-                            'uses' => 'FeaturesController@showServicePricingTable',
-                            'as' => 'table.service-pricing'
+                            'uses' => 'FeaturesController@showServicesTable',
+                            'as' => 'table.services'
                         ]);
 
                         Route::post('create', [
-                            'uses' => 'FeaturesController@createServicePricing',
-                            'as' => 'create.service-pricing'
+                            'uses' => 'FeaturesController@createServices',
+                            'as' => 'create.services'
                         ]);
 
                         Route::put('update', [
-                            'uses' => 'FeaturesController@updateServicePricing',
-                            'as' => 'update.service-pricing'
+                            'uses' => 'FeaturesController@updateServices',
+                            'as' => 'update.services'
                         ]);
 
                         Route::get('{id}/delete', [
-                            'uses' => 'FeaturesController@deleteServicePricing',
-                            'as' => 'delete.service-pricing'
+                            'uses' => 'FeaturesController@deleteServices',
+                            'as' => 'delete.services'
                         ]);
 
                     });
@@ -343,7 +343,7 @@ Route::group(['namespace' => 'Pages\Admins', 'prefix' => 'admin', 'middleware' =
                         ]);
 
                         Route::put('update', [
-                            'uses' => 'FeaturesController@updateServiceTypes',
+                            'uses' => 'FeaturesController@updateStudioTypes',
                             'as' => 'update.studio-types'
                         ]);
 

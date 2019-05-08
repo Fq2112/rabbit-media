@@ -183,11 +183,11 @@
             var check = $("#form-compro input[name=check_form]").val();
 
             if (check == 'gs' && $("#deskripsi").summernote('isEmpty')) {
-                swal('PERHATIAN!', 'Please, write something about Rabbit Media!', 'warning');
+                swal('ATTENTION!', 'Please, write something about Rabbit Media!', 'warning');
             } else if (check == 'vs' && $("#mission").summernote('isEmpty')) {
-                swal('PERHATIAN!', 'Please, write something about Rabbit\'s mission!', 'warning');
+                swal('ATTENTION!', 'Please, write something about Rabbit\'s mission!', 'warning');
             } else if (check == 'tc' && $("#terms_conditions").summernote('isEmpty')) {
-                swal('PERHATIAN!', 'Please, write something about Rabbit\'s terms & conditions!', 'warning');
+                swal('ATTENTION!', 'Please, write something about Rabbit\'s terms & conditions!', 'warning');
             } else {
                 $(this)[0].submit();
             }

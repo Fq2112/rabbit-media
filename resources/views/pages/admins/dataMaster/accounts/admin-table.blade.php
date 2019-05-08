@@ -137,9 +137,9 @@
                                         <th class="text-center">#</th>
                                         <th>Ava</th>
                                         <th>Contact</th>
-                                        <th>Role</th>
-                                        <th>Created at</th>
-                                        <th>Last Update</th>
+                                        <th class="text-center">Role</th>
+                                        <th class="text-center">Created at</th>
+                                        <th class="text-center">Last Update</th>
                                         <th>Action</th>
                                     </tr>
                                     </thead>
@@ -614,6 +614,7 @@
                 ],
                 fnDrawCallback: function (oSettings) {
                     $('.use-nicescroll').getNiceScroll().resize();
+                    $('[data-toggle="tooltip"]').tooltip();
                 },
             });
         });

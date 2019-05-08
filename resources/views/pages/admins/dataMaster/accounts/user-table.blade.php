@@ -44,8 +44,8 @@
                                         <th>Ava</th>
                                         <th>Contact</th>
                                         <th>Status</th>
-                                        <th>Joined at</th>
-                                        <th>Last Update</th>
+                                        <th class="text-center">Joined at</th>
+                                        <th class="text-center">Last Update</th>
                                         <th>Action</th>
                                     </tr>
                                     </thead>
@@ -76,9 +76,10 @@
                                                 <span class="badge badge-{{$user->status == true ? 'success' :
                                                 'warning'}}">{{$user->status == true ? 'Active' : 'Inactive'}}</span>
                                             </td>
-                                            <td style="vertical-align: middle">
+                                            <td style="vertical-align: middle" align="center">
                                                 {{\Carbon\Carbon::parse($user->created_at)->format('j F Y')}}</td>
-                                            <td style="vertical-align: middle">{{$user->updated_at->diffForHumans()}}</td>
+                                            <td style="vertical-align: middle"
+                                                align="center">{{$user->updated_at->diffForHumans()}}</td>
                                             <td style="vertical-align: middle" align="center">
                                                 <button class="btn btn-info" data-toggle="tooltip" title="Details"
                                                         data-placement="left" onclick="openProfile('{{$user->id}}',
@@ -390,6 +391,7 @@
                 ],
                 fnDrawCallback: function (oSettings) {
                     $('.use-nicescroll').getNiceScroll().resize();
+                    $('[data-toggle="tooltip"]').tooltip();
                 },
             });
         });

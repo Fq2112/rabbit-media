@@ -207,12 +207,9 @@
                         <div class="row form-group has-feedback">
                             <div class="col">
                                 <label for="deskripsi">Description</label>
-                                <div class="input-group">
-                                    <textarea id="deskripsi" type="text" name="deskripsi" class="form-control"
-                                              placeholder="Describe it here&hellip;" required></textarea>
-                                    <span class="glyphicon glyphicon-text-height form-control-feedback"
-                                          style="top: 1.5rem;right: 1em;"></span>
-                                </div>
+                                <textarea id="deskripsi" type="text" name="deskripsi" class="form-control"
+                                          placeholder="Describe it here&hellip;" required></textarea>
+                                <span class="glyphicon glyphicon-text-height form-control-feedback"></span>
                             </div>
                         </div>
 
@@ -324,6 +321,7 @@
                 ],
                 fnDrawCallback: function (oSettings) {
                     $('.use-nicescroll').getNiceScroll().resize();
+                    $('[data-toggle="tooltip"]').tooltip();
 
                     $('.lightgallery').lightGallery({
                         loadYoutubeThumbnail: true,

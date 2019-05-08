@@ -56,8 +56,8 @@
                                         <th class="text-center">#</th>
                                         <th>Question</th>
                                         <th>Answer</th>
-                                        <th>Created at</th>
-                                        <th>Last Update</th>
+                                        <th class="text-center">Created at</th>
+                                        <th class="text-center">Last Update</th>
                                         <th>Action</th>
                                     </tr>
                                     </thead>
@@ -124,12 +124,9 @@
                         <div class="row has-feedback">
                             <div class="col">
                                 <label for="jawaban">Answer</label>
-                                <div class="input-group">
-                                    <textarea id="jawaban" type="text" name="jawaban" class="form-control"
-                                              placeholder="Write the answer here&hellip;" required></textarea>
-                                    <span class="glyphicon glyphicon-exclamation-sign form-control-feedback"
-                                          style="top: 1.5rem;right: 1em;"></span>
-                                </div>
+                                <textarea id="jawaban" type="text" name="jawaban" class="form-control"
+                                          placeholder="Write the answer here&hellip;" required></textarea>
+                                <span class="glyphicon glyphicon-exclamation-sign form-control-feedback"></span>
                             </div>
                         </div>
                     </div>
@@ -188,6 +185,7 @@
                 ],
                 fnDrawCallback: function (oSettings) {
                     $('.use-nicescroll').getNiceScroll().resize();
+                    $('[data-toggle="tooltip"]').tooltip();
                 },
             });
         });

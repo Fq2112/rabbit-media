@@ -188,7 +188,7 @@
         $("#form-compose").on('submit', function (e) {
             e.preventDefault();
             if ($('.summernote').summernote('isEmpty')) {
-                swal('PERHATIAN!', 'Anda harus menuliskan beberapa pesan!', 'warning');
+                swal('ATTENTION!', 'Please, write some messages!', 'warning');
 
             } else {
                 $(this)[0].submit();
@@ -238,11 +238,11 @@
             $(".btn_delete_inbox" + id).on("click", function () {
                 var linkURL = '{{url('admin/inbox')}}/' + deleteId + '/delete';
                 swal({
-                    title: 'Hapus Pesan',
-                    text: "Apakah Anda yakin menghapus pesan dari " + name + "? Anda tidak dapat mengembalikannya!",
+                    title: 'Delete Message',
+                    text: "Are you sure to delete " + name + "'s message? You can't revert it!",
                     icon: 'warning',
                     dangerMode: true,
-                    buttons: ["Tidak", "Ya"],
+                    buttons: ["No", "Yes"],
                     closeOnEsc: false,
                     closeOnClickOutside: false,
                 }).then((confirm) => {

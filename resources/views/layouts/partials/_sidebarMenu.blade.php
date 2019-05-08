@@ -43,8 +43,8 @@
         <ul class="dropdown-menu">
             <li class="{{\Illuminate\Support\Facades\Request::is('admin/tables/features/service-types*') ?
             'active' : ''}}"><a href="{{route('table.service-types')}}" class="nav-link">Service Types</a></li>
-            <li class="{{\Illuminate\Support\Facades\Request::is('admin/tables/features/service-pricing*') ?
-            'active' : ''}}"><a href="{{route('table.service-pricing')}}" class="nav-link">Service Pricing</a></li>
+            <li class="{{\Illuminate\Support\Facades\Request::is('admin/tables/features/services*') ?
+            'active' : ''}}"><a href="{{route('table.services')}}" class="nav-link">Services</a></li>
             <li class="{{\Illuminate\Support\Facades\Request::is('admin/tables/features/studio-types*') ?
             'active' : ''}}"><a href="{{route('table.studio-types')}}" class="nav-link">Studio Types</a></li>
             <li class="{{\Illuminate\Support\Facades\Request::is('admin/tables/features/studios*') ?

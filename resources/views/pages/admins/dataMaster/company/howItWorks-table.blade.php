@@ -223,12 +223,9 @@
                         <div class="row has-feedback">
                             <div class="col">
                                 <label for="description">Description</label>
-                                <div class="input-group">
-                                    <textarea id="description" type="text" name="description" class="form-control"
-                                              placeholder="Describe it here&hellip;" required></textarea>
-                                    <span class="glyphicon glyphicon-text-height form-control-feedback"
-                                          style="top: 1.5rem;right: 1em;"></span>
-                                </div>
+                                <textarea id="description" type="text" name="description" class="form-control"
+                                          placeholder="Describe it here&hellip;" required></textarea>
+                                <span class="glyphicon glyphicon-text-height form-control-feedback"></span>
                             </div>
                         </div>
                     </div>
@@ -287,6 +284,7 @@
                 ],
                 fnDrawCallback: function (oSettings) {
                     $('.use-nicescroll').getNiceScroll().resize();
+                    $('[data-toggle="tooltip"]').tooltip();
                 },
             });
         });
