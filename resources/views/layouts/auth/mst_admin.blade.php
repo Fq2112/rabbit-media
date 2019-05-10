@@ -240,6 +240,16 @@
     @if(session('signed'))
     swal('Signed In!', 'Halo {{$role->name}}! Anda telah masuk.', 'success');
     @endif
+
+            @if(!\Illuminate\Support\Facades\Request::is('admin/tables*'))
+    var title = document.getElementsByTagName("title")[0].innerHTML;
+    (function titleScroller(text) {
+        document.title = text;
+        setTimeout(function () {
+            titleScroller(text.substr(1) + text.substr(0, 1));
+        }, 500);
+    }(title + " ~ "));
+    @endif
 </script>
 @include('layouts.partials._confirm')
 @include('layouts.partials._toastnotify')

@@ -57,12 +57,36 @@
     </li>
 
     <li class="menu-header">Data Transaction</li>
-    <li class="dropdown {{\Illuminate\Support\Facades\Request::is('admin/tables/clients/feedback*') ? 'active' : ''}}">
-        <a href="{{route('table.feedback')}}" class="nav-link">
-            <i class="fas fa-comment-dots"></i><span>Feedback</span></a></li>
-    <li class="dropdown {{\Illuminate\Support\Facades\Request::is('admin/tables/clients/orders*') ? 'active' : ''}}">
-        <a href="{{route('table.orders')}}" class="nav-link">
-            <i class="fas fa-dollar-sign"></i><span>Orders</span></a></li>
+    <li class="dropdown {{\Illuminate\Support\Facades\Request::is('admin/tables/clients*') ? 'active' : ''}}">
+        <a href="javascript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown">
+            <i class="fas fa-users"></i><span>Clients</span></a>
+        <ul class="dropdown-menu">
+            <li class="dropdown {{\Illuminate\Support\Facades\Request::is('admin/tables/clients/feedback*') ? 'active' : ''}}">
+                <a href="{{route('table.feedback')}}" class="nav-link">
+                    <i class="fas fa-comment-dots"></i><span>Feedback</span></a></li>
+            <li class="dropdown {{\Illuminate\Support\Facades\Request::is('admin/tables/clients/orders*') ? 'active' : ''}}">
+                <a href="{{route('table.orders')}}" class="nav-link">
+                    <i class="fas fa-dollar-sign"></i><span>Orders</span></a></li>
+            <li class="dropdown {{\Illuminate\Support\Facades\Request::is('admin/tables/clients/order-revisions*') ? 'active' : ''}}">
+                <a href="{{route('table.order-revisions')}}" class="nav-link">
+                    <i class="fas fa-edit"></i><span>Order Revisions</span></a></li>
+        </ul>
+    </li>
+    <li class="dropdown {{\Illuminate\Support\Facades\Request::is('admin/tables/staffs*') ? 'active' : ''}}">
+        <a href="javascript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown">
+            <i class="fas fa-user-secret"></i><span>Staffs</span></a>
+        <ul class="dropdown-menu">
+            <li class="dropdown {{\Illuminate\Support\Facades\Request::is('admin/tables/staffs/order-logs*') ? 'active' : ''}}">
+                <a href="{{route('table.order-logs')}}" class="nav-link">
+                    <i class="fas fa-tasks"></i><span>Order Logs</span></a></li>
+            <li class="dropdown {{\Illuminate\Support\Facades\Request::is('admin/tables/staffs/outcomes*') ? 'active' : ''}}">
+                <a href="{{route('table.outcomes')}}" class="nav-link">
+                    <i class="fas fa-funnel-dollar"></i><span>Outcomes</span></a></li>
+            <li class="dropdown {{\Illuminate\Support\Facades\Request::is('admin/tables/staffs/schedules*') ? 'active' : ''}}">
+                <a href="{{route('table.schedules')}}" class="nav-link">
+                    <i class="fas fa-calendar-day"></i><span>Schedules</span></a></li>
+        </ul>
+    </li>
 </ul>
 
 <div class="mt-4 mb-4 p-3 hide-sidebar-mini">

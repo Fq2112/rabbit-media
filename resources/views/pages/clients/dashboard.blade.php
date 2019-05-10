@@ -588,7 +588,7 @@
                     '<ul class="list-inline">' +
                     '<li class="list-inline-item"><a class="tag"><i class="fa fa-text-width mr-2"></i>' +
                     'Judul: <span style="font-weight: 600">' + val.judul + '</span></a></li>' +
-                    '<li class="list-inline-item"><a class="tag"><i class="fa fa-calendar-alt mr-2"></i>' +
+                    '<li class="list-inline-item"><a class="tag"><i class="fa fa-calendar-day mr-2"></i>' +
                     'Tanggal Booking: ' + val.date_booking + '</a></li>' +
                     '<li class="list-inline-item" style="display: ' + $isHours + '"><a class="tag">' +
                     '<i class="fa fa-stopwatch mr-2"></i>Total durasi ' +

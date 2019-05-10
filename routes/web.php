@@ -434,7 +434,7 @@ Route::group(['namespace' => 'Pages\Admins', 'prefix' => 'admin', 'middleware' =
 
         Route::group(['namespace' => 'DataTransaction'], function () {
 
-            Route::group(['prefix' => 'clients'], function () {
+            Route::group(['prefix' => 'clients', 'middleware' => 'inbox'], function () {
 
                 Route::group(['prefix' => 'feedback'], function () {
 
@@ -443,14 +443,9 @@ Route::group(['namespace' => 'Pages\Admins', 'prefix' => 'admin', 'middleware' =
                         'as' => 'table.feedback'
                     ]);
 
-                    Route::put('update', [
-                        'uses' => 'TransactionClientController@updateFeedback',
-                        'as' => 'table.feedback.update'
-                    ]);
-
                     Route::get('{id}/delete', [
                         'uses' => 'TransactionClientController@deleteFeedback',
-                        'as' => 'table.feedback.delete'
+                        'as' => 'delete.feedback'
                     ]);
 
                 });
@@ -463,13 +458,93 @@ Route::group(['namespace' => 'Pages\Admins', 'prefix' => 'admin', 'middleware' =
                     ]);
 
                     Route::put('update', [
-                        'uses' => 'TransactionClientController@updateOrders',
-                        'as' => 'table.orders.update'
+                        'uses' => 'TransactionClientController@massUpdateOrders',
+                        'as' => 'massUpdate.orders'
+                    ]);
+
+                    Route::post('delete', [
+                        'uses' => 'TransactionClientController@massDeleteOrders',
+                        'as' => 'massDelete.orders'
+                    ]);
+
+                });
+
+                Route::group(['prefix' => 'order-revisions'], function () {
+
+                    Route::get('/', [
+                        'uses' => 'TransactionClientController@showOrderRevisionsTable',
+                        'as' => 'table.order-revisions'
                     ]);
 
                     Route::get('{id}/delete', [
-                        'uses' => 'TransactionClientController@deleteOrders',
-                        'as' => 'table.orders.delete'
+                        'uses' => 'TransactionClientController@deleteOrderRevisions',
+                        'as' => 'delete.order-revisions'
+                    ]);
+
+                });
+
+            });
+
+            Route::group(['prefix' => 'staffs'], function () {
+
+                Route::group(['prefix' => 'order-logs'], function () {
+
+                    Route::get('/', [
+                        'uses' => 'TransactionStaffController@showOrderLogsTable',
+                        'as' => 'table.order-logs'
+                    ]);
+
+                    Route::post('update', [
+                        'uses' => 'TransactionStaffController@updateOrderLogs',
+                        'as' => 'update.order-logs'
+                    ]);
+
+                    Route::get('{id}/delete', [
+                        'uses' => 'TransactionStaffController@deleteOrderLogs',
+                        'as' => 'delete.order-logs'
+                    ]);
+
+                });
+
+                Route::group(['prefix' => 'outcomes'], function () {
+
+                    Route::get('/', [
+                        'uses' => 'TransactionStaffController@showOutcomesTable',
+                        'as' => 'table.outcomes'
+                    ]);
+
+                    Route::post('update', [
+                        'uses' => 'TransactionStaffController@updateOutcomes',
+                        'as' => 'update.outcomes'
+                    ]);
+
+                    Route::get('{id}/delete', [
+                        'uses' => 'TransactionStaffController@deleteOutcomes',
+                        'as' => 'delete.outcomes'
+                    ]);
+
+                });
+
+                Route::group(['prefix' => 'schedules'], function () {
+
+                    Route::get('/', [
+                        'uses' => 'TransactionStaffController@showSchedulesTable',
+                        'as' => 'table.schedules'
+                    ]);
+
+                    Route::post('create', [
+                        'uses' => 'TransactionStaffController@createSchedules',
+                        'as' => 'create.schedules'
+                    ]);
+
+                    Route::put('update', [
+                        'uses' => 'TransactionStaffController@updateSchedules',
+                        'as' => 'update.schedules'
+                    ]);
+
+                    Route::get('{id}/delete', [
+                        'uses' => 'TransactionStaffController@deleteSchedules',
+                        'as' => 'delete.schedules'
                     ]);
 
                 });

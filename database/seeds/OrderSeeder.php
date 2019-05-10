@@ -24,21 +24,23 @@ class OrderSeeder extends Seeder
         $faker = Factory::create('id');
 
         $x = 1;
-        for ($c = 1; $c <= 30; $c++) {
-            $layanan = layanan::where('id', rand(1, 35))->first();
-
+        $y = 1;
+        foreach (layanan::take(30)->get() as $layanan) {
             $order = Pemesanan::create([
                 'user_id' => rand(User::min('id'), User::max('id')),
                 'layanan_id' => $layanan->id,
                 'studio_id' => $layanan->isStudio == true ? rand(Studio::min('id'), Studio::max('id')) : null,
                 'payment_id' => rand(PaymentMethod::min('id'), PaymentMethod::max('id')),
                 'judul' => ucwords($faker->words(rand(1, 3), true)),
-                'start' => '2019-06-' . str_pad($c, 2, 0, STR_PAD_LEFT) . ' ' . now()->format('H:i:s'),
-                'end' => rand(0, 1) ? null : '2019-06-' . str_pad($x++, 2, 0, STR_PAD_LEFT) . ' ' . now()->addHours(rand(1, 5))->format('H:i:s'),
+                'start' => '2019-06-' . str_pad($x++, 2, 0, STR_PAD_LEFT) . ' ' .
+                    now()->format('H:i:s'),
+                'end' => rand(0, 1) ? null : '2019-06-' . str_pad($y++, 2, 0, STR_PAD_LEFT)
+                    . ' ' . now()->addHours(rand(1, 5))->format('H:i:s'),
                 'deskripsi' => $faker->paragraph,
                 'qty' => $layanan->isQty == true ? $layanan->qty : null,
-                'hours' => $layanan->isHours == true ? $layanan->qty : null,
+                'hours' => $layanan->isHours == true ? $layanan->hours : null,
                 'total_payment' => $layanan->harga,
+                'payment_type' => 'FP',
                 'payment_proof' => $faker->imageUrl(),
                 'date_payment' => now()->format('Y-m-d'),
                 'status_payment' => 2,
@@ -70,12 +72,14 @@ class OrderSeeder extends Seeder
             ]);
         }
 
-        $y = 1;
+        $z = 1;
         for ($c = 1; $c <= 5; $c++) {
             Schedule::create([
                 'judul' => 'Libur',
-                'start' => '2019-07-' . str_pad($c, 2, 0, STR_PAD_LEFT) . ' ' . now()->format('H:i:s'),
-                'end' => '2019-07-' . str_pad($y++, 2, 0, STR_PAD_LEFT) . ' ' . now()->addHours(rand(1, 5))->format('H:i:s'),
+                'start' => '2019-07-' . str_pad($c, 2, 0, STR_PAD_LEFT) . ' ' .
+                    now()->format('H:i:s'),
+                'end' => '2019-07-' . str_pad($z++, 2, 0, STR_PAD_LEFT) . ' ' .
+                    now()->addHours(rand(1, 5))->format('H:i:s'),
                 'deskripsi' => $faker->paragraph,
                 'isDayOff' => true
             ]);

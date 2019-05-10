@@ -164,28 +164,43 @@
                     {
                         text: '<i class="far fa-clipboard mr-2"></i>Copy',
                         extend: 'copy',
+                        exportOptions: {
+                            columns: [0, 1, 2]
+                        },
                         className: 'btn btn-primary assets-export-btn export-copy ttip'
                     }, {
                         text: '<i class="fa fa-file-csv mr-2"></i>CSV',
                         extend: 'csv',
+                        exportOptions: {
+                            columns: [0, 1, 2]
+                        },
                         className: 'btn btn-primary assets-export-btn export-csv ttip',
                         title: export_filename,
                         extension: '.csv'
                     }, {
                         text: '<i class="far fa-file-excel mr-2"></i>Excel',
                         extend: 'excel',
+                        exportOptions: {
+                            columns: [0, 1, 2]
+                        },
                         className: 'btn btn-primary assets-export-btn export-xls ttip',
                         title: export_filename,
                         extension: '.xls'
                     }, {
                         text: '<i class="far fa-file-pdf mr-2"></i>PDF',
                         extend: 'pdf',
+                        exportOptions: {
+                            columns: [0, 1, 2]
+                        },
                         className: 'btn btn-primary assets-export-btn export-pdf ttip',
                         title: export_filename,
                         extension: '.pdf'
                     }, {
                         text: '<i class="fa fa-print mr-2"></i>Print',
                         extend: 'print',
+                        exportOptions: {
+                            columns: [0, 1, 2]
+                        },
                         className: 'btn btn-primary assets-select-btn export-print'
                     }
                 ],
