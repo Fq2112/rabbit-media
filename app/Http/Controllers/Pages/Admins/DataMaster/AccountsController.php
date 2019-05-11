@@ -60,7 +60,7 @@ class AccountsController extends Controller
         ]);
         if ($request->hasFile('ava')) {
             $name = $request->file('ava')->getClientOriginalName();
-            if ($admin->ava != '' || $admin->ava != 'avatar.png') {
+            if ($admin->ava != '') {
                 Storage::delete('public/admins/ava/' . $admin->ava);
             }
             $request->file('ava')->storeAs('public/admins/ava', $name);
@@ -100,12 +100,26 @@ class AccountsController extends Controller
     public function deleteAdmins($id)
     {
         $admin = Admin::find(decrypt($id));
-        if ($admin->ava != '' || $admin->ava != 'avatar.png') {
+        if ($admin->ava != '') {
             Storage::delete('public/admins/ava/' . $admin->ava);
         }
         $admin->forceDelete();
 
         return back()->with('success', '' . $admin->name . ' is successfully deleted!');
+    }
+
+    public function massDeleteAdmins(Request $request)
+    {
+        $admins = Admin::whereIn('id', explode(",", $request->admin_ids))->get();
+        foreach ($admins as $admin) {
+            if ($admin->ava != '') {
+                Storage::delete('public/admins/ava/' . $admin->ava);
+            }
+            $admin->forceDelete();
+        }
+        $message = count($admins) > 1 ? count($admins) . ' admin accounts are ' : count($admins) . ' admin account is ';
+
+        return back()->with('success', $message . 'successfully deleted!');
     }
 
     public function showUsersTable()
@@ -124,5 +138,19 @@ class AccountsController extends Controller
         $user->forceDelete();
 
         return back()->with('success', '' . $user->name . ' is successfully deleted!');
+    }
+
+    public function massDeleteUsers(Request $request)
+    {
+        $users = User::whereIn('id', explode(",", $request->user_ids))->get();
+        foreach ($users as $user) {
+            if ($user->ava != '') {
+                Storage::delete('public/users/ava/' . $user->ava);
+            }
+            $user->forceDelete();
+        }
+        $message = count($users) > 1 ? count($users) . ' user accounts are ' : count($users) . ' user account is ';
+
+        return back()->with('success', $message . 'successfully deleted!');
     }
 }

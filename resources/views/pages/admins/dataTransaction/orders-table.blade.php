@@ -30,16 +30,14 @@
                                     <tr>
                                         <th class="text-center">
                                             <div class="custom-checkbox custom-control">
-                                                <input type="checkbox" class="custom-control-input" id="checkbox-all"
-                                                       data-checkboxes="mygroup" data-checkbox-role="dad">
-                                                <label for="checkbox-all" class="custom-control-label">&nbsp;</label>
+                                                <input type="checkbox" class="custom-control-input" id="cb-all">
+                                                <label for="cb-all" class="custom-control-label">#</label>
                                             </div>
                                         </th>
-                                        <th class="text-center">#</th>
                                         <th class="text-center">ID</th>
                                         <th>Details</th>
                                         <th class="text-center">Status</th>
-                                        <th class="text-center">Status</th>
+                                        <th>Action</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -56,17 +54,15 @@
                                             \App\Support\RomanConverter::numberToRoman($date->format('m'));
                                             $invoice = 'INV/'.$date->format('Ymd').'/'.$romanDate.'/'.$row->id;
                                         @endphp
-                                        <tr id="tr-{{$row->id}}">
-                                            <td align="center">
+                                        <tr>
+                                            <td style="vertical-align: middle" align="center">
                                                 <div class="custom-checkbox custom-control">
-                                                    <input type="checkbox" data-checkboxes="mygroup"
-                                                           data-id="{{$row->id}}" class="custom-control-input"
-                                                           id="checkbox-{{$row->id}}">
-                                                    <label for="checkbox-{{$row->id}}" class="custom-control-label">
-                                                    </label>
+                                                    <input type="checkbox" id="cb-{{$row->id}}"
+                                                           class="custom-control-input dt-checkboxes">
+                                                    <label for="cb-{{$row->id}}"
+                                                           class="custom-control-label">{{$no++}}</label>
                                                 </div>
                                             </td>
-                                            <td style="vertical-align: middle" align="center">{{$no++}}</td>
                                             <td style="vertical-align: middle" align="center">{{$row->id}}</td>
                                             <td style="vertical-align: middle">
                                                 <a href="{{route('invoice.order',['id'=>encrypt($row->id)])}}">
@@ -164,16 +160,48 @@
                                                 @endif
                                             </td>
                                             <td style="vertical-align: middle;" align="center">
-                                                <img src="{{$row->status_payment >= 1 ? asset('images/stamp_paid.png') :
-                                                asset('images/stamp_unpaid.png')}}" class="img-fluid" width="200">
-                                            </td>
-                                            <td style="vertical-align: middle;text-transform: uppercase" align="center">
-                                                @if($row->status_payment == 0)
-                                                    <span class="badge badge-danger"><strong>unpaid</strong></span>
-                                                @elseif($row->status_payment == 1)
-                                                    <span class="badge badge-warning"><strong>dp 30%</strong></span>
+                                                @if($row->isAccept == false)
+                                                    <span class="badge badge-primary">
+                                                        <strong>Waiting for Confirmation</strong></span>
                                                 @else
-                                                    <span class="badge badge-primary"><strong>paid</strong></span>
+                                                    @if($row->status_payment == 0)
+                                                        <span class="badge badge-danger">
+                                                            <strong>Waiting for Payment</strong></span>
+                                                    @elseif($row->status_payment == 1)
+                                                        <span class="badge badge-warning"><strong>DP 30%</strong></span>
+                                                    @else
+                                                        <span class="badge badge-success"><strong>Fully Paid</strong></span>
+                                                    @endif
+                                                @endif
+                                            </td>
+                                            <td style="vertical-align: middle" align="center">
+                                                @if(Auth::guard('admin')->user()->isRoot())
+                                                    <div class="btn-group">
+                                                        <button type="button" class="btn btn-primary"
+                                                                onclick="">
+                                                            <strong><i class="fa fa-user-edit mr-2"></i>EDIT</strong>
+                                                        </button>
+                                                        <button id="option" type="button"
+                                                                class="btn btn-primary dropdown-toggle"
+                                                                data-toggle="dropdown" aria-haspopup="true"
+                                                                aria-expanded="false"></button>
+                                                        <div class="dropdown-menu" aria-labelledby="option">
+                                                            <a class="dropdown-item" href="javascript:void(0)"
+                                                               onclick="">
+                                                                <i class="fas fa-info-circle mr-2"></i>Details</a>
+                                                            <a class="dropdown-item" href="javascript:void(0)"
+                                                               onclick="">
+                                                                <i class="fa fa-user-cog mr-2"></i>Settings</a>
+                                                            <a class="dropdown-item delete-data"
+                                                               href="{{route('delete.orders',['id'=> encrypt($row->id)])}}">
+                                                                <i class="fa fa-trash-alt mr-2"></i>Delete</a>
+                                                        </div>
+                                                    </div>
+                                                @else
+                                                    <button class="btn btn-info" data-toggle="tooltip" title="Details"
+                                                            data-placement="left" onclick="">
+                                                        <i class="fas fa-info-circle"></i>
+                                                    </button>
                                                 @endif
                                             </td>
                                         </tr>
@@ -211,20 +239,33 @@
                 dom: "<'row'<'col-sm-12 col-md-3'l><'col-sm-12 col-md-5'B><'col-sm-12 col-md-4'f>>" +
                     "<'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
                 columnDefs: [
-                    {sortable: false, targets: [0, 4]},
-                    {targets: [1, 2, 5], visible: false, searchable: false}
+                    {"sortable": false, "targets": 4},
+                    {targets: 1, visible: false, searchable: false}
                 ],
                 buttons: [
                     {
-                        text: '<strong class="text-uppercase"><i class="fa fa-print mr-2"></i>Prints</strong>',
+                        text: '<strong class="text-uppercase"><i class="far fa-clipboard mr-2"></i>Copy</strong>',
+                        extend: 'copy',
+                        exportOptions: {
+                            columns: [0, 2, 3]
+                        },
+                        className: 'btn btn-warning assets-export-btn export-copy ttip'
+                    }, {
+                        text: '<strong class="text-uppercase"><i class="far fa-file-excel mr-2"></i>Excel</strong>',
+                        extend: 'excel',
+                        exportOptions: {
+                            columns: [0, 2, 3]
+                        },
+                        className: 'btn btn-success assets-export-btn export-xls ttip',
+                        title: export_filename,
+                        extension: '.xls'
+                    }, {
+                        text: '<strong class="text-uppercase"><i class="fa fa-print mr-2"></i>Print</strong>',
                         extend: 'print',
                         exportOptions: {
-                            columns: [1, 3, 5]
+                            columns: [0, 2, 3]
                         },
                         className: 'btn btn-info assets-select-btn export-print'
-                    }, {
-                        text: '<strong class="text-uppercase"><i class="fa fa-check-circle mr-2"></i>Confirms</strong>',
-                        className: 'btn btn-primary btn_massUpdate'
                     }, {
                         text: '<strong class="text-uppercase"><i class="fa fa-trash-alt mr-2"></i>Deletes</strong>',
                         className: 'btn btn-danger btn_massDelete'
@@ -233,110 +274,68 @@
                 fnDrawCallback: function (oSettings) {
                     $('.use-nicescroll').getNiceScroll().resize();
                     $('[data-toggle="tooltip"]').tooltip();
+
+                    $("#cb-all").on('click', function () {
+                        if ($(this).is(":checked")) {
+                            $("#dt-buttons tbody tr").addClass("terpilih")
+                                .find('.dt-checkboxes').prop("checked", true).trigger('change');
+                        } else {
+                            $("#dt-buttons tbody tr").removeClass("terpilih")
+                                .find('.dt-checkboxes').prop("checked", false).trigger('change');
+                        }
+                    });
+
+                    $("#dt-buttons tbody tr").on("click", function () {
+                        $(this).toggleClass("terpilih");
+                        if ($(this).hasClass('terpilih')) {
+                            $(this).find('.dt-checkboxes').prop("checked", true).trigger('change');
+                        } else {
+                            $(this).find('.dt-checkboxes').prop("checked", false).trigger('change');
+                        }
+                    });
+
+                    $('.dt-checkboxes').on('click', function () {
+                        if ($(this).is(':checked')) {
+                            $(this).parent().parent().parent().addClass("terpilih");
+                        } else {
+                            $(this).parent().parent().parent().removeClass("terpilih");
+                        }
+                    });
+
+                    $('.btn_massDelete').on("click", function () {
+                        var ids = $.map(table.rows('.terpilih').data(), function (item) {
+                            return item[1]
+                        });
+                        $("#form-order input[name=order_ids]").val(ids);
+                        $("#form-order").attr("action", "{{route('massDelete.orders')}}");
+
+                        if (ids.length > 0) {
+                            swal({
+                                title: 'Delete Orders',
+                                text: 'Are you sure to delete this ' + ids.length + ' selected record(s)? ' +
+                                    'You won\'t be able to revert this!',
+                                icon: 'warning',
+                                dangerMode: true,
+                                buttons: ["No", "Yes"],
+                                closeOnEsc: false,
+                                closeOnClickOutside: false,
+                            }).then((confirm) => {
+                                if (confirm) {
+                                    swal({icon: "success", buttons: false});
+                                    $("#form-order")[0].submit();
+                                }
+                            });
+                        } else {
+                            $("#cb-all").prop("checked", false).trigger('change');
+                            swal("Error!", "There's no any selected record!", "error");
+                        }
+                    });
                 },
             });
 
             @if($find != "")
             $(".dataTables_filter input[type=search]").val('{{$find}}').trigger('keyup');
             @endif
-
-            $('.btn_massUpdate').on("click", function () {
-                var ids = $.map(table.rows('.terpilih').data(), function (item) {
-                    return item[2]
-                });
-                $("#order_ids").val(ids);
-                $("#form-order").attr("action", "{{route('massUpdate.orders')}}");
-
-                if (ids.length > 0) {
-                    swal({
-                        title: 'Confirm Orders',
-                        text: 'Are you sure to confirm this ' + ids.length + ' selected records? ' +
-                            'You won\'t be able to revert this!',
-                        icon: 'warning',
-                        dangerMode: true,
-                        buttons: ["No", "Yes"],
-                        closeOnEsc: false,
-                        closeOnClickOutside: false,
-                    }).then((confirm) => {
-                        if (confirm) {
-                            swal({icon: "success", buttons: false});
-                            $("#form-order")[0].submit();
-                        }
-                    });
-
-                } else {
-                    swal("Error!", "There's no any selected record!", "error");
-                }
-            });
-
-            $('.btn_massDelete').on("click", function () {
-                var ids = $.map(table.rows('.terpilih').data(), function (item) {
-                    return item[2]
-                });
-                $("#order_ids").val(ids);
-                $("#form-order").attr("action", "{{route('massDelete.orders')}}");
-
-                if (ids.length > 0) {
-                    swal({
-                        title: 'Delete Orders',
-                        text: 'Are you sure to delete this ' + ids.length + ' selected records? ' +
-                            'You won\'t be able to revert this!',
-                        icon: 'warning',
-                        dangerMode: true,
-                        buttons: ["No", "Yes"],
-                        closeOnEsc: false,
-                        closeOnClickOutside: false,
-                    }).then((confirm) => {
-                        if (confirm) {
-                            swal({icon: "success", buttons: false});
-                            $("#form-order")[0].submit();
-                        }
-                    });
-                } else {
-                    swal("Error!", "There's no any selected record!", "error");
-                }
-            });
-        });
-
-        $("[data-checkboxes]").each(function () {
-            var me = $(this),
-                group = me.data('checkboxes'),
-                role = me.data('checkbox-role');
-
-            me.change(function () {
-                var all = $('[data-checkboxes="' + group + '"]:not([data-checkbox-role="dad"])'),
-                    checked = $('[data-checkboxes="' + group + '"]:not([data-checkbox-role="dad"]):checked'),
-                    dad = $('[data-checkboxes="' + group + '"][data-checkbox-role="dad"]'),
-                    total = all.length,
-                    checked_length = checked.length;
-
-                if (role == 'dad') {
-                    if (me.is(':checked')) {
-                        all.prop('checked', true);
-                        $("#dt-buttons tbody tr").addClass("terpilih");
-                    } else {
-                        all.prop('checked', false);
-                        $("#dt-buttons tbody tr").removeClass("terpilih");
-                    }
-                } else {
-                    if (checked_length >= total) {
-                        dad.prop('checked', true);
-                        $("#dt-buttons tbody tr").addClass("terpilih");
-                    } else {
-                        dad.prop('checked', false);
-                        $("#dt-buttons tbody tr").removeClass("terpilih");
-                    }
-                }
-
-                all.on('click', function () {
-                    var id = $(this).data('id');
-                    if ($(this).is(':checked')) {
-                        $("#tr-" + id).addClass('terpilih');
-                    } else {
-                        $("#tr-" + id).removeClass('terpilih');
-                    }
-                });
-            });
         });
 
         function paymentProofModal(asset) {

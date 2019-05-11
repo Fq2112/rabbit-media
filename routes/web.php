@@ -126,6 +126,11 @@ Route::group(['namespace' => 'Pages\Admins', 'prefix' => 'admin', 'middleware' =
                         'as' => 'delete.admins'
                     ]);
 
+                    Route::post('deletes', [
+                        'uses' => 'AccountsController@massDeleteAdmins',
+                        'as' => 'massDelete.admins'
+                    ]);
+
                 });
 
                 Route::group(['prefix' => 'users'], function () {
@@ -138,6 +143,11 @@ Route::group(['namespace' => 'Pages\Admins', 'prefix' => 'admin', 'middleware' =
                     Route::get('{id}/delete', [
                         'uses' => 'AccountsController@deleteUsers',
                         'as' => 'delete.users'
+                    ]);
+
+                    Route::post('deletes', [
+                        'uses' => 'AccountsController@massDeleteUsers',
+                        'as' => 'massDelete.users'
                     ]);
 
                 });
@@ -443,9 +453,9 @@ Route::group(['namespace' => 'Pages\Admins', 'prefix' => 'admin', 'middleware' =
                         'as' => 'table.feedback'
                     ]);
 
-                    Route::get('{id}/delete', [
-                        'uses' => 'TransactionClientController@deleteFeedback',
-                        'as' => 'delete.feedback'
+                    Route::post('deletes', [
+                        'uses' => 'TransactionClientController@massDeleteFeedback',
+                        'as' => 'massDelete.feedback'
                     ]);
 
                 });
@@ -462,7 +472,12 @@ Route::group(['namespace' => 'Pages\Admins', 'prefix' => 'admin', 'middleware' =
                         'as' => 'massUpdate.orders'
                     ]);
 
-                    Route::post('delete', [
+                    Route::post('{id}/delete', [
+                        'uses' => 'TransactionClientController@deleteOrders',
+                        'as' => 'delete.orders'
+                    ]);
+
+                    Route::post('deletes', [
                         'uses' => 'TransactionClientController@massDeleteOrders',
                         'as' => 'massDelete.orders'
                     ]);

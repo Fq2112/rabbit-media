@@ -16,12 +16,15 @@ class TransactionClientController extends Controller
         return view('pages.admins.dataTransaction.feedback-table', compact('feedback'));
     }
 
-    public function deleteFeedback($id)
+    public function massDeleteFeedback(Request $request)
     {
-        $feedback = Feedback::find(decrypt($id));
-        $feedback->delete();
+        $feedback = Feedback::whereIn('id', explode(",", $request->feedback_ids))->get();
+        foreach ($feedback as $row) {
+            $row->delete();
+        }
+        $message = count($feedback) > 1 ? count($feedback) . ' feedback are ' : count($feedback) . ' feedback is ';
 
-        return back()->with('success', 'Feedback from ' . $feedback->getUser->name . ' is successfully deleted!');
+        return back()->with('success', $message . 'successfully deleted!');
     }
 
     public function showOrdersTable(Request $request)
@@ -35,5 +38,46 @@ class TransactionClientController extends Controller
         }
 
         return view('pages.admins.dataTransaction.orders-table', compact('orders', 'find'));
+    }
+
+    public function updateOrders(Request $request)
+    {
+        $order = Pemesanan::find($request->id);
+        if ($request->isPaid == 1) {
+            $order->update([
+                'isPaid' => true,
+                'date_payment' => now(),
+                'admin_id' => Auth::guard('admin')->id()
+            ]);
+
+        } elseif ($request->isPaid == 0) {
+            $order->update([
+                'isPaid' => false,
+                'date_payment' => null,
+                'admin_id' => Auth::guard('admin')->id()
+            ]);
+
+            if ($request->isAbort == 1) {
+                $order->update(['isAbort' => true]);
+            }
+        }
+
+        if ($request->isPaid == 1 || $request->isAbort == 1) {
+            $this->orderMail($order);
+        }
+
+        return back()->with('success', '' . $request->invoice . ' is successfully updated!');
+    }
+
+    public function massDeleteOrders(Request $request)
+    {
+        $orders = Pemesanan::whereIn('id', explode(",", $request->order_ids))->get();
+
+        foreach ($orders as $order) {
+            $order->delete();
+        }
+        $message = count($orders) > 1 ? count($orders) . ' orders are ' : count($orders) . ' order is ';
+
+        return back()->with('success', $message . 'successfully deleted!');
     }
 }
