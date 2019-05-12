@@ -39,6 +39,7 @@
                                         <th class="text-center">Rating</th>
                                         <th class="text-center">Created at</th>
                                         <th class="text-center">Last Update</th>
+                                        <th class="text-center">Action</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -70,6 +71,11 @@
                                                 {{\Carbon\Carbon::parse($row->created_at)->format('j F Y')}}</td>
                                             <td style="vertical-align: middle"
                                                 align="center">{{$row->updated_at->diffForHumans()}}</td>
+                                            <td style="vertical-align: middle" align="center">
+                                                <a href="{{route('delete.feedback', ['id' => encrypt($row->id)])}}"
+                                                   class="btn btn-danger delete-data" data-toggle="tooltip"
+                                                   title="Delete"><i class="fas fa-trash-alt"></i></a>
+                                            </td>
                                         </tr>
                                     @endforeach
                                     </tbody>
@@ -98,6 +104,7 @@
                 dom: "<'row'<'col-sm-12 col-md-3'l><'col-sm-12 col-md-5'B><'col-sm-12 col-md-4'f>>" +
                     "<'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
                 columnDefs: [
+                    {sortable: false, targets: 6},
                     {targets: 1, visible: false, searchable: false}
                 ],
                 buttons: [

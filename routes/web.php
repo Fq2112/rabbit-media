@@ -508,6 +508,11 @@ Route::group(['namespace' => 'Pages\Admins', 'prefix' => 'admin', 'middleware' =
                         'as' => 'table.feedback'
                     ]);
 
+                    Route::get('{id}/delete', [
+                        'uses' => 'TransactionClientController@deleteFeedback',
+                        'as' => 'delete.feedback'
+                    ]);
+
                     Route::post('deletes', [
                         'uses' => 'TransactionClientController@massDeleteFeedback',
                         'as' => 'massDelete.feedback'
@@ -527,7 +532,7 @@ Route::group(['namespace' => 'Pages\Admins', 'prefix' => 'admin', 'middleware' =
                         'as' => 'massUpdate.orders'
                     ]);
 
-                    Route::post('{id}/delete', [
+                    Route::get('{id}/delete', [
                         'uses' => 'TransactionClientController@deleteOrders',
                         'as' => 'delete.orders'
                     ]);

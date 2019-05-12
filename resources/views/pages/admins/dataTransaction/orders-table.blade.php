@@ -65,98 +65,123 @@
                                             </td>
                                             <td style="vertical-align: middle" align="center">{{$row->id}}</td>
                                             <td style="vertical-align: middle">
-                                                <a href="{{route('invoice.order',['id'=>encrypt($row->id)])}}">
-                                                    <img class="img-fluid float-left mr-2" alt="icon" width="80"
-                                                         src="{{asset('images/services/'.$plan->getJenisLayanan->icon)}}">
-                                                    <strong>#{{$invoice}}</strong></a><br>
-                                                <h6>{{$plan->paket}} (Rp{{number_format($price, 2,'.',',')}})</h6>
-                                                <strong>{{$user->name}}</strong> / <a href="mailto:{{$user->email}}">
-                                                    {{$user->email}}</a> / <a href="tel:{{$user->no_telp}}">
-                                                    {{$user->no_telp}}</a>
-                                                <hr class="mt-0 mb-1">
-                                                <strong>Order Details</strong>
-                                                <ul class="mb-0">
-                                                    <li>
-                                                        <strong data-toggle="tooltip" data-placement="left"
-                                                                title="Title"><i class="fa fa-text-width mr-1"></i>
-                                                            {{$row->judul}}</strong>
-                                                    </li>
-                                                    <li>
-                                                        <strong data-toggle="tooltip" data-placement="left"
-                                                                title="Booking Date"><i
-                                                                    class="fa fa-calendar-day mr-1"></i>
-                                                            {{$start}}</strong> &ndash; <strong>{{$end}}</strong>
-                                                    </li>
-                                                    @if($plan->isHours == true)
-                                                        <li>
-                                                            <strong data-toggle="tooltip" data-placement="left"
-                                                                    title="Total Duration">
-                                                                <i class="fa fa-stopwatch mr-1"></i>{{$row->hours}}
-                                                            </strong> hours
-                                                        </li>
-                                                    @endif
-                                                    @if($plan->isQty == true)
-                                                        <li>
-                                                            <strong data-toggle="tooltip" data-placement="left"
-                                                                    title="Total Item"><i class="fa fa-users mr-1"></i>
-                                                                {{$row->qty}}</strong> items
-                                                        </li>
-                                                    @endif
-                                                    @if($plan->isStudio == true)
-                                                        <li>
-                                                            <strong data-toggle="tooltip" data-placement="left"
-                                                                    title="Studio"><i class="fa fa-door-open mr-1"></i>
-                                                                {{$row->getStudio->nama}}</strong> ({{$row->getStudio
-                                                            ->getJenisStudio->nama}})
-                                                        </li>
-                                                    @endif
-                                                    <li>
-                                                        <span data-toggle="tooltip" data-placement="left"
-                                                              title="Meeting Location">
-                                                            <i class="fa fa-map-marked-alt mr-1"></i>{{$row
-                                                            ->meeting_location != "" ? $row->meeting_location : '(empty)'}}
-                                                        </span>
-                                                    </li>
-                                                    <li>
-                                                        <span data-toggle="tooltip" data-placement="left"
-                                                              title="Additional Info">
-                                                            <i class="fa fa-comments mr-1"></i>{{$row->deskripsi}}
-                                                        </span>
-                                                    </li>
-                                                </ul>
+                                                <div class="row mb-1" style="border-bottom: 1px solid #eee">
+                                                    <div class="col">
+                                                        <a href="{{route('invoice.order',['id'=>encrypt($row->id)])}}">
+                                                            <img class="img-fluid float-left mr-2" alt="icon"
+                                                                 width="80" src="{{asset('images/services/'.$plan
+                                                                 ->getJenisLayanan->icon)}}">
+                                                            <strong>#{{$invoice}}</strong></a><br>
+                                                        <h6>{{$plan->paket}}:
+                                                            Rp{{number_format($price, 2,'.',',')}}</h6>
+                                                        <strong>{{$user->name}}</strong> / <a
+                                                                href="mailto:{{$user->email}}">
+                                                            {{$user->email}}</a> / <a href="tel:{{$user->no_telp}}">
+                                                            {{$user->no_telp}}</a>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-1" style="border-bottom: {{$row->payment_id != "" ?
+                                                '1px solid #eee' : 'none'}}">
+                                                    <div class="col">
+                                                        <strong>Order Details</strong>
+                                                        <ul class="mb-0">
+                                                            <li>
+                                                                <strong data-toggle="tooltip" data-placement="left"
+                                                                        title="Title">
+                                                                    <i class="fa fa-text-width mr-1"></i>{{$row->judul}}
+                                                                </strong>
+                                                            </li>
+                                                            <li>
+                                                                <strong data-toggle="tooltip" data-placement="left"
+                                                                        title="Booking Date">
+                                                                    <i class="fa fa-calendar-day mr-1"></i>{{$start}}
+                                                                </strong> &ndash; <strong>{{$end}}</strong>
+                                                            </li>
+                                                            @if($plan->isHours == true)
+                                                                <li>
+                                                                    <strong data-toggle="tooltip" data-placement="left"
+                                                                            title="Total Duration">
+                                                                        <i class="fa fa-stopwatch mr-1"></i>{{$row->hours}}
+                                                                    </strong> hours
+                                                                </li>
+                                                            @endif
+                                                            @if($plan->isQty == true)
+                                                                <li>
+                                                                    <strong data-toggle="tooltip" data-placement="left"
+                                                                            title="Total Item">
+                                                                        <i class="fa fa-users mr-1"></i>{{$row->qty}}
+                                                                    </strong> items
+                                                                </li>
+                                                            @endif
+                                                            @if($plan->isStudio == true)
+                                                                <li>
+                                                                    <strong data-toggle="tooltip" data-placement="left"
+                                                                            title="Studio">
+                                                                        <i class="fa fa-door-open mr-1"></i>
+                                                                        {{$row->getStudio->nama}}
+                                                                    </strong>({{$row->getStudio->getJenisStudio->nama}})
+                                                                </li>
+                                                            @endif
+                                                            <li>
+                                                                <span data-toggle="tooltip" data-placement="left"
+                                                                      title="Meeting Location">
+                                                                    <i class="fa fa-map-marked-alt mr-1"></i>
+                                                                    {{$row->meeting_location != "" ?
+                                                                    $row->meeting_location : '(empty)'}}
+                                                                </span>
+                                                            </li>
+                                                            <li>
+                                                                <span data-toggle="tooltip" data-placement="left"
+                                                                      title="Additional Info">
+                                                                    <i class="fa fa-comments mr-1"></i>{{$row->deskripsi}}
+                                                                </span>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
                                                 @if($row->payment_id != "")
-                                                    <hr class="mt-0 mb-1"><strong>Payment Details</strong><br>
-                                                    @if($row->payment_proof != "" &&
-                                                    substr($row->payment_proof,0,18) != 'https://lorempixel')
-                                                        <img class="img-thumbnail float-left mr-2" width="80"
-                                                             src="{{asset('storage/users/payment/'.$row->payment_proof)}}"
-                                                             style="cursor: pointer" onclick="paymentProofModal('{{asset
-                                                             ('storage/users/payment/'.$row->payment_proof)}}')"
-                                                             data-toggle="tooltip" title="Payment Proof" alt="Proof">
-                                                    @elseif($row->payment_proof != "" &&
-                                                    substr($row->payment_proof,0,18) == 'https://lorempixel')
-                                                        <img class="img-thumbnail float-left mr-2" width="80"
-                                                             src="{{$row->payment_proof}}" style="cursor: pointer"
-                                                             onclick="paymentProofModal('{{$row->payment_proof}}')"
-                                                             data-toggle="tooltip" title="Payment Proof" alt="Proof">
-                                                    @else
-                                                        <img class="img-thumbnail float-left mr-2" width="80"
-                                                             alt="Proof" src="{{asset('admins/img/no_image.png')}}">
-                                                    @endif
-                                                    <ul>
-                                                        <li style="list-style: none">
-                                                            <strong data-toggle="tooltip" data-placement="right"
-                                                                    title="Payment Type">
-                                                                <i class="fa fa-handshake mr-1"></i>
-                                                                {{$row->payment_type}}</strong>
-                                                        </li>
-                                                        <li style="list-style: none">
-                                                            <strong data-toggle="tooltip" data-placement="right"
-                                                                    title="Payment Method">
-                                                                <i class="fa fa-wallet mr-1"></i>
-                                                                {{$row->getPayment->name}}</strong>
-                                                        </li>
-                                                    </ul>
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <strong>Payment Details</strong><br>
+                                                            @if($row->payment_proof != "" &&
+                                                            substr($row->payment_proof,0,18) != 'https://lorempixel')
+                                                                <img class="img-thumbnail float-left mr-2" width="80"
+                                                                     src="{{asset('storage/users/payment/'.$row
+                                                                     ->payment_proof)}}" style="cursor: pointer"
+                                                                     alt="Proof" onclick="paymentProofModal('{{asset
+                                                                     ('storage/users/payment/'.$row->payment_proof)}}')"
+                                                                     data-toggle="tooltip" title="Payment Proof">
+                                                            @elseif($row->payment_proof != "" &&
+                                                            substr($row->payment_proof,0,18) == 'https://lorempixel')
+                                                                <img class="img-thumbnail float-left mr-2" width="80"
+                                                                     src="{{$row->payment_proof}}"
+                                                                     style="cursor: pointer"
+                                                                     onclick="paymentProofModal('{{$row->payment_proof}}')"
+                                                                     data-toggle="tooltip" title="Payment Proof"
+                                                                     alt="Proof">
+                                                            @else
+                                                                <img class="img-thumbnail float-left mr-2" width="80"
+                                                                     alt="Proof"
+                                                                     src="{{asset('admins/img/no_image.png')}}">
+                                                            @endif
+                                                            <ul>
+                                                                <li style="list-style: none">
+                                                                    <strong data-toggle="tooltip" data-placement="right"
+                                                                            title="Payment Type">
+                                                                        <i class="fa fa-handshake mr-1"></i>
+                                                                        {{$row->payment_type}}
+                                                                    </strong>
+                                                                </li>
+                                                                <li style="list-style: none">
+                                                                    <strong data-toggle="tooltip" data-placement="right"
+                                                                            title="Payment Method">
+                                                                        <i class="fa fa-wallet mr-1"></i>
+                                                                        {{$row->getPayment->name}}
+                                                                    </strong>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
                                                 @endif
                                             </td>
                                             <td style="vertical-align: middle;" align="center">
@@ -239,7 +264,7 @@
                 dom: "<'row'<'col-sm-12 col-md-3'l><'col-sm-12 col-md-5'B><'col-sm-12 col-md-4'f>>" +
                     "<'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
                 columnDefs: [
-                    {"sortable": false, "targets": 4},
+                    {sortable: false, targets: 4},
                     {targets: 1, visible: false, searchable: false}
                 ],
                 buttons: [

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Pages\Admins\DataTransaction;
 
 use App\Models\Feedback;
 use App\Models\Pemesanan;
+use App\Support\RomanConverter;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -11,9 +12,17 @@ class TransactionClientController extends Controller
 {
     public function showFeedbackTable()
     {
-        $feedback = Feedback::all();
+        $feedback = Feedback::orderByDesc('id')->get();
 
         return view('pages.admins.dataTransaction.feedback-table', compact('feedback'));
+    }
+
+    public function deleteFeedback($id)
+    {
+        $feedback = Feedback::find(decrypt($id));
+        $feedback->delete();
+
+        return back()->with('success', 'Feedback from ' . $feedback->getUser->name . ' is successfully deleted!');
     }
 
     public function massDeleteFeedback(Request $request)
@@ -67,6 +76,17 @@ class TransactionClientController extends Controller
         }
 
         return back()->with('success', '' . $request->invoice . ' is successfully updated!');
+    }
+
+    public function deleteOrders($id)
+    {
+        $order = Pemesanan::find(decrypt($id));
+        $order->delete();
+        $romanDate = RomanConverter::numberToRoman($order->created_at->format('y')) . '/' .
+            RomanConverter::numberToRoman($order->created_at->format('m'));
+        $invoice = 'INV/' . $order->created_at->format('Ymd') . '/' . $romanDate . '/' . $order->id;
+
+        return back()->with('success', $invoice . ' is successfully deleted!');
     }
 
     public function massDeleteOrders(Request $request)
