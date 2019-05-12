@@ -1,32 +1,21 @@
 @extends('layouts.auth.mst_admin')
-@section('title', 'The Rabbits: Portfolio Types Table | Rabbit Media – Digital Creative Service')
+@section('title', 'The Rabbits: Order Revisions Table | Rabbit Media – Digital Creative Service')
 @push('styles')
     <link rel="stylesheet" href="{{asset('admins/modules/datatables/datatables.min.css')}}">
     <link rel="stylesheet"
           href="{{asset('admins/modules/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css')}}">
     <link rel="stylesheet" href="{{asset('admins/modules/datatables/Select-1.2.4/css/select.bootstrap4.min.css')}}">
     <link rel="stylesheet" href="{{asset('admins/modules/datatables/Buttons-1.5.6/css/buttons.dataTables.min.css')}}">
-    <style>
-        .modal-header {
-            padding: 1rem !important;
-            border-bottom: 1px solid #e9ecef !important;
-        }
-
-        .modal-footer {
-            padding: 1rem !important;
-            border-top: 1px solid #e9ecef !important;
-        }
-    </style>
 @endpush
 @section('content')
     <section class="section">
         <div class="section-header">
-            <h1>Portfolio Types Table</h1>
+            <h1>Order Revisions Table</h1>
             <div class="section-header-breadcrumb">
                 <div class="breadcrumb-item active"><a href="{{route('home-admin')}}">Dashboard</a></div>
-                <div class="breadcrumb-item">Data Master</div>
-                <div class="breadcrumb-item"><a href="{{route('show.company.profile')}}">Company Profile</a></div>
-                <div class="breadcrumb-item">Portfolio Types</div>
+                <div class="breadcrumb-item">Data Transaction</div>
+                <div class="breadcrumb-item"><a href="{{route('table.users')}}">Clients</a></div>
+                <div class="breadcrumb-item">Order Revisions</div>
             </div>
         </div>
 
@@ -34,14 +23,6 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card">
-                        <div class="card-header">
-                            <div class="card-header-form">
-                                <button onclick="createPortfolioType()" class="btn btn-primary text-uppercase">
-                                    <strong><i class="fas fa-plus mr-2"></i>Create</strong>
-                                </button>
-                            </div>
-                        </div>
-
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-striped" id="dt-buttons">
@@ -54,57 +35,76 @@
                                             </div>
                                         </th>
                                         <th class="text-center">ID</th>
-                                        <th>Type</th>
+                                        <th>Details</th>
                                         <th class="text-center">Created at</th>
                                         <th class="text-center">Last Update</th>
-                                        <th>Action</th>
+                                        <th class="text-center">Action</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     @php $no = 1; @endphp
-                                    @foreach($types as $type)
+                                    @foreach($revisions as $row)
+                                        @php
+                                            $order = $row->getOrderLog->getPemesanan;
+                                            $user = $order->getUser;
+                                            $plan = $order->getLayanan;
+                                            $price = $plan->harga - ($plan->harga * $plan->diskon/100);
+                                            $start = \Carbon\Carbon::parse($order->start)->format('j F Y');
+                                            $end = \Carbon\Carbon::parse($order->end)->format('j F Y');
+                                            $date = $order->created_at;
+                                            $romanDate = \App\Support\RomanConverter::numberToRoman($date->format('y')).'/'.
+                                            \App\Support\RomanConverter::numberToRoman($date->format('m'));
+                                            $invoice = 'INV/'.$date->format('Ymd').'/'.$romanDate.'/'.$order->id;
+                                        @endphp
                                         <tr>
                                             <td style="vertical-align: middle" align="center">
                                                 <div class="custom-checkbox custom-control">
-                                                    <input type="checkbox" id="cb-{{$type->id}}"
+                                                    <input type="checkbox" id="cb-{{$row->id}}"
                                                            class="custom-control-input dt-checkboxes">
-                                                    <label for="cb-{{$type->id}}"
+                                                    <label for="cb-{{$row->id}}"
                                                            class="custom-control-label">{{$no++}}</label>
                                                 </div>
                                             </td>
-                                            <td style="vertical-align: middle" align="center">{{$type->id}}</td>
-                                            <td style="vertical-align: middle;">
-                                                <div class="row m-0 p-0">
-                                                    <div class="col-1 mt-0 mb-0 ml-0 mr-1 p-0">
-                                                        <i class="{{$type->icon}}"></i>
+                                            <td style="vertical-align: middle" align="center">{{$row->id}}</td>
+                                            <td style="vertical-align: middle">
+                                                <div class="row mb-1" style="border-bottom: 1px solid #eee">
+                                                    <div class="col">
+                                                        <a href="{{route('invoice.order',['id'=>encrypt($order->id)])}}">
+                                                            <img class="img-fluid float-left mr-2" alt="icon"
+                                                                 width="80" src="{{asset('images/services/'.$plan
+                                                                 ->getJenisLayanan->icon)}}">
+                                                            <strong>#{{$invoice}}</strong></a><br>
+                                                        <h6>{{$plan->paket}}:
+                                                            Rp{{number_format($price, 2,'.',',')}}</h6>
+                                                        <strong>{{$user->name}}</strong> / <a
+                                                                href="mailto:{{$user->email}}">
+                                                            {{$user->email}}</a> / <a href="tel:{{$user->no_telp}}">
+                                                            {{$user->no_telp}}</a>
                                                     </div>
-                                                    <div class="col m-0 p-0">
-                                                        <strong>{{ucfirst($type->nama)}}</strong>
+                                                </div>
+                                                <div class="row mb-1" style="border-bottom: 1px solid #eee">
+                                                    <div class="col">
+                                                        <strong>Revision Details</strong>
+                                                        {!! $row->deskripsi !!}
                                                     </div>
                                                 </div>
                                             </td>
                                             <td style="vertical-align: middle" align="center">
-                                                {{\Carbon\Carbon::parse($type->created_at)->format('j F Y')}}</td>
+                                                {{\Carbon\Carbon::parse($row->created_at)->format('j F Y')}}</td>
+                                            <td style="vertical-align: middle"
+                                                align="center">{{$row->updated_at->diffForHumans()}}</td>
                                             <td style="vertical-align: middle" align="center">
-                                                {{$type->updated_at->diffForHumans()}}</td>
-                                            <td style="vertical-align: middle" align="center">
-                                                <button data-placement="left" data-toggle="tooltip" title="Edit"
-                                                        type="button" class="btn btn-warning" onclick="editPortfolioType
-                                                        ('{{$type->id}}','{{$type->icon}}','{{$type->nama}}')">
-                                                    <i class="fa fa-edit"></i></button>
-                                                <hr class="mt-1 mb-1">
-                                                <a href="{{route('delete.portfolio-types',['id'=>encrypt($type->id)])}}"
+                                                <a href="{{route('delete.order-revisions',['id'=>encrypt($row->id)])}}"
                                                    class="btn btn-danger delete-data" data-toggle="tooltip"
-                                                   title="Delete" data-placement="left">
-                                                    <i class="fas fa-trash-alt"></i></a>
+                                                   title="Delete"><i class="fas fa-trash-alt"></i></a>
                                             </td>
                                         </tr>
                                     @endforeach
                                     </tbody>
                                 </table>
-                                <form method="post" id="form-mass">
+                                <form method="post" id="form-revision">
                                     {{csrf_field()}}
-                                    <input type="hidden" name="type_ids">
+                                    <input type="hidden" name="revision_ids">
                                 </form>
                             </div>
                         </div>
@@ -113,59 +113,6 @@
             </div>
         </div>
     </section>
-
-    <div class="modal fade" id="porfolioTypeModal" tabindex="-1" role="dialog" aria-labelledby="porfolioTypeModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Create Form</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form id="form-porfolioType" method="post" action="{{route('create.portfolio-types')}}">
-                    {{csrf_field()}}
-                    <input type="hidden" name="_method">
-                    <input type="hidden" name="id">
-                    <div class="modal-body">
-                        <div class="row form-group">
-                            <div class="col">
-                                <label for="icon">Icon</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fab fa-font-awesome-flag"></i></span>
-                                    </div>
-                                    <input id="icon" type="text" maxlength="191" name="icon" class="form-control"
-                                           placeholder="e.g: fa fa-camera" required>
-                                </div>
-                                <div class="form-text text-muted">
-                                    <a target="_blank" href="https://fontawesome.com/icons?d=gallery&m=free">
-                                        Click here</a> to check the fontawesome galleries!
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <label for="nama">Name</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="fa fa-text-width"></i></span>
-                                    </div>
-                                    <input id="nama" type="text" maxlength="191" name="nama" class="form-control"
-                                           placeholder="Write the portfolio type name here&hellip;" required>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
 @endsection
 @push("scripts")
     <script src="{{asset('admins/modules/datatables/datatables.min.js')}}"></script>
@@ -175,7 +122,7 @@
     <script src="{{asset('admins/modules/jquery-ui/jquery-ui.min.js')}}"></script>
     <script>
         $(function () {
-            var export_filename = 'Portfolio Types Table ({{now()->format('j F Y')}})',
+            var export_filename = 'Order Revisions Table ({{now()->format('j F Y')}})',
                 table = $("#dt-buttons").DataTable({
                     dom: "<'row'<'col-sm-12 col-md-3'l><'col-sm-12 col-md-5'B><'col-sm-12 col-md-4'f>>" +
                         "<'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
@@ -247,12 +194,12 @@
                             var ids = $.map(table.rows('.terpilih').data(), function (item) {
                                 return item[1]
                             });
-                            $("#form-mass input[name=type_ids]").val(ids);
-                            $("#form-mass").attr("action", "{{route('massDelete.portfolio-types')}}");
+                            $("#form-revision input[name=revision_ids]").val(ids);
+                            $("#form-revision").attr("action", "{{route('massDelete.order-revisions')}}");
 
                             if (ids.length > 0) {
                                 swal({
-                                    title: 'Delete Portfolio Types',
+                                    title: 'Delete Order Revisions',
                                     text: 'Are you sure to delete this ' + ids.length + ' selected record(s)? ' +
                                         'You won\'t be able to revert this!',
                                     icon: 'warning',
@@ -263,7 +210,7 @@
                                 }).then((confirm) => {
                                     if (confirm) {
                                         swal({icon: "success", buttons: false});
-                                        $("#form-mass")[0].submit();
+                                        $("#form-revision")[0].submit();
                                     }
                                 });
                             } else {
@@ -274,26 +221,5 @@
                     },
                 });
         });
-
-        function createPortfolioType() {
-            $("#porfolioTypeModal .modal-title").text('Create Form');
-            $("#form-porfolioType").attr('action', '{{route('create.portfolio-types')}}');
-            $("#form-porfolioType input[name=_method]").val('');
-            $("#form-porfolioType input[name=id]").val('');
-            $("#form-porfolioType button[type=submit]").text('Submit');
-            $("#icon, #nama").val('');
-            $("#porfolioTypeModal").modal('show');
-        }
-
-        function editPortfolioType(id, icon, nama) {
-            $("#porfolioTypeModal .modal-title").text('Edit Form');
-            $("#form-porfolioType").attr('action', '{{route('update.portfolio-types')}}');
-            $("#form-porfolioType input[name=_method]").val('PUT');
-            $("#form-porfolioType input[name=id]").val(id);
-            $("#form-porfolioType button[type=submit]").text('Save Changes');
-            $("#icon").val(icon);
-            $("#nama").val(nama);
-            $("#porfolioTypeModal").modal('show');
-        }
     </script>
 @endpush

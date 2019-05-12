@@ -6,6 +6,7 @@ use App\Events\Clients\PaymentDetails;
 use App\Http\Controllers\Pages\Client\OrderController as OrderMail;
 use App\Mail\Clients\ConfirmOrderEmail;
 use App\Models\Feedback;
+use App\Models\OrderRevision;
 use App\Models\Pemesanan;
 use App\Support\RomanConverter;
 use Illuminate\Http\Request;
@@ -115,6 +116,38 @@ class TransactionClientController extends Controller
             $order->delete();
         }
         $message = count($orders) > 1 ? count($orders) . ' orders are ' : count($orders) . ' order is ';
+
+        return back()->with('success', $message . 'successfully deleted!');
+    }
+
+    public function showOrderRevisionsTable()
+    {
+        $revisions = OrderRevision::orderByDesc('id')->get();
+
+        return view('pages.admins.dataTransaction.orderRevisions-table', compact('revisions'));
+    }
+
+    public function deleteOrderRevisions($id)
+    {
+        $revision = OrderRevision::find(decrypt($id));
+        $romanDate = RomanConverter::numberToRoman($revision->getOrderLog->getPemesanan->created_at->format('y')) .
+            '/' . RomanConverter::numberToRoman($revision->getOrderLog->getPemesanan->created_at->format('m'));
+        $invoice = 'INV/' . $revision->getOrderLog->getPemesanan->created_at->format('Ymd') . '/' . $romanDate . '/' .
+            $revision->getOrderLog->getPemesanan->id;
+
+        $revision->delete();
+
+        return back()->with('success', 'Order revision ' . $invoice . ' is successfully deleted!');
+    }
+
+    public function massDeleteOrderRevisions(Request $request)
+    {
+        $revisions = OrderRevision::whereIn('id', explode(",", $request->revision_ids))->get();
+        foreach ($revisions as $row) {
+            $row->delete();
+        }
+        $message = count($revisions) > 1 ? count($revisions) . ' order revisions are ' :
+            count($revisions) . ' order revision is ';
 
         return back()->with('success', $message . 'successfully deleted!');
     }

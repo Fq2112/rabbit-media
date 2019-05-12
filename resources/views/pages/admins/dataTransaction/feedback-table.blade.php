@@ -14,7 +14,7 @@
             <div class="section-header-breadcrumb">
                 <div class="breadcrumb-item active"><a href="{{route('home-admin')}}">Dashboard</a></div>
                 <div class="breadcrumb-item">Data Transaction</div>
-                <div class="breadcrumb-item">Clients</div>
+                <div class="breadcrumb-item"><a href="{{route('table.users')}}">Clients</a></div>
                 <div class="breadcrumb-item">Feedback</div>
             </div>
         </div>

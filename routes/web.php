@@ -551,6 +551,11 @@ Route::group(['namespace' => 'Pages\Admins', 'prefix' => 'admin', 'middleware' =
                         'as' => 'table.order-revisions'
                     ]);
 
+                    Route::post('deletes', [
+                        'uses' => 'TransactionClientController@massDeleteOrderRevisions',
+                        'as' => 'massDelete.order-revisions'
+                    ]);
+
                     Route::get('{id}/delete', [
                         'uses' => 'TransactionClientController@deleteOrderRevisions',
                         'as' => 'delete.order-revisions'

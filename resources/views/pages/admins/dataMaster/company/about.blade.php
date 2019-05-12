@@ -11,7 +11,6 @@
                 <div class="breadcrumb-item active"><a href="{{route('home-admin')}}">Dashboard</a></div>
                 <div class="breadcrumb-item">Data Master</div>
                 <div class="breadcrumb-item">Company Profile</div>
-                <div class="breadcrumb-item">About</div>
             </div>
         </div>
 
