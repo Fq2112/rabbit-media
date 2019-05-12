@@ -81,8 +81,10 @@ class OrderController extends Controller
         $req_id = $request->id;
         $req_invoice = $request->invoice;
         $findOrder = $req_id != null ? Pemesanan::find(decrypt($req_id)) : '';
+        $status = $request->status;
 
-        return view('pages.clients.dashboard', compact('user', 'req_id', 'req_invoice', 'findOrder'));
+        return view('pages.clients.dashboard', compact('user', 'req_id', 'req_invoice',
+            'findOrder', 'status'));
     }
 
     public function getOrderStatus(Request $request)
@@ -178,7 +180,7 @@ class OrderController extends Controller
             'invoice' => '#INV/' . $date->format('Ymd') . '/' . $romanDate . '/' . $order->id));
     }
 
-    private function paymentDetailsMail($id)
+    public function paymentDetailsMail($id)
     {
         $order = Pemesanan::find($id);
         $pm = $order->payment_id != null ? $order->getPayment : null;

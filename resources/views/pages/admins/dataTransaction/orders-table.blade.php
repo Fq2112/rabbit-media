@@ -6,6 +6,40 @@
           href="{{asset('admins/modules/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css')}}">
     <link rel="stylesheet" href="{{asset('admins/modules/datatables/Select-1.2.4/css/select.bootstrap4.min.css')}}">
     <link rel="stylesheet" href="{{asset('admins/modules/datatables/Buttons-1.5.6/css/buttons.dataTables.min.css')}}">
+    <style>
+        .swal-button--dp {
+            background-color: #eec60a;
+            font-size: 12px;
+            border: 1px solid #cdac0a;
+            color: #212529;
+            text-shadow: 0 -1px 0 rgba(255, 255, 255, 0.3);
+            box-shadow: 0 2px 6px #ffd30b;
+        }
+
+        .swal-button--dp:focus {
+            opacity: 0.8;
+        }
+
+        .swal-button--dp:active {
+            background-color: #af8e0a;
+        }
+
+        .swal-button--fp {
+            background-color: #35C189;
+            font-size: 12px;
+            border: 1px solid #2da575;
+            text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3);
+            box-shadow: 0 2px 6px #46ffb6;
+        }
+
+        .swal-button--fp:focus {
+            opacity: 0.8;
+        }
+
+        .swal-button--fp:active {
+            background-color: #238761;
+        }
+    </style>
 @endpush
 @section('content')
     <section class="section">
@@ -185,48 +219,123 @@
                                                 @endif
                                             </td>
                                             <td style="vertical-align: middle;" align="center">
-                                                @if($row->isAccept == false)
-                                                    <span class="badge badge-primary">
-                                                        <strong>Waiting for Confirmation</strong></span>
+                                                @if(now() >= \Carbon\Carbon::parse($row['start'])->subDays(2) &&
+                                                $row->status_payment == 0)
+                                                    <span class="badge badge-dark"><strong>EXPIRED</strong></span>
                                                 @else
-                                                    @if($row->status_payment == 0)
-                                                        <span class="badge badge-danger">
-                                                            <strong>Waiting for Payment</strong></span>
-                                                    @elseif($row->status_payment == 1)
-                                                        <span class="badge badge-warning"><strong>DP 30%</strong></span>
+                                                    @if($row->isAccept == false && $row->isReject == false)
+                                                        <span class="badge badge-primary">
+                                                        <strong>Waiting for Confirmation</strong></span>
+                                                    @elseif($row->isAccept == false && $row->isReject == true)
+                                                        <span class="badge badge-danger"><strong>REJECTED</strong></span>
                                                     @else
-                                                        <span class="badge badge-success"><strong>Fully Paid</strong></span>
+                                                        @if($row->status_payment == 0 &&
+                                                        $row->payment_id != "" && $row->payment_proof != "")
+                                                            <span class="badge badge-secondary">
+                                                            <strong>Waiting for Verification</strong></span>
+                                                        @elseif($row->status_payment == 0 &&
+                                                        $row->payment_id == "" && $row->payment_proof == "")
+                                                            <span class="badge badge-warning">
+                                                                <strong>Waiting for Payment</strong></span>
+                                                        @elseif($row->status_payment == 1)
+                                                            <span class="badge badge-info">
+                                                                <strong>DP 30%</strong></span>
+                                                        @else
+                                                            <span class="badge badge-success">
+                                                                <strong>Fully Paid</strong></span>
+                                                        @endif
                                                     @endif
                                                 @endif
                                             </td>
                                             <td style="vertical-align: middle" align="center">
-                                                @if(Auth::guard('admin')->user()->isRoot())
+                                                @if(Auth::guard('admin')->user()->isCEO() ||
+                                                Auth::guard('admin')->user()->isCTO())
                                                     <div class="btn-group">
-                                                        <button type="button" class="btn btn-primary"
-                                                                onclick="">
-                                                            <strong><i class="fa fa-user-edit mr-2"></i>EDIT</strong>
+                                                        <button type="button" class="btn btn-primary text-uppercase"
+                                                                onclick="updateOrder('{{$row->id}}', '{{$invoice}}',
+                                                                        'accept')" {{$row->isAccept == true ||
+                                                                        $row->isReject == true || now() >=
+                                                                        \Carbon\Carbon::parse($row['start'])->subDays(2)
+                                                                        ? 'disabled' : ''}}>
+                                                            <strong><i class="fa fa-check-circle mr-2"></i>
+                                                                @if($row->isAccept == true)
+                                                                    Accepted
+                                                                @elseif($row->isReject == true)
+                                                                    Rejected
+                                                                @else
+                                                                    Accept
+                                                                @endif
+                                                            </strong>
                                                         </button>
-                                                        <button id="option" type="button"
-                                                                class="btn btn-primary dropdown-toggle"
+                                                        <button type="button" class="btn btn-primary dropdown-toggle"
                                                                 data-toggle="dropdown" aria-haspopup="true"
                                                                 aria-expanded="false"></button>
                                                         <div class="dropdown-menu" aria-labelledby="option">
-                                                            <a class="dropdown-item" href="javascript:void(0)"
-                                                               onclick="">
-                                                                <i class="fas fa-info-circle mr-2"></i>Details</a>
-                                                            <a class="dropdown-item" href="javascript:void(0)"
-                                                               onclick="">
-                                                                <i class="fa fa-user-cog mr-2"></i>Settings</a>
-                                                            <a class="dropdown-item delete-data"
-                                                               href="{{route('delete.orders',['id'=> encrypt($row->id)])}}">
+                                                            @if($row->status_payment < 1 && now() <
+                                                            \Carbon\Carbon::parse($row['start'])->subDays(2))
+                                                                <a class="dropdown-item" href="javascript:void(0)"
+                                                                   onclick="updateOrder('{{$row->id}}', '{{$invoice}}',
+                                                                           '{{$row->isAccept == true ||$row->isReject ==
+                                                                           true ? 'revert' : 'reject'}}')">
+                                                                    <i class="fa fa-{{$row->isAccept == true ||
+                                                                    $row->isReject == true ? 'undo-alt' : 'ban'}} mr-2">
+                                                                    </i>{{$row->isAccept == true ||
+                                                                    $row->isReject == true ? 'Revert' : 'Reject'}}</a>
+                                                            @endif
+                                                            <a class="dropdown-item delete-data" href="{{route
+                                                            ('delete.orders',['id' => encrypt($row->id)])}}">
                                                                 <i class="fa fa-trash-alt mr-2"></i>Delete</a>
                                                         </div>
                                                     </div>
                                                 @else
-                                                    <button class="btn btn-info" data-toggle="tooltip" title="Details"
-                                                            data-placement="left" onclick="">
-                                                        <i class="fas fa-info-circle"></i>
-                                                    </button>
+                                                    <div class="btn-group">
+                                                        <button type="button" class="btn btn-primary text-uppercase"
+                                                                onclick="updateOrder('{{$row->id}}', '{{$invoice}}',
+                                                                        'confirm')" {{$row->isAbort == true ||
+                                                                        $row->status_payment > 1 || $row->payment_id ==
+                                                                        "" && $row->payment_proof == "" || now() >=
+                                                                        \Carbon\Carbon::parse($row['start'])->subDays(2)
+                                                                        ? 'disabled' : ''}}>
+                                                            <strong><i class="fa fa-check-circle mr-2"></i>
+                                                                @if($row->isAbort == true)
+                                                                    Aborted
+                                                                @else
+                                                                    @if($row->status_payment > 1)
+                                                                        Verified
+                                                                    @else
+                                                                        Verify
+                                                                    @endif
+                                                                @endif
+                                                            </strong>
+                                                        </button>
+                                                        @if((now() >= \Carbon\Carbon::parse($row['start'])
+                                                            ->subDays(2) && $row->status_payment < 1 &&
+                                                            $row->isAbort == false) || now() < \Carbon\Carbon::parse
+                                                            ($row['start']) ->subDays(2) &&
+                                                            $row->status_payment >= 1 && $row->isAbort == false)
+                                                            <button type="button"
+                                                                    class="btn btn-primary dropdown-toggle"
+                                                                    data-toggle="dropdown" aria-haspopup="true"
+                                                                    aria-expanded="false"></button>
+                                                            <div class="dropdown-menu" aria-labelledby="option">
+                                                                @if(now() >= \Carbon\Carbon::parse($row['start'])
+                                                                ->subDays(2) && $row->status_payment < 1 &&
+                                                                $row->isAbort == false)
+                                                                    <a class="dropdown-item" href="javascript:void(0)"
+                                                                       onclick="updateOrder('{{$row->id}}',
+                                                                               '{{$invoice}}','abort')">
+                                                                        <i class="fa fa-undo-alt mr-2"></i>Abort</a>
+                                                                @elseif(now() < \Carbon\Carbon::parse($row['start'])
+                                                                ->subDays(2) && $row->status_payment >= 1 &&
+                                                                $row->isAbort == false)
+                                                                    <a class="dropdown-item" href="javascript:void(0)"
+                                                                       onclick="updateOrder('{{$row->id}}',
+                                                                               '{{$invoice}}','revert_pay')">
+                                                                        <i class="fa fa-undo-alt mr-2"></i>Revert</a>
+                                                                @endif
+                                                            </div>
+                                                        @endif
+                                                    </div>
                                                 @endif
                                             </td>
                                         </tr>
@@ -235,7 +344,16 @@
                                 </table>
                                 <form method="post" id="form-order">
                                     {{csrf_field()}}
-                                    <input id="order_ids" type="hidden" name="order_ids">
+                                    <input type="hidden" name="order_ids">
+                                    <input type="hidden" name="check_form">
+                                    <input type="hidden" name="invoice">
+                                    @if(Auth::guard('admin')->user()->isCEO() || Auth::guard('admin')->user()->isCTO())
+                                        <input type="hidden" name="isAccept">
+                                        <input type="hidden" name="isReject">
+                                    @else
+                                        <input type="hidden" name="isAbort">
+                                        <input type="hidden" name="status_payment">
+                                    @endif
                                 </form>
                             </div>
                         </div>
@@ -334,6 +452,7 @@
                         $("#form-order input[name=order_ids]").val(ids);
                         $("#form-order").attr("action", "{{route('massDelete.orders')}}");
 
+                        @if(Auth::guard('admin')->user()->isCEO() || Auth::guard('admin')->user()->isCTO())
                         if (ids.length > 0) {
                             swal({
                                 title: 'Delete Orders',
@@ -354,18 +473,155 @@
                             $("#cb-all").prop("checked", false).trigger('change');
                             swal("Error!", "There's no any selected record!", "error");
                         }
+                        @else
+                        swal('ATTENTION!', 'This feature only for CEO and CTO.', 'warning');
+                        @endif
                     });
                 },
             });
 
             @if($find != "")
-            $(".dataTables_filter input[type=search]").val('{{$find}}').trigger('keyup');
+            $(".dataTables_filter input[type=search]").val('#{{$find}}').trigger('keyup');
             @endif
         });
 
         function paymentProofModal(asset) {
             $("#paymentProof").attr('src', asset);
             $("#paymentProofModal").modal('show');
+        }
+
+        function updateOrder(id, invoice, check) {
+            if (check == 'accept') {
+                swal({
+                    title: 'Accept Order #' + invoice,
+                    text: 'Are you sure to accept it? You won\'t be able to revert this!',
+                    icon: 'warning',
+                    dangerMode: true,
+                    buttons: ['No', 'Yes'],
+                    closeOnEsc: false,
+                    closeOnClickOutside: false,
+                }).then((confirm) => {
+                    if (confirm) {
+                        $("#form-order input[name=order_ids]").val(id);
+                        $("#form-order input[name=check_form]").val('confirm_order');
+                        $("#form-order input[name=invoice]").val(invoice);
+                        $("#form-order input[name=isAccept]").val(1);
+                        $("#form-order input[name=isReject]").val(0);
+                        $("#form-order").attr("action", "{{route('update.orders')}}")[0].submit();
+                    }
+                });
+
+            } else if (check == 'reject') {
+                swal({
+                    title: 'Reject Order #' + invoice,
+                    text: 'Are you sure to reject it? You won\'t be able to revert this!',
+                    icon: 'warning',
+                    dangerMode: true,
+                    buttons: ['No', 'Yes'],
+                    closeOnEsc: false,
+                    closeOnClickOutside: false,
+                }).then((confirm) => {
+                    if (confirm) {
+                        $("#form-order input[name=order_ids]").val(id);
+                        $("#form-order input[name=check_form]").val('confirm_order');
+                        $("#form-order input[name=invoice]").val(invoice);
+                        $("#form-order input[name=isAccept]").val(0);
+                        $("#form-order input[name=isReject]").val(1);
+                        $("#form-order").attr("action", "{{route('update.orders')}}")[0].submit();
+                    }
+                });
+
+            } else if (check == 'revert') {
+                swal({
+                    title: 'Revert Order Confirmation #' + invoice,
+                    text: 'By proceeding this action, you\'ll be asked to confirm this order again! ' +
+                        'Are you sure to revert it?',
+                    icon: 'warning',
+                    dangerMode: true,
+                    buttons: ['No', 'Yes'],
+                    closeOnEsc: false,
+                    closeOnClickOutside: false,
+                }).then((confirm) => {
+                    if (confirm) {
+                        $("#form-order input[name=order_ids]").val(id);
+                        $("#form-order input[name=check_form]").val('confirm_order');
+                        $("#form-order input[name=invoice]").val(invoice);
+                        $("#form-order input[name=isAccept]").val(0);
+                        $("#form-order input[name=isReject]").val(0);
+                        $("#form-order").attr("action", "{{route('update.orders')}}")[0].submit();
+                    }
+                });
+
+            } else if (check == 'confirm') {
+                swal({
+                    title: 'Order Payment Confirmation #' + invoice,
+                    text: 'Please verify this order payment whether its DP 30% or Fully Paid!',
+                    icon: 'warning',
+                    dangerMode: true,
+                    buttons: {
+                        cancel: "Cancel",
+                        dp: {
+                            text: "DP 30%",
+                            value: "dp",
+                        },
+                        fp: {
+                            text: "Fully Paid",
+                            value: "fp",
+                        },
+                    },
+                    closeOnEsc: false,
+                    closeOnClickOutside: false,
+                }).then((value) => {
+                    if (value) {
+                        $("#form-order input[name=order_ids]").val(id);
+                        $("#form-order input[name=check_form]").val('confirm_payment');
+                        $("#form-order input[name=invoice]").val(invoice);
+                        $("#form-order input[name=isAbort]").val(0);
+                        $("#form-order input[name=status_payment]").val(value == 'dp' ? 1 : 2);
+                        $("#form-order").attr("action", "{{route('update.orders')}}")[0].submit();
+                    }
+                });
+            } else if (check == 'abort') {
+                swal({
+                    title: 'Abort Order Payment #' + invoice,
+                    text: 'Are you sure to abort it? You won\'t be able to revert this!',
+                    icon: 'warning',
+                    dangerMode: true,
+                    buttons: ['No', 'Yes'],
+                    closeOnEsc: false,
+                    closeOnClickOutside: false,
+                }).then((confirm) => {
+                    if (confirm) {
+                        $("#form-order input[name=order_ids]").val(id);
+                        $("#form-order input[name=check_form]").val('confirm_payment');
+                        $("#form-order input[name=invoice]").val(invoice);
+                        $("#form-order input[name=isAbort]").val(1);
+                        $("#form-order input[name=status_payment]").val(0);
+                        $("#form-order").attr("action", "{{route('update.orders')}}")[0].submit();
+                    }
+                });
+
+            } else if (check == 'revert_pay') {
+                swal({
+                    title: 'Revert Order Payment Confirmation #' + invoice,
+                    text: 'By proceeding this action, you\'ll be asked to verify this order payment again! ' +
+                        'Are you sure to revert it?',
+                    icon: 'warning',
+                    dangerMode: true,
+                    buttons: ['No', 'Yes'],
+                    closeOnEsc: false,
+                    closeOnClickOutside: false,
+                }).then((confirm) => {
+                    if (confirm) {
+                        $("#form-order input[name=order_ids]").val(id);
+                        $("#form-order input[name=check_form]").val('confirm_payment');
+                        $("#form-order input[name=invoice]").val(invoice);
+                        $("#form-order input[name=isAbort]").val(0);
+                        $("#form-order input[name=status_payment]").val(0);
+                        $("#form-order").attr("action", "{{route('update.orders')}}")[0].submit();
+                    }
+                });
+            }
         }
     </script>
 @endpush

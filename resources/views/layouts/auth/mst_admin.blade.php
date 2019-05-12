@@ -42,11 +42,11 @@
     $contacts = \App\Models\Contact::where('created_at', '>=', today()->subDays('3')->toDateTimeString())
     ->orderByDesc('id')->get();
 
-    $orders = \App\Models\Pemesanan::where('isAccept',false)->orderByDesc('id')->get();
+    $orders = \App\Models\Pemesanan::where('isAccept',false)->where('isReject', false)->orderByDesc('id')->get();
 
-    $pays = \App\Models\Pemesanan::where('isAccept',true)->where('start', '>', now()->addDays(2))
-    ->whereNotNull('payment_id')->whereNotNull('payment_proof')->where('status_payment' ,'<=', 1)
-    ->orderByDesc('id')->get();
+    $pays = \App\Models\Pemesanan::where('isAccept',true)->where('isReject',false)
+    ->where('start', '>', now()->addDays(2))->whereNotNull('payment_id')->whereNotNull('payment_proof')
+    ->where('status_payment' ,'<=', 1)->orderByDesc('id')->get();
 @endphp
 <div id="app">
     <div class="main-wrapper main-wrapper-1">
@@ -71,13 +71,10 @@
                                         <a href="{{route('admin.inbox', ['id' => $row->id])}}" class="dropdown-item">
                                             <div class="dropdown-item-avatar">
                                                 @if($user->count())
-                                                    @if($user->first()->ava == "")
-                                                        <img src="{{asset('admins/img/avatar/avatar-'.rand(1,5).'.png')}}"
-                                                             class="rounded-circle" alt="Avatar">
-                                                    @else
-                                                        <img src="{{asset('storage/users/ava/'.$user->first()->ava)}}"
-                                                             class="rounded-circle" alt="Avatar">
-                                                    @endif
+                                                    <img src="{{ $user->first()->ava == "" ? asset
+                                                    ('admins/img/avatar/avatar-'.rand(1,5).'.png') :
+                                                    asset('storage/users/ava/'.$user->first()->ava)}}"
+                                                         class="rounded-circle" alt="Avatar">
                                                 @else
                                                     <img src="{{asset('admins/img/avatar/avatar-'.rand(1,5).'.png')}}"
                                                          class="rounded-circle" alt="Avatar">
@@ -86,7 +83,8 @@
                                             <div class="dropdown-item-desc">
                                                 <b>{{$row->name}}</b>
                                                 <p>{{$row->subject}}</p>
-                                                <div class="time">{{\Carbon\Carbon::parse($row->created_at)->diffForHumans()}}</div>
+                                                <div class="time">{{\Carbon\Carbon::parse($row->created_at)
+                                                ->diffForHumans()}}</div>
                                             </div>
                                         </a>
                                     @endforeach
@@ -112,14 +110,21 @@
 
                 <li class="dropdown dropdown-list-toggle">
                     <a href="javascript:void(0)" data-toggle="dropdown"
-                       class="nav-link notification-toggle nav-link-lg {{count($orders) > 0 ? 'beep' : ''}}">
+                       class="nav-link notification-toggle nav-link-lg {{count($orders) > 0 && count($pays) > 0 ?
+                       'beep' : ''}}">
                         <i class="far fa-bell"></i></a>
                     <div class="dropdown-menu dropdown-list dropdown-menu-right">
                         <div class="dropdown-header">Orders</div>
                         <div class="dropdown-list-content dropdown-list-message">
-                            @if(count($orders) > 0 && ($role->isRoot() || $role->isCEO()))
+                            @if(count($orders) > 0 && ($role->isCEO() || $role->isCTO()))
                                 @foreach($orders as $row)
-                                    <a href="{{route('table.orders').'?q='.$row->getUser->name}}" class="dropdown-item">
+                                    @php
+                                        $romanDate = \App\Support\RomanConverter::numberToRoman($row->created_at
+                                        ->format('y')).'/'.\App\Support\RomanConverter::numberToRoman($row->created_at
+                                        ->format('m'));
+                                        $invoice = 'INV/'.$row->created_at->format('Ymd').'/'.$romanDate.'/'.$row->id;
+                                    @endphp
+                                    <a href="{{route('table.orders').'?q='.$invoice}}" class="dropdown-item">
                                         <div class="dropdown-item-avatar">
                                             <img class="img-fluid" alt="Icon" src="{{asset('images/services/'.
                                             $row->getLayanan->getJenisLayanan->icon)}}">
@@ -134,7 +139,13 @@
                                 @endforeach
                             @elseif(count($pays) > 0 && ($role->isRoot() || $role->isAdmin()))
                                 @foreach($pays as $row)
-                                    <a href="{{route('table.orders').'?q='.$row->getUser->name}}" class="dropdown-item">
+                                    @php
+                                        $romanDate = \App\Support\RomanConverter::numberToRoman($row->created_at
+                                        ->format('y')).'/'.\App\Support\RomanConverter::numberToRoman($row->created_at
+                                        ->format('m'));
+                                        $invoice = 'INV/'.$row->created_at->format('Ymd').'/'.$romanDate.'/'.$row->id;
+                                    @endphp
+                                    <a href="{{route('table.orders').'?q='.$invoice}}" class="dropdown-item">
                                         <div class="dropdown-item-avatar">
                                             <img class="img-fluid" alt="Icon" src="{{asset('images/services/'.
                                             $row->getLayanan->getJenisLayanan->icon)}}">
@@ -239,7 +250,7 @@
 <script>
     @if(session('signed'))
     swal('Signed In!', 'Halo {{$role->name}}! Anda telah masuk.', 'success');
-    @endif
+            @endif
 
             @if(!\Illuminate\Support\Facades\Request::is('admin/tables*'))
     var title = document.getElementsByTagName("title")[0].innerHTML;

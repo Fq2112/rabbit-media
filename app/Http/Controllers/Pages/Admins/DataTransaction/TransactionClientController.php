@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers\Pages\Admins\DataTransaction;
 
+use App\Events\Clients\PaymentDetails;
+use App\Http\Controllers\Pages\Client\OrderController as OrderMail;
+use App\Mail\Clients\ConfirmOrderEmail;
 use App\Models\Feedback;
 use App\Models\Pemesanan;
 use App\Support\RomanConverter;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
 
 class TransactionClientController extends Controller
 {
@@ -51,31 +55,45 @@ class TransactionClientController extends Controller
 
     public function updateOrders(Request $request)
     {
-        $order = Pemesanan::find($request->id);
-        if ($request->isPaid == 1) {
+        $order = Pemesanan::find($request->order_ids);
+        if ($request->check_form == 'confirm_order') {
             $order->update([
-                'isPaid' => true,
-                'date_payment' => now(),
-                'admin_id' => Auth::guard('admin')->id()
+                'isAccept' => $request->isAccept,
+                'isReject' => $request->isReject,
             ]);
 
-        } elseif ($request->isPaid == 0) {
+            $data = app(OrderMail::class)->paymentDetailsMail($order->id);
+            if ($order->isAccept == false && $order->isReject == false) {
+                Mail::to($order->getUser->email)->send(new ConfirmOrderEmail($data, 'revert_order'));
+
+                return back()->with('success', 'Order confirmation #' . $request->invoice . ' is successfully reverted!');
+
+            } else {
+                Mail::to($order->getUser->email)->send(new ConfirmOrderEmail($data, 'confirm_order'));
+
+                $message = $order->isAccept == true ? 'accepted!' : 'rejected!';
+                return back()->with('success', 'Order #' . $request->invoice . ' is successfully ' . $message);
+            }
+
+        } else {
             $order->update([
-                'isPaid' => false,
-                'date_payment' => null,
-                'admin_id' => Auth::guard('admin')->id()
+                'isAbort' => $request->isAbort,
+                'status_payment' => $request->status_payment
             ]);
 
-            if ($request->isAbort == 1) {
-                $order->update(['isAbort' => true]);
+            $data = app(OrderMail::class)->paymentDetailsMail($order->id);
+            if ($order->isAbort == false && $order->status_payment == 0) {
+                Mail::to($order->getUser->email)->send(new ConfirmOrderEmail($data, 'revert_pay'));
+
+                return back()->with('success', 'Order payment #' . $request->invoice . ' is successfully reverted!');
+
+            } else {
+                event(new PaymentDetails($data));
+
+                $message = $order->isAbort == true ? 'aborted!' : 'verified!';
+                return back()->with('success', 'Order Payment #' . $request->invoice . ' is successfully ' . $message);
             }
         }
-
-        if ($request->isPaid == 1 || $request->isAbort == 1) {
-            $this->orderMail($order);
-        }
-
-        return back()->with('success', '' . $request->invoice . ' is successfully updated!');
     }
 
     public function deleteOrders($id)

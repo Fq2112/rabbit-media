@@ -36,13 +36,17 @@ class PaymentDetailsEmail extends Mailable
         if ($data['order']->status_payment <= 1) {
             if ($data['order']->isAbort == false) {
                 return $this->subject('Menunggu Pembayaran ' . $data['payment_category']->name .
-                    ' untuk ' . $data['invoice'])
+                    ' untuk Pesanan ' . $data['invoice'])
                     ->from(env('MAIL_USERNAME'), 'Rabbit Media – Digital Creative Service')
                     ->view('emails.clients.paymentDetails')->with($data);
 
             } else {
-                return $this->subject('Pembayaran ' . $data['payment_category']->name .
-                    ' Anda pada ' . Carbon::parse($data['order']->created_at)->format('l, j F Y') . ' Telah Dibatalkan')
+                $subject = $data['order']->payment_id != null ? 'Pembayaran ' . $data['payment_category']->name .
+                    ' Anda pada ' . Carbon::parse($data['order']->created_at)->format('l, j F Y') . ' Telah Dibatalkan' :
+                    'Pembayaran Pesanan ' . $data['invoice'] . ' Telah Dibatalkan pada Tanggal ' .
+                    Carbon::parse($data['order']->updated_at)->isoFormat('DD MMMM YYYY [Pukul] HH:mm');
+
+                return $this->subject($subject)
                     ->from(env('MAIL_USERNAME'), 'Rabbit Media – Digital Creative Service')
                     ->view('emails.clients.paymentAbortedDetails')->with($data);
             }

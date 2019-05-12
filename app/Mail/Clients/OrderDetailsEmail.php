@@ -33,6 +33,6 @@ class OrderDetailsEmail extends Mailable
         $user = User::find($data['order']->user_id);
 
         return $this->subject(ucwords($user->name) . ' Menunggu Konfirmasi Pesanan ' . $data['invoice'])
-            ->from($user->email, 'Rabbit\'s Client')->view('emails.clients.orderDetails')->with($data);
+            ->from($user->email, 'Rabbit\'s Client')->view('emails.admins.orderDetails')->with($data);
     }
 }

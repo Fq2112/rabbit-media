@@ -35,12 +35,13 @@ class CreatePemesanansTable extends Migration
             $table->text('meeting_location')->nullable();
             $table->text('deskripsi')->nullable();
             $table->text('total_payment');
+            $table->boolean('isAccept')->default(false);
+            $table->boolean('isReject')->default(false);
+            $table->boolean('isAbort')->default(false);
+            $table->integer('status_payment');
             $table->string('payment_type')->nullable();
             $table->text('payment_proof')->nullable();
             $table->dateTime('date_payment')->nullable();
-            $table->integer('status_payment');
-            $table->boolean('isAbort')->default(false);
-            $table->boolean('isAccept')->default(false);
             $table->timestamps();
             $table->softDeletes();
         });

@@ -39,6 +39,7 @@ class OrderSeeder extends Seeder
                 'deskripsi' => $faker->paragraph,
                 'qty' => $layanan->isQty == true ? $layanan->qty : null,
                 'hours' => $layanan->isHours == true ? $layanan->hours : null,
+                'meeting_location' => $faker->address,
                 'total_payment' => $layanan->harga,
                 'payment_type' => 'FP',
                 'payment_proof' => $faker->imageUrl(),
@@ -82,6 +83,28 @@ class OrderSeeder extends Seeder
                     now()->addHours(rand(1, 5))->format('H:i:s'),
                 'deskripsi' => $faker->paragraph,
                 'isDayOff' => true
+            ]);
+        }
+
+        $a = 1;
+        $b = 1;
+        for ($c = 1; $c <= 3; $c++) {
+            $layanan = $layanan::inRandomOrder()->first();
+            Pemesanan::create([
+                'user_id' => User::first()->id,
+                'layanan_id' => $layanan->id,
+                'studio_id' => $layanan->isStudio == true ? rand(Studio::min('id'), Studio::max('id')) : null,
+                'judul' => ucwords($faker->words(rand(1, 3), true)),
+                'start' => '2019-08-' . str_pad($a++, 2, 0, STR_PAD_LEFT) . ' ' .
+                    now()->format('H:i:s'),
+                'end' => rand(0, 1) ? null : '2019-08-' . str_pad($b++, 2, 0, STR_PAD_LEFT)
+                    . ' ' . now()->addHours(rand(1, 5))->format('H:i:s'),
+                'deskripsi' => $faker->paragraph,
+                'qty' => $layanan->isQty == true ? $layanan->qty : null,
+                'hours' => $layanan->isHours == true ? $layanan->hours : null,
+                'meeting_location' => $faker->address,
+                'total_payment' => $layanan->harga,
+                'status_payment' => 0,
             ]);
         }
     }

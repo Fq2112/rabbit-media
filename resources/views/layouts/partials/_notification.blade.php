@@ -135,7 +135,7 @@
 </style>
 @auth
     @php
-        $pays = \App\Models\Pemesanan::where('user_id',Auth::id())->where('isAccept',true)
+        $pays = \App\Models\Pemesanan::where('user_id',Auth::id())->where('isAccept',true)->where('isReject',false)
         ->where('start', '>', now()->addDays(2))->where('status_payment' ,'<=', 1)->whereNull('payment_id')->count();
 
         $reviews = \App\Models\Pemesanan::where('user_id',Auth::id())->whereHas('getOrderLog', function ($q){
@@ -169,11 +169,12 @@
 @endauth
 @auth('admin')
     @php
-        $orders = \App\Models\Pemesanan::where('isAccept',false)->count();
-        $pays = \App\Models\Pemesanan::where('isAccept',true)->where('start', '>', now()->addDays(2))
+        $orders = \App\Models\Pemesanan::where('isAccept',false)->where('isReject',false)->count();
+        $pays = \App\Models\Pemesanan::where('isAccept',true)->where('isReject',false)
+        ->where('start', '>', now()->addDays(2))
         ->whereNotNull('payment_id')->whereNotNull('payment_proof')->where('status_payment' ,'<=', 1)->count();
     @endphp
-    @if($orders > 0 && (Auth::guard('admin')->user()->isRoot() || Auth::guard('admin')->user()->isCEO()))
+    @if($orders > 0 && (Auth::guard('admin')->user()->isCEO() || Auth::guard('admin')->user()->isCTO()))
         <div class="alert-banner">
             <div class="alert-banner-content">
                 <div class="alert-banner-text">

@@ -271,7 +271,12 @@
             swal('PERHATIAN!', 'Pembayaran untuk invoice {{$req_invoice}} dibatalkan, ' +
                 'karena melewati batas waktu pembayaran yang telah ditentukan.', 'warning');
             @else
+            @if($status == 'accepted')
+            pay('{{$findOrder->id}}', '{{$req_invoice}}', '{{$findOrder->total_payment}}',
+                '{{$findOrder->isAccept}}', '{{$findOrder->isReject}}');
+            @else
             uploadPaymentProof('{{$findOrder->id}}', '{{$findOrder->payment_proof}}', '{{$req_invoice}}');
+            @endif
             @endif
             @endif
 
@@ -467,7 +472,7 @@
                 $isStudio = val.plan.isStudio == 1 ? 'inline-block' : 'none';
                 $isMeeting = val.meeting_location != "" ? 'block' : 'none';
                 $isDesc = val.deskripsi != "" ? 'block' : 'none';
-                $isAcc = val.isAccept == 1 ? 'inline-block' : 'none';
+                $isAcc = val.isAccept == 1 || val.isReject == 0 ? 'inline-block' : 'none';
 
                 if (val.expired == true && val.isAbort == true) {
                     $status = 'Dibatalkan';
@@ -521,8 +526,9 @@
                 $cursor = val.payment_id == null ? "no-drop" : "pointer";
 
                 $pay = val.expired == false && val.status_payment <= 1 && val.payment_id == null ? '' : 'none';
-                $class_pay = val.isAccept == 1 ? 'ld ld-breath' : '';
-                $param_pay = val.id + ",'" + val.invoice + "','" + val.total_payment + "'," + val.isAccept;
+                $class_pay = val.isAccept == 1 || val.isReject == 0 ? 'ld ld-breath' : '';
+                $param_pay = val.id + ",'" + val.invoice + "','" + val.total_payment + "'," +
+                    val.isAccept + "," + val.isReject;
 
                 $upload = val.expired == false && val.status_payment <= 1 && val.payment_id != null ? '' : 'none';
                 $class_upload = val.status_payment > 1 ? '' : 'ld ld-breath';
@@ -785,7 +791,7 @@
 
         var amount = 0, amountToPay = 0;
 
-        function pay(id, invoice, total, isAccept) {
+        function pay(id, invoice, total, isAccept, isReject) {
             var modal = $("#payModal");
             $("#pay" + id).prop('checked', false);
 
@@ -801,14 +807,26 @@
                 });
 
             } else {
-                swal({
-                    title: 'PERHATIAN!',
-                    text: 'Saat ini pesanan Anda sedang diproses! ' +
-                        'Mohon untuk menunggu informasi lebih lanjut dari kami, terimakasih.',
-                    icon: 'warning'
-                }).then(function () {
-                    $("#pay" + id).prop('checked', true);
-                });
+                if (isReject == 1) {
+                    swal({
+                        title: 'PERHATIAN!',
+                        text: 'Pesanan Anda Ditolak! Untuk melihat detailnya, ' +
+                            'silahkan cek email yang telah kami kirimkan sebelumnya, terimakasih.',
+                        icon: 'warning'
+                    }).then(function () {
+                        $("#pay" + id).prop('checked', true);
+                    });
+
+                } else {
+                    swal({
+                        title: 'PERHATIAN!',
+                        text: 'Saat ini pesanan Anda sedang diproses! ' +
+                            'Mohon untuk menunggu informasi lebih lanjut dari kami, terimakasih.',
+                        icon: 'warning'
+                    }).then(function () {
+                        $("#pay" + id).prop('checked', true);
+                    });
+                }
             }
         }
 

@@ -392,12 +392,18 @@
                                                     <tr>
                                                         <td>
                                                             <small style="line-height: 2em">
-                                                                <strong style="font-size: 22px">{{$data['order']
-                                                                ->payment_id != null ? 'Pembayaran melalui ' .
-                                                                $data['payment_category']->name. ' dibatalkan' :
-                                                                'Kami telah membatalkan pesanan Anda!'}}</strong><br>
-                                                                <span style="color: #f23a2e">Mohon untuk tidak melakukan
-                                                                    pembayaran apapun terhadap pesanan ini.</span>
+                                                                <strong style="font-size: 22px">
+                                                                    @if($check == 'confirm_order')
+                                                                        {{$data['order']->isAccept == true ?
+                                                                        'Selamat pesanan Anda telah berhasil dikonfirmasi!'
+                                                                        : 'Pesanan Anda saat ini belum dapat kami konfirmasi, silahkan pilih tanggal/waktu yang lain! Mohon maaf atas ketidaknyamanannya, terimakasih.'}}
+                                                                    @else
+                                                                        Konfirmasi {{$check == 'revert_order' ?
+                                                                        'pesanan' : 'pembayaran pesanan'}} Anda telah
+                                                                        dibatalkan, karena ada kesalahan teknis!
+                                                                        Mohon maaf atas ketidaknyamanannya, terimakasih.
+                                                                    @endif
+                                                                </strong>
                                                             </small>
                                                         </td>
                                                     </tr>
@@ -419,12 +425,7 @@
                                                        style="margin-left: 1em">
                                                     <tr>
                                                         <td>
-                                                            <small>
-                                                                <a href="{{route('invoice.order', ['id' =>
-                                                                encrypt($data['order']->id)])}}"
-                                                                   style="text-decoration: none;color: #592f83">
-                                                                    <strong>{{$data['invoice']}}</strong></a>
-                                                            </small>
+                                                            <small><strong>Billing Details</strong></small>
                                                             <hr class="hr-divider">
                                                             <table>
                                                                 <tr>
@@ -483,41 +484,14 @@
                                                                         </td>
                                                                     </tr>
                                                                 @endif
-                                                                @if($data['order']->payment_id != null)
-                                                                    <tr style="border-top: 1px solid #eee">
-                                                                        <td><strong>Total Bill</strong></td>
-                                                                        <td colspan="4" align="right">
-                                                                            <strong>Rp{{number_format($data['order']
-                                                                        ->total_payment,2,',','.')}}</strong>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>Payment Type (<strong>{{$data['order']
-                                                                    ->payment_type}}</strong>)
-                                                                        </td>
-                                                                        <td colspan="4" align="right">
-                                                                            <strong>{{$data['order']->payment_type == 'DP' ?
-                                                                        '30%' : '100%'}}</strong>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td><strong style="color: #592f83">Amount to Pay
-                                                                            </strong></td>
-                                                                        <td colspan="4" align="right">
-                                                                            <strong style="font-size: 18px;color: #592f83">
-                                                                                Rp{{$data['amountToPay']}}</strong>
-                                                                        </td>
-                                                                    </tr>
-                                                                @else
-                                                                    <tr style="border-top: 1px solid #eee">
-                                                                        <td><strong style="color: #592f83">Total
-                                                                                Bill</strong></td>
-                                                                        <td colspan="4" align="right">
-                                                                            <strong style="font-size: 18px;color: #592f83">Rp{{$data['amountToPay']}}
-                                                                            </strong>
-                                                                        </td>
-                                                                    </tr>
-                                                                @endif
+                                                                <tr style="border-top: 1px solid #eee">
+                                                                    <td><strong style="color: #592f83">Total
+                                                                            Bill</strong></td>
+                                                                    <td colspan="4" align="right">
+                                                                        <strong style="font-size: 18px;color: #592f83">Rp{{$data['amountToPay']}}
+                                                                        </strong>
+                                                                    </td>
+                                                                </tr>
                                                             </table>
                                                         </td>
                                                     </tr>
@@ -547,58 +521,6 @@
                                                 </table>
                                             </td>
                                         </tr>
-                                        @if($data['order']->payment_id != null)
-                                            <tr>
-                                                <td valign="top" width="50%">
-                                                    <table border="0" cellpadding="10" cellspacing="0"
-                                                           style="margin-left: 1em" width="100%">
-                                                        <tr>
-                                                            <td>
-                                                                <small><strong>Payment Method</strong>
-                                                                    <sub>{{$data['payment_category']->name}}</sub>
-                                                                </small>
-                                                                <hr class="hr-divider">
-                                                                <table>
-                                                                    <tr>
-                                                                        <td width="50%">
-                                                                            <img src="{{env('APP_URL').'/images/paymentMethod/'
-                                                                        .$data['payment_method']->logo}}"
-                                                                                 style="width: 90%;"
-                                                                                 alt="{{$data['payment_method']->name}}">
-                                                                        </td>
-                                                                        <td>
-                                                                            <small style="line-height: 1.5em;font-size: 14px">
-                                                                                @if($data['payment_category']->id == 1)
-                                                                                    <strong style="font-size: 16px">
-                                                                                        {{number_format
-                                                                                        ($data['payment_method']
-                                                                                        ->account_number,0," "," ")}}
-                                                                                    </strong>
-                                                                                    <br>a/n {{$data['payment_method']
-                                                                                ->account_name}}
-                                                                                @endif
-                                                                            </small>
-                                                                        </td>
-                                                                    </tr>
-                                                                </table>
-                                                            </td>
-                                                        </tr>
-                                                    </table>
-                                                </td>
-                                                <td valign="top" width="50%">
-                                                    <table width="100%" border="0" cellpadding="10" cellspacing="0"
-                                                           style="margin-left: 1em">
-                                                        <tr>
-                                                            <td>
-                                                                <small><strong>Payment Status</strong></small>
-                                                                <hr class="hr-divider">
-                                                                <span>Pembayaran Dibatalkan</span>
-                                                            </td>
-                                                        </tr>
-                                                    </table>
-                                                </td>
-                                            </tr>
-                                        @endif
                                     </table>
                                     <table bgcolor="#fff" border="0" cellpadding="0" cellspacing="0" width="660"
                                            align="center">
@@ -622,31 +544,52 @@
                                            align="center" style="border-top: 2px solid #f3f3f3">
                                         <tr>
                                             <td>
-                                                <table bgcolor="#fff" border="0" cellpadding="0" cellspacing="0"
-                                                       width="660"
-                                                       align="center" style="border-top: 2px solid #f3f3f3">
-                                                    <tr>
-                                                        <td>
-                                                            <table border="0" cellpadding="10" cellspacing="0"
-                                                                   style="margin: .5em 1em">
-                                                                <tr>
-                                                                    <td>
-                                                                        <div class="alert alert-warning text-center">
-                                                                            Segera hubungi kami apabila Anda sudah
-                                                                            melakukan pembayaran namun tetap menerima
-                                                                            pesan ini!<br>
-                                                                            (<a href="tel:+6282234389870"
-                                                                                style="text-decoration: none">
-                                                                                +62 822-3438-9870</a>
-                                                                            | <a href="mailto:info@rabbit-media.net"
-                                                                                 style="text-decoration: none">
-                                                                                info@rabbit-media.net</a>)
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                            </table>
-                                                        </td>
-                                                    </tr>
+                                                <table border="0" cellpadding="10" cellspacing="0"
+                                                       style="margin: .5em 1em">
+                                                    @if($check == 'confirm_order' && $data['order']->isAccept == true)
+                                                        <tr>
+                                                            <td>
+                                                                <small style="line-height: 2em">
+                                                                    <strong style="font-size: 20px">Untuk memilih metode
+                                                                        pembayaran
+                                                                        yang Anda inginkan, silahkan klik tombol "PAY
+                                                                        NOW" berikut.</strong>
+                                                                </small>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="center" width="600" class="full-width"
+                                                                style="padding-left: 20px; padding-right:20px"
+                                                                valign="top">
+                                                                <a class="zoom" id="activate"
+                                                                   href="{{route('client.dashboard', ['id' => encrypt
+                                                                   ($data['order']->id),'invoice'=> $data['invoice'],
+                                                                   'status' => 'accepted'])}}"
+                                                                   target="_blank">PAY NOW</a>
+                                                            </td>
+                                                        </tr>
+                                                    @else
+                                                        <tr>
+                                                            <td>
+                                                                <small style="line-height: 2em">
+                                                                    <strong style="font-size: 20px">
+                                                                        Tetap awasi status pesanan Anda pada halaman
+                                                                        Order Status</strong><br>Untuk beralih ke
+                                                                    halaman
+                                                                    tersebut, silahkan klik tombol Order Status berikut.
+                                                                </small>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td align="center" width="600" class="full-width"
+                                                                style="padding-left: 20px; padding-right:20px"
+                                                                valign="top">
+                                                                <a class="zoom" id="activate"
+                                                                   href="{{route('client.dashboard')}}" target="_blank">
+                                                                    ORDER STATUS</a>
+                                                            </td>
+                                                        </tr>
+                                                    @endif
                                                 </table>
                                             </td>
                                         </tr>

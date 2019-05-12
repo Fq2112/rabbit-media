@@ -527,9 +527,9 @@ Route::group(['namespace' => 'Pages\Admins', 'prefix' => 'admin', 'middleware' =
                         'as' => 'table.orders'
                     ]);
 
-                    Route::put('update', [
-                        'uses' => 'TransactionClientController@massUpdateOrders',
-                        'as' => 'massUpdate.orders'
+                    Route::post('update', [
+                        'uses' => 'TransactionClientController@updateOrders',
+                        'as' => 'update.orders'
                     ]);
 
                     Route::get('{id}/delete', [
