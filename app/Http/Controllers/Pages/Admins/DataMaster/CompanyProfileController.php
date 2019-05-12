@@ -97,6 +97,17 @@ class CompanyProfileController extends Controller
         return back()->with('success', 'FAQ (' . $faq->pertanyaan . ') is successfully deleted!');
     }
 
+    public function massDeleteFaq(Request $request)
+    {
+        $faqs = Faq::whereIn('id', explode(",", $request->faq_ids))->get();
+        foreach ($faqs as $faq) {
+            $faq->delete();
+        }
+        $message = count($faqs) > 1 ? count($faqs) . ' FAQS are ' : count($faqs) . ' FAQ is ';
+
+        return back()->with('success', $message . 'successfully deleted!');
+    }
+
     public function showHowItWorksTable()
     {
         $works = HowItWorks::all();
@@ -164,6 +175,22 @@ class CompanyProfileController extends Controller
         return back()->with('success', 'How it works step (' . $work->title . ') is successfully deleted!');
     }
 
+    public function massDeleteHowItWorks(Request $request)
+    {
+        $works = HowItWorks::whereIn('id', explode(",", $request->work_ids))->get();
+        foreach ($works as $work) {
+            if ($work->icon != '') {
+                unlink(public_path('images\how-it-works/' . $work->icon));
+            }
+
+            $work->delete();
+        }
+        $message = count($works) > 1 ? count($works) . ' "How It Works" steps are ' :
+            count($works) . ' "How It Works" step is ';
+
+        return back()->with('success', $message . 'successfully deleted!');
+    }
+
     public function showPortfolioTypesTable()
     {
         $types = JenisPortofolio::all();
@@ -198,6 +225,17 @@ class CompanyProfileController extends Controller
         $type->delete();
 
         return back()->with('success', 'Portfolio type (' . $type->nama . ') is successfully deleted!');
+    }
+
+    public function massDeletePortfolioTypes(Request $request)
+    {
+        $types = JenisPortofolio::whereIn('id', explode(",", $request->type_ids))->get();
+        foreach ($types as $type) {
+            $type->delete();
+        }
+        $message = count($types) > 1 ? count($types) . ' portfolio types are ' : count($types) . ' portfolio type is ';
+
+        return back()->with('success', $message . 'successfully deleted!');
     }
 
     public function showPortfoliosTable()
@@ -270,6 +308,24 @@ class CompanyProfileController extends Controller
         $portfolio->delete();
 
         return back()->with('success', 'Portfolio (' . $portfolio->nama . ') is successfully deleted!');
+    }
+
+    public function massDeletePortfolios(Request $request)
+    {
+        $portfolios = Portofolio::whereIn('id', explode(",", $request->portfolio_ids))->get();
+        foreach ($portfolios as $portfolio) {
+            if ($portfolio->cover != 'img_1.jpg' || $portfolio->cover != 'img_2.jpg' ||
+                $portfolio->cover != 'img_3.jpg' || $portfolio->cover != 'img_4.jpg' ||
+                $portfolio->cover != 'img_5.jpg' || $portfolio->cover != 'img_6.jpg' ||
+                $portfolio->cover != 'img_7.jpg') {
+                Storage::delete('public/portofolio/cover/' . $portfolio->cover);
+            }
+
+            $portfolio->delete();
+        }
+        $message = count($portfolios) > 1 ? count($portfolios) . ' portfolios are ' : count($portfolios) . ' portfolio is ';
+
+        return back()->with('success', $message . 'successfully deleted!');
     }
 
     public function showPortfolioGalleriesTable()
@@ -391,5 +447,31 @@ class CompanyProfileController extends Controller
 
         return back()->with('success', 'Gallery (' . $gallery->nama . ') is successfully deleted from portfolio (' .
             $gallery->getPortofolio->nama . ')!');
+    }
+
+    public function massDeletePortfolioGalleries(Request $request)
+    {
+        $galleries = Galeri::whereIn('id', explode(",", $request->gallery_ids))->get();
+        foreach ($galleries as $gallery) {
+            if ($gallery->photo != 'nature_big_1.jpg' || $gallery->photo != 'nature_big_2.jpg' ||
+                $gallery->photo != 'nature_big_3.jpg' || $gallery->photo != 'nature_big_4.jpg' ||
+                $gallery->photo != 'nature_big_5.jpg' || $gallery->photo != 'nature_big_6.jpg' ||
+                $gallery->photo != 'nature_big_7.jpg' || $gallery->photo != 'nature_big_8.jpg' ||
+                $gallery->photo != 'nature_big_9.jpg') {
+                Storage::delete('public/portofolio/gallery/' . $gallery->photo);
+
+            } elseif ($gallery->thumbnail != 'nature_big_1.jpg' || $gallery->thumbnail != 'nature_big_2.jpg' ||
+                $gallery->thumbnail != 'nature_big_3.jpg' || $gallery->thumbnail != 'nature_big_4.jpg' ||
+                $gallery->thumbnail != 'nature_big_5.jpg' || $gallery->thumbnail != 'nature_big_6.jpg' ||
+                $gallery->thumbnail != 'nature_big_7.jpg' || $gallery->thumbnail != 'nature_big_8.jpg' ||
+                $gallery->thumbnail != 'nature_big_9.jpg') {
+                Storage::delete('public/portofolio/thumbnail/' . $gallery->thumbnail);
+            }
+
+            $gallery->delete();
+        }
+        $message = count($galleries) > 1 ? count($galleries) . ' galleries are ' : count($galleries) . ' gallery is ';
+
+        return back()->with('success', $message . 'successfully deleted!');
     }
 }

@@ -190,6 +190,11 @@ Route::group(['namespace' => 'Pages\Admins', 'prefix' => 'admin', 'middleware' =
                             'as' => 'delete.faqs'
                         ]);
 
+                        Route::post('deletes', [
+                            'uses' => 'CompanyProfileController@massDeleteFaq',
+                            'as' => 'massDelete.faqs'
+                        ]);
+
                     });
 
                     Route::group(['prefix' => 'how-it-works'], function () {
@@ -212,6 +217,11 @@ Route::group(['namespace' => 'Pages\Admins', 'prefix' => 'admin', 'middleware' =
                         Route::get('{id}/delete', [
                             'uses' => 'CompanyProfileController@deleteHowItWorks',
                             'as' => 'delete.howItWorks'
+                        ]);
+
+                        Route::post('deletes', [
+                            'uses' => 'CompanyProfileController@massDeleteHowItWorks',
+                            'as' => 'massDelete.howItWorks'
                         ]);
 
                     });
@@ -238,6 +248,11 @@ Route::group(['namespace' => 'Pages\Admins', 'prefix' => 'admin', 'middleware' =
                             'as' => 'delete.portfolio-types'
                         ]);
 
+                        Route::post('deletes', [
+                            'uses' => 'CompanyProfileController@massDeletePortfolioTypes',
+                            'as' => 'massDelete.portfolio-types'
+                        ]);
+
                     });
 
                     Route::group(['prefix' => 'portfolios'], function () {
@@ -260,6 +275,11 @@ Route::group(['namespace' => 'Pages\Admins', 'prefix' => 'admin', 'middleware' =
                         Route::get('{id}/delete', [
                             'uses' => 'CompanyProfileController@deletePortfolios',
                             'as' => 'delete.portfolios'
+                        ]);
+
+                        Route::post('deletes', [
+                            'uses' => 'CompanyProfileController@massDeletePortfolios',
+                            'as' => 'massDelete.portfolios'
                         ]);
 
                     });
@@ -286,11 +306,74 @@ Route::group(['namespace' => 'Pages\Admins', 'prefix' => 'admin', 'middleware' =
                             'as' => 'delete.portfolio-galleries'
                         ]);
 
+                        Route::post('deletes', [
+                            'uses' => 'CompanyProfileController@massDeletePortfolioGalleries',
+                            'as' => 'massDelete.portfolio-galleries'
+                        ]);
+
                     });
 
                 });
 
                 Route::group(['prefix' => 'features'], function () {
+
+                    Route::group(['prefix' => 'payment-categories'], function () {
+
+                        Route::get('/', [
+                            'uses' => 'FeaturesController@showPaymentCategoriesTable',
+                            'as' => 'table.PaymentCategories'
+                        ]);
+
+                        Route::post('create', [
+                            'uses' => 'FeaturesController@createPaymentCategories',
+                            'as' => 'create.PaymentCategories'
+                        ]);
+
+                        Route::put('update', [
+                            'uses' => 'FeaturesController@updatePaymentCategories',
+                            'as' => 'update.PaymentCategories'
+                        ]);
+
+                        Route::get('{id}/delete', [
+                            'uses' => 'FeaturesController@deletePaymentCategories',
+                            'as' => 'delete.PaymentCategories'
+                        ]);
+
+                        Route::post('deletes', [
+                            'uses' => 'FeaturesController@massDeletePaymentCategories',
+                            'as' => 'massDelete.PaymentCategories'
+                        ]);
+
+                    });
+
+                    Route::group(['prefix' => 'payment-methods'], function () {
+
+                        Route::get('/', [
+                            'uses' => 'FeaturesController@showPaymentMethodsTable',
+                            'as' => 'table.PaymentMethods'
+                        ]);
+
+                        Route::post('create', [
+                            'uses' => 'FeaturesController@createPaymentMethods',
+                            'as' => 'create.PaymentMethods'
+                        ]);
+
+                        Route::put('update', [
+                            'uses' => 'FeaturesController@updatePaymentMethods',
+                            'as' => 'update.PaymentMethods'
+                        ]);
+
+                        Route::get('{id}/delete', [
+                            'uses' => 'FeaturesController@deletePaymentMethods',
+                            'as' => 'delete.PaymentMethods'
+                        ]);
+
+                        Route::post('deletes', [
+                            'uses' => 'FeaturesController@massDeletePaymentMethods',
+                            'as' => 'massDelete.PaymentMethods'
+                        ]);
+
+                    });
 
                     Route::group(['prefix' => 'service-types'], function () {
 
@@ -312,6 +395,11 @@ Route::group(['namespace' => 'Pages\Admins', 'prefix' => 'admin', 'middleware' =
                         Route::get('{id}/delete', [
                             'uses' => 'FeaturesController@deleteServiceTypes',
                             'as' => 'delete.service-types'
+                        ]);
+
+                        Route::post('deletes', [
+                            'uses' => 'FeaturesController@massDeleteServiceTypes',
+                            'as' => 'massDelete.service-types'
                         ]);
 
                     });
@@ -338,6 +426,11 @@ Route::group(['namespace' => 'Pages\Admins', 'prefix' => 'admin', 'middleware' =
                             'as' => 'delete.services'
                         ]);
 
+                        Route::post('deletes', [
+                            'uses' => 'FeaturesController@massDeleteServices',
+                            'as' => 'massDelete.services'
+                        ]);
+
                     });
 
                     Route::group(['prefix' => 'studio-types'], function () {
@@ -360,6 +453,11 @@ Route::group(['namespace' => 'Pages\Admins', 'prefix' => 'admin', 'middleware' =
                         Route::get('{id}/delete', [
                             'uses' => 'FeaturesController@deleteStudioTypes',
                             'as' => 'delete.studio-types'
+                        ]);
+
+                        Route::post('deletes', [
+                            'uses' => 'FeaturesController@massDeleteStudioTypes',
+                            'as' => 'massDelete.studio-types'
                         ]);
 
                     });
@@ -386,52 +484,9 @@ Route::group(['namespace' => 'Pages\Admins', 'prefix' => 'admin', 'middleware' =
                             'as' => 'delete.studios'
                         ]);
 
-                    });
-
-                    Route::group(['prefix' => 'payment-categories'], function () {
-
-                        Route::get('/', [
-                            'uses' => 'FeaturesController@showPaymentCategoriesTable',
-                            'as' => 'table.PaymentCategories'
-                        ]);
-
-                        Route::post('create', [
-                            'uses' => 'FeaturesController@createPaymentCategories',
-                            'as' => 'create.PaymentCategories'
-                        ]);
-
-                        Route::put('update', [
-                            'uses' => 'FeaturesController@updatePaymentCategories',
-                            'as' => 'update.PaymentCategories'
-                        ]);
-
-                        Route::get('{id}/delete', [
-                            'uses' => 'FeaturesController@deletePaymentCategories',
-                            'as' => 'delete.PaymentCategories'
-                        ]);
-
-                    });
-
-                    Route::group(['prefix' => 'payment-methods'], function () {
-
-                        Route::get('/', [
-                            'uses' => 'FeaturesController@showPaymentMethodsTable',
-                            'as' => 'table.PaymentMethods'
-                        ]);
-
-                        Route::post('create', [
-                            'uses' => 'FeaturesController@createPaymentMethods',
-                            'as' => 'create.PaymentMethods'
-                        ]);
-
-                        Route::put('update', [
-                            'uses' => 'FeaturesController@updatePaymentMethods',
-                            'as' => 'update.PaymentMethods'
-                        ]);
-
-                        Route::get('{id}/delete', [
-                            'uses' => 'FeaturesController@deletePaymentMethods',
-                            'as' => 'delete.PaymentMethods'
+                        Route::post('deletes', [
+                            'uses' => 'FeaturesController@massDeleteStudios',
+                            'as' => 'massDelete.studios'
                         ]);
 
                     });

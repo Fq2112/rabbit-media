@@ -47,9 +47,16 @@
                                 <table class="table table-striped" id="dt-buttons">
                                     <thead>
                                     <tr>
-                                        <th class="text-center">#</th>
+                                        <th class="text-center">
+                                            <div class="custom-checkbox custom-control">
+                                                <input type="checkbox" class="custom-control-input" id="cb-all">
+                                                <label for="cb-all" class="custom-control-label">#</label>
+                                            </div>
+                                        </th>
+                                        <th class="text-center">ID</th>
                                         <th>Type</th>
-                                        <th>Created at / Last Update</th>
+                                        <th class="text-center">Created at</th>
+                                        <th class="text-center">Last Update</th>
                                         <th>Action</th>
                                     </tr>
                                     </thead>
@@ -57,7 +64,15 @@
                                     @php $no = 1; @endphp
                                     @foreach($types as $type)
                                         <tr>
-                                            <td style="vertical-align: middle" align="center">{{$no++}}</td>
+                                            <td style="vertical-align: middle" align="center">
+                                                <div class="custom-checkbox custom-control">
+                                                    <input type="checkbox" id="cb-{{$type->id}}"
+                                                           class="custom-control-input dt-checkboxes">
+                                                    <label for="cb-{{$type->id}}"
+                                                           class="custom-control-label">{{$no++}}</label>
+                                                </div>
+                                            </td>
+                                            <td style="vertical-align: middle" align="center">{{$type->id}}</td>
                                             <td style="vertical-align: middle;">
                                                 <div class="row m-0 p-0">
                                                     <div class="col-1 mt-0 mb-0 ml-0 mr-1 p-0">
@@ -68,22 +83,29 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td style="vertical-align: middle">{{\Carbon\Carbon::parse($type->created_at)
-                                            ->format('j F Y').' / '.$type->updated_at->diffForHumans()}}</td>
+                                            <td style="vertical-align: middle" align="center">
+                                                {{\Carbon\Carbon::parse($type->created_at)->format('j F Y')}}</td>
+                                            <td style="vertical-align: middle" align="center">
+                                                {{$type->updated_at->diffForHumans()}}</td>
                                             <td style="vertical-align: middle" align="center">
                                                 <button data-placement="left" data-toggle="tooltip" title="Edit"
                                                         type="button" class="btn btn-warning" onclick="editPortfolioType
                                                         ('{{$type->id}}','{{$type->icon}}','{{$type->nama}}')">
                                                     <i class="fa fa-edit"></i></button>
+                                                <hr class="mt-1 mb-1">
                                                 <a href="{{route('delete.portfolio-types',['id'=>encrypt($type->id)])}}"
-                                                   class="btn btn-danger delete-data ml-2" data-toggle="tooltip"
-                                                   title="Delete" data-placement="right">
+                                                   class="btn btn-danger delete-data" data-toggle="tooltip"
+                                                   title="Delete" data-placement="left">
                                                     <i class="fas fa-trash-alt"></i></a>
                                             </td>
                                         </tr>
                                     @endforeach
                                     </tbody>
                                 </table>
+                                <form method="post" id="form-mass">
+                                    {{csrf_field()}}
+                                    <input type="hidden" name="type_ids">
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -153,62 +175,104 @@
     <script src="{{asset('admins/modules/jquery-ui/jquery-ui.min.js')}}"></script>
     <script>
         $(function () {
-            var export_filename = 'Portfolio Types Table ({{now()->format('j F Y')}})';
-            $("#dt-buttons").DataTable({
-                dom: "<'row'<'col-sm-12 col-md-3'l><'col-sm-12 col-md-5'B><'col-sm-12 col-md-4'f>>" +
-                    "<'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
-                columnDefs: [
-                    {"sortable": false, "targets": 3}
-                ],
-                buttons: [
-                    {
-                        text: '<i class="far fa-clipboard mr-2"></i>Copy',
-                        extend: 'copy',
-                        exportOptions: {
-                            columns: [0, 1, 2]
-                        },
-                        className: 'btn btn-primary assets-export-btn export-copy ttip'
-                    }, {
-                        text: '<i class="fa fa-file-csv mr-2"></i>CSV',
-                        extend: 'csv',
-                        exportOptions: {
-                            columns: [0, 1, 2]
-                        },
-                        className: 'btn btn-primary assets-export-btn export-csv ttip',
-                        title: export_filename,
-                        extension: '.csv'
-                    }, {
-                        text: '<i class="far fa-file-excel mr-2"></i>Excel',
-                        extend: 'excel',
-                        exportOptions: {
-                            columns: [0, 1, 2]
-                        },
-                        className: 'btn btn-primary assets-export-btn export-xls ttip',
-                        title: export_filename,
-                        extension: '.xls'
-                    }, {
-                        text: '<i class="far fa-file-pdf mr-2"></i>PDF',
-                        extend: 'pdf',
-                        exportOptions: {
-                            columns: [0, 1, 2]
-                        },
-                        className: 'btn btn-primary assets-export-btn export-pdf ttip',
-                        title: export_filename,
-                        extension: '.pdf'
-                    }, {
-                        text: '<i class="fa fa-print mr-2"></i>Print',
-                        extend: 'print',
-                        exportOptions: {
-                            columns: [0, 1, 2]
-                        },
-                        className: 'btn btn-primary assets-select-btn export-print'
-                    }
-                ],
-                fnDrawCallback: function (oSettings) {
-                    $('.use-nicescroll').getNiceScroll().resize();
-                    $('[data-toggle="tooltip"]').tooltip();
-                },
-            });
+            var export_filename = 'Portfolio Types Table ({{now()->format('j F Y')}})',
+                table = $("#dt-buttons").DataTable({
+                    dom: "<'row'<'col-sm-12 col-md-3'l><'col-sm-12 col-md-5'B><'col-sm-12 col-md-4'f>>" +
+                        "<'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+                    columnDefs: [
+                        {sortable: false, targets: 5},
+                        {targets: 1, visible: false, searchable: false}
+                    ],
+                    buttons: [
+                        {
+                            text: '<strong class="text-uppercase"><i class="far fa-clipboard mr-2"></i>Copy</strong>',
+                            extend: 'copy',
+                            exportOptions: {
+                                columns: [0, 2, 3, 4]
+                            },
+                            className: 'btn btn-warning assets-export-btn export-copy ttip'
+                        }, {
+                            text: '<strong class="text-uppercase"><i class="far fa-file-excel mr-2"></i>Excel</strong>',
+                            extend: 'excel',
+                            exportOptions: {
+                                columns: [0, 2, 3, 4]
+                            },
+                            className: 'btn btn-success assets-export-btn export-xls ttip',
+                            title: export_filename,
+                            extension: '.xls'
+                        }, {
+                            text: '<strong class="text-uppercase"><i class="fa fa-print mr-2"></i>Print</strong>',
+                            extend: 'print',
+                            exportOptions: {
+                                columns: [0, 2, 3, 4]
+                            },
+                            className: 'btn btn-info assets-select-btn export-print'
+                        }, {
+                            text: '<strong class="text-uppercase"><i class="fa fa-trash-alt mr-2"></i>Deletes</strong>',
+                            className: 'btn btn-danger btn_massDelete'
+                        }
+                    ],
+                    fnDrawCallback: function (oSettings) {
+                        $('.use-nicescroll').getNiceScroll().resize();
+                        $('[data-toggle="tooltip"]').tooltip();
+
+                        $("#cb-all").on('click', function () {
+                            if ($(this).is(":checked")) {
+                                $("#dt-buttons tbody tr").addClass("terpilih")
+                                    .find('.dt-checkboxes').prop("checked", true).trigger('change');
+                            } else {
+                                $("#dt-buttons tbody tr").removeClass("terpilih")
+                                    .find('.dt-checkboxes').prop("checked", false).trigger('change');
+                            }
+                        });
+
+                        $("#dt-buttons tbody tr").on("click", function () {
+                            $(this).toggleClass("terpilih");
+                            if ($(this).hasClass('terpilih')) {
+                                $(this).find('.dt-checkboxes').prop("checked", true).trigger('change');
+                            } else {
+                                $(this).find('.dt-checkboxes').prop("checked", false).trigger('change');
+                            }
+                        });
+
+                        $('.dt-checkboxes').on('click', function () {
+                            if ($(this).is(':checked')) {
+                                $(this).parent().parent().parent().addClass("terpilih");
+                            } else {
+                                $(this).parent().parent().parent().removeClass("terpilih");
+                            }
+                        });
+
+                        $('.btn_massDelete').on("click", function () {
+                            var ids = $.map(table.rows('.terpilih').data(), function (item) {
+                                return item[1]
+                            });
+                            $("#form-mass input[name=type_ids]").val(ids);
+                            $("#form-mass").attr("action", "{{route('massDelete.portfolio-types')}}");
+
+                            if (ids.length > 0) {
+                                swal({
+                                    title: 'Delete Portfolio Types',
+                                    text: 'Are you sure to delete this ' + ids.length + ' selected record(s)? ' +
+                                        'You won\'t be able to revert this!',
+                                    icon: 'warning',
+                                    dangerMode: true,
+                                    buttons: ["No", "Yes"],
+                                    closeOnEsc: false,
+                                    closeOnClickOutside: false,
+                                }).then((confirm) => {
+                                    if (confirm) {
+                                        swal({icon: "success", buttons: false});
+                                        $("#form-mass")[0].submit();
+                                    }
+                                });
+                            } else {
+                                $("#cb-all").prop("checked", false).trigger('change');
+                                swal("Error!", "There's no any selected record!", "error");
+                            }
+                        });
+                    },
+                });
         });
 
         function createPortfolioType() {

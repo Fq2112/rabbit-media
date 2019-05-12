@@ -41,6 +41,10 @@
         <a href="javascript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown">
             <i class="fas fa-hand-holding-usd"></i><span>Features</span></a>
         <ul class="dropdown-menu">
+            <li class="{{\Illuminate\Support\Facades\Request::is('admin/tables/features/payment-categories*') ?
+            'active' : ''}}"><a href="{{route('table.PaymentCategories')}}" class="nav-link">Payment Categories</a></li>
+            <li class="{{\Illuminate\Support\Facades\Request::is('admin/tables/features/payment-methods*') ?
+            'active' : ''}}"><a href="{{route('table.PaymentMethods')}}" class="nav-link">Payment Methods</a></li>
             <li class="{{\Illuminate\Support\Facades\Request::is('admin/tables/features/service-types*') ?
             'active' : ''}}"><a href="{{route('table.service-types')}}" class="nav-link">Service Types</a></li>
             <li class="{{\Illuminate\Support\Facades\Request::is('admin/tables/features/services*') ?
@@ -49,10 +53,6 @@
             'active' : ''}}"><a href="{{route('table.studio-types')}}" class="nav-link">Studio Types</a></li>
             <li class="{{\Illuminate\Support\Facades\Request::is('admin/tables/features/studios*') ?
             'active' : ''}}"><a href="{{route('table.studios')}}" class="nav-link">Studios</a></li>
-            <li class="{{\Illuminate\Support\Facades\Request::is('admin/tables/features/payment-categories*') ?
-            'active' : ''}}"><a href="{{route('table.PaymentCategories')}}" class="nav-link">Payment Categories</a></li>
-            <li class="{{\Illuminate\Support\Facades\Request::is('admin/tables/features/payment-methods*') ?
-            'active' : ''}}"><a href="{{route('table.PaymentMethods')}}" class="nav-link">Payment Methods</a></li>
         </ul>
     </li>
 
