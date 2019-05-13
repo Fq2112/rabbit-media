@@ -108,72 +108,76 @@
                     </li>
                 @endif
 
-                <li class="dropdown dropdown-list-toggle">
-                    <a href="javascript:void(0)" data-toggle="dropdown"
-                       class="nav-link notification-toggle nav-link-lg {{count($orders) > 0 && count($pays) > 0 ?
+                @if(Auth::guard('admin')->user()->isCEO() || Auth::guard('admin')->user()->isCTO() ||
+                Auth::guard('admin')->user()->isAdmin() || Auth::guard('admin')->user()->isRoot())
+                    <li class="dropdown dropdown-list-toggle">
+                        <a href="javascript:void(0)" data-toggle="dropdown"
+                           class="nav-link notification-toggle nav-link-lg {{count($orders) > 0 && count($pays) > 0 ?
                        'beep' : ''}}">
-                        <i class="far fa-bell"></i></a>
-                    <div class="dropdown-menu dropdown-list dropdown-menu-right">
-                        <div class="dropdown-header">Orders</div>
-                        <div class="dropdown-list-content dropdown-list-message">
-                            @if(count($orders) > 0 && ($role->isCEO() || $role->isCTO()))
-                                @foreach($orders as $row)
-                                    @php
-                                        $romanDate = \App\Support\RomanConverter::numberToRoman($row->created_at
-                                        ->format('y')).'/'.\App\Support\RomanConverter::numberToRoman($row->created_at
-                                        ->format('m'));
-                                        $invoice = 'INV/'.$row->created_at->format('Ymd').'/'.$romanDate.'/'.$row->id;
-                                    @endphp
-                                    <a href="{{route('table.orders').'?q='.$invoice}}" class="dropdown-item">
-                                        <div class="dropdown-item-avatar">
-                                            <img class="img-fluid" alt="Icon" src="{{asset('images/services/'.
+                            <i class="far fa-bell"></i></a>
+                        <div class="dropdown-menu dropdown-list dropdown-menu-right">
+                            <div class="dropdown-header">{{Auth::guard('admin')->user()->isCEO() || Auth::guard('admin')
+                            ->user()->isCTO() ? 'Order Confirmations' : 'Order Payment Verifications'}}</div>
+                            <div class="dropdown-list-content dropdown-list-message">
+                                @if(count($orders) > 0 && ($role->isCEO() || $role->isCTO()))
+                                    @foreach($orders as $row)
+                                        @php
+                                            $romanDate = \App\Support\RomanConverter::numberToRoman($row->created_at
+                                            ->format('y')).'/'.\App\Support\RomanConverter::numberToRoman($row->created_at
+                                            ->format('m'));
+                                            $invoice = 'INV/'.$row->created_at->format('Ymd').'/'.$romanDate.'/'.$row->id;
+                                        @endphp
+                                        <a href="{{route('table.orders').'?q='.$invoice}}" class="dropdown-item">
+                                            <div class="dropdown-item-avatar">
+                                                <img class="img-fluid" alt="Icon" src="{{asset('images/services/'.
                                             $row->getLayanan->getJenisLayanan->icon)}}">
+                                            </div>
+                                            <div class="dropdown-item-desc">
+                                                <b>{{$row->getLayanan->paket}}</b>
+                                                <p>{{$row->judul}}</p>
+                                                <div class="time">
+                                                    {{\Carbon\Carbon::parse($row->created_at)->diffForHumans()}}</div>
+                                            </div>
+                                        </a>
+                                    @endforeach
+                                @elseif(count($pays) > 0 && ($role->isRoot() || $role->isAdmin()))
+                                    @foreach($pays as $row)
+                                        @php
+                                            $romanDate = \App\Support\RomanConverter::numberToRoman($row->created_at
+                                            ->format('y')).'/'.\App\Support\RomanConverter::numberToRoman($row->created_at
+                                            ->format('m'));
+                                            $invoice = 'INV/'.$row->created_at->format('Ymd').'/'.$romanDate.'/'.$row->id;
+                                        @endphp
+                                        <a href="{{route('table.orders').'?q='.$invoice}}" class="dropdown-item">
+                                            <div class="dropdown-item-avatar">
+                                                <img class="img-fluid" alt="Icon" src="{{asset('images/services/'.
+                                            $row->getLayanan->getJenisLayanan->icon)}}">
+                                            </div>
+                                            <div class="dropdown-item-desc">
+                                                <b>{{$row->getLayanan->paket}}</b>
+                                                <p>{{$row->judul}}</p>
+                                                <div class="time">
+                                                    {{\Carbon\Carbon::parse($row->created_at)->diffForHumans()}}</div>
+                                            </div>
+                                        </a>
+                                    @endforeach
+                                @else
+                                    <a class="dropdown-item">
+                                        <div class="dropdown-item-avatar">
+                                            <img src="{{asset('images/searchPlace.png')}}" class="img-fluid">
                                         </div>
                                         <div class="dropdown-item-desc">
-                                            <b>{{$row->getLayanan->paket}}</b>
-                                            <p>{{$row->judul}}</p>
-                                            <div class="time">
-                                                {{\Carbon\Carbon::parse($row->created_at)->diffForHumans()}}</div>
+                                            <p>There seems to be none of the order was found&hellip;</p>
                                         </div>
                                     </a>
-                                @endforeach
-                            @elseif(count($pays) > 0 && ($role->isRoot() || $role->isAdmin()))
-                                @foreach($pays as $row)
-                                    @php
-                                        $romanDate = \App\Support\RomanConverter::numberToRoman($row->created_at
-                                        ->format('y')).'/'.\App\Support\RomanConverter::numberToRoman($row->created_at
-                                        ->format('m'));
-                                        $invoice = 'INV/'.$row->created_at->format('Ymd').'/'.$romanDate.'/'.$row->id;
-                                    @endphp
-                                    <a href="{{route('table.orders').'?q='.$invoice}}" class="dropdown-item">
-                                        <div class="dropdown-item-avatar">
-                                            <img class="img-fluid" alt="Icon" src="{{asset('images/services/'.
-                                            $row->getLayanan->getJenisLayanan->icon)}}">
-                                        </div>
-                                        <div class="dropdown-item-desc">
-                                            <b>{{$row->getLayanan->paket}}</b>
-                                            <p>{{$row->judul}}</p>
-                                            <div class="time">
-                                                {{\Carbon\Carbon::parse($row->created_at)->diffForHumans()}}</div>
-                                        </div>
-                                    </a>
-                                @endforeach
-                            @else
-                                <a class="dropdown-item">
-                                    <div class="dropdown-item-avatar">
-                                        <img src="{{asset('images/searchPlace.png')}}" class="img-fluid">
-                                    </div>
-                                    <div class="dropdown-item-desc">
-                                        <p>There seems to be none of the order was found&hellip;</p>
-                                    </div>
-                                </a>
-                            @endif
+                                @endif
+                            </div>
+                            <div class="dropdown-footer text-center">
+                                <a href="{{route('table.orders')}}">More Orders<i class="fas fa-chevron-right ml-2"></i></a>
+                            </div>
                         </div>
-                        <div class="dropdown-footer text-center">
-                            <a href="{{route('table.orders')}}">More Orders<i class="fas fa-chevron-right ml-2"></i></a>
-                        </div>
-                    </div>
-                </li>
+                    </li>
+                @endif
 
                 <li class="dropdown">
                     <a href="javascript:void(0)" data-toggle="dropdown"

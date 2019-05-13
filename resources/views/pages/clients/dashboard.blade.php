@@ -440,7 +440,8 @@
             var title, total, $date, pagination = '', $page = '',
                 $color, $col, $display, $invoice, $cursor,
                 $isHours, $isQty, $isStudio, $isMeeting, $isDesc, $isAcc, $status, $pm,
-                $isLog, $logID, $logDesc, $logLink, $logIsReady, $logIsComplete, $logStats, $revChance, $admin,
+                $isLog, $logID, $logDesc, $logLink, $logLink_attr, $logIsReady, $logIsComplete, $logStats,
+                $revChance, $admin,
                 $pay, $param_pay, $class_pay,
                 $upload, $param_upload, $class_upload,
                 $abort, $param_abort, $label_abort,
@@ -491,7 +492,8 @@
                 $isLog = val.log_id != null ? '' : 'none';
                 $logID = val.log_id != null ? val.log_id : '';
                 $logDesc = val.log_id != null ? val.log_desc : '(Kosong)';
-                $logLink = val.log_id != null ? val.log_link : '(Kosong)';
+                $logLink = val.log_link != null ? val.log_link : '(Kosong)';
+                $logLink_attr = val.log_link != null ? 'href="' + $logLink + '" target="_blank"' : '';
                 $logIsReady = val.log_id != null ? val.log_isReady : false;
                 $logIsComplete = val.log_id != null ? val.log_isComplete : false;
                 $revChance = val.log_id != null ? 2 - parseInt(val.total_rev) : 2;
@@ -653,7 +655,7 @@
                     '<small class="text-uppercase">Attachments</small>' +
                     '<div id="attachments-' + $logID + '" class="mb-3" data-chocolat-title="Attachments"></div>' +
                     '<small class="text-uppercase">Link</small><ul class="list-inline"><li class="list-inline-item">' +
-                    '<a class="tag tag-plans" href="' + $logLink + '" target="_blank"><i class="fa fa-globe mr-2"></i>' +
+                    '<a class="tag tag-plans" ' + $logLink_attr + '><i class="fa fa-globe mr-2"></i>' +
                     '<span style="font-weight: 600">' + $logLink + '</span></a></li></ul>' +
                     '<small class="text-uppercase">Status</small>' +
                     '<ul class="list-inline"><li class="list-inline-item">' +
@@ -704,16 +706,21 @@
                     '</blockquote></div></li>'
                 );
 
-                if ($logID != null) {
+                if (val.log_files != null) {
                     $.each(val.log_files, function (i, file) {
+                        var asset = file == 'nature_big_1.jpg' || file == 'nature_big_2.jpg' ||
+                        file == 'nature_big_3.jpg' || file == 'nature_big_4.jpg' || file == 'nature_big_5.jpg' ?
+                            '{{asset('images/big-images')}}/' + file : '{{asset('storage/order-logs')}}/' + file;
+
                         $("#attachments-" + $logID).append(
-                            '<a class="chocolat-image mr-2" href="{{asset('images/big-images/nature_big_')}}' + file + '">' +
-                            '<img class="img-fluid img-thumbnail" width="64" ' +
-                            'src="{{asset('images/nature_small_')}}' + file + '"></a>'
+                            '<a class="chocolat-image mr-2" href="' + asset + '">' +
+                            '<img class="img-fluid img-thumbnail" width="64" src="' + asset + '"></a>'
                         );
                     });
 
                     $('#attachments-' + $logID).Chocolat();
+                } else {
+                    $('#attachments-' + $logID).text('(Kosong)');
                 }
             });
             $('[data-toggle="tooltip"]').tooltip();

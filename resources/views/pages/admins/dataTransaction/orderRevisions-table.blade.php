@@ -6,6 +6,7 @@
           href="{{asset('admins/modules/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css')}}">
     <link rel="stylesheet" href="{{asset('admins/modules/datatables/Select-1.2.4/css/select.bootstrap4.min.css')}}">
     <link rel="stylesheet" href="{{asset('admins/modules/datatables/Buttons-1.5.6/css/buttons.dataTables.min.css')}}">
+    <link rel="stylesheet" href="{{asset('admins/modules/chocolat/dist/css/chocolat.css')}}">
 @endpush
 @section('content')
     <section class="section">
@@ -45,7 +46,8 @@
                                     @php $no = 1; @endphp
                                     @foreach($revisions as $row)
                                         @php
-                                            $order = $row->getOrderLog->getPemesanan;
+                                            $log = $row->getOrderLog;
+                                            $order = $log->getPemesanan;
                                             $user = $order->getUser;
                                             $plan = $order->getLayanan;
                                             $price = $plan->harga - ($plan->harga * $plan->diskon/100);
@@ -84,6 +86,56 @@
                                                 </div>
                                                 <div class="row mb-1" style="border-bottom: 1px solid #eee">
                                                     <div class="col">
+                                                        <strong>
+                                                            Log Details <sub>&ndash;by
+                                                                <cite>{{$log->getAdmin->name}}</cite>
+                                                                <img src="{{$log->getAdmin->ava != "" ? asset
+                                                                ('storage/admins/ava/'.$log->getAdmin->ava) : asset
+                                                                ('admins/img/avatar/avatar-'.rand(1,5).'.png')}}"
+                                                                     class="img-thumbnail mb-1" alt="Avatar"
+                                                                     style="border-radius: 100%;width: 32px"></sub>
+                                                        </strong>
+                                                        <p class="mb-0">{{$log->deskripsi}}</p>
+                                                        <ul class="m-0">
+                                                            <li><strong class="text-uppercase">Attachments</strong></li>
+                                                            <li style="list-style: none">
+                                                                <div class="use-choc" data-chocolat-title="Attachments">
+                                                                    @if($log->files != "")
+                                                                        @foreach($log->files as $file)
+                                                                            @php
+                                                                                $asset = $file == 'nature_big_1.jpg' ||
+                                                                                $file == 'nature_big_2.jpg' ||
+                                                                                $file == 'nature_big_3.jpg' ||
+                                                                                $file == 'nature_big_4.jpg' ||
+                                                                                $file == 'nature_big_5.jpg' ?
+                                                                                asset('images/big-images/'.$file) :
+                                                                                asset('storage/order-logs/'.$file)
+                                                                            @endphp
+                                                                            <a class="chocolat-image mr-2"
+                                                                               href="{{$asset}}">
+                                                                                <img class="img-thumbnail" width="64"
+                                                                                     src="{{$asset}}"></a>
+                                                                        @endforeach
+                                                                    @else
+                                                                (empty)
+                                                                    @endif
+                                                                </div>
+                                                            </li>
+                                                            <li><strong class="text-uppercase">Link</strong></li>
+                                                            <li style="list-style: none">
+                                                                @if($log->link != "")
+                                                                    <a href="{{$log->link}}"
+                                                                       target="_blank">{{$log->link}}
+                                                                    </a>
+                                                                @else
+                                                                (empty)
+                                                                @endif
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col">
                                                         <strong>Revision Details</strong>
                                                         {!! $row->deskripsi !!}
                                                     </div>
@@ -120,6 +172,7 @@
     <script src="{{asset('admins/modules/datatables/Select-1.2.4/js/dataTables.select.min.js')}}"></script>
     <script src="{{asset('admins/modules/datatables/Buttons-1.5.6/js/buttons.dataTables.min.js')}}"></script>
     <script src="{{asset('admins/modules/jquery-ui/jquery-ui.min.js')}}"></script>
+    <script src="{{asset('admins/modules/chocolat/dist/js/jquery.chocolat.min.js')}}"></script>
     <script>
         $(function () {
             var export_filename = 'Order Revisions Table ({{now()->format('j F Y')}})',
@@ -162,6 +215,7 @@
                     fnDrawCallback: function (oSettings) {
                         $('.use-nicescroll').getNiceScroll().resize();
                         $('[data-toggle="tooltip"]').tooltip();
+                        $(".use-choc").Chocolat();
 
                         $("#cb-all").on('click', function () {
                             if ($(this).is(":checked")) {
