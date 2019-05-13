@@ -43,12 +43,36 @@ Route::group(['namespace' => 'Auth', 'prefix' => 'account'], function () {
 
 });
 
-Route::group(['namespace' => 'Pages\Admins', 'prefix' => 'admin', 'middleware' => 'admin'], function () {
+Route::group(['namespace' => 'Pages\Admins', 'prefix' => 'admin', 'middleware' => 'rabbits'], function () {
 
     Route::get('/', [
         'uses' => 'AdminController@index',
         'as' => 'home-admin'
     ]);
+
+    Route::group(['prefix' => 'schedules'], function () {
+
+        Route::get('/', [
+            'uses' => 'AdminController@showSchedules',
+            'as' => 'show.schedules'
+        ]);
+
+        Route::post('create', [
+            'uses' => 'AdminController@createSchedules',
+            'as' => 'create.schedules'
+        ]);
+
+        Route::put('update', [
+            'uses' => 'AdminController@updateSchedules',
+            'as' => 'update.schedules'
+        ]);
+
+        Route::delete('delete', [
+            'uses' => 'AdminController@deleteSchedules',
+            'as' => 'delete.schedules'
+        ]);
+
+    });
 
     Route::group(['prefix' => 'account'], function () {
 
@@ -74,7 +98,7 @@ Route::group(['namespace' => 'Pages\Admins', 'prefix' => 'admin', 'middleware' =
 
     });
 
-    Route::group(['prefix' => 'inbox', 'middleware' => 'inbox'], function () {
+    Route::group(['prefix' => 'inbox', 'middleware' => 'admin'], function () {
 
         Route::get('/', [
             'uses' => 'AdminController@showInbox',
@@ -95,7 +119,7 @@ Route::group(['namespace' => 'Pages\Admins', 'prefix' => 'admin', 'middleware' =
 
     Route::group(['prefix' => 'tables'], function () {
 
-        Route::group(['namespace' => 'DataMaster'], function () {
+        Route::group(['namespace' => 'DataMaster', 'middleware' => 'admin'], function () {
 
             Route::group(['prefix' => 'accounts'], function () {
 
@@ -154,342 +178,338 @@ Route::group(['namespace' => 'Pages\Admins', 'prefix' => 'admin', 'middleware' =
 
             });
 
-            Route::group(['middleware' => 'inbox'], function () {
+            Route::group(['prefix' => 'company-profile'], function () {
 
-                Route::group(['prefix' => 'company-profile'], function () {
+                Route::get('/', [
+                    'uses' => 'CompanyProfileController@showCompanyProfile',
+                    'as' => 'show.company.profile'
+                ]);
+
+                Route::put('update', [
+                    'uses' => 'CompanyProfileController@updateCompanyProfile',
+                    'as' => 'update.company.profile'
+                ]);
+
+                Route::group(['prefix' => 'faqs'], function () {
 
                     Route::get('/', [
-                        'uses' => 'CompanyProfileController@showCompanyProfile',
-                        'as' => 'show.company.profile'
+                        'uses' => 'CompanyProfileController@showFaqTable',
+                        'as' => 'table.faqs'
+                    ]);
+
+                    Route::post('create', [
+                        'uses' => 'CompanyProfileController@createFaq',
+                        'as' => 'create.faqs'
                     ]);
 
                     Route::put('update', [
-                        'uses' => 'CompanyProfileController@updateCompanyProfile',
-                        'as' => 'update.company.profile'
+                        'uses' => 'CompanyProfileController@updateFaq',
+                        'as' => 'update.faqs'
                     ]);
 
-                    Route::group(['prefix' => 'faqs'], function () {
+                    Route::get('{id}/delete', [
+                        'uses' => 'CompanyProfileController@deleteFaq',
+                        'as' => 'delete.faqs'
+                    ]);
 
-                        Route::get('/', [
-                            'uses' => 'CompanyProfileController@showFaqTable',
-                            'as' => 'table.faqs'
-                        ]);
-
-                        Route::post('create', [
-                            'uses' => 'CompanyProfileController@createFaq',
-                            'as' => 'create.faqs'
-                        ]);
-
-                        Route::put('update', [
-                            'uses' => 'CompanyProfileController@updateFaq',
-                            'as' => 'update.faqs'
-                        ]);
-
-                        Route::get('{id}/delete', [
-                            'uses' => 'CompanyProfileController@deleteFaq',
-                            'as' => 'delete.faqs'
-                        ]);
-
-                        Route::post('deletes', [
-                            'uses' => 'CompanyProfileController@massDeleteFaq',
-                            'as' => 'massDelete.faqs'
-                        ]);
-
-                    });
-
-                    Route::group(['prefix' => 'how-it-works'], function () {
-
-                        Route::get('/', [
-                            'uses' => 'CompanyProfileController@showHowItWorksTable',
-                            'as' => 'table.howItWorks'
-                        ]);
-
-                        Route::post('create', [
-                            'uses' => 'CompanyProfileController@createHowItWorks',
-                            'as' => 'create.howItWorks'
-                        ]);
-
-                        Route::put('update', [
-                            'uses' => 'CompanyProfileController@updateHowItWorks',
-                            'as' => 'update.howItWorks'
-                        ]);
-
-                        Route::get('{id}/delete', [
-                            'uses' => 'CompanyProfileController@deleteHowItWorks',
-                            'as' => 'delete.howItWorks'
-                        ]);
-
-                        Route::post('deletes', [
-                            'uses' => 'CompanyProfileController@massDeleteHowItWorks',
-                            'as' => 'massDelete.howItWorks'
-                        ]);
-
-                    });
-
-                    Route::group(['prefix' => 'portfolio-types'], function () {
-
-                        Route::get('/', [
-                            'uses' => 'CompanyProfileController@showPortfolioTypesTable',
-                            'as' => 'table.portfolio-types'
-                        ]);
-
-                        Route::post('create', [
-                            'uses' => 'CompanyProfileController@createPortfolioTypes',
-                            'as' => 'create.portfolio-types'
-                        ]);
-
-                        Route::put('update', [
-                            'uses' => 'CompanyProfileController@updatePortfolioTypes',
-                            'as' => 'update.portfolio-types'
-                        ]);
-
-                        Route::get('{id}/delete', [
-                            'uses' => 'CompanyProfileController@deletePortfolioTypes',
-                            'as' => 'delete.portfolio-types'
-                        ]);
-
-                        Route::post('deletes', [
-                            'uses' => 'CompanyProfileController@massDeletePortfolioTypes',
-                            'as' => 'massDelete.portfolio-types'
-                        ]);
-
-                    });
-
-                    Route::group(['prefix' => 'portfolios'], function () {
-
-                        Route::get('/', [
-                            'uses' => 'CompanyProfileController@showPortfoliosTable',
-                            'as' => 'table.portfolios'
-                        ]);
-
-                        Route::post('create', [
-                            'uses' => 'CompanyProfileController@createPortfolios',
-                            'as' => 'create.portfolios'
-                        ]);
-
-                        Route::put('update', [
-                            'uses' => 'CompanyProfileController@updatePortfolios',
-                            'as' => 'update.portfolios'
-                        ]);
-
-                        Route::get('{id}/delete', [
-                            'uses' => 'CompanyProfileController@deletePortfolios',
-                            'as' => 'delete.portfolios'
-                        ]);
-
-                        Route::post('deletes', [
-                            'uses' => 'CompanyProfileController@massDeletePortfolios',
-                            'as' => 'massDelete.portfolios'
-                        ]);
-
-                    });
-
-                    Route::group(['prefix' => 'portfolio-galleries'], function () {
-
-                        Route::get('/', [
-                            'uses' => 'CompanyProfileController@showPortfolioGalleriesTable',
-                            'as' => 'table.portfolio-galleries'
-                        ]);
-
-                        Route::post('create', [
-                            'uses' => 'CompanyProfileController@createPortfolioGalleries',
-                            'as' => 'create.portfolio-galleries'
-                        ]);
-
-                        Route::put('update', [
-                            'uses' => 'CompanyProfileController@updatePortfolioGalleries',
-                            'as' => 'update.portfolio-galleries'
-                        ]);
-
-                        Route::get('{id}/delete', [
-                            'uses' => 'CompanyProfileController@deletePortfolioGalleries',
-                            'as' => 'delete.portfolio-galleries'
-                        ]);
-
-                        Route::post('deletes', [
-                            'uses' => 'CompanyProfileController@massDeletePortfolioGalleries',
-                            'as' => 'massDelete.portfolio-galleries'
-                        ]);
-
-                    });
+                    Route::post('deletes', [
+                        'uses' => 'CompanyProfileController@massDeleteFaq',
+                        'as' => 'massDelete.faqs'
+                    ]);
 
                 });
 
-                Route::group(['prefix' => 'features'], function () {
+                Route::group(['prefix' => 'how-it-works'], function () {
 
-                    Route::group(['prefix' => 'payment-categories'], function () {
+                    Route::get('/', [
+                        'uses' => 'CompanyProfileController@showHowItWorksTable',
+                        'as' => 'table.howItWorks'
+                    ]);
 
-                        Route::get('/', [
-                            'uses' => 'FeaturesController@showPaymentCategoriesTable',
-                            'as' => 'table.PaymentCategories'
-                        ]);
+                    Route::post('create', [
+                        'uses' => 'CompanyProfileController@createHowItWorks',
+                        'as' => 'create.howItWorks'
+                    ]);
 
-                        Route::post('create', [
-                            'uses' => 'FeaturesController@createPaymentCategories',
-                            'as' => 'create.PaymentCategories'
-                        ]);
+                    Route::put('update', [
+                        'uses' => 'CompanyProfileController@updateHowItWorks',
+                        'as' => 'update.howItWorks'
+                    ]);
 
-                        Route::put('update', [
-                            'uses' => 'FeaturesController@updatePaymentCategories',
-                            'as' => 'update.PaymentCategories'
-                        ]);
+                    Route::get('{id}/delete', [
+                        'uses' => 'CompanyProfileController@deleteHowItWorks',
+                        'as' => 'delete.howItWorks'
+                    ]);
 
-                        Route::get('{id}/delete', [
-                            'uses' => 'FeaturesController@deletePaymentCategories',
-                            'as' => 'delete.PaymentCategories'
-                        ]);
+                    Route::post('deletes', [
+                        'uses' => 'CompanyProfileController@massDeleteHowItWorks',
+                        'as' => 'massDelete.howItWorks'
+                    ]);
 
-                        Route::post('deletes', [
-                            'uses' => 'FeaturesController@massDeletePaymentCategories',
-                            'as' => 'massDelete.PaymentCategories'
-                        ]);
+                });
 
-                    });
+                Route::group(['prefix' => 'portfolio-types'], function () {
 
-                    Route::group(['prefix' => 'payment-methods'], function () {
+                    Route::get('/', [
+                        'uses' => 'CompanyProfileController@showPortfolioTypesTable',
+                        'as' => 'table.portfolio-types'
+                    ]);
 
-                        Route::get('/', [
-                            'uses' => 'FeaturesController@showPaymentMethodsTable',
-                            'as' => 'table.PaymentMethods'
-                        ]);
+                    Route::post('create', [
+                        'uses' => 'CompanyProfileController@createPortfolioTypes',
+                        'as' => 'create.portfolio-types'
+                    ]);
 
-                        Route::post('create', [
-                            'uses' => 'FeaturesController@createPaymentMethods',
-                            'as' => 'create.PaymentMethods'
-                        ]);
+                    Route::put('update', [
+                        'uses' => 'CompanyProfileController@updatePortfolioTypes',
+                        'as' => 'update.portfolio-types'
+                    ]);
 
-                        Route::put('update', [
-                            'uses' => 'FeaturesController@updatePaymentMethods',
-                            'as' => 'update.PaymentMethods'
-                        ]);
+                    Route::get('{id}/delete', [
+                        'uses' => 'CompanyProfileController@deletePortfolioTypes',
+                        'as' => 'delete.portfolio-types'
+                    ]);
 
-                        Route::get('{id}/delete', [
-                            'uses' => 'FeaturesController@deletePaymentMethods',
-                            'as' => 'delete.PaymentMethods'
-                        ]);
+                    Route::post('deletes', [
+                        'uses' => 'CompanyProfileController@massDeletePortfolioTypes',
+                        'as' => 'massDelete.portfolio-types'
+                    ]);
 
-                        Route::post('deletes', [
-                            'uses' => 'FeaturesController@massDeletePaymentMethods',
-                            'as' => 'massDelete.PaymentMethods'
-                        ]);
+                });
 
-                    });
+                Route::group(['prefix' => 'portfolios'], function () {
 
-                    Route::group(['prefix' => 'service-types'], function () {
+                    Route::get('/', [
+                        'uses' => 'CompanyProfileController@showPortfoliosTable',
+                        'as' => 'table.portfolios'
+                    ]);
 
-                        Route::get('/', [
-                            'uses' => 'FeaturesController@showServiceTypesTable',
-                            'as' => 'table.service-types'
-                        ]);
+                    Route::post('create', [
+                        'uses' => 'CompanyProfileController@createPortfolios',
+                        'as' => 'create.portfolios'
+                    ]);
 
-                        Route::post('create', [
-                            'uses' => 'FeaturesController@createServiceTypes',
-                            'as' => 'create.service-types'
-                        ]);
+                    Route::put('update', [
+                        'uses' => 'CompanyProfileController@updatePortfolios',
+                        'as' => 'update.portfolios'
+                    ]);
 
-                        Route::put('update', [
-                            'uses' => 'FeaturesController@updateServiceTypes',
-                            'as' => 'update.service-types'
-                        ]);
+                    Route::get('{id}/delete', [
+                        'uses' => 'CompanyProfileController@deletePortfolios',
+                        'as' => 'delete.portfolios'
+                    ]);
 
-                        Route::get('{id}/delete', [
-                            'uses' => 'FeaturesController@deleteServiceTypes',
-                            'as' => 'delete.service-types'
-                        ]);
+                    Route::post('deletes', [
+                        'uses' => 'CompanyProfileController@massDeletePortfolios',
+                        'as' => 'massDelete.portfolios'
+                    ]);
 
-                        Route::post('deletes', [
-                            'uses' => 'FeaturesController@massDeleteServiceTypes',
-                            'as' => 'massDelete.service-types'
-                        ]);
+                });
 
-                    });
+                Route::group(['prefix' => 'portfolio-galleries'], function () {
 
-                    Route::group(['prefix' => 'services'], function () {
+                    Route::get('/', [
+                        'uses' => 'CompanyProfileController@showPortfolioGalleriesTable',
+                        'as' => 'table.portfolio-galleries'
+                    ]);
 
-                        Route::get('/', [
-                            'uses' => 'FeaturesController@showServicesTable',
-                            'as' => 'table.services'
-                        ]);
+                    Route::post('create', [
+                        'uses' => 'CompanyProfileController@createPortfolioGalleries',
+                        'as' => 'create.portfolio-galleries'
+                    ]);
 
-                        Route::post('create', [
-                            'uses' => 'FeaturesController@createServices',
-                            'as' => 'create.services'
-                        ]);
+                    Route::put('update', [
+                        'uses' => 'CompanyProfileController@updatePortfolioGalleries',
+                        'as' => 'update.portfolio-galleries'
+                    ]);
 
-                        Route::put('update', [
-                            'uses' => 'FeaturesController@updateServices',
-                            'as' => 'update.services'
-                        ]);
+                    Route::get('{id}/delete', [
+                        'uses' => 'CompanyProfileController@deletePortfolioGalleries',
+                        'as' => 'delete.portfolio-galleries'
+                    ]);
 
-                        Route::get('{id}/delete', [
-                            'uses' => 'FeaturesController@deleteServices',
-                            'as' => 'delete.services'
-                        ]);
+                    Route::post('deletes', [
+                        'uses' => 'CompanyProfileController@massDeletePortfolioGalleries',
+                        'as' => 'massDelete.portfolio-galleries'
+                    ]);
 
-                        Route::post('deletes', [
-                            'uses' => 'FeaturesController@massDeleteServices',
-                            'as' => 'massDelete.services'
-                        ]);
+                });
 
-                    });
+            });
 
-                    Route::group(['prefix' => 'studio-types'], function () {
+            Route::group(['prefix' => 'features'], function () {
 
-                        Route::get('/', [
-                            'uses' => 'FeaturesController@showStudioTypesTable',
-                            'as' => 'table.studio-types'
-                        ]);
+                Route::group(['prefix' => 'payment-categories'], function () {
 
-                        Route::post('create', [
-                            'uses' => 'FeaturesController@createStudioTypes',
-                            'as' => 'create.studio-types'
-                        ]);
+                    Route::get('/', [
+                        'uses' => 'FeaturesController@showPaymentCategoriesTable',
+                        'as' => 'table.PaymentCategories'
+                    ]);
 
-                        Route::put('update', [
-                            'uses' => 'FeaturesController@updateStudioTypes',
-                            'as' => 'update.studio-types'
-                        ]);
+                    Route::post('create', [
+                        'uses' => 'FeaturesController@createPaymentCategories',
+                        'as' => 'create.PaymentCategories'
+                    ]);
 
-                        Route::get('{id}/delete', [
-                            'uses' => 'FeaturesController@deleteStudioTypes',
-                            'as' => 'delete.studio-types'
-                        ]);
+                    Route::put('update', [
+                        'uses' => 'FeaturesController@updatePaymentCategories',
+                        'as' => 'update.PaymentCategories'
+                    ]);
 
-                        Route::post('deletes', [
-                            'uses' => 'FeaturesController@massDeleteStudioTypes',
-                            'as' => 'massDelete.studio-types'
-                        ]);
+                    Route::get('{id}/delete', [
+                        'uses' => 'FeaturesController@deletePaymentCategories',
+                        'as' => 'delete.PaymentCategories'
+                    ]);
 
-                    });
+                    Route::post('deletes', [
+                        'uses' => 'FeaturesController@massDeletePaymentCategories',
+                        'as' => 'massDelete.PaymentCategories'
+                    ]);
 
-                    Route::group(['prefix' => 'studios'], function () {
+                });
 
-                        Route::get('/', [
-                            'uses' => 'FeaturesController@showStudiosTable',
-                            'as' => 'table.studios'
-                        ]);
+                Route::group(['prefix' => 'payment-methods'], function () {
 
-                        Route::post('create', [
-                            'uses' => 'FeaturesController@createStudios',
-                            'as' => 'create.studios'
-                        ]);
+                    Route::get('/', [
+                        'uses' => 'FeaturesController@showPaymentMethodsTable',
+                        'as' => 'table.PaymentMethods'
+                    ]);
 
-                        Route::put('update', [
-                            'uses' => 'FeaturesController@updateStudios',
-                            'as' => 'update.studios'
-                        ]);
+                    Route::post('create', [
+                        'uses' => 'FeaturesController@createPaymentMethods',
+                        'as' => 'create.PaymentMethods'
+                    ]);
 
-                        Route::get('{id}/delete', [
-                            'uses' => 'FeaturesController@deleteStudios',
-                            'as' => 'delete.studios'
-                        ]);
+                    Route::put('update', [
+                        'uses' => 'FeaturesController@updatePaymentMethods',
+                        'as' => 'update.PaymentMethods'
+                    ]);
 
-                        Route::post('deletes', [
-                            'uses' => 'FeaturesController@massDeleteStudios',
-                            'as' => 'massDelete.studios'
-                        ]);
+                    Route::get('{id}/delete', [
+                        'uses' => 'FeaturesController@deletePaymentMethods',
+                        'as' => 'delete.PaymentMethods'
+                    ]);
 
-                    });
+                    Route::post('deletes', [
+                        'uses' => 'FeaturesController@massDeletePaymentMethods',
+                        'as' => 'massDelete.PaymentMethods'
+                    ]);
+
+                });
+
+                Route::group(['prefix' => 'service-types'], function () {
+
+                    Route::get('/', [
+                        'uses' => 'FeaturesController@showServiceTypesTable',
+                        'as' => 'table.service-types'
+                    ]);
+
+                    Route::post('create', [
+                        'uses' => 'FeaturesController@createServiceTypes',
+                        'as' => 'create.service-types'
+                    ]);
+
+                    Route::put('update', [
+                        'uses' => 'FeaturesController@updateServiceTypes',
+                        'as' => 'update.service-types'
+                    ]);
+
+                    Route::get('{id}/delete', [
+                        'uses' => 'FeaturesController@deleteServiceTypes',
+                        'as' => 'delete.service-types'
+                    ]);
+
+                    Route::post('deletes', [
+                        'uses' => 'FeaturesController@massDeleteServiceTypes',
+                        'as' => 'massDelete.service-types'
+                    ]);
+
+                });
+
+                Route::group(['prefix' => 'services'], function () {
+
+                    Route::get('/', [
+                        'uses' => 'FeaturesController@showServicesTable',
+                        'as' => 'table.services'
+                    ]);
+
+                    Route::post('create', [
+                        'uses' => 'FeaturesController@createServices',
+                        'as' => 'create.services'
+                    ]);
+
+                    Route::put('update', [
+                        'uses' => 'FeaturesController@updateServices',
+                        'as' => 'update.services'
+                    ]);
+
+                    Route::get('{id}/delete', [
+                        'uses' => 'FeaturesController@deleteServices',
+                        'as' => 'delete.services'
+                    ]);
+
+                    Route::post('deletes', [
+                        'uses' => 'FeaturesController@massDeleteServices',
+                        'as' => 'massDelete.services'
+                    ]);
+
+                });
+
+                Route::group(['prefix' => 'studio-types'], function () {
+
+                    Route::get('/', [
+                        'uses' => 'FeaturesController@showStudioTypesTable',
+                        'as' => 'table.studio-types'
+                    ]);
+
+                    Route::post('create', [
+                        'uses' => 'FeaturesController@createStudioTypes',
+                        'as' => 'create.studio-types'
+                    ]);
+
+                    Route::put('update', [
+                        'uses' => 'FeaturesController@updateStudioTypes',
+                        'as' => 'update.studio-types'
+                    ]);
+
+                    Route::get('{id}/delete', [
+                        'uses' => 'FeaturesController@deleteStudioTypes',
+                        'as' => 'delete.studio-types'
+                    ]);
+
+                    Route::post('deletes', [
+                        'uses' => 'FeaturesController@massDeleteStudioTypes',
+                        'as' => 'massDelete.studio-types'
+                    ]);
+
+                });
+
+                Route::group(['prefix' => 'studios'], function () {
+
+                    Route::get('/', [
+                        'uses' => 'FeaturesController@showStudiosTable',
+                        'as' => 'table.studios'
+                    ]);
+
+                    Route::post('create', [
+                        'uses' => 'FeaturesController@createStudios',
+                        'as' => 'create.studios'
+                    ]);
+
+                    Route::put('update', [
+                        'uses' => 'FeaturesController@updateStudios',
+                        'as' => 'update.studios'
+                    ]);
+
+                    Route::get('{id}/delete', [
+                        'uses' => 'FeaturesController@deleteStudios',
+                        'as' => 'delete.studios'
+                    ]);
+
+                    Route::post('deletes', [
+                        'uses' => 'FeaturesController@massDeleteStudios',
+                        'as' => 'massDelete.studios'
+                    ]);
 
                 });
 
@@ -499,7 +519,7 @@ Route::group(['namespace' => 'Pages\Admins', 'prefix' => 'admin', 'middleware' =
 
         Route::group(['namespace' => 'DataTransaction'], function () {
 
-            Route::group(['prefix' => 'clients', 'middleware' => 'inbox'], function () {
+            Route::group(['prefix' => 'clients', 'middleware' => 'admin'], function () {
 
                 Route::group(['prefix' => 'feedback'], function () {
 
@@ -567,7 +587,7 @@ Route::group(['namespace' => 'Pages\Admins', 'prefix' => 'admin', 'middleware' =
 
             Route::group(['prefix' => 'staffs'], function () {
 
-                Route::group(['prefix' => 'order-logs'], function () {
+                Route::group(['prefix' => 'order-logs', 'middleware' => 'staff'], function () {
 
                     Route::get('/', [
                         'uses' => 'TransactionStaffController@showOrderLogsTable',
@@ -586,7 +606,7 @@ Route::group(['namespace' => 'Pages\Admins', 'prefix' => 'admin', 'middleware' =
 
                 });
 
-                Route::group(['prefix' => 'outcomes'], function () {
+                Route::group(['prefix' => 'outcomes', 'middleware' => 'admin'], function () {
 
                     Route::get('/', [
                         'uses' => 'TransactionStaffController@showOutcomesTable',
@@ -601,30 +621,6 @@ Route::group(['namespace' => 'Pages\Admins', 'prefix' => 'admin', 'middleware' =
                     Route::get('{id}/delete', [
                         'uses' => 'TransactionStaffController@deleteOutcomes',
                         'as' => 'delete.outcomes'
-                    ]);
-
-                });
-
-                Route::group(['prefix' => 'schedules'], function () {
-
-                    Route::get('/', [
-                        'uses' => 'TransactionStaffController@showSchedulesTable',
-                        'as' => 'table.schedules'
-                    ]);
-
-                    Route::post('create', [
-                        'uses' => 'TransactionStaffController@createSchedules',
-                        'as' => 'create.schedules'
-                    ]);
-
-                    Route::put('update', [
-                        'uses' => 'TransactionStaffController@updateSchedules',
-                        'as' => 'update.schedules'
-                    ]);
-
-                    Route::get('{id}/delete', [
-                        'uses' => 'TransactionStaffController@deleteSchedules',
-                        'as' => 'delete.schedules'
                     ]);
 
                 });

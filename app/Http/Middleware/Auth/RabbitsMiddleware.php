@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Middleware\Auth\Admins;
+namespace App\Http\Middleware\Auth;
 
 use Closure;
 use Illuminate\Support\Facades\Auth;
 
-class CEOMiddleware
+class RabbitsMiddleware
 {
     /**
      * Handle an incoming request.
@@ -17,12 +17,13 @@ class CEOMiddleware
     public function handle($request, Closure $next)
     {
         if (Auth::guard('admin')->check()) {
-            if (Auth::guard('admin')->user()->isCEO() || Auth::guard('admin')->user()->isRoot()) {
-                return $next($request);
-            }
+            return $next($request);
 
         } else {
-            return $next($request);
+            if (Auth::guest()) {
+                return redirect()->guest(route('home'))
+                    ->with('expire', 'Halaman yang Anda minta memerlukan otentikasi, silahkan masuk ke akun Anda.');
+            }
         }
 
         return response()->view('errors.403');

@@ -11,12 +11,6 @@ use App\Http\Controllers\Controller;
 
 class AccountsController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('root')->except(['showAdminsTable', 'showUsersTable']);
-        $this->middleware('ceo')->only(['showAdminsTable', 'showUsersTable']);
-    }
-
     public function showAdminsTable()
     {
         $admins = Admin::all();
@@ -31,6 +25,7 @@ class AccountsController extends Controller
             'name' => 'required|string|max:191',
             'email' => 'required|string|email|max:191|unique:admins',
             'password' => 'required|string|min:6|confirmed',
+            'jabatan' => 'required',
             'role' => 'required'
         ]);
 
@@ -47,6 +42,7 @@ class AccountsController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
+            'jabatan' => $request->jabatan,
             'role' => $request->role
         ]);
         return back()->with('success', '' . $request->name . ' is successfully created!');
@@ -70,7 +66,8 @@ class AccountsController extends Controller
         }
         $admin->update([
             'ava' => $name,
-            'name' => $request->name
+            'name' => $request->name,
+            'jabatan' => $request->jabatan
         ]);
 
         return back()->with('success', 'Successfully update ' . $admin->name . '\'s profile!');

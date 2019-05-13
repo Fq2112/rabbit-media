@@ -19,6 +19,7 @@ class CreateAdminsTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
+            $table->string('jabatan');
             $table->string('role', 30);
             $table->text('deskripsi')->nullable();
             $table->string('facebook')->nullable();

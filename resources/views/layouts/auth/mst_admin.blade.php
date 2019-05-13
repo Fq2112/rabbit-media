@@ -57,7 +57,7 @@
                         <i class="fas fa-bars"></i></a></li>
             </ul>
             <ul class="navbar-nav navbar-right">
-                @if($role->isRoot() || $role->isCEO() || $role->isCTO() || $role->isAdmin())
+                @if($role->isRoot() || $role->isAdmin())
                     <li class="dropdown dropdown-list-toggle">
                         <a href="javascript:void(0)" data-toggle="dropdown"
                            class="nav-link nav-link-lg message-toggle {{count($contacts) > 0 ? 'beep' : ''}}">
@@ -108,18 +108,16 @@
                     </li>
                 @endif
 
-                @if(Auth::guard('admin')->user()->isCEO() || Auth::guard('admin')->user()->isCTO() ||
-                Auth::guard('admin')->user()->isAdmin() || Auth::guard('admin')->user()->isRoot())
+                @if($role->isRoot() || $role->isAdmin())
                     <li class="dropdown dropdown-list-toggle">
                         <a href="javascript:void(0)" data-toggle="dropdown"
-                           class="nav-link notification-toggle nav-link-lg {{count($orders) > 0 && count($pays) > 0 ?
-                       'beep' : ''}}">
-                            <i class="far fa-bell"></i></a>
+                           class="nav-link notification-toggle nav-link-lg {{(count($orders) > 0 && $role->isRoot()) ||
+                           (count($pays) > 0 && $role->isAdmin()) ? 'beep' : ''}}"><i class="far fa-bell"></i></a>
                         <div class="dropdown-menu dropdown-list dropdown-menu-right">
-                            <div class="dropdown-header">{{Auth::guard('admin')->user()->isCEO() || Auth::guard('admin')
-                            ->user()->isCTO() ? 'Order Confirmations' : 'Order Payment Verifications'}}</div>
+                            <div class="dropdown-header">{{$role->isRoot() ?
+                            'Order Confirmations' : 'Order Payment Verifications'}}</div>
                             <div class="dropdown-list-content dropdown-list-message">
-                                @if(count($orders) > 0 && ($role->isCEO() || $role->isCTO()))
+                                @if(count($orders) > 0 && $role->isRoot())
                                     @foreach($orders as $row)
                                         @php
                                             $romanDate = \App\Support\RomanConverter::numberToRoman($row->created_at
@@ -140,7 +138,7 @@
                                             </div>
                                         </a>
                                     @endforeach
-                                @elseif(count($pays) > 0 && ($role->isRoot() || $role->isAdmin()))
+                                @elseif(count($pays) > 0 && $role->isAdmin())
                                     @foreach($pays as $row)
                                         @php
                                             $romanDate = \App\Support\RomanConverter::numberToRoman($row->created_at

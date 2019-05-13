@@ -174,6 +174,7 @@
                         $("#form-feedback input[name=feedback_ids]").val(ids);
                         $("#form-feedback").attr("action", "{{route('massDelete.feedback')}}");
 
+                        @if(Auth::guard('admin')->user()->isRoot())
                         if (ids.length > 0) {
                             swal({
                                 title: 'Delete Feedback',
@@ -194,6 +195,9 @@
                             $("#cb-all").prop("checked", false).trigger('change');
                             swal("Error!", "There's no any selected record!", "error");
                         }
+                        @else
+                        swal('ATTENTION!', 'This feature only for ROOT.', 'warning');
+                        @endif
                     });
                 },
             });

@@ -62,17 +62,11 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-        'admin' => \App\Http\Middleware\Auth\AdminMiddleware::class,
+        'rabbits' => \App\Http\Middleware\Auth\RabbitsMiddleware::class,
         'root' => \App\Http\Middleware\Auth\Admins\RootMiddleware::class,
-        'ceo' => \App\Http\Middleware\Auth\Admins\CEOMiddleware::class,
-        'cto' => \App\Http\Middleware\Auth\Admins\CTOMiddleware::class,
-        'coo' => \App\Http\Middleware\Auth\Admins\COOMiddleware::class,
-        'cfmo' => \App\Http\Middleware\Auth\Admins\AdminMiddleware::class,
-        'photographer' => \App\Http\Middleware\Auth\Admins\PhotographerMiddleware::class,
-        'videographer' => \App\Http\Middleware\Auth\Admins\VideographerMiddleware::class,
-        'designer' => \App\Http\Middleware\Auth\Admins\DesignerMiddleware::class,
+        'admin' => \App\Http\Middleware\Auth\Admins\AdminMiddleware::class,
+        'staff' => \App\Http\Middleware\Auth\Admins\StaffMiddleware::class,
         'invoice' => \App\Http\Middleware\Auth\Pages\InvoiceMiddleware::class,
-        'inbox' => \App\Http\Middleware\Auth\Pages\InboxMiddleware::class,
     ];
 
     /**

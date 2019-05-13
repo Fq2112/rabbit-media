@@ -19,7 +19,7 @@ class TransactionClientController extends Controller
     {
         $feedback = Feedback::orderByDesc('id')->get();
 
-        return view('pages.admins.dataTransaction.feedback-table', compact('feedback'));
+        return view('pages.admins.dataTransaction.clients.feedback-table', compact('feedback'));
     }
 
     public function deleteFeedback($id)
@@ -51,7 +51,7 @@ class TransactionClientController extends Controller
             $find = null;
         }
 
-        return view('pages.admins.dataTransaction.orders-table', compact('orders', 'find'));
+        return view('pages.admins.dataTransaction.clients.orders-table', compact('orders', 'find'));
     }
 
     public function updateOrders(Request $request)
@@ -124,7 +124,7 @@ class TransactionClientController extends Controller
     {
         $revisions = OrderRevision::orderByDesc('id')->get();
 
-        return view('pages.admins.dataTransaction.orderRevisions-table', compact('revisions'));
+        return view('pages.admins.dataTransaction.clients.orderRevisions-table', compact('revisions'));
     }
 
     public function deleteOrderRevisions($id)

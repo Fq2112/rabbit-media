@@ -74,8 +74,7 @@
 <div class="card profile-widget">
     <div class="profile-widget-header">
         <img alt="image" src="{{$admin->ava != "" ? asset('storage/admins/ava/'.$admin->ava) :
-                            asset('admins/img/avatar/avatar-'.rand(1,5).'.png')}}"
-             class="rounded-circle profile-widget-picture">
+        asset('admins/img/avatar/avatar-'.rand(1,5).'.png')}}" class="rounded-circle profile-widget-picture">
         <div class="profile-widget-items">
             <div class="profile-widget-item">
                 <div class="profile-widget-item-label">Orders</div>
@@ -95,6 +94,8 @@
     <div class="profile-widget-description">
         <div class="profile-widget-name">{{$admin->name}}
             <div class="text-muted d-inline font-weight-normal text-uppercase">
+                <div class="slash"></div>
+                <strong>{{$admin->jabatan}}</strong>
                 <div class="slash"></div> {{$admin->role}}</div>
         </div>
         {{$admin->deskripsi != "" ? $admin->deskripsi : '(empty)'}}

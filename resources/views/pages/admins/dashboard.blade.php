@@ -8,7 +8,7 @@
         </div>
         <div class="row">
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                <a href="{{route('table.admins')}}">
+                <a @if($role->isRoot() || $role->isAdmin()) href="{{route('table.admins')}}" @endif>
                     <div class="card card-statistic-1">
                         <div class="card-icon bg-primary">
                             <i class="fas fa-user-secret"></i>
@@ -25,7 +25,7 @@
                 </a>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                <a href="{{route('table.users')}}">
+                <a @if($role->isRoot() || $role->isAdmin()) href="{{route('table.users')}}" @endif>
                     <div class="card card-statistic-1">
                         <div class="card-icon bg-info">
                             <i class="fas fa-user-tie"></i>
@@ -42,7 +42,7 @@
                 </a>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                <a href="{{route('table.orders')}}">
+                <a @if($role->isRoot() || $role->isAdmin()) href="{{route('table.orders')}}" @endif>
                     <div class="card card-statistic-1">
                         <div class="card-icon bg-success">
                             <i class="fas fa-dollar-sign"></i>
@@ -59,7 +59,7 @@
                 </a>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                <a href="{{route('table.feedback')}}">
+                <a @if($role->isRoot() || $role->isAdmin()) href="{{route('table.feedback')}}" @endif>
                     <div class="card card-statistic-1">
                         <div class="card-icon bg-warning">
                             <i class="fas fa-comment-dots"></i>
@@ -96,8 +96,8 @@
                     <div class="card-header">
                         <h4>Invoices</h4>
                         <div class="card-header-action">
-                            <a href="{{route('table.orders')}}" class="btn btn-danger">
-                                View More <i class="fas fa-chevron-right"></i></a>
+                            <a @if($role->isRoot() || $role->isAdmin()) href="{{route('table.orders')}}" @endif
+                            class="btn btn-danger">View More <i class="fas fa-chevron-right"></i></a>
                         </div>
                     </div>
                     <div class="card-body p-0">
@@ -125,7 +125,8 @@
                                             </td>
                                             <td>{{\Carbon\Carbon::parse($order->created_at)->addWeek()->format('j F Y')}}</td>
                                             <td>
-                                                <a href="{{route('table.orders').'?q='.$order->getUser->name}}"
+                                                <a @if($role->isRoot() || $role->isAdmin())
+                                                   href="{{route('table.orders').'?q='.$order->getUser->name}}" @endif
                                                    class="btn btn-primary">Detail</a>
                                             </td>
                                         </tr>
@@ -164,8 +165,8 @@
                     <div class="card-body p-0">
                         <div class="tickets-list">
                             @foreach(\App\Models\Contact::orderByDesc('id')->take(3)->get() as $row)
-                                <a href="javascript:void(0)" class="ticket-item"
-                                   onclick="openInbox('{{route('admin.inbox', ['id' => $row->id])}}')">
+                                <a @if($role->isRoot() || $role->isAdmin()) href="{{route('admin.inbox',
+                                ['id' => $row->id])}}" @endif class="ticket-item">
                                     <div class="ticket-title">
                                         <h4>{{$row->subject}}</h4>
                                     </div>
@@ -177,8 +178,8 @@
                                     </div>
                                 </a>
                             @endforeach
-                            <a href="javascript:void(0)" onclick="openInbox('{{route('admin.inbox')}}')"
-                               class="ticket-item ticket-more">View All <i class="fas fa-chevron-right"></i></a>
+                            <a @if($role->isRoot() || $role->isAdmin()) href="{{route('admin.inbox')}}" @endif
+                            class="ticket-item ticket-more">View All <i class="fas fa-chevron-right"></i></a>
                         </div>
                     </div>
                 </div>
@@ -284,13 +285,5 @@
                 },
             }
         });
-
-        function openInbox(href) {
-            @if($role->isRoot() || $role->isCEO() || $role->isCTO() || $role->isAdmin())
-                window.location.href = href;
-            @else
-            swal('ATTENTION!', 'This feature only for CEO, CTO, Admin, and ROOT.', 'warning');
-            @endif
-        }
     </script>
 @endpush

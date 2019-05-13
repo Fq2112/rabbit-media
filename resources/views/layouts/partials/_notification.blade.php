@@ -174,7 +174,7 @@
         ->where('start', '>', now()->addDays(2))
         ->whereNotNull('payment_id')->whereNotNull('payment_proof')->where('status_payment' ,'<=', 1)->count();
     @endphp
-    @if($orders > 0 && (Auth::guard('admin')->user()->isCEO() || Auth::guard('admin')->user()->isCTO()))
+    @if($orders > 0 && (Auth::guard('admin')->user()->isRoot()))
         <div class="alert-banner">
             <div class="alert-banner-content">
                 <div class="alert-banner-text">
@@ -186,7 +186,7 @@
             <div class="alert-banner-close"></div>
         </div>
     @endif
-    @if($pays > 0 && (Auth::guard('admin')->user()->isRoot() || Auth::guard('admin')->user()->isAdmin()))
+    @if($pays > 0 && (Auth::guard('admin')->user()->isAdmin()))
         <div class="alert-banner">
             <div class="alert-banner-content">
                 <div class="alert-banner-text">

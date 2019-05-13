@@ -64,7 +64,7 @@
                             <div class="testimonial-name">
                                 {{$crew->name}}<br>
                                 <cite>
-                                    <small>{{strtoupper($crew->role)}}</small>
+                                    <small>{{strtoupper($crew->jabatan)}}</small>
                                 </cite>
                             </div>
                         </div>

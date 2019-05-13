@@ -7,7 +7,6 @@ use App\Models\Contact;
 use App\Models\Feedback;
 use App\Http\Controllers\Controller;
 use App\Models\Pemesanan;
-use App\Support\Role;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,7 +18,7 @@ class AdminController extends Controller
 {
     public function index()
     {
-        $admins = Admin::where('role', '!=', Role::ROOT)->get();
+        $admins = Admin::all();
         $users = User::all();
         $orders = Pemesanan::all();
         $feedback = Feedback::all();

@@ -248,8 +248,7 @@
                                                 @endif
                                             </td>
                                             <td style="vertical-align: middle" align="center">
-                                                @if(Auth::guard('admin')->user()->isCEO() ||
-                                                Auth::guard('admin')->user()->isCTO())
+                                                @if(Auth::guard('admin')->user()->isRoot())
                                                     <div class="btn-group">
                                                         <button type="button" class="btn btn-primary text-uppercase"
                                                                 onclick="updateOrder('{{$row->id}}', '{{$invoice}}',
@@ -347,7 +346,7 @@
                                     <input type="hidden" name="order_ids">
                                     <input type="hidden" name="check_form">
                                     <input type="hidden" name="invoice">
-                                    @if(Auth::guard('admin')->user()->isCEO() || Auth::guard('admin')->user()->isCTO())
+                                    @if(Auth::guard('admin')->user()->isRoot())
                                         <input type="hidden" name="isAccept">
                                         <input type="hidden" name="isReject">
                                     @else
@@ -452,7 +451,7 @@
                         $("#form-order input[name=order_ids]").val(ids);
                         $("#form-order").attr("action", "{{route('massDelete.orders')}}");
 
-                        @if(Auth::guard('admin')->user()->isCEO() || Auth::guard('admin')->user()->isCTO())
+                        @if(Auth::guard('admin')->user()->isRoot())
                         if (ids.length > 0) {
                             swal({
                                 title: 'Delete Orders',
@@ -474,7 +473,7 @@
                             swal("Error!", "There's no any selected record!", "error");
                         }
                         @else
-                        swal('ATTENTION!', 'This feature only for CEO and CTO.', 'warning');
+                        swal('ATTENTION!', 'This feature only for ROOT.', 'warning');
                         @endif
                     });
                 },

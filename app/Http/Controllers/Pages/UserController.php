@@ -12,7 +12,6 @@ use App\Models\JenisLayanan;
 use App\Models\JenisPortofolio;
 use App\Models\Portofolio;
 use App\Models\Feedback;
-use App\Support\Role;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -29,7 +28,7 @@ class UserController extends Controller
     public function about()
     {
         $about = About::first();
-        $crews = Admin::where('role', '!=', Role::ROOT)->orderBy('id')->get();
+        $crews = Admin::all();
 
         return view('pages.main.about', compact('about', 'crews'));
     }

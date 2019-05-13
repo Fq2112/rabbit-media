@@ -141,9 +141,8 @@
                                             </div>
                                         </th>
                                         <th class="text-center">ID</th>
-                                        <th>Ava</th>
-                                        <th>Contact</th>
-                                        <th class="text-center">Role</th>
+                                        <th>Details</th>
+                                        <th class="text-center">Position / Role</th>
                                         <th class="text-center">Created at</th>
                                         <th class="text-center">Last Update</th>
                                         <th>Action</th>
@@ -155,14 +154,8 @@
                                         @php
                                             if($admin->isRoot()){
                                                 $badge = 'primary';
-                                            } elseif($admin->isCEO()){
-                                                $badge = 'secondary';
-                                            } elseif($admin->isCTO()){
-                                                $badge = 'info';
                                             } elseif($admin->isAdmin()){
-                                                $badge = 'success';
-                                            } elseif($admin->isCOO()){
-                                                $badge = 'warning';
+                                                $badge = 'info';
                                             } else{
                                                 $badge = 'danger';
                                             }
@@ -181,17 +174,16 @@
                                                 </div>
                                             </td>
                                             <td style="vertical-align: middle" align="center">{{$admin->id}}</td>
-                                            <td style="vertical-align: middle" align="center">
-                                                <img class="img-fluid" width="100" alt="avatar.png"
-                                                     src="{{$admin->ava == "" ? asset('images/avatar.png') : 
-                                                     asset('storage/admins/ava/'.$admin->ava)}}">
-                                            </td>
                                             <td style="vertical-align: middle">
+                                                <img class="img-thumbnail float-left mr-2" width="80" alt="avatar.png"
+                                                     src="{{$admin->ava == "" ? asset('images/avatar.png') :
+                                                     asset('storage/admins/ava/'.$admin->ava)}}">
                                                 <strong>{{$admin->name}}</strong><br>
-                                                <a href="mailto:{{$admin->email}}">{{$admin->email}}</a></td>
+                                                <a href="mailto:{{$admin->email}}">{{$admin->email}}</a>
+                                            </td>
                                             <td style="vertical-align: middle;text-transform: uppercase;"
                                                 align="center"><span class="badge badge-{{$badge}}">
-                                                    <strong>{{$admin->role}}</strong></span>
+                                                    <strong>{{$admin->jabatan.' / '.$admin->role}}</strong></span>
                                             </td>
                                             <td style="vertical-align: middle" align="center">
                                                 {{\Carbon\Carbon::parse($admin->created_at)->format('j F Y')}}</td>
@@ -201,8 +193,8 @@
                                                 @if(Auth::guard('admin')->user()->isRoot())
                                                     <div class="btn-group">
                                                         <button type="button" class="btn btn-primary"
-                                                                onclick="editProfile('{{$admin->id}}',
-                                                                        '{{$admin->ava}}','{{$admin->name}}')">
+                                                                onclick="editProfile('{{$admin->id}}','{{$admin->ava}}',
+                                                                        '{{$admin->name}}','{{$admin->jabatan}}')">
                                                             <strong><i class="fa fa-user-edit mr-2"></i>EDIT</strong>
                                                         </button>
                                                         <button id="option" type="button"
@@ -213,17 +205,19 @@
                                                             <a class="dropdown-item" href="javascript:void(0)"
                                                                onclick="openProfile('{{$admin->id}}','{{$admin->ava}}',
                                                                        '{{$admin->email}}','{{$admin->name}}',
-                                                                       '{{$admin->role}}','{{$admin->deskripsi}}',
-                                                                       '{{$admin->facebook}}','{{$admin->twitter}}',
-                                                                       '{{$admin->instagram}}','{{$admin->whatsapp}}',
-                                                                       '{{$created_at}}','{{$updated_at}}','{{$orders}}')">
+                                                                       '{{$admin->jabatan}}','{{$admin->role}}',
+                                                                       '{{$admin->deskripsi}}','{{$admin->facebook}}',
+                                                                       '{{$admin->twitter}}','{{$admin->instagram}}',
+                                                                       '{{$admin->whatsapp}}','{{$created_at}}',
+                                                                       '{{$updated_at}}','{{$orders}}')">
                                                                 <i class="fas fa-info-circle mr-2"></i>Details</a>
                                                             <a class="dropdown-item" href="javascript:void(0)"
                                                                onclick="accountSettings('{{$admin->id}}',
                                                                        '{{$admin->email}}','{{$admin->role}}')">
                                                                 <i class="fa fa-user-cog mr-2"></i>Settings</a>
                                                             <a class="dropdown-item delete-data"
-                                                               href="{{route('delete.admins',['id'=> encrypt($admin->id)])}}">
+                                                               href="{{route('delete.admins',
+                                                               ['id'=>encrypt($admin->id)])}}">
                                                                 <i class="fa fa-trash-alt mr-2"></i>Delete</a>
                                                         </div>
                                                     </div>
@@ -231,10 +225,11 @@
                                                     <button class="btn btn-info" data-toggle="tooltip" title="Details"
                                                             data-placement="left" onclick="openProfile('{{$admin->id}}',
                                                             '{{$admin->ava}}','{{$admin->email}}','{{$admin->name}}',
-                                                            '{{$admin->role}}','{{$admin->deskripsi}}',
-                                                            '{{$admin->facebook}}','{{$admin->twitter}}',
-                                                            '{{$admin->instagram}}','{{$admin->whatsapp}}',
-                                                            '{{$created_at}}','{{$updated_at}}','{{$orders}}')">
+                                                            '{{$admin->jabatan}}','{{$admin->role}}',
+                                                            '{{$admin->deskripsi}}','{{$admin->facebook}}',
+                                                            '{{$admin->twitter}}','{{$admin->instagram}}',
+                                                            '{{$admin->whatsapp}}','{{$created_at}}','{{$updated_at}}',
+                                                            '{{$orders}}')">
                                                         <i class="fas fa-info-circle"></i>
                                                     </button>
                                                 @endif
@@ -284,6 +279,8 @@
                                     Allowed extension: jpg, jpeg, gif, png. Allowed size: < 2 MB
                                 </div>
                             </div>
+                        </div>
+                        <div class="row form-group">
                             <div class="col">
                                 <label for="name">Full Name</label>
                                 <div class="input-group">
@@ -292,6 +289,34 @@
                                     </div>
                                     <input id="name" type="text" class="form-control" maxlength="191" name="name"
                                            placeholder="Full name" required>
+                                </div>
+                            </div>
+                            <div class="col fix-label-group">
+                                <label for="jabatan">Position</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text fix-label-item" style="height: 2.25rem">
+                                            <i class="fa fa-user-tie"></i></span>
+                                    </div>
+                                    <select id="jabatan" class="form-control selectpicker" title="-- Choose --"
+                                            name="jabatan" data-live-search="true" required>
+                                        <option value="ceo" data-subtext="Chief Executive Officer" {{\App\Admin::where
+                                        ('jabatan', 'CEO')->count() > 0 ? 'disabled' : ''}}>CEO
+                                        </option>
+                                        <option value="cto" data-subtext="Chief Technology Officer" {{\App\Admin::where
+                                        ('jabatan', 'CTO')->count() > 0 ? 'disabled' : ''}}>CTO
+                                        </option>
+                                        <option value="coo" data-subtext="Chief Operational Officer" {{\App\Admin::where
+                                        ('jabatan', 'COO')->count() > 0 ? 'disabled' : ''}}>COO
+                                        </option>
+                                        <option value="Administrator">Administrator</option>
+                                        <option value="photographer">Photographer</option>
+                                        <option value="videographer">Videographer</option>
+                                        <option value="designer">Designer</option>
+                                    </select>
+                                    <span class="invalid-feedback" style="display: block">
+                                        <strong>Disabled option means that position was already exist!</strong>
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -313,28 +338,12 @@
                                         <span class="input-group-text fix-label-item" style="height: 2.25rem">
                                             <i class="fa fa-user-shield"></i></span>
                                     </div>
-                                    <select id="role" class="form-control selectpicker" title="-- Choose --" name="role"
-                                            required data-live-search="true">
-                                        <option value="ceo" data-subtext="Chief Executive Officer"
-                                                {{\App\Admin::where('role', \App\Support\Role::CEO)->count() > 0 ?
-                                                'disabled' : ''}}>CEO
-                                        </option>
-                                        <option value="cto" data-subtext="Chief Technology Officer"
-                                                {{\App\Admin::where('role', \App\Support\Role::CTO)->count() > 0 ?
-                                                'disabled' : ''}}>CTO
-                                        </option>
-                                        <option value="coo" data-subtext="Chief Operational Officer"
-                                                {{\App\Admin::where('role', \App\Support\Role::COO)->count() > 0 ?
-                                                'disabled' : ''}}>COO
-                                        </option>
+                                    <select id="role" class="form-control selectpicker" title="-- Choose --"
+                                            name="role" data-live-search="true" required>
+                                        <option value="root">ROOT</option>
                                         <option value="admin">Admin</option>
-                                        <option value="photographer">Photographer</option>
-                                        <option value="videographer">Videographer</option>
-                                        <option value="designer">Designer</option>
+                                        <option value="staff">Staff</option>
                                     </select>
-                                    <span class="invalid-feedback" style="display: block">
-                                        <strong>Disabled option means that role was already exist!</strong>
-                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -399,27 +408,11 @@
                                             <i class="fa fa-user-shield"></i></span>
                                     </div>
                                     <select id="as-role" class="form-control selectpicker" title="-- Choose --"
-                                            name="role" required data-live-search="true">
-                                        <option value="ceo" data-subtext="Chief Executive Officer"
-                                                {{\App\Admin::where('role', \App\Support\Role::CEO)->count() > 0 ?
-                                                'disabled' : ''}}>CEO
-                                        </option>
-                                        <option value="cto" data-subtext="Chief Technology Officer"
-                                                {{\App\Admin::where('role', \App\Support\Role::CTO)->count() > 0 ?
-                                                'disabled' : ''}}>CTO
-                                        </option>
-                                        <option value="coo" data-subtext="Chief Operational Officer"
-                                                {{\App\Admin::where('role', \App\Support\Role::COO)->count() > 0 ?
-                                                'disabled' : ''}}>COO
-                                        </option>
+                                            name="role" data-live-search="true" required>
+                                        <option value="root">ROOT</option>
                                         <option value="admin">Admin</option>
-                                        <option value="photographer">Photographer</option>
-                                        <option value="videographer">Videographer</option>
-                                        <option value="designer">Designer</option>
+                                        <option value="staff">Staff</option>
                                     </select>
-                                    <span class="invalid-feedback" style="display: block">
-                                        <strong>Disabled option means that role was already exist!</strong>
-                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -510,8 +503,38 @@
                                                 <span class="input-group-text"><i class="fa fa-id-card"></i></span>
                                             </div>
                                             <input id="ep-name" type="text" class="form-control" maxlength="191"
-                                                   name="name"
-                                                   placeholder="Full name" required>
+                                                   name="name" placeholder="Full name" required>
+                                        </div>
+                                    </div>
+                                    <div class="col fix-label-group">
+                                        <label for="ep-jabatan">Position</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text fix-label-item" style="height: 2.25rem">
+                                                    <i class="fa fa-user-tie"></i></span>
+                                            </div>
+                                            <select id="ep-jabatan" class="form-control selectpicker" required
+                                                    title="-- Choose --" name="jabatan" data-live-search="true">
+                                                <option value="ceo" data-subtext="Chief Executive Officer"
+                                                        {{\App\Admin::where('jabatan', 'CEO')->count() > 0 ?
+                                                        'disabled' : ''}}>CEO
+                                                </option>
+                                                <option value="cto" data-subtext="Chief Technology Officer"
+                                                        {{\App\Admin::where('jabatan', 'CTO')->count() > 0 ?
+                                                        'disabled' : ''}}>CTO
+                                                </option>
+                                                <option value="coo" data-subtext="Chief Operational Officer"
+                                                        {{\App\Admin::where('jabatan', 'COO')->count() > 0 ?
+                                                        'disabled' : ''}}>COO
+                                                </option>
+                                                <option value="Administrator">Administrator</option>
+                                                <option value="photographer">Photographer</option>
+                                                <option value="videographer">Videographer</option>
+                                                <option value="designer">Designer</option>
+                                            </select>
+                                            <span class="invalid-feedback" style="display: block">
+                                                <strong>Disabled option means that position was already exist!</strong>
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
@@ -598,7 +621,7 @@
                 dom: "<'row'<'col-sm-12 col-md-3'l><'col-sm-12 col-md-5'B><'col-sm-12 col-md-4'f>>" +
                     "<'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
                 columnDefs: [
-                    {"sortable": false, "targets": [2, 7]},
+                    {"sortable": false, "targets": 6},
                     {targets: 1, visible: false, searchable: false}
                 ],
                 buttons: [
@@ -606,14 +629,14 @@
                         text: '<strong class="text-uppercase"><i class="far fa-clipboard mr-2"></i>Copy</strong>',
                         extend: 'copy',
                         exportOptions: {
-                            columns: [0, 3, 4, 5, 6]
+                            columns: [0, 2, 3, 4, 5]
                         },
                         className: 'btn btn-warning assets-export-btn export-copy ttip'
                     }, {
                         text: '<strong class="text-uppercase"><i class="far fa-file-excel mr-2"></i>Excel</strong>',
                         extend: 'excel',
                         exportOptions: {
-                            columns: [0, 3, 4, 5, 6]
+                            columns: [0, 2, 3, 4, 5]
                         },
                         className: 'btn btn-success assets-export-btn export-xls ttip',
                         title: export_filename,
@@ -622,7 +645,7 @@
                         text: '<strong class="text-uppercase"><i class="fa fa-print mr-2"></i>Print</strong>',
                         extend: 'print',
                         exportOptions: {
-                            columns: [0, 3, 4, 5, 6]
+                            columns: [0, 2, 3, 4, 5]
                         },
                         className: 'btn btn-info assets-select-btn export-print'
                     }, {
@@ -772,14 +795,18 @@
             }
         }
 
-        function editProfile(id, ava, name) {
+        function editProfile(id, ava, name, jabatan) {
+            $(".fix-label-group .bootstrap-select").addClass('p-0');
+            $(".fix-label-group .bootstrap-select button").css('border-color', '#e4e6fc');
+
             var $path = ava == "" ? '{{asset('images/avatar.png')}}' : '{{asset('storage/admins/ava/')}}/' + ava;
 
             $("#ep-name").val(name);
+            $("#ep-jabatan").val(jabatan).selectpicker('refresh');
             $("#ep-form input[name=admin_id]").val(id);
             $("#profileModal").modal("show");
 
-            $("#ep-txt_ava").text(ava != "" ? ava : 'Choose File');
+            $("#ep-txt_ava").text(ava != "" ? ava.slice(0, 60) + "..." : 'Choose File');
             $("#ep-btn_img").attr('src', $path).on('click', function () {
                 $("#ep-ava").click();
             });
@@ -792,7 +819,7 @@
             });
         }
 
-        function openProfile(id, ava, email, name, role, deskripsi, facebook, twitter, instagram, whatsapp,
+        function openProfile(id, ava, email, name, jabatan, role, deskripsi, facebook, twitter, instagram, whatsapp,
                              create, update, orders) {
             var $path = ava == "" ? '{{asset('images/avatar.png')}}' : '{{asset('storage/admins/ava/')}}/' + ava,
                 $desc = deskripsi != "" ? deskripsi : '(empty)', $orders = orders > 999 ? '999+' : orders,
@@ -811,6 +838,7 @@
             $(".profile-widget-description").html(
                 '<div class="profile-widget-name">' + name + ' ' +
                 '<div class="text-muted d-inline font-weight-normal text-uppercase">' +
+                '<div class="slash"></div> <strong>' + jabatan + '</strong>' +
                 '<div class="slash"></div> ' + role + '</div></div>' + $desc
             );
 
