@@ -114,7 +114,10 @@
                                     @foreach(\App\Models\Pemesanan::orderByDesc('id')->take(5)->get() as $order)
                                         <tr>
                                             <td>
-                                                <a href="{{route('invoice.order', ['id' => encrypt($order->id)])}}">
+                                                <a href="{{$order->payment_id != null ?
+                                                route('invoice.order', ['id' => encrypt($order->id)]) :
+                                                'javascript:void(0)'}}" style="cursor: {{$order->payment_id != null ?
+                                                'pointer' : 'no-drop;text-decoration: none'}}">
                                                     INV-{{str_pad($order->id, 4, 0, STR_PAD_LEFT)}}</a>
                                             </td>
                                             <td class="font-weight-600">{{$order->getUser->name}}</td>

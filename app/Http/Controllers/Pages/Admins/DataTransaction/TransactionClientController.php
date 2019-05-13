@@ -8,6 +8,7 @@ use App\Mail\Clients\ConfirmOrderEmail;
 use App\Models\Feedback;
 use App\Models\OrderRevision;
 use App\Models\Pemesanan;
+use App\Models\Schedule;
 use App\Support\RomanConverter;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -67,10 +68,18 @@ class TransactionClientController extends Controller
             if ($order->isAccept == false && $order->isReject == false) {
                 Mail::to($order->getUser->email)->send(new ConfirmOrderEmail($data, 'revert_order'));
 
+                if ($order->getSchedule != null) {
+                    $order->getSchedule->delete();
+                }
+
                 return back()->with('success', 'Order confirmation #' . $request->invoice . ' is successfully reverted!');
 
             } else {
                 Mail::to($order->getUser->email)->send(new ConfirmOrderEmail($data, 'confirm_order'));
+
+                if ($order->isAccept == true) {
+                    Schedule::create(['pemesanan_id' => $order->id]);
+                }
 
                 $message = $order->isAccept == true ? 'accepted!' : 'rejected!';
                 return back()->with('success', 'Order #' . $request->invoice . ' is successfully ' . $message);
@@ -90,6 +99,10 @@ class TransactionClientController extends Controller
 
             } else {
                 event(new PaymentDetails($data));
+
+                if ($order->isAbort == true) {
+                    $order->getSchedule->delete();
+                }
 
                 $message = $order->isAbort == true ? 'aborted!' : 'verified!';
                 return back()->with('success', 'Order Payment #' . $request->invoice . ' is successfully ' . $message);
