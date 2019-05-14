@@ -607,21 +607,26 @@ Route::group(['namespace' => 'Pages\Admins', 'prefix' => 'admin', 'middleware' =
 
                 });
 
-                Route::group(['prefix' => 'outcomes', 'middleware' => 'admin'], function () {
+                Route::group(['prefix' => 'order-outcomes', 'middleware' => 'admin'], function () {
 
                     Route::get('/', [
                         'uses' => 'TransactionStaffController@showOutcomesTable',
-                        'as' => 'table.outcomes'
+                        'as' => 'table.order-outcomes'
                     ]);
 
                     Route::post('update', [
                         'uses' => 'TransactionStaffController@updateOutcomes',
-                        'as' => 'update.outcomes'
+                        'as' => 'update.order-outcomes'
+                    ]);
+
+                    Route::post('massDelete', [
+                        'uses' => 'TransactionStaffController@massDeleteOutcomes',
+                        'as' => 'massDelete.order-outcomes'
                     ]);
 
                     Route::get('{id}/delete', [
                         'uses' => 'TransactionStaffController@deleteOutcomes',
-                        'as' => 'delete.outcomes'
+                        'as' => 'delete.order-outcomes'
                     ]);
 
                 });

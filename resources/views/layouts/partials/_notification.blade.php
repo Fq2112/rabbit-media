@@ -170,9 +170,17 @@
 @auth('admin')
     @php
         $orders = \App\Models\Pemesanan::where('isAccept',false)->where('isReject',false)->count();
+
         $pays = \App\Models\Pemesanan::where('isAccept',true)->where('isReject',false)
         ->where('start', '>', now()->addDays(2))
         ->whereNotNull('payment_id')->whereNotNull('payment_proof')->where('status_payment' ,'<=', 1)->count();
+
+        $logs = \App\Models\Pemesanan::where('status_payment','>=',1)->doesntHave('getOrderLog')->count();
+
+        $revisions = \App\Models\OrderLogs::has('getOrderRevision')
+        ->where('isReady', false)->where('isComplete', false)->count();
+
+        $outcomes = \App\Models\Pemesanan::where('status_payment', 2)->doesntHave('getOutcome')->count();
     @endphp
     @if($orders > 0 && (Auth::guard('admin')->user()->isRoot()))
         <div class="alert-banner">
@@ -185,18 +193,58 @@
             </div>
             <div class="alert-banner-close"></div>
         </div>
-    @endif
-    @if($pays > 0 && (Auth::guard('admin')->user()->isAdmin()))
-        <div class="alert-banner">
-            <div class="alert-banner-content">
-                <div class="alert-banner-text">
-                    Tampaknya ada <strong>{{$pays}}</strong> pesanan yang belum Anda verifikasi pembayarannya!
+    @elseif(Auth::guard('admin')->user()->isAdmin())
+        @if($pays > 0)
+            <div class="alert-banner">
+                <div class="alert-banner-content">
+                    <div class="alert-banner-text">
+                        Tampaknya ada <strong>{{$pays}}</strong> pesanan yang belum Anda verifikasi pembayarannya!
+                    </div>
+                    <a class="alert-banner-button" href="{{route('table.orders')}}" style="text-decoration: none">
+                        Alihkan saya ke halaman Orders Table!</a>
                 </div>
-                <a class="alert-banner-button" href="{{route('table.orders')}}" style="text-decoration: none">
-                    Alihkan saya ke halaman Orders Table!</a>
+                <div class="alert-banner-close"></div>
             </div>
-            <div class="alert-banner-close"></div>
-        </div>
+        @endif
+        @if($outcomes > 0)
+            <div class="alert-banner">
+                <div class="alert-banner-content">
+                    <div class="alert-banner-text">
+                        Tampaknya ada <strong>{{$outcomes}}</strong> pesanan yang belum Anda atur pengeluarannya!
+                    </div>
+                    <a class="alert-banner-button" href="{{route('table.order-outcomes')}}"
+                       style="text-decoration: none">
+                        Alihkan saya ke halaman Outcomes Table!</a>
+                </div>
+                <div class="alert-banner-close"></div>
+            </div>
+        @endif
+    @else
+        @if($logs > 0)
+            <div class="alert-banner">
+                <div class="alert-banner-content">
+                    <div class="alert-banner-text">
+                        Tampaknya ada <strong>{{$logs}}</strong> pesanan yang belum Anda buat rincian progress/log-nya!
+                    </div>
+                    <a class="alert-banner-button" href="{{route('table.order-logs')}}" style="text-decoration: none">
+                        Alihkan saya ke halaman Order Logs Table!</a>
+                </div>
+                <div class="alert-banner-close"></div>
+            </div>
+        @endif
+        @if($revisions > 0)
+            <div class="alert-banner">
+                <div class="alert-banner-content">
+                    <div class="alert-banner-text">
+                        Tampaknya ada <strong>{{$revisions}}</strong> pesanan yang masih perlu direvisi!
+                    </div>
+                    <a class="alert-banner-button" href="{{route('table.order-outcomes')}}"
+                       style="text-decoration: none">
+                        Alihkan saya ke halaman Outcomes Table!</a>
+                </div>
+                <div class="alert-banner-close"></div>
+            </div>
+        @endif
     @endif
 @endauth
 <script>

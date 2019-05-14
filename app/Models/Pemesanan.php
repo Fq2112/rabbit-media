@@ -41,7 +41,7 @@ class Pemesanan extends Model
 
     public function getOutcome()
     {
-        return $this->hasOne(Outcomes::class, 'pemesanan_id');
+        return $this->hasMany(Outcomes::class, 'pemesanan_id');
     }
 
     public function getOrderLog()
