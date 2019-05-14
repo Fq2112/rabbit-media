@@ -7,7 +7,9 @@ use App\Models\Contact;
 use App\Models\Feedback;
 use App\Http\Controllers\Controller;
 use App\Models\Pemesanan;
+use App\Models\Schedule;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -24,6 +26,66 @@ class AdminController extends Controller
         $feedback = Feedback::all();
 
         return view('pages.admins.dashboard', compact('admins', 'users', 'orders', 'feedback'));
+    }
+
+    public function showSchedules()
+    {
+        $schedules = Schedule::all();
+
+        return view('pages.admins.schedules', compact('schedules'));
+    }
+
+    public function createSchedules(Request $request)
+    {
+        $schedule = Schedule::create([
+            'start' => $request->start,
+            'end' => $request->end,
+            'judul' => $request->judul,
+            'deskripsi' => $request->description,
+        ]);
+
+        $date = Carbon::parse($schedule->start)->format('j F Y') . ' - ' . Carbon::parse($schedule->end)->format('j F Y');
+
+        return back()->with('success', 'Schedule (' . $schedule->judul . ') for ' . $date . ' is successfully created!');
+    }
+
+    public function updateSchedules(Request $request)
+    {
+        $schedule = Schedule::find($request->id);
+
+        if ($schedule->pemesanan_id != null) {
+            $schedule->getPemesanan->update([
+                'start' => $request->start,
+                'end' => $request->end,
+            ]);
+
+            $message = 'Order booking (' . $schedule->getPemesanan->judul . ') for ' .
+                Carbon::parse($schedule->getPemesanan->start)->format('j F Y') . ' - ' .
+                Carbon::parse($schedule->getPemesanan->end)->format('j F Y') . ' is successfully updated!';
+
+        } else {
+            $schedule->update([
+                'start' => $request->start,
+                'end' => $request->end,
+                'judul' => $request->judul,
+                'deskripsi' => $request->description,
+            ]);
+
+            $message = 'Schedule (' . $schedule->judul . ') for ' . Carbon::parse($schedule->start)->format('j F Y') .
+                ' - ' . Carbon::parse($schedule->end)->format('j F Y') . ' is successfully updated!';
+        }
+
+        return back()->with('success', $message);
+    }
+
+    public function deleteSchedules(Request $request)
+    {
+        $schedule = Schedule::find($request->id);
+        $schedule->delete();
+
+        $date = Carbon::parse($schedule->start)->format('j F Y') . ' - ' . Carbon::parse($schedule->end)->format('j F Y');
+
+        return back()->with('success', 'Schedule (' . $schedule->judul . ') for ' . $date . ' is successfully deleted!');
     }
 
     public function showInbox(Request $request)

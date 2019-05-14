@@ -23,19 +23,18 @@ class OrderSeeder extends Seeder
     {
         $faker = Factory::create('id');
 
-        $x = 1;
-        $y = 1;
-        foreach (layanan::take(30)->get() as $layanan) {
+        foreach (layanan::take(30)->get() as $i => $layanan) {
+            $i = $i + 1;
             $order = Pemesanan::create([
                 'user_id' => rand(User::min('id'), User::max('id')),
                 'layanan_id' => $layanan->id,
                 'studio_id' => $layanan->isStudio == true ? rand(Studio::min('id'), Studio::max('id')) : null,
                 'payment_id' => rand(PaymentMethod::min('id'), PaymentMethod::max('id')),
                 'judul' => ucwords($faker->words(rand(1, 3), true)),
-                'start' => '2019-06-' . str_pad($x++, 2, 0, STR_PAD_LEFT) . ' ' .
+                'start' => '2019-06-' . str_pad($i, 2, 0, STR_PAD_LEFT) . ' ' .
                     now()->format('H:i:s'),
-                'end' => rand(0, 1) ? null : '2019-06-' . str_pad($y++, 2, 0, STR_PAD_LEFT)
-                    . ' ' . now()->addHours(rand(1, 5))->format('H:i:s'),
+                'end' => '2019-06-' . str_pad($i, 2, 0, STR_PAD_LEFT) . ' ' .
+                    now()->addHours(rand(1, 5))->format('H:i:s'),
                 'deskripsi' => $faker->paragraph,
                 'qty' => $layanan->isQty == true ? $layanan->qty : null,
                 'hours' => $layanan->isHours == true ? $layanan->hours : null,
@@ -96,10 +95,8 @@ class OrderSeeder extends Seeder
                 'layanan_id' => $layanan->id,
                 'studio_id' => $layanan->isStudio == true ? rand(Studio::min('id'), Studio::max('id')) : null,
                 'judul' => ucwords($faker->words(rand(1, 3), true)),
-                'start' => '2019-08-' . str_pad($a++, 2, 0, STR_PAD_LEFT) . ' ' .
-                    now()->format('H:i:s'),
-                'end' => rand(0, 1) ? null : '2019-08-' . str_pad($b++, 2, 0, STR_PAD_LEFT)
-                    . ' ' . now()->addHours(rand(1, 5))->format('H:i:s'),
+                'start' => '2019-08-' . $a++ . ' ' . now()->format('H:i:s'),
+                'end' => '2019-08-' . $b++ . ' ' . now()->addHours(rand(1, 5))->format('H:i:s'),
                 'deskripsi' => $faker->paragraph,
                 'qty' => $layanan->isQty == true ? $layanan->qty : null,
                 'hours' => $layanan->isHours == true ? $layanan->hours : null,

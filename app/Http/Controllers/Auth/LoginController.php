@@ -32,10 +32,14 @@ class LoginController extends Controller
     public function redirectTo()
     {
         if (Auth::guard('admin')->check()) {
-            return redirect()->route('home-admin')->with('signed', 'Anda telah masuk.');
+            if (Auth::guard('admin')->user()->isRoot() || Auth::guard('admin')->user()->isAdmin()) {
+                return redirect()->route('home-admin')->with('signed', 'Anda telah masuk.');
+            } else {
+                return redirect()->route('show.schedules')->with('signed', 'Anda telah masuk.');
+            }
+        } else {
+            return back()->with('signed', 'Anda telah masuk.');
         }
-
-        return back()->with('signed', 'Anda telah masuk.');
     }
 
     /**

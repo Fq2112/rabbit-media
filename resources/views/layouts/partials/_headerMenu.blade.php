@@ -32,8 +32,18 @@
                         @endif
                     </a>
                     <ul class="dropdown">
-                        <li><a href="{{Auth::guard('admin')->check() ? route('home-admin') :
-                        route('client.dashboard')}}"><i class="fa fa-tachometer-alt mr-2"></i>Dashboard</a></li>
+                        @auth('admin')
+                            @if(Auth::guard('admin')->user()->isRoot() || Auth::guard('admin')->user()->isAdmin())
+                                <li><a href="{{route('home-admin')}}"><i class="fa fa-tachometer-alt mr-2"></i>
+                                        Dashboard</a></li>
+                            @else
+                                <li><a href="{{route('show.schedules')}}"><i class="fa fa-calendar-day mr-2"></i>
+                                        Schedules</a></li>
+                            @endif
+                        @else
+                            <li><a href="{{route('client.dashboard')}}"><i class="fa fa-tachometer-alt mr-2"></i>
+                                    Dashboard</a></li>
+                        @endauth
                         <li><a href="{{Auth::guard('admin')->check() ? route('admin.edit.profile') :
                         route('client.edit.profile')}}"><i class="fa fa-user-edit mr-2"></i>Edit Profile</a></li>
                         <li><a href="{{Auth::guard('admin')->check() ? route('admin.settings') :

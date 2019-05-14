@@ -1,8 +1,10 @@
 <ul class="sidebar-menu">
     <li class="menu-header">General</li>
-    <li class="dropdown {{\Illuminate\Support\Facades\Request::is('admin') ? 'active' : ''}}">
-        <a href="{{route('home-admin')}}" class="nav-link">
-            <i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
+    @if(Auth::guard('admin')->user()->isRoot() || Auth::guard('admin')->user()->isAdmin())
+        <li class="dropdown {{\Illuminate\Support\Facades\Request::is('admin') ? 'active' : ''}}">
+            <a href="{{route('home-admin')}}" class="nav-link">
+                <i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
+    @endif
     <li class="dropdown {{\Illuminate\Support\Facades\Request::is('admin/schedules*') ? 'active' : ''}}">
         <a href="{{route('show.schedules')}}" class="nav-link">
             <i class="fas fa-calendar-day"></i><span>Schedules</span></a></li>

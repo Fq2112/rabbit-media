@@ -6,9 +6,10 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>403 Error - Forbidden Access!</title>
+    <link rel="shortcut icon" href="{{asset('favicon.ico')}}" type="image/x-icon">
 
-    <script src="{{ asset('sweetalert2/sweetalert2.min.js') }}"></script>
-    <link rel="stylesheet" href="{{ asset('sweetalert2/sweetalert2.min.css') }}">
+    <script src="{{asset('admins/modules/sweetalert/sweetalert.min.js')}}"></script>
+    <link rel="stylesheet" href="{{asset('admins/modules/sweetalert/sweetalert2.css')}}">
 
     <style>
         @import url("https://fonts.googleapis.com/css?family=Dosis:300,400,700,800");
@@ -395,45 +396,27 @@
                   d="M112.456 363.093c-.056 7.866-6.478 14.197-14.344 14.142 7.866.056 14.198 6.48 14.142 14.345.056-7.866 6.48-14.198 14.345-14.142-7.868-.057-14.2-6.48-14.144-14.345zM432.436 274.908c-.056 7.866-6.478 14.198-14.344 14.142 7.866.057 14.197 6.48 14.142 14.345.056-7.866 6.48-14.197 14.345-14.142-7.868-.056-14.2-6.48-14.144-14.345zM159.75 58.352c-.12 16.537-13.62 29.848-30.157 29.73 16.537.118 29.848 13.62 29.73 30.156.118-16.537 13.62-29.848 30.156-29.73-16.54-.117-29.85-13.62-29.73-30.156z"/>
         </g>
     </svg>
-    @auth
-        <a href="{{route('home')}}" id="home">
-            <button class="denied__link">Go Home</button>
+    @auth('admin')
+        <a href="{{Auth::guard('admin')->user()->isRoot() || Auth::guard('admin')->user()->isAdmin() ?
+        route('home-admin') : route('show.schedules')}}" id="home">
+            <button class="denied__link">Go {{Auth::guard('admin')->user()->isRoot() ||
+            Auth::guard('admin')->user()->isAdmin() ? 'Home' : 'Back'}}</button>
         </a>
-        <script>
-            @if(\Illuminate\Support\Facades\Request::is('admin*'))
-            swal({
-                title: 'ATTENTION!',
-                text: 'You\'re redirected here because you didn\'t signed in as an Admin.',
-                type: 'warning',
-                timer: '3500'
-            });
-            @else
-            swal({
-                title: 'ATTENTION!',
-                text: 'You\'re redirected here because you didn\'t signed in as a Customer.',
-                type: 'warning',
-                timer: '3500'
-            });
-            @endif
-        </script>
     @else
         <a href="{{route('home')}}" id="home">
             <button class="denied__link">Go Home</button>
         </a>
-        <script>
-            @if(\Illuminate\Support\Facades\Request::is('admin*'))
-            swal({
-                title: 'ATTENTION!',
-                text: 'You\'re redirected here because you didn\'t signed in as an Admin.',
-                type: 'warning',
-                timer: '3500'
-            });
-            @endif
-        </script>
     @endauth
 </div>
 </body>
+<script src="{{asset('admins/modules/particles.min.js')}}"></script>
 <script>
+    @if(\Illuminate\Support\Facades\Request::is('admin*'))
+    swal('ATTENTION!', 'You\'re redirected here because you didn\'t signed in as an Admin or ROOT.', 'warning');
+    @else
+    swal('ATTENTION!', 'You\'re redirected here because you didn\'t signed in as a Customer.', 'warning');
+            @endif
+
     var title = document.getElementsByTagName("title")[0].innerHTML;
     (function titleScroller(text) {
         document.title = text;

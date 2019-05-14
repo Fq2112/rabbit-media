@@ -364,7 +364,7 @@
                                 <div class="input-group date" id="dtp_start" data-target-input="nearest">
                                     <div class="input-group-prepend" data-target="#dtp_start"
                                          data-toggle="datetimepicker">
-                                        <div class="input-group-text"><i class="fa fa-calendar-day"></i></div>
+                                        <div class="input-group-text"><i class="fa fa-calendar-alt"></i></div>
                                     </div>
                                     <input type="text" class="form-control datetimepicker-input"
                                            data-target="#dtp_start" data-toggle="datetimepicker"
@@ -859,7 +859,7 @@
                 format: 'YYYY-MM-DD HH:mm:00',
                 icons: {
                     time: "fa fa-clock",
-                    date: "fa fa-calendar-day",
+                    date: "fa fa-calendar-alt",
                     up: "fa fa-chevron-up",
                     down: "fa fa-chevron-down"
                 },
