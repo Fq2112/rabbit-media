@@ -50,6 +50,10 @@
     <link rel="stylesheet" href="{{asset('admins/modules/chocolat/dist/css/chocolat.css')}}">
 
     <style>
+        .bootstrap-select .dropdown-menu {
+            min-width: 100% !important;
+        }
+
         .chocolat-wrapper {
             z-index: 19;
         }

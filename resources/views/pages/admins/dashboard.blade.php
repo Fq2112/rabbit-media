@@ -8,7 +8,7 @@
         </div>
         <div class="row">
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                <a @if($role->isRoot() || $role->isAdmin()) href="{{route('table.admins')}}" @endif>
+                <a href="{{route('table.admins')}}">
                     <div class="card card-statistic-1">
                         <div class="card-icon bg-primary">
                             <i class="fas fa-user-secret"></i>
@@ -25,7 +25,7 @@
                 </a>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                <a @if($role->isRoot() || $role->isAdmin()) href="{{route('table.users')}}" @endif>
+                <a href="{{route('table.users')}}">
                     <div class="card card-statistic-1">
                         <div class="card-icon bg-info">
                             <i class="fas fa-user-tie"></i>
@@ -42,7 +42,7 @@
                 </a>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                <a @if($role->isRoot() || $role->isAdmin()) href="{{route('table.orders')}}" @endif>
+                <a href="{{route('table.orders')}}">
                     <div class="card card-statistic-1">
                         <div class="card-icon bg-success">
                             <i class="fas fa-dollar-sign"></i>
@@ -59,7 +59,7 @@
                 </a>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                <a @if($role->isRoot() || $role->isAdmin()) href="{{route('table.feedback')}}" @endif>
+                <a href="{{route('table.feedback')}}">
                     <div class="card card-statistic-1">
                         <div class="card-icon bg-warning">
                             <i class="fas fa-comment-dots"></i>
@@ -90,104 +90,91 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">
-                        <h4>Invoices</h4>
-                        <div class="card-header-action">
-                            <a @if($role->isRoot() || $role->isAdmin()) href="{{route('table.orders')}}" @endif
-                            class="btn btn-danger">View More <i class="fas fa-chevron-right"></i></a>
-                        </div>
-                    </div>
-                    <div class="card-body p-0">
-                        <div class="table-responsive table-invoice">
-                            <table class="table table-striped">
-                                <tr>
-                                    <th>Invoice ID</th>
-                                    <th>Customer</th>
-                                    <th>Status</th>
-                                    <th>Due Date</th>
-                                    <th>Action</th>
-                                </tr>
-                                @if(count($orders) > 0)
-                                    @foreach(\App\Models\Pemesanan::orderByDesc('id')->take(5)->get() as $order)
+        @if(count($orders) > 0 || \App\Models\Contact::count() > 0)
+            <div class="row">
+                @if(count($orders) > 0)
+                    <div class="col{{\App\Models\Contact::count() > 0 ? '-8' : ''}}">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>Invoices</h4>
+                                <div class="card-header-action">
+                                    <a href="{{route('table.orders')}}" class="btn btn-danger">
+                                        View More <i class="fas fa-chevron-right"></i></a>
+                                </div>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="table-responsive table-invoice">
+                                    <table class="table table-striped">
                                         <tr>
-                                            <td>
-                                                <a href="{{$order->payment_id != null ?
+                                            <th>Invoice ID</th>
+                                            <th>Customer</th>
+                                            <th>Status</th>
+                                            <th>Due Date</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        @foreach(\App\Models\Pemesanan::orderByDesc('id')->take(5)->get() as $order)
+                                            <tr>
+                                                <td>
+                                                    <a href="{{$order->payment_id != null ?
                                                 route('invoice.order', ['id' => encrypt($order->id)]) :
                                                 'javascript:void(0)'}}" style="cursor: {{$order->payment_id != null ?
                                                 'pointer' : 'no-drop;text-decoration: none'}}">
-                                                    INV-{{str_pad($order->id, 4, 0, STR_PAD_LEFT)}}</a>
-                                            </td>
-                                            <td class="font-weight-600">{{$order->getUser->name}}</td>
-                                            <td>
-                                                <img src="{{$order->status_payment >= 1 ?
+                                                        INV-{{str_pad($order->id, 4, 0, STR_PAD_LEFT)}}</a>
+                                                </td>
+                                                <td class="font-weight-600">{{$order->getUser->name}}</td>
+                                                <td>
+                                                    <img src="{{$order->status_payment >= 1 ?
                                                 asset('images/stamp_paid.png') : asset('images/stamp_unpaid.png')}}"
-                                                     class="img-fluid" width="100">
-                                            </td>
-                                            <td>{{\Carbon\Carbon::parse($order->created_at)->addWeek()->format('j F Y')}}</td>
-                                            <td>
-                                                <a @if($role->isRoot() || $role->isAdmin())
-                                                   href="{{route('table.orders').'?q='.$order->getUser->name}}" @endif
-                                                   class="btn btn-primary">Detail</a>
-                                            </td>
-                                        </tr>
+                                                         class="img-fluid" width="100">
+                                                </td>
+                                                <td>{{\Carbon\Carbon::parse($order->created_at)->addWeek()->format('j F Y')}}</td>
+
+                                                <td>
+                                                    <a href="{{route('table.orders').'?q='.$order->getUser->name}}"
+                                                       class="btn btn-primary">Detail</a>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+                @if(\App\Models\Contact::count() > 0)
+                    <div class="col">
+                        <div class="card card-hero">
+                            <div class="card-header">
+                                <div class="card-icon">
+                                    <i class="far fa-question-circle"></i>
+                                </div>
+                                <h4>{{\App\Models\Contact::count()}}</h4>
+                                <div class="card-description">Clients need help</div>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="tickets-list">
+                                    @foreach(\App\Models\Contact::orderByDesc('id')->take(3)->get() as $row)
+                                        <a href="{{route('admin.inbox',['id' => $row->id])}}" class="ticket-item">
+                                            <div class="ticket-title">
+                                                <h4>{{$row->subject}}</h4>
+                                            </div>
+                                            <div class="ticket-info">
+                                                <div>{{$row->name}}</div>
+                                                <div class="bullet"></div>
+                                                <div class="text-primary">
+                                                    {{\Carbon\Carbon::parse($row->created_at)->diffForHumans()}}</div>
+                                            </div>
+                                        </a>
                                     @endforeach
-                                @else
-                                    @for($c=0;$c<5;$c++)
-                                        <tr>
-                                            <td><a href="javascript:void(0)">
-                                                    INV-{{str_pad(rand(1,9999), 4, 0, STR_PAD_LEFT)}}</a></td>
-                                            <td class="font-weight-600">{{\Faker\Factory::create('id')->name}}</td>
-                                            <td>
-                                                <img src="{{rand(0,1) ? asset('images/stamp_paid.png') :
-                                                asset('images/stamp_unpaid.png')}}" class="img-fluid" width="80">
-                                            </td>
-                                            <td>{{now()->addWeek()->format('j F Y')}}</td>
-                                            <td>
-                                                <a href="javascript:void(0)" class="btn btn-primary">Detail</a>
-                                            </td>
-                                        </tr>
-                                    @endfor
-                                @endif
-                            </table>
+                                    <a href="{{route('admin.inbox')}}" class="ticket-item ticket-more">
+                                        View All <i class="fas fa-chevron-right"></i></a>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
+                @endif
             </div>
-            <div class="col-md-4">
-                <div class="card card-hero">
-                    <div class="card-header">
-                        <div class="card-icon">
-                            <i class="far fa-question-circle"></i>
-                        </div>
-                        <h4>{{\App\Models\Contact::count()}}</h4>
-                        <div class="card-description">Clients need help</div>
-                    </div>
-                    <div class="card-body p-0">
-                        <div class="tickets-list">
-                            @foreach(\App\Models\Contact::orderByDesc('id')->take(3)->get() as $row)
-                                <a @if($role->isRoot() || $role->isAdmin()) href="{{route('admin.inbox',
-                                ['id' => $row->id])}}" @endif class="ticket-item">
-                                    <div class="ticket-title">
-                                        <h4>{{$row->subject}}</h4>
-                                    </div>
-                                    <div class="ticket-info">
-                                        <div>{{$row->name}}</div>
-                                        <div class="bullet"></div>
-                                        <div class="text-primary">
-                                            {{\Carbon\Carbon::parse($row->created_at)->diffForHumans()}}</div>
-                                    </div>
-                                </a>
-                            @endforeach
-                            <a @if($role->isRoot() || $role->isAdmin()) href="{{route('admin.inbox')}}" @endif
-                            class="ticket-item ticket-more">View All <i class="fas fa-chevron-right"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        @endif
     </section>
 @endsection
 
@@ -209,13 +196,10 @@
                         @for($i=1;$i<=12;$i++)
                                 @php
                                     $total = 0;
-                                    $orders = \App\Models\Pemesanan::where('status_payment',2)->whereMonth('date_payment',$i);
-                                    if($orders->count() > 0){
-                                        foreach ($orders->get() as $row){
-                                            $total += $row->total_payment;
-                                        }
-                                    } else{
-                                        $total += rand(3000000, 10000000);
+                                    $orders = \App\Models\Pemesanan::where('status_payment',2)
+                                    ->whereMonth('date_payment',$i)->get();
+                                    foreach ($orders as $row){
+                                        $total += $row->total_payment;
                                     }
                                     $income = number_format($total/1000000,1,'.','');
                                 @endphp
@@ -237,13 +221,11 @@
                             @for($i=1;$i<=12;$i++)
                                     @php
                                         $total = 0;
-                                        $orders = \App\Models\Pemesanan::where('status_payment',2)->whereMonth('date_payment',$i);
-                                        if($orders->count() > 0){
-                                            foreach ($orders->get() as $row){
-                                                $total += $row->total_payment;
-                                            }
-                                        } else{
-                                            $total += rand(1500000, 5000000);
+                                        $ids = \App\Models\Pemesanan::where('status_payment',2)
+                                        ->whereMonth('date_payment',$i)->get()->pluck('id');
+                                        $outcomes = \App\Models\Outcomes::whereIn('pemesanan_id', $ids)->get();
+                                        foreach ($outcomes as $row){
+                                            $total += $row->price_total;
                                         }
                                         $outcome = number_format($total/1000000,1,'.','');
                                     @endphp
@@ -273,7 +255,7 @@
                         },
                         ticks: {
                             beginAtZero: true,
-                            stepSize: 1.5,
+                            stepSize: 5,
                             callback: function (value, index, values) {
                                 return 'Rp' + value + 'M';
                             }

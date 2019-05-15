@@ -198,8 +198,8 @@
                                                 $invoice = 'INV/'.$row->created_at->format('Ymd').'/'.
                                                 $romanDate.'/'.$row->id;
                                             @endphp
-                                            <a href="{{route('table.order-outcomes').'?q='.$invoice}}"
-                                               class="dropdown-item">
+                                                <a href="{{route('table.order-outcomes').'?q='.$invoice.'&id='.$row->id}}"
+                                                   class="dropdown-item">
                                                 <div class="dropdown-item-avatar">
                                                     <img class="img-fluid" alt="Icon" src="{{asset('images/services/'.
                                                     $row->getLayanan->getJenisLayanan->icon)}}">

@@ -15,7 +15,7 @@ class CreateOutcomesTable extends Migration
     {
         Schema::create('outcomes', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('pemesanan_id')->unsigned()->nullable();
+            $table->integer('pemesanan_id')->unsigned();
             $table->foreign('pemesanan_id')->references('id')->on('pemesanans')
                 ->onUpdate('CASCADE')->onDelete('CASCADE');
             $table->string('item');

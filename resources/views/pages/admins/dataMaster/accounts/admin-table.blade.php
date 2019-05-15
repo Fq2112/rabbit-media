@@ -14,6 +14,10 @@
             pointer-events: all;
         }
 
+        .bootstrap-select .dropdown-menu {
+            min-width: 100% !important;
+        }
+
         .form-control-feedback {
             position: absolute;
             top: 3em;

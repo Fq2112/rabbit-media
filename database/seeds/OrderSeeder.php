@@ -2,6 +2,7 @@
 
 use App\Models\OrderRevision;
 use App\Models\OrderLogs;
+use App\Models\Outcomes;
 use App\Models\Schedule;
 use App\Models\PaymentMethod;
 use App\Models\layanan;
@@ -103,6 +104,20 @@ class OrderSeeder extends Seeder
                 'meeting_location' => $faker->address,
                 'total_payment' => $layanan->harga,
                 'status_payment' => 0,
+            ]);
+        }
+
+        for ($c = 0; $c < 50; $c++) {
+            $qty = rand(1, 5);
+            $price_per_qty = rand(100000, 300000);
+            $price_total = $qty * $price_per_qty;
+
+            Outcomes::create([
+                'pemesanan_id' => rand(Pemesanan::min('id'), Pemesanan::max('id')),
+                'item' => ucwords($faker->words(rand(1, 3), true)),
+                'qty' => $qty,
+                'price_per_qty' => $price_per_qty,
+                'price_total' => $price_total
             ]);
         }
     }

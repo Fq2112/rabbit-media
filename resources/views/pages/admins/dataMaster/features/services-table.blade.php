@@ -200,7 +200,7 @@
                                                 <span class="input-group-text"><strong>Rp</strong></span>
                                             </div>
                                             <input id="harga" type="text" class="form-control rupiah" name="harga"
-                                                   placeholder="0" min="0" required>
+                                                   placeholder="0" required>
                                             <div class="input-group-append">
                                                 <span class="input-group-text">
                                                     <i class="fa fa-money-bill-wave"></i></span>
@@ -460,6 +460,8 @@
             var val = $(this).val().split('.').join("");
             if (val == "" || parseInt(val) <= 0) {
                 $(this).val(0);
+            } else {
+                $(this).val(val);
             }
             price = val;
             new_price = parseInt(price) - (parseInt(price * discount / 100));
@@ -468,7 +470,7 @@
 
         $('#diskon').on('keyup', function () {
             if ($(this).val() == "" || parseInt($(this).val()) <= 0) {
-                $(this).val(0);
+                $(this).val('');
             } else if (parseInt($(this).val()) > 100) {
                 $(this).val(100);
             }
@@ -487,7 +489,7 @@
 
         $("#hours").on("keyup", function () {
             if ($(this).val() == "" || parseInt($(this).val()) <= 0) {
-                $(this).val(0);
+                $(this).val('');
             }
         });
 
@@ -495,6 +497,8 @@
             var val = $(this).val().split('.').join("");
             if (val == "" || parseInt(val) <= 0) {
                 $(this).val(0);
+            } else {
+                $(this).val(val);
             }
         });
 
@@ -508,7 +512,7 @@
 
         $("#qty").on("keyup", function () {
             if ($(this).val() == "" || parseInt($(this).val()) <= 0) {
-                $(this).val(0);
+                $(this).val('');
             }
         });
 
@@ -516,6 +520,8 @@
             var val = $(this).val().split('.').join("");
             if (val == "" || parseInt(val) <= 0) {
                 $(this).val(0);
+            } else {
+                $(this).val(val);
             }
         });
 

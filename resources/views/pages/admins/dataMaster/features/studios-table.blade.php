@@ -7,6 +7,10 @@
     <link rel="stylesheet" href="{{asset('admins/modules/datatables/Select-1.2.4/css/select.bootstrap4.min.css')}}">
     <link rel="stylesheet" href="{{asset('admins/modules/datatables/Buttons-1.5.6/css/buttons.dataTables.min.css')}}">
     <style>
+        .bootstrap-select .dropdown-menu {
+            min-width: 100% !important;
+        }
+
         .form-control-feedback {
             position: absolute;
             top: 3em;
