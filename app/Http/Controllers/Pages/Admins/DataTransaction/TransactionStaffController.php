@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Pages\Admins\DataTransaction;
 
+use App\Mail\Clients\OrderLogEmail;
 use App\Models\OrderLogs;
 use App\Models\Outcomes;
 use App\Models\Pemesanan;
@@ -9,6 +10,7 @@ use App\Support\RomanConverter;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
 class TransactionStaffController extends Controller
@@ -50,7 +52,8 @@ class TransactionStaffController extends Controller
             ]);
 
             foreach ($request->file('files') as $i => $file) {
-                $name = $file->getClientOriginalName();
+                $i = $i + 1;
+                $name = 'attachment_' . $i . '.' . $file->getClientOriginalExtension();
                 $file->storeAs('public/order-logs', $name);
 
                 $files[$i] = $name;
@@ -60,7 +63,7 @@ class TransactionStaffController extends Controller
             $files = null;
         }
 
-        OrderLogs::create([
+        $log = OrderLogs::create([
             'pemesanan_id' => $order->id,
             'admin_id' => Auth::guard('admin')->id(),
             'deskripsi' => $request->deskripsi,
@@ -68,6 +71,8 @@ class TransactionStaffController extends Controller
             'link' => $request->link,
             'isReady' => $request->isReady,
         ]);
+
+        Mail::to($order->getUser->email)->send(new OrderLogEmail($log, $invoice));
 
         return redirect()->route('table.order-logs')
             ->with('success', 'Order log for #' . $invoice . ' is successfully created!');
@@ -100,7 +105,7 @@ class TransactionStaffController extends Controller
             ]);
 
             foreach ($request->file('files') as $i => $file) {
-                $name = $file->getClientOriginalName();
+                $name = 'attachment_' . $i . '.' . $file->getClientOriginalExtension();
                 $file->storeAs('public/order-logs', $name);
 
                 $files[$i] = $name;
@@ -116,6 +121,8 @@ class TransactionStaffController extends Controller
             'link' => $request->link,
             'isReady' => $request->isReady,
         ]);
+
+        Mail::to($order->getUser->email)->send(new OrderLogEmail($log, $invoice));
 
         return redirect()->route('table.order-logs')
             ->with('success', 'Order log for #' . $invoice . ' is successfully updated!');

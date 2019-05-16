@@ -274,6 +274,9 @@
             @if($status == 'accepted')
             pay('{{$findOrder->id}}', '{{$req_invoice}}', '{{$findOrder->total_payment}}',
                 '{{$findOrder->isAccept}}', '{{$findOrder->isReject}}');
+            @elseif($status == 'revision')
+            review('{{$req_invoice}}', '{{$findOrder->getOrderLog->id}}', '{{$findOrder->getOrderLog->isReady}}',
+                '{{2 - $findOrder->getOrderLog->getOrderRevision->count()}}');
             @else
             uploadPaymentProof('{{$findOrder->id}}', '{{$findOrder->payment_proof}}', '{{$req_invoice}}');
             @endif
