@@ -80,21 +80,28 @@
         </li>
     @endif
 
-    <li class="dropdown {{\Illuminate\Support\Facades\Request::is('admin/tables/staffs*') ? 'active' : ''}}">
-        <a href="javascript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown">
-            <i class="fas fa-user-secret"></i><span>Staffs</span></a>
-        <ul class="dropdown-menu">
-            @if(Auth::guard('admin')->user()->isRoot() || Auth::guard('admin')->user()->isStaff())
+    @if(Auth::guard('admin')->user()->isRoot())
+        <li class="dropdown {{\Illuminate\Support\Facades\Request::is('admin/tables/staffs*') ? 'active' : ''}}">
+            <a href="javascript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown">
+                <i class="fas fa-user-secret"></i><span>Staffs</span></a>
+            <ul class="dropdown-menu">
                 <li class="dropdown {{\Illuminate\Support\Facades\Request::is('admin/tables/staffs/order-logs*') ?
                 'active' : ''}}"><a href="{{route('table.order-logs')}}" class="nav-link">
                         <i class="fas fa-tasks"></i><span>Order Logs</span></a></li>
-            @elseif(Auth::guard('admin')->user()->isRoot() || Auth::guard('admin')->user()->isAdmin())
                 <li class="dropdown {{\Illuminate\Support\Facades\Request::is('admin/tables/staffs/order-outcomes*') ?
                 'active' : ''}}"><a href="{{route('table.order-outcomes')}}" class="nav-link">
                         <i class="fas fa-funnel-dollar"></i><span>Order Outcomes</span></a></li>
-            @endif
-        </ul>
-    </li>
+            </ul>
+        </li>
+    @elseif(Auth::guard('admin')->user()->isAdmin())
+        <li class="dropdown {{\Illuminate\Support\Facades\Request::is('admin/tables/staffs/order-outcomes*') ?
+        'active' : ''}}"><a href="{{route('table.order-outcomes')}}" class="nav-link">
+                <i class="fas fa-funnel-dollar"></i><span>Order Outcomes</span></a></li>
+    @else
+        <li class="dropdown {{\Illuminate\Support\Facades\Request::is('admin/tables/staffs/order-logs*') ?
+        'active' : ''}}"><a href="{{route('table.order-logs')}}" class="nav-link">
+                <i class="fas fa-tasks"></i><span>Order Logs</span></a></li>
+    @endif
 </ul>
 
 <div class="mt-4 mb-4 p-3 hide-sidebar-mini">

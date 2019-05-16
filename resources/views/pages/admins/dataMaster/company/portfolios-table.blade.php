@@ -169,7 +169,7 @@
                                             </div>
                                             <div class="custom-file">
                                                 <input type="file" name="cover" class="custom-file-input" id="cover"
-                                                       required>
+                                                       accept="image/*" required>
                                                 <label class="custom-file-label" id="txt_cover">Choose File</label>
                                             </div>
                                         </div>

@@ -39,6 +39,16 @@
         .swal-button--fp:active {
             background-color: #238761;
         }
+
+        .modal-header {
+            padding: 1rem !important;
+            border-bottom: 1px solid #e9ecef !important;
+        }
+
+        .modal-footer {
+            padding: 1rem !important;
+            border-top: 1px solid #e9ecef !important;
+        }
     </style>
 @endpush
 @section('content')
@@ -270,6 +280,12 @@
                                                                 data-toggle="dropdown" aria-haspopup="true"
                                                                 aria-expanded="false"></button>
                                                         <div class="dropdown-menu" aria-labelledby="option">
+                                                            @if($row->status_payment == 2 && $row->getOutcome->count() > 0)
+                                                                <a class="dropdown-item" href="javascript:void(0)"
+                                                                   onclick="openOrderOutcome('{{$row->id}}','{{$invoice}}')">
+                                                                    <i class="fa fa-funnel-dollar mr-2"></i>Order
+                                                                    Outcomes</a>
+                                                            @endif
                                                             @if($row->status_payment < 1 && now() <
                                                             \Carbon\Carbon::parse($row['start'])->subDays(2))
                                                                 <a class="dropdown-item" href="javascript:void(0)"
@@ -317,6 +333,12 @@
                                                                     data-toggle="dropdown" aria-haspopup="true"
                                                                     aria-expanded="false"></button>
                                                             <div class="dropdown-menu" aria-labelledby="option">
+                                                                @if($row->status_payment == 2 && $row->getOutcome->count() > 0)
+                                                                    <a class="dropdown-item" href="javascript:void(0)"
+                                                                       onclick="openOrderOutcome('{{$row->id}}','{{$invoice}}')">
+                                                                        <i class="fa fa-funnel-dollar mr-2"></i>Order
+                                                                        Outcomes</a>
+                                                                @endif
                                                                 @if(now() >= \Carbon\Carbon::parse($row['start'])
                                                                 ->subDays(2) && $row->status_payment < 1 &&
                                                                 $row->isAbort == false)
@@ -366,6 +388,36 @@
          aria-hidden="true">
         <div class="modal-dialog modal-lg text-center" role="document">
             <img id="paymentProof" src="#" alt="Payment Proof" class="img-thumbnail">
+        </div>
+    </div>
+
+    <div class="modal fade" id="outcomeModal" tabindex="-1" role="dialog" aria-labelledby="outcomeModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive table-invoice">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th class="text-center">#</th>
+                                <th>Item</th>
+                                <th class="text-center">Qty.</th>
+                                <th class="text-right">Price/Item (IDR)</th>
+                                <th class="text-right">Total Price (IDR)</th>
+                            </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 @endsection
@@ -621,6 +673,43 @@
                     }
                 });
             }
+        }
+
+        function openOrderOutcome(id, invoice) {
+            $("#outcomeModal .modal-title").html('Order Outcome #<strong>' + invoice + '</strong>');
+
+            $.get('{{route('get.order-outcomes', ['id' => ''])}}/' + id, function (data) {
+                var content = '', total = 0;
+                $.each(data, function (i, val) {
+                    i = i + 1;
+                    content +=
+                        '<tr><td style="vertical-align: middle" align="center">' + i + '</td>' +
+                        '<td style="vertical-align: middle"><strong>' + val.item + '</strong></td>' +
+                        '<td style="vertical-align: middle" align="center">' + thousandSeparator(val.qty) + '</td>' +
+                        '<td style="vertical-align: middle" align="right">' + thousandSeparator(val.price_per_qty) + '</td>' +
+                        '<td style="vertical-align: middle" align="right">' + thousandSeparator(val.price_total) + '</td></tr>';
+
+                    total += val.price_total
+                });
+                content +=
+                    '<tr><td colspan="4" class="text-right"><strong>TOTAL</strong></td>' +
+                    '<td class="text-right"><strong>' + thousandSeparator(total) + '</strong></td></tr>';
+                $("#outcomeModal tbody").html(content);
+            });
+
+            $("#outcomeModal").modal('show');
+        }
+
+        function thousandSeparator(nStr) {
+            nStr += '';
+            x = nStr.split('.');
+            x1 = x[0];
+            x2 = x.length > 1 ? '.' + x[1] : '';
+            var rgx = /(\d+)(\d{3})/;
+            while (rgx.test(x1)) {
+                x1 = x1.replace(rgx, '$1' + '.' + '$2');
+            }
+            return x1 + x2;
         }
     </script>
 @endpush

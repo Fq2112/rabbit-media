@@ -54,7 +54,8 @@
                                         </label>
                                         <div class="col-sm-6 col-md-9">
                                             <div class="custom-file">
-                                                <input type="file" name="icon" class="custom-file-input" id="mascot">
+                                                <input type="file" name="icon" class="custom-file-input" id="mascot"
+                                                       accept="image/*">
                                                 <label class="custom-file-label" id="txt_mascot"></label>
                                             </div>
                                             <div class="form-text text-muted">

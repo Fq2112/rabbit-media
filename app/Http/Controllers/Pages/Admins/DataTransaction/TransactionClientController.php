@@ -55,6 +55,12 @@ class TransactionClientController extends Controller
         return view('pages.admins.dataTransaction.clients.orders-table', compact('orders', 'find'));
     }
 
+    public function getOrderOutcomes($id)
+    {
+        $order = Pemesanan::find($id);
+        return $order->getOutcome;
+    }
+
     public function updateOrders(Request $request)
     {
         $order = Pemesanan::find($request->order_ids);

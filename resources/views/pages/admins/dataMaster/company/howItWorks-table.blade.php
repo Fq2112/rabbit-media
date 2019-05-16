@@ -192,7 +192,7 @@
                                             </div>
                                             <div class="custom-file">
                                                 <input type="file" name="icon" class="custom-file-input" id="icon"
-                                                       required>
+                                                       accept="image/*" required>
                                                 <label class="custom-file-label" id="txt_icon">Choose File</label>
                                             </div>
                                         </div>

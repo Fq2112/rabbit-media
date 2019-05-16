@@ -247,7 +247,8 @@
                                         </div>
                                     </div>
                                     <div class="custom-file">
-                                        <input type="file" name="photo" class="custom-file-input" id="photo" disabled>
+                                        <input type="file" name="photo" class="custom-file-input" id="photo"
+                                               accept="image/*" disabled>
                                         <label class="custom-file-label" id="txt_photo">Choose File</label>
                                     </div>
                                     <div class="input-group-append">
@@ -272,7 +273,7 @@
                                     </div>
                                     <div class="custom-file">
                                         <input type="file" name="thumbnail" class="custom-file-input" id="thumbnail"
-                                               disabled>
+                                               accept="image/*" disabled>
                                         <label class="custom-file-label" id="txt_thumbnail">Choose File</label>
                                     </div>
                                     <input id="video" type="text" name="video" class="form-control"

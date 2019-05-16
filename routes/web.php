@@ -548,6 +548,11 @@ Route::group(['namespace' => 'Pages\Admins', 'prefix' => 'admin', 'middleware' =
                         'as' => 'table.orders'
                     ]);
 
+                    Route::get('outcomes/{id}', [
+                        'uses' => 'TransactionClientController@getOrderOutcomes',
+                        'as' => 'get.order-outcomes'
+                    ]);
+
                     Route::post('update', [
                         'uses' => 'TransactionClientController@updateOrders',
                         'as' => 'update.orders'
@@ -588,6 +593,11 @@ Route::group(['namespace' => 'Pages\Admins', 'prefix' => 'admin', 'middleware' =
 
             Route::group(['prefix' => 'staffs'], function () {
 
+                Route::get('order/{id}', [
+                    'uses' => 'TransactionStaffController@getOrders',
+                    'as' => 'get.orders'
+                ]);
+
                 Route::group(['prefix' => 'order-logs', 'middleware' => 'staff'], function () {
 
                     Route::get('/', [
@@ -595,7 +605,12 @@ Route::group(['namespace' => 'Pages\Admins', 'prefix' => 'admin', 'middleware' =
                         'as' => 'table.order-logs'
                     ]);
 
-                    Route::post('update', [
+                    Route::post('create', [
+                        'uses' => 'TransactionStaffController@createOrderLogs',
+                        'as' => 'create.order-logs'
+                    ]);
+
+                    Route::put('update', [
                         'uses' => 'TransactionStaffController@updateOrderLogs',
                         'as' => 'update.order-logs'
                     ]);
@@ -612,11 +627,6 @@ Route::group(['namespace' => 'Pages\Admins', 'prefix' => 'admin', 'middleware' =
                     Route::get('/', [
                         'uses' => 'TransactionStaffController@showOrderOutcomesTable',
                         'as' => 'table.order-outcomes'
-                    ]);
-
-                    Route::get('order/{id}', [
-                        'uses' => 'TransactionStaffController@getOrders',
-                        'as' => 'get.orders'
                     ]);
 
                     Route::post('create', [

@@ -275,7 +275,8 @@
                                         <span class="input-group-text"><i class="fa fa-user"></i></span>
                                     </div>
                                     <div class="custom-file">
-                                        <input type="file" name="ava" class="custom-file-input" id="ava">
+                                        <input type="file" name="ava" class="custom-file-input" id="ava"
+                                               accept="image/*">
                                         <label class="custom-file-label" id="txt_ava">Choose File</label>
                                     </div>
                                 </div>
@@ -490,7 +491,8 @@
                                                 <span class="input-group-text"><i class="fa fa-user"></i></span>
                                             </div>
                                             <div class="custom-file">
-                                                <input type="file" name="ava" class="custom-file-input" id="ep-ava">
+                                                <input type="file" name="ava" class="custom-file-input" id="ep-ava"
+                                                       accept="image/*">
                                                 <label class="custom-file-label" id="ep-txt_ava">Choose File</label>
                                             </div>
                                         </div>

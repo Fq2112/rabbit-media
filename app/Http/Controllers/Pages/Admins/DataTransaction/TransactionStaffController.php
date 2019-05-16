@@ -2,14 +2,150 @@
 
 namespace App\Http\Controllers\Pages\Admins\DataTransaction;
 
+use App\Models\OrderLogs;
 use App\Models\Outcomes;
 use App\Models\Pemesanan;
 use App\Support\RomanConverter;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class TransactionStaffController extends Controller
 {
+    public function getOrders($id)
+    {
+        $invoice = route('invoice.order', ['id' => encrypt($id)]);
+
+        return $invoice;
+    }
+
+    public function showOrderLogsTable(Request $request)
+    {
+        $logs = OrderLogs::orderByDesc('pemesanan_id')->get();
+        $orders = Pemesanan::where('status_payment', '>=', 1)->doesntHave('getOrderLog')->orderByDesc('id')->get();
+
+        if ($request->has("id")) {
+            $find = $request->id;
+        } else {
+            $find = null;
+        }
+
+        return view('pages.admins.dataTransaction.staffs.orderLogs-table', compact('logs',
+            'orders', 'find'));
+    }
+
+    public function createOrderLogs(Request $request)
+    {
+        $order = Pemesanan::find($request->pemesanan_id);
+        $romanDate = RomanConverter::numberToRoman($order->created_at->format('y')) . '/' .
+            RomanConverter::numberToRoman($order->created_at->format('m'));
+        $invoice = 'INV/' . $order->created_at->format('Ymd') . '/' . $romanDate . '/' . $order->id;
+
+        $files = [];
+        if ($request->hasFile('files')) {
+            $this->validate($request, [
+                'files' => 'array',
+                'files.*' => 'mimes:jpg,jpeg,gif,png|max:5120'
+            ]);
+
+            foreach ($request->file('files') as $i => $file) {
+                $name = $file->getClientOriginalName();
+                $file->storeAs('public/order-logs', $name);
+
+                $files[$i] = $name;
+            }
+
+        } else {
+            $files = null;
+        }
+
+        OrderLogs::create([
+            'pemesanan_id' => $order->id,
+            'admin_id' => Auth::guard('admin')->id(),
+            'deskripsi' => $request->deskripsi,
+            'files' => $files,
+            'link' => $request->link,
+            'isReady' => $request->isReady,
+        ]);
+
+        return redirect()->route('table.order-logs')
+            ->with('success', 'Order log for #' . $invoice . ' is successfully created!');
+    }
+
+    public function updateOrderLogs(Request $request)
+    {
+        $log = OrderLogs::find($request->id);
+
+        $order = $log->getPemesanan;
+        $romanDate = RomanConverter::numberToRoman($order->created_at->format('y')) . '/' .
+            RomanConverter::numberToRoman($order->created_at->format('m'));
+        $invoice = 'INV/' . $order->created_at->format('Ymd') . '/' . $romanDate . '/' . $order->id;
+
+        $files = [];
+        if ($request->hasFile('files')) {
+            if ($log->files != "") {
+                foreach ($log->files as $file) {
+                    if ($file != 'nature_big_1.jpg' || $file != 'nature_big_2.jpg' || $file != 'nature_big_3.jpg' ||
+                        $file != 'nature_big_4.jpg' || $file != 'nature_big_5.jpg') {
+
+                        Storage::delete('public/order-logs/' . $file);
+                    }
+                }
+            }
+
+            $this->validate($request, [
+                'files' => 'array',
+                'files.*' => 'mimes:jpg,jpeg,gif,png|max:5120'
+            ]);
+
+            foreach ($request->file('files') as $i => $file) {
+                $name = $file->getClientOriginalName();
+                $file->storeAs('public/order-logs', $name);
+
+                $files[$i] = $name;
+            }
+
+        } else {
+            $files = $log->files;
+        }
+
+        $log->update([
+            'deskripsi' => $request->deskripsi,
+            'files' => $files,
+            'link' => $request->link,
+            'isReady' => $request->isReady,
+        ]);
+
+        return redirect()->route('table.order-logs')
+            ->with('success', 'Order log for #' . $invoice . ' is successfully updated!');
+    }
+
+    public function deleteOrderLogs($id)
+    {
+        $log = OrderLogs::find(decrypt($id));
+
+        $order = $log->getPemesanan;
+        $romanDate = RomanConverter::numberToRoman($order->created_at->format('y')) . '/' .
+            RomanConverter::numberToRoman($order->created_at->format('m'));
+        $invoice = 'INV/' . $order->created_at->format('Ymd') . '/' . $romanDate . '/' . $order->id;
+
+        if ($log->files != "") {
+            foreach ($log->files as $file) {
+                if ($file != 'nature_big_1.jpg' || $file != 'nature_big_2.jpg' || $file != 'nature_big_3.jpg' ||
+                    $file != 'nature_big_4.jpg' || $file != 'nature_big_5.jpg') {
+
+                    Storage::delete('public/order-logs/' . $file);
+                }
+            }
+        }
+
+        $log->delete();
+
+        return redirect()->route('table.order-logs')
+            ->with('success', 'Order log for #' . $invoice . ' is successfully deleted!');
+    }
+
     public function showOrderOutcomesTable(Request $request)
     {
         $outcomes = Outcomes::orderByDesc('pemesanan_id')->get();
@@ -23,13 +159,6 @@ class TransactionStaffController extends Controller
 
         return view('pages.admins.dataTransaction.staffs.orderOutcomes-table', compact('outcomes',
             'orders', 'find'));
-    }
-
-    public function getOrders($id)
-    {
-        $invoice = route('invoice.order', ['id' => encrypt($id)]);
-
-        return $invoice;
     }
 
     public function createOrderOutcomes(Request $request)
@@ -106,7 +235,6 @@ class TransactionStaffController extends Controller
         $message = count($outcomes) > 1 ? count($outcomes) . ' order outcomes are ' :
             count($outcomes) . ' order outcome is ';
 
-        return redirect()->route('table.order-outcomes')
-            ->with('success', $message . 'successfully deleted!');
+        return redirect()->route('table.order-outcomes')->with('success', $message . 'successfully deleted!');
     }
 }

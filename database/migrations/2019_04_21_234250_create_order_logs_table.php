@@ -15,10 +15,10 @@ class CreateOrderLogsTable extends Migration
     {
         Schema::create('order_logs', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('pemesanan_id')->unsigned()->nullable();
+            $table->integer('pemesanan_id')->unsigned();
             $table->foreign('pemesanan_id')->references('id')->on('pemesanans')
                 ->onUpdate('CASCADE')->onDelete('CASCADE');
-            $table->integer('admin_id')->unsigned()->nullable();
+            $table->integer('admin_id')->unsigned();
             $table->foreign('admin_id')->references('id')->on('admins')
                 ->onUpdate('CASCADE')->onDelete('CASCADE');
             $table->text('deskripsi');

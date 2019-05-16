@@ -15,7 +15,7 @@ class CreateOrderRevisionsTable extends Migration
     {
         Schema::create('order_revisions', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('log_id')->unsigned()->nullable();
+            $table->integer('log_id')->unsigned();
             $table->foreign('log_id')->references('id')->on('order_logs')
                 ->onUpdate('CASCADE')->onDelete('CASCADE');
             $table->text('deskripsi');

@@ -148,7 +148,7 @@
                                             </div>
                                             <div class="custom-file">
                                                 <input type="file" name="logo" class="custom-file-input" id="logo"
-                                                       required>
+                                                       accept="image/*" required>
                                                 <label class="custom-file-label" id="txt_logo">Choose File</label>
                                             </div>
                                         </div>

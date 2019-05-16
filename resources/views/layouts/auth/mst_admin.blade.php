@@ -42,20 +42,26 @@
     $contacts = \App\Models\Contact::where('created_at', '>=', today()->subDays('3')->toDateTimeString())
     ->orderByDesc('id')->get();
 
-    $orders = \App\Models\Pemesanan::where('isAccept',false)->where('isReject', false)->orderByDesc('id')->get();
+    if($role->isRoot()){
+        $orders = \App\Models\Pemesanan::where('isAccept',false)->where('isReject', false)->orderByDesc('id')->get();
+        $notif = count($orders);
 
-    $pays = \App\Models\Pemesanan::where('isAccept',true)->where('isReject',false)
-    ->where('start', '>', now()->addDays(2))->whereNotNull('payment_id')->whereNotNull('payment_proof')
-    ->where('status_payment' ,'<=', 1)->orderByDesc('id')->get();
+    } elseif($role->isAdmin()){
+        $pays = \App\Models\Pemesanan::where('isAccept',true)->where('isReject',false)
+        ->where('start', '>', now()->addDays(2))->whereNotNull('payment_id')->whereNotNull('payment_proof')
+        ->where('status_payment' ,'<=', 1)->orderByDesc('id')->get();
 
-    $logs = \App\Models\Pemesanan::where('status_payment','>=',1)->doesntHave('getOrderLog')->orderByDesc('id')->get();
+        $outcomes = \App\Models\Pemesanan::where('status_payment', 2)->orderByDesc('id')->get();
+        $notif = count($pays) + count($outcomes);
 
-    $revisions = \App\Models\OrderLogs::has('getOrderRevision')->where('isReady', false)->where('isComplete', false)
-    ->orderByDesc('id')->get();
+    } else{
+        $logs = \App\Models\Pemesanan::where('status_payment','>=',1)->doesntHave('getOrderLog')->orderByDesc('id')->get();
 
-    $outcomes = \App\Models\Pemesanan::where('status_payment', 2)->orderByDesc('id')->get();
+        $revisions = \App\Models\OrderLogs::has('getOrderRevision')->where('isReady', false)->where('isComplete', false)
+        ->orderByDesc('id')->get();
 
-    $notif = count($orders) + count($pays) + count($logs) + count($revisions) + count($outcomes);
+        $notif = count($logs) + count($revisions);
+    }
 @endphp
 <div id="app">
     <div class="main-wrapper main-wrapper-1">
@@ -124,32 +130,34 @@
                         <div class="dropdown-header">Notifications</div>
                         <div class="dropdown-list-content dropdown-list-icons">
                             @if($notif > 0)
-                                @if(count($orders) > 0 && $role->isRoot())
-                                    <a href="javascript:void(0)" class="dropdown-item" style="cursor: default">
-                                        <div class="dropdown-item-avatar text-uppercase text-muted">
-                                            <i class="fa fa-dollar-sign mr-2"></i>Order Confirmation
-                                        </div>
-                                    </a>
-                                    @foreach($orders as $row)
-                                        @php
-                                            $romanDate = \App\Support\RomanConverter::numberToRoman($row->created_at
-                                            ->format('y')).'/'.\App\Support\RomanConverter::numberToRoman($row->created_at
-                                            ->format('m'));
-                                            $invoice = 'INV/'.$row->created_at->format('Ymd').'/'.$romanDate.'/'.$row->id;
-                                        @endphp
-                                        <a href="{{route('table.orders').'?q='.$invoice}}" class="dropdown-item">
-                                            <div class="dropdown-item-avatar">
-                                                <img class="img-fluid" alt="Icon" src="{{asset('images/services/'.
-                                                $row->getLayanan->getJenisLayanan->icon)}}">
-                                            </div>
-                                            <div class="dropdown-item-desc">
-                                                <b>{{$invoice}}</b>
-                                                <p>This order ({{$row->judul}}) hasn't been confirmed yet!</p>
-                                                <div class="time">
-                                                    {{\Carbon\Carbon::parse($row->created_at)->diffForHumans()}}</div>
+                                @if($role->isRoot())
+                                    @if(count($orders) > 0)
+                                        <a href="javascript:void(0)" class="dropdown-item" style="cursor: default">
+                                            <div class="dropdown-item-avatar text-uppercase text-muted">
+                                                <i class="fa fa-dollar-sign mr-2"></i>Order Confirmation
                                             </div>
                                         </a>
-                                    @endforeach
+                                        @foreach($orders as $row)
+                                            @php
+                                                $romanDate = \App\Support\RomanConverter::numberToRoman($row->created_at
+                                                ->format('y')).'/'.\App\Support\RomanConverter::numberToRoman($row->created_at
+                                                ->format('m'));
+                                                $invoice = 'INV/'.$row->created_at->format('Ymd').'/'.$romanDate.'/'.$row->id;
+                                            @endphp
+                                            <a href="{{route('table.orders').'?q='.$invoice}}" class="dropdown-item">
+                                                <div class="dropdown-item-avatar">
+                                                    <img class="img-fluid" alt="Icon" src="{{asset('images/services/'.
+                                                $row->getLayanan->getJenisLayanan->icon)}}">
+                                                </div>
+                                                <div class="dropdown-item-desc">
+                                                    <b>{{$invoice}}</b>
+                                                    <p>This order ({{$row->judul}}) hasn't been confirmed yet!</p>
+                                                    <div class="time">
+                                                        {{\Carbon\Carbon::parse($row->created_at)->diffForHumans()}}</div>
+                                                </div>
+                                            </a>
+                                        @endforeach
+                                    @endif
 
                                 @elseif($role->isAdmin())
                                     @if(count($pays) > 0)
@@ -198,8 +206,8 @@
                                                 $invoice = 'INV/'.$row->created_at->format('Ymd').'/'.
                                                 $romanDate.'/'.$row->id;
                                             @endphp
-                                                <a href="{{route('table.order-outcomes').'?q='.$invoice.'&id='.$row->id}}"
-                                                   class="dropdown-item">
+                                            <a href="{{route('table.order-outcomes').'?q='.$invoice.'&id='.$row->id}}"
+                                               class="dropdown-item">
                                                 <div class="dropdown-item-avatar">
                                                     <img class="img-fluid" alt="Icon" src="{{asset('images/services/'.
                                                     $row->getLayanan->getJenisLayanan->icon)}}">
@@ -230,7 +238,8 @@
                                                 $invoice = 'INV/'.$row->created_at->format('Ymd').'/'.
                                                 $romanDate.'/'.$row->id;
                                             @endphp
-                                            <a href="{{route('table.orders').'?q='.$invoice}}" class="dropdown-item">
+                                            <a href="{{route('table.order-logs').'?q='.$invoice.'&id='.$row->id}}"
+                                               class="dropdown-item">
                                                 <div class="dropdown-item-avatar">
                                                     <img class="img-fluid" alt="Icon" src="{{asset('images/services/'.
                                                     $row->getLayanan->getJenisLayanan->icon)}}">
@@ -263,7 +272,7 @@
                                                 $invoice = 'INV/'.$order->created_at->format('Ymd').'/'.
                                                 $romanDate.'/'.$order->id;
                                             @endphp
-                                            <a href="{{route('table.order-outcomes').'?q='.$invoice}}"
+                                            <a href="{{route('table.order-logs').'?q='.$invoice.'&id='.$order->id}}"
                                                class="dropdown-item">
                                                 <div class="dropdown-item-avatar">
                                                     <img class="img-fluid" alt="Icon" src="{{asset('images/services/'.
@@ -320,10 +329,12 @@
         <div class="main-sidebar sidebar-style-2">
             <aside id="sidebar-wrapper">
                 <div class="sidebar-brand">
-                    <a href="{{route('home-admin')}}">The Rabbits</a>
+                    <a href="{{$role->isRoot() || $role->isAdmin() ? route('home-admin') : route('show.schedules')}}">
+                        The Rabbits</a>
                 </div>
                 <div class="sidebar-brand sidebar-brand-sm">
-                    <a href="{{route('home-admin')}}"><img class="img-fluid" src="{{asset('images/loading.gif')}}"></a>
+                    <a href="{{$role->isRoot() || $role->isAdmin() ? route('home-admin') : route('show.schedules')}}">
+                        <img class="img-fluid" src="{{asset('images/loading.gif')}}"></a>
                 </div>
                 @include('layouts.partials._sidebarMenu')
             </aside>

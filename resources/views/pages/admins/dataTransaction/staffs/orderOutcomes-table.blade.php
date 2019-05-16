@@ -310,6 +310,7 @@
         });
 
         function createOutcome() {
+            @if(count($orders) > 0)
             $(".fix-label-group .bootstrap-select").addClass('p-0');
             $(".fix-label-group .bootstrap-select button").css('border-color', '#e4e6fc');
 
@@ -323,6 +324,9 @@
             $(".add-field").prop('disabled', true);
 
             $("#outcomeModal").modal('show');
+            @else
+            swal('ATTENTION!', 'There seems to be no order that needs to be set its log.', 'warning');
+            @endif
         }
 
         function editOutcome(id, pemesanan_id, invoice, item, ed_qty, ed_price_per_qty, ed_price_total, encryptID) {
