@@ -29,12 +29,20 @@ class TransactionStaffController extends Controller
 
         if ($request->has("id")) {
             $find = $request->id;
+            $invoice = $request->q;
         } else {
             $find = null;
+            $invoice = null;
+        }
+
+        if ($request->has('check')) {
+            $check = $request->check;
+        } else {
+            $check = null;
         }
 
         return view('pages.admins.dataTransaction.staffs.orderLogs-table', compact('logs',
-            'orders', 'find'));
+            'orders', 'find', 'check', 'invoice'));
     }
 
     public function createOrderLogs(Request $request)

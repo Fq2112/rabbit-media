@@ -134,11 +134,13 @@
                     <tr style="font-weight: 600;">
                         <td style="padding: 0 10px;">
                             <span class="text-purple">Bill To</span>
-                            <p>Fiqy Ainuzzaqy<br>Jl. Hikmat 50A Betro - Sedati, Sidoarjo<br>08563094333</p>
+                            <p>{{$order->getUser->name}}<br>{{$order->getUser->alamat}}<br>{{$order->getUser->no_telp}}
+                            </p>
                         </td>
                         <td style="padding: 0 10px;">
                             <span class="text-purple">Ship To</span>
-                            <p>Fiqy Ainuzzaqy<br>Jl. Hikmat 50A Betro - Sedati, Sidoarjo<br>08563094333</p>
+                            <p>{{$order->getUser->name}}<br>{{$order->getUser->alamat}}<br>{{$order->getUser->no_telp}}
+                            </p>
                         </td>
                         <td style="padding: 0 10px; vertical-align: top">
                             <table style="margin-top:-11px;border-collapse:separate;-webkit-border-vertical-spacing: 10px;vertical-align: top">
