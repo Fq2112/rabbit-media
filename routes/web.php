@@ -622,32 +622,65 @@ Route::group(['namespace' => 'Pages\Admins', 'prefix' => 'admin', 'middleware' =
 
                 });
 
-                Route::group(['prefix' => 'order-outcomes', 'middleware' => 'admin'], function () {
+                Route::group(['prefix' => 'outcomes', 'middleware' => 'admin'], function () {
 
-                    Route::get('/', [
-                        'uses' => 'TransactionStaffController@showOrderOutcomesTable',
-                        'as' => 'table.order-outcomes'
-                    ]);
+                    Route::group(['prefix' => 'orders'], function () {
 
-                    Route::post('create', [
-                        'uses' => 'TransactionStaffController@createOrderOutcomes',
-                        'as' => 'create.order-outcomes'
-                    ]);
+                        Route::get('/', [
+                            'uses' => 'TransactionStaffController@showOrderOutcomesTable',
+                            'as' => 'table.order-outcomes'
+                        ]);
 
-                    Route::put('update', [
-                        'uses' => 'TransactionStaffController@updateOrderOutcomes',
-                        'as' => 'update.order-outcomes'
-                    ]);
+                        Route::post('create', [
+                            'uses' => 'TransactionStaffController@createOrderOutcomes',
+                            'as' => 'create.order-outcomes'
+                        ]);
 
-                    Route::post('massDelete', [
-                        'uses' => 'TransactionStaffController@massDeleteOrderOutcomes',
-                        'as' => 'massDelete.order-outcomes'
-                    ]);
+                        Route::put('update', [
+                            'uses' => 'TransactionStaffController@updateOrderOutcomes',
+                            'as' => 'update.order-outcomes'
+                        ]);
 
-                    Route::get('{id}/delete', [
-                        'uses' => 'TransactionStaffController@deleteOrderOutcomes',
-                        'as' => 'delete.order-outcomes'
-                    ]);
+                        Route::post('massDelete', [
+                            'uses' => 'TransactionStaffController@massDeleteOrderOutcomes',
+                            'as' => 'massDelete.order-outcomes'
+                        ]);
+
+                        Route::get('{id}/delete', [
+                            'uses' => 'TransactionStaffController@deleteOrderOutcomes',
+                            'as' => 'delete.order-outcomes'
+                        ]);
+
+                    });
+
+                    Route::group(['prefix' => 'non-orders'], function () {
+
+                        Route::get('/', [
+                            'uses' => 'TransactionStaffController@showNonOrderOutcomesTable',
+                            'as' => 'table.nonOrder-outcomes'
+                        ]);
+
+                        Route::post('create', [
+                            'uses' => 'TransactionStaffController@createNonOrderOutcomes',
+                            'as' => 'create.nonOrder-outcomes'
+                        ]);
+
+                        Route::put('update', [
+                            'uses' => 'TransactionStaffController@updateNonOrderOutcomes',
+                            'as' => 'update.nonOrder-outcomes'
+                        ]);
+
+                        Route::post('massDelete', [
+                            'uses' => 'TransactionStaffController@massDeleteNonOrderOutcomes',
+                            'as' => 'massDelete.nonOrder-outcomes'
+                        ]);
+
+                        Route::get('{id}/delete', [
+                            'uses' => 'TransactionStaffController@deleteNonOrderOutcomes',
+                            'as' => 'delete.nonOrder-outcomes'
+                        ]);
+
+                    });
 
                 });
 

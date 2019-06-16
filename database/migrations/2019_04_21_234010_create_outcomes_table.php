@@ -15,9 +15,10 @@ class CreateOutcomesTable extends Migration
     {
         Schema::create('outcomes', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('pemesanan_id')->unsigned();
+            $table->integer('pemesanan_id')->unsigned()->nullable();
             $table->foreign('pemesanan_id')->references('id')->on('pemesanans')
                 ->onUpdate('CASCADE')->onDelete('CASCADE');
+            $table->text('description')->nullable();
             $table->string('item');
             $table->integer('qty');
             $table->integer('price_per_qty');

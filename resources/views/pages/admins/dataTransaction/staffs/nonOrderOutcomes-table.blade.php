@@ -1,5 +1,5 @@
 @extends('layouts.auth.mst_admin')
-@section('title', 'The Rabbits: Order Outcomes Table | Rabbit Media – Digital Creative Service')
+@section('title', 'The Rabbits: Non-Order Outcomes Table | Rabbit Media – Digital Creative Service')
 @push('styles')
     <link rel="stylesheet" href="{{asset('admins/modules/datatables/datatables.min.css')}}">
     <link rel="stylesheet"
@@ -9,6 +9,12 @@
     <style>
         .bootstrap-select .dropdown-menu {
             min-width: 100% !important;
+        }
+
+        .form-control-feedback {
+            position: absolute;
+            top: 3em;
+            right: 2em;
         }
 
         .modal-header {
@@ -25,13 +31,13 @@
 @section('content')
     <section class="section">
         <div class="section-header">
-            <h1>Order Outcomes Table</h1>
+            <h1>Non-Order Outcomes Table</h1>
             <div class="section-header-breadcrumb">
                 <div class="breadcrumb-item active"><a href="{{route('home-admin')}}">Dashboard</a></div>
                 <div class="breadcrumb-item">Data Transaction</div>
                 <div class="breadcrumb-item"><a href="{{route('table.admins')}}">Staffs</a></div>
                 <div class="breadcrumb-item">Outcomes</div>
-                <div class="breadcrumb-item">Order</div>
+                <div class="breadcrumb-item">Non-Order</div>
             </div>
         </div>
 
@@ -59,7 +65,7 @@
                                             </div>
                                         </th>
                                         <th class="text-center">ID</th>
-                                        <th>Invoice</th>
+                                        <th>Description</th>
                                         <th>Item</th>
                                         <th class="text-center">Qty.</th>
                                         <th class="text-right">Price/Item (IDR)</th>
@@ -70,14 +76,6 @@
                                     <tbody>
                                     @php $no = 1; @endphp
                                     @foreach($outcomes as $row)
-                                        @php
-                                            $order = $row->getPemesanan;
-                                            $plan = $order->getLayanan;
-                                            $romanDate = \App\Support\RomanConverter::numberToRoman($order->created_at
-                                            ->format('y')).'/'.\App\Support\RomanConverter::numberToRoman($order
-                                            ->created_at->format('m'));
-                                            $invoice = 'INV/'.$order->created_at->format('Ymd').'/'.$romanDate.'/'.$order->id;
-                                        @endphp
                                         <tr>
                                             <td style="vertical-align: middle" align="center">
                                                 <div class="custom-checkbox custom-control">
@@ -88,13 +86,10 @@
                                                 </div>
                                             </td>
                                             <td style="vertical-align: middle" align="center">{{$row->id}}</td>
-                                            <td style="vertical-align: middle">
-                                                <a href="{{route('invoice.order',['id'=>encrypt($order->id)])}}">
-                                                    #{{$invoice}}</a>
-                                            </td>
+                                            <td style="vertical-align: middle">{{$row->description}}</td>
                                             <td style="vertical-align: middle"><strong>{{$row->item}}</strong></td>
-                                            <td style="vertical-align: middle" align="center">{{number_format
-                                            ($row->qty,0,',','.')}}</td>
+                                            <td style="vertical-align: middle"
+                                                align="center">{{number_format($row->qty,0,',','.')}}</td>
                                             <td style="vertical-align: middle" align="right">{{number_format
                                             ($row->price_per_qty,2,',','.')}}</td>
                                             <td style="vertical-align: middle" align="right"><strong>{{number_format
@@ -102,12 +97,11 @@
                                             <td style="vertical-align: middle" align="center">
                                                 <button data-placement="left" data-toggle="tooltip" title="Edit"
                                                         type="button" class="btn btn-warning" onclick="editOutcome
-                                                        ('{{$row->id}}','{{$row->pemesanan_id}}','{{$invoice}}',
-                                                        '{{$row->item}}','{{$row->qty}}','{{$row->price_per_qty}}',
-                                                        '{{$row->price_total}}','{{encrypt($row->pemesanan_id)}}')">
+                                                        ('{{$row->id}}','{{$row->description}}','{{$row->item}}',
+                                                        '{{$row->qty}}','{{$row->price_per_qty}}','{{$row->price_total}}')">
                                                     <i class="fa fa-edit"></i></button>
                                                 <hr class="mt-1 mb-1">
-                                                <a href="{{route('delete.order-outcomes',['id'=>encrypt($row->id)])}}"
+                                                <a href="{{route('delete.nonOrder-outcomes',['id'=>encrypt($row->id)])}}"
                                                    class="btn btn-danger delete-data" data-toggle="tooltip"
                                                    data-placement="left" title="Delete"><i class="fas fa-trash-alt"></i>
                                                 </a>
@@ -133,41 +127,22 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Order Outcome Setup</h5>
+                    <h5 class="modal-title">Non-Order Outcome <strong></strong></h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form id="form-outcome" method="post" action="{{route('create.order-outcomes')}}">
+                <form id="form-outcome" method="post" action="{{route('create.nonOrder-outcomes')}}">
                     {{csrf_field()}}
                     <input type="hidden" name="_method">
                     <input type="hidden" name="id">
                     <div class="modal-body">
-                        <div class="row form-group">
-                            <div class="col fix-label-group">
-                                <label for="pemesanan_id" class="m-0">Order Invoice</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text fix-label-item" style="height: 2.25rem">
-                                            <i class="fa fa-file-invoice-dollar"></i></span>
-                                    </div>
-                                    <select id="pemesanan_id" class="form-control selectpicker" title="-- Choose --"
-                                            name="pemesanan_id" data-live-search="true" required>
-                                        @foreach($orders as $order)
-                                            @php
-                                                $romanDate = \App\Support\RomanConverter::numberToRoman($order->created_at
-                                                ->format('y')).'/'.\App\Support\RomanConverter::numberToRoman($order
-                                                ->created_at->format('m'));
-                                                $invoice = 'INV/'.$order->created_at->format('Ymd').'/'.$romanDate.'/'.$order->id;
-                                            @endphp
-                                            <option value="{{$order->id}}" data-subtext="{{$order->judul.' - '.$order
-                                            ->getLayanan->paket}}">#{{$invoice}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="form-text text-muted" style="display: none">
-                                    <a id="invoice_details" target="_blank">Click here</a> to check the invoice details!
-                                </div>
+                        <div class="row form-group has-feedback">
+                            <div class="col">
+                                <label for="description">Description</label>
+                                <textarea id="description" type="text" name="description" class="form-control"
+                                          placeholder="Describe it here&hellip;" required></textarea>
+                                <span class="glyphicon glyphicon-text-height form-control-feedback"></span>
                             </div>
                         </div>
 
@@ -201,7 +176,7 @@
         var qty = 0, price_per_qty = 0, price_total = 0, i = 0;
 
         $(function () {
-            var export_filename = 'Order Outcomes Table ({{now()->format('j F Y')}})',
+            var export_filename = 'Non-Order Outcomes Table ({{now()->format('j F Y')}})',
                 table = $("#dt-buttons").DataTable({
                     dom: "<'row'<'col-sm-12 col-md-3'l><'col-sm-12 col-md-5'B><'col-sm-12 col-md-4'f>>" +
                         "<'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
@@ -274,11 +249,11 @@
                                 return item[1]
                             });
                             $("#form-mass input[name=outcome_ids]").val(ids);
-                            $("#form-mass").attr("action", "{{route('massDelete.order-outcomes')}}");
+                            $("#form-mass").attr("action", "{{route('massDelete.nonOrder-outcomes')}}");
 
                             if (ids.length > 0) {
                                 swal({
-                                    title: 'Delete Order Outcomes',
+                                    title: 'Delete Non-Order Outcomes',
                                     text: 'Are you sure to delete this ' + ids.length + ' selected record(s)? ' +
                                         'You won\'t be able to revert this!',
                                     icon: 'warning',
@@ -299,51 +274,27 @@
                         });
                     },
                 });
-
-            @if($find != "")
-            createOutcome();
-            $(".fix-label-group .bootstrap-select").addClass('p-0');
-            $(".fix-label-group .bootstrap-select button").css('border-color', '#e4e6fc');
-            $("label[for=pemesanan_id]").parent().parent().show();
-            $("#pemesanan_id").val('{{$find}}').prop('disabled', false).selectpicker('refresh');
-            $("#invoice_details").attr('href', '{{route('invoice.order',['id' => encrypt($find)])}}').parent().show();
-            $(".add-field").prop('disabled', false).show();
-            @endif
         });
 
         function createOutcome() {
-            @if(count($orders) > 0)
-            $(".fix-label-group .bootstrap-select").addClass('p-0');
-            $(".fix-label-group .bootstrap-select button").css('border-color', '#e4e6fc');
-
-            $("#outcomeModal .modal-title").text('Order Outcome Setup');
-            $("#form-outcome").attr('action', '{{route('create.order-outcomes')}}');
+            $("#outcomeModal .modal-title strong").text('Setup');
+            $("#form-outcome").attr('action', '{{route('create.nonOrder-outcomes')}}');
             $("#form-outcome button[type=submit] strong").text('Submit');
             $("#form-outcome input[name=_method], #form-outcome input[name=id]").val('');
-            $("label[for=pemesanan_id]").parent().parent().show();
-            $("#pemesanan_id").val('').prop('disabled', false).selectpicker('refresh');
-            $("#invoice_details").attr('href', '#').parent().hide();
+            $("#description").val('');
             $("#inputs").html('');
             $(".add-field").prop('disabled', true).show();
 
             $("#outcomeModal").modal('show');
-            @else
-            swal('ATTENTION!', 'There seems to be no order that needs to be set its log.', 'warning');
-            @endif
         }
 
-        function editOutcome(id, pemesanan_id, invoice, item, ed_qty, ed_price_per_qty, ed_price_total, encryptID) {
-            $(".fix-label-group .bootstrap-select").addClass('p-0');
-            $(".fix-label-group .bootstrap-select button").css('border-color', '#e4e6fc');
-
-            $("#outcomeModal .modal-title").html('Edit Outcome #<strong>' + invoice + '</strong>');
-            $("#form-outcome").attr('action', '{{route('update.order-outcomes')}}');
+        function editOutcome(id, description, item, ed_qty, ed_price_per_qty, ed_price_total) {
+            $("#outcomeModal .modal-title strong").text('Edit');
+            $("#form-outcome").attr('action', '{{route('update.nonOrder-outcomes')}}');
             $("#form-outcome input[name=_method]").val('PUT');
             $("#form-outcome input[name=id]").val(id);
             $("#form-outcome button[type=submit] strong").text('Submit');
-            $("label[for=pemesanan_id]").parent().parent().hide();
-            $("#pemesanan_id").val(pemesanan_id).prop('disabled', true).selectpicker('refresh');
-            $("#invoice_details").attr('href', '{{route('invoice.order',['id' => ''])}}/' + encryptID).parent().show();
+            $("#description").val(description);
             $(".add-field").prop('disabled', true).hide();
 
             qty = ed_qty;
@@ -385,13 +336,8 @@
             $("#outcomeModal").modal('show');
         }
 
-        $("#pemesanan_id").on('change', function () {
-            $("#invoice_details").attr('href', '#').parent().hide();
-            $(".add-field").prop('disabled', false).show();
-
-            $.get('{{route('get.orders', ['id' => ''])}}/' + $(this).val(), function (data) {
-                $("#invoice_details").attr('href', data).parent().show();
-            });
+        $("#description").on('keypress', function () {
+            $(".add-field").prop('disabled', false);
         });
 
         $(".add-field").on("click", function () {

@@ -683,11 +683,18 @@
                     text: 'Halaman ini belum sepenuhnya support untuk mobile device, ' +
                         'silahkan gunakan komputer/laptop Anda! Mohon maaf atas ketidaknyamanannya, terimakasih.',
                     icon: 'warning',
+                    dangerMode: true,
+                    buttons: ["Kembali", "Lanjutkan"],
                     closeOnEsc: false,
                     closeOnClickOutside: false,
-                }).then(function () {
-                    window.location = '{{route('show.service.pricing', ['jenis' => strtolower
+                }).then((confirm) => {
+                    if (confirm) {
+                        //
+                    } else {
+                        window.location = '{{route('show.service.pricing', ['jenis' => strtolower
                         (str_replace(' ', '-', $layanan->getJenisLayanan->nama)),'id'=>encrypt($layanan->jenis_id)])}}';
+                    }
+
                 }) : '';
         });
 

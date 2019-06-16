@@ -68,14 +68,11 @@
                 <i class="fas fa-users"></i><span>Clients</span></a>
             <ul class="dropdown-menu">
                 <li class="dropdown {{\Illuminate\Support\Facades\Request::is('admin/tables/clients/feedback*') ?
-                'active' : ''}}"><a href="{{route('table.feedback')}}" class="nav-link">
-                        <i class="fas fa-comment-dots"></i><span>Feedback</span></a></li>
+                'active' : ''}}"><a href="{{route('table.feedback')}}" class="nav-link">Feedback</a></li>
                 <li class="dropdown {{\Illuminate\Support\Facades\Request::is('admin/tables/clients/orders*') ?
-                'active' : ''}}"><a href="{{route('table.orders')}}" class="nav-link">
-                        <i class="fas fa-dollar-sign"></i><span>Orders</span></a></li>
+                'active' : ''}}"><a href="{{route('table.orders')}}" class="nav-link">Orders</a></li>
                 <li class="dropdown {{\Illuminate\Support\Facades\Request::is('admin/tables/clients/order-revisions*') ?
-                'active' : ''}}"><a href="{{route('table.order-revisions')}}" class="nav-link">
-                        <i class="fas fa-edit"></i><span>Order Revisions</span></a></li>
+                'active' : ''}}"><a href="{{route('table.order-revisions')}}" class="nav-link">Order Revisions</a></li>
             </ul>
         </li>
     @endif
@@ -86,17 +83,25 @@
                 <i class="fas fa-user-secret"></i><span>Staffs</span></a>
             <ul class="dropdown-menu">
                 <li class="dropdown {{\Illuminate\Support\Facades\Request::is('admin/tables/staffs/order-logs*') ?
-                'active' : ''}}"><a href="{{route('table.order-logs')}}" class="nav-link">
-                        <i class="fas fa-tasks"></i><span>Order Logs</span></a></li>
-                <li class="dropdown {{\Illuminate\Support\Facades\Request::is('admin/tables/staffs/order-outcomes*') ?
-                'active' : ''}}"><a href="{{route('table.order-outcomes')}}" class="nav-link">
-                        <i class="fas fa-funnel-dollar"></i><span>Order Outcomes</span></a></li>
+                'active' : ''}}"><a href="{{route('table.order-logs')}}" class="nav-link">Order Logs</a></li>
+                <li class="dropdown {{\Illuminate\Support\Facades\Request::is('admin/tables/staffs/outcomes/orders*') ?
+                'active' : ''}}"><a href="{{route('table.order-outcomes')}}" class="nav-link">Order Outcomes</a></li>
+                <li class="dropdown {{\Illuminate\Support\Facades\Request::is('admin/tables/staffs/outcomes/non-orders*') ?
+                'active' : ''}}"><a href="{{route('table.nonOrder-outcomes')}}" class="nav-link">Non-Order Outcomes</a>
+                </li>
             </ul>
         </li>
     @elseif(Auth::guard('admin')->user()->isAdmin())
-        <li class="dropdown {{\Illuminate\Support\Facades\Request::is('admin/tables/staffs/order-outcomes*') ?
-        'active' : ''}}"><a href="{{route('table.order-outcomes')}}" class="nav-link">
-                <i class="fas fa-funnel-dollar"></i><span>Order Outcomes</span></a></li>
+        <li class="dropdown {{\Illuminate\Support\Facades\Request::is('admin/tables/staffs/outcomes*') ?
+                'active' : ''}}"><a href="javascript:void(0)" class="nav-link has-dropdown" data-toggle="dropdown">
+                <i class="fas fa-funnel-dollar"></i><span>Outcomes</span></a>
+            <ul class="dropdown-menu">
+                <li class="dropdown {{\Illuminate\Support\Facades\Request::is('admin/tables/staffs/outcomes/orders*') ?
+                'active' : ''}}"><a href="{{route('table.order-outcomes')}}" class="nav-link">Order</a></li>
+                <li class="dropdown {{\Illuminate\Support\Facades\Request::is('admin/tables/staffs/outcomes/non-orders*') ?
+                'active' : ''}}"><a href="{{route('table.nonOrder-outcomes')}}" class="nav-link">Non-Order</a></li>
+            </ul>
+        </li>
     @else
         <li class="dropdown {{\Illuminate\Support\Facades\Request::is('admin/tables/staffs/order-logs*') ?
         'active' : ''}}"><a href="{{route('table.order-logs')}}" class="nav-link">

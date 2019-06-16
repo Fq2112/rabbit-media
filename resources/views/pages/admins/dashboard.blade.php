@@ -218,15 +218,25 @@
                     {
                         label: 'Outcome (IDR)',
                         data: [
-                            @for($i=1;$i<=12;$i++)
+                            @php $x = 1; @endphp
+                                    @for($i=1;$i<=12;$i++)
                                     @php
                                         $total = 0;
                                         $ids = \App\Models\Pemesanan::where('status_payment',2)
                                         ->whereMonth('date_payment',$i)->get()->pluck('id');
-                                        $outcomes = \App\Models\Outcomes::whereIn('pemesanan_id', $ids)->get();
-                                        foreach ($outcomes as $row){
+
+                                        $order_outcomes = \App\Models\Outcomes::wherenotnull('pemesanan_id')
+                                        ->whereIn('pemesanan_id', $ids)->get();
+                                        foreach ($order_outcomes as $row){
                                             $total += $row->price_total;
                                         }
+
+                                        $nonOrder_outcomes = \App\Models\Outcomes::wherenull('pemesanan_id')
+                                        ->whereMonth('created_at', $x++)->get();
+                                        foreach ($nonOrder_outcomes as $row){
+                                            $total += $row->price_total;
+                                        }
+
                                         $outcome = number_format($total/1000000,1,'.','');
                                     @endphp
                                 '{{$outcome}}',

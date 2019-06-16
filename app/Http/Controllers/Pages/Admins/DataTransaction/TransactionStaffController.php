@@ -163,7 +163,7 @@ class TransactionStaffController extends Controller
 
     public function showOrderOutcomesTable(Request $request)
     {
-        $outcomes = Outcomes::orderByDesc('pemesanan_id')->get();
+        $outcomes = Outcomes::wherenotnull('pemesanan_id')->orderByDesc('pemesanan_id')->get();
         $orders = Pemesanan::where('status_payment', 2)->orderByDesc('id')->get();
 
         if ($request->has("id")) {
@@ -251,5 +251,74 @@ class TransactionStaffController extends Controller
             count($outcomes) . ' order outcome is ';
 
         return redirect()->route('table.order-outcomes')->with('success', $message . 'successfully deleted!');
+    }
+
+    public function showNonOrderOutcomesTable()
+    {
+        $outcomes = Outcomes::wherenull('pemesanan_id')->orderByDesc('id')->get();
+
+        return view('pages.admins.dataTransaction.staffs.nonOrderOutcomes-table', compact('outcomes'));
+    }
+
+    public function createNonOrderOutcomes(Request $request)
+    {
+        $it = new \MultipleIterator();
+        $it->attachIterator(new \ArrayIterator($request->item));
+        $it->attachIterator(new \ArrayIterator($request->qty));
+        $it->attachIterator(new \ArrayIterator($request->price_per_qty));
+        $it->attachIterator(new \ArrayIterator($request->price_total));
+        foreach ($it as $value) {
+            Outcomes::create([
+                'description' => $request->description,
+                'item' => $value[0],
+                'qty' => str_replace('.', '', $value[1]),
+                'price_per_qty' => str_replace('.', '', $value[2]),
+                'price_total' => str_replace('.', '', $value[3])
+            ]);
+        }
+
+        $message = count($request->item) > 1 ? count($request->item) . ' items are successfully added to ' .
+            $request->description . ' outcome!' : count($request->item) . ' item is successfully added to ' .
+            $request->description . ' outcome!';
+
+        return redirect()->route('table.nonOrder-outcomes')->with('success', $message);
+    }
+
+    public function updateNonOrderOutcomes(Request $request)
+    {
+        $outcome = Outcomes::find($request->id);
+        $outcome->update([
+            'description' => $request->description,
+            'item' => $request->item,
+            'qty' => str_replace('.', '', $request->qty),
+            'price_per_qty' => str_replace('.', '', $request->price_per_qty),
+            'price_total' => str_replace('.', '', $request->price_total)
+        ]);
+
+        return redirect()->route('table.nonOrder-outcomes')->with('success', 'Non-order outcome (' .
+            $outcome->item . ') for ' . $outcome->description . ' is successfully updated!');
+    }
+
+    public function deleteNonOrderOutcomes($id)
+    {
+        $outcome = Outcomes::find(decrypt($id));
+        $outcome->delete();
+
+        return redirect()->route('table.nonOrder-outcomes')->with('success', 'Non-order outcome (' .
+            $outcome->item . ') for ' . $outcome->description . ' is successfully deleted!');
+    }
+
+    public function massDeleteNonOrderOutcomes(Request $request)
+    {
+        $outcomes = Outcomes::whereIn('id', explode(",", $request->outcome_ids))->get();
+
+        foreach ($outcomes as $outcome) {
+            $outcome->delete();
+        }
+
+        $message = count($outcomes) > 1 ? count($outcomes) . ' non-order outcomes are ' :
+            count($outcomes) . ' non-order outcome is ';
+
+        return redirect()->route('table.nonOrder-outcomes')->with('success', $message . 'successfully deleted!');
     }
 }

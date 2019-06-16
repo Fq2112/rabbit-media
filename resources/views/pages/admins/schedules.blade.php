@@ -154,10 +154,17 @@
                     text: 'This page is not fully support on mobile device! ' +
                         'Please, use your PC or another wide screen device!',
                     icon: 'warning',
+                    dangerMode: true,
+                    buttons: ["Back", "Continue"],
                     closeOnEsc: false,
                     closeOnClickOutside: false,
-                }).then(function () {
-                    window.location = '{{route('home-admin')}}';
+                }).then((confirm) => {
+                    if (confirm) {
+                        //
+                    } else {
+                        window.location = '{{route('home-admin')}}';
+                    }
+
                 }) : '';
         });
 
