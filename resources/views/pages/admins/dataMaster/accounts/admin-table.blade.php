@@ -405,7 +405,7 @@
                                            placeholder="Email" required>
                                 </div>
                             </div>
-                            <div class="col fix-label-group">
+                            <div class="col fix-label-group" id="as-role-div">
                                 <label for="as-role">Role</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
@@ -750,10 +750,10 @@
             $(".fix-label-group .bootstrap-select button").css('border-color', '#e4e6fc');
 
             if (role == 'root') {
-                $(".fix-label-group").hide();
+                $("#as-role-div").hide();
                 $("#as-role").removeAttr('required').val('').selectpicker('refresh');
             } else {
-                $(".fix-label-group").show();
+                $("#as-role-div").show();
                 $("#as-role").attr('required', 'required').val(role).selectpicker('refresh');
             }
 
