@@ -238,7 +238,7 @@
                                                 $invoice = 'INV/'.$row->created_at->format('Ymd').'/'.
                                                 $romanDate.'/'.$row->id;
                                             @endphp
-                                            <a href="{{route('table.order-logs').'?q='.$invoice.'&id='.$row->id}}"
+                                            <a href="{{route('table.order-logs').'?q='.$invoice.'&id='.$row->id.'&check=setup'}}"
                                                class="dropdown-item">
                                                 <div class="dropdown-item-avatar">
                                                     <img class="img-fluid" alt="Icon" src="{{asset('images/services/'.
@@ -272,7 +272,7 @@
                                                 $invoice = 'INV/'.$order->created_at->format('Ymd').'/'.
                                                 $romanDate.'/'.$order->id;
                                             @endphp
-                                            <a href="{{route('table.order-logs').'?q='.$invoice.'&id='.$order->id}}"
+                                            <a href="{{route('table.order-logs').'?q='.$invoice.'&id='.$order->id.'&check=rev'}}"
                                                class="dropdown-item">
                                                 <div class="dropdown-item-avatar">
                                                     <img class="img-fluid" alt="Icon" src="{{asset('images/services/'.

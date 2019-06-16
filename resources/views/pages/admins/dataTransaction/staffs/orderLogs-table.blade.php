@@ -493,12 +493,21 @@
             });
 
             @if($find != "")
+            @if($check != "" && $check != 'rev')
             createLog();
             $(".fix-label-group .bootstrap-select").addClass('p-0');
             $(".fix-label-group .bootstrap-select button").css('border-color', '#e4e6fc');
             $("#div_order").show();
             $("#pemesanan_id").val('{{$find}}').prop('disabled', false).selectpicker('refresh');
             $("#invoice_details").attr('href', '{{route('invoice.order',['id' => encrypt($find)])}}').parent().show();
+            @else
+            @php
+                $log = \App\Models\OrderLogs::where('pemesanan_id', $find)->first();
+            @endphp
+            editLog('{{$log->id}}', '{{$find}}', '{{$invoice}}', '{{$log->deskripsi}}', '{{$log->link}}',
+                '{{$log->isReady}}', '{{$log->isComplete}}', '{{encrypt($find)}}',
+                '{{$log->files != "" ? implode(",",$log->files) : null}}', '{{$log->files != "" ? count($log->files) : 0}}');
+            @endif
             @endif
         });
 
