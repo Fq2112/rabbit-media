@@ -172,18 +172,15 @@
                 title: 'PERHATIAN!',
                 text: "Sepertinya Anda belum melengkapi data alamat lengkap dan nomor telepon yang masih aktif. " +
                     "Silahkan melengkapi data tersebut terlebih dahulu di halaman Edit Profile.",
-                type: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#592f83',
-                confirmButtonText: 'Ya, alihkan saya ke halaman Edit Profile.',
-                showLoaderOnConfirm: true,
-
-                preConfirm: function () {
-                    return new Promise(function (resolve) {
-                        window.location.href = '{{route('client.edit.profile')}}';
-                    });
-                },
-                allowOutsideClick: false
+                icon: 'warning',
+                dangerMode: true,
+                buttons: ["Tidak", "Ya, alihkan saya ke halaman Edit Profile."],
+                closeOnEsc: false,
+                closeOnClickOutside: false,
+            }).then((confirm) => {
+                if (confirm) {
+                    window.location.href = '{{route('client.edit.profile')}}';
+                }
             });
             @else
             $("#form-service-" + id)[0].submit();

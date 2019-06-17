@@ -2,6 +2,13 @@
 <project version="4">
   <component name="PublishConfigData" serverName="siska.org">
     <serverData>
+      <paths name="rabbit-media.net">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
       <paths name="siska.org">
         <serverdata>
           <mappings>
