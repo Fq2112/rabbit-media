@@ -142,7 +142,7 @@ class OrderController extends Controller
 
             if ($log != "") {
                 $ava = array('admin_ava' => $log->getAdmin->ava != "" ?
-                    asset('storage/users/ava/' . $log->getAdmin->ava) : asset('images/avatar.png'));
+                    asset('storage/admins/ava/' . $log->getAdmin->ava) : asset('images/avatar.png'));
             } else {
                 $ava = array('admin_ava' => null);
             }
