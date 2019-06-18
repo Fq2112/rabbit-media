@@ -1086,7 +1086,7 @@
             if (isStudio == 1) {
                 totalStudio();
                 price_total_studio = parseInt(total_plan - 1) > 0 ?
-                    parseInt((total_plan - 1) * price_per_studio) + parseInt(price_per_studio) : price_per_studio;
+                    parseInt((total_plan - 1) * price_per_studio) + parseInt(price_per_studio) : parseInt(price_per_studio);
             }
 
             total += parseInt(price_total_plan + price_total_hours + price_total_qty + price_total_studio);

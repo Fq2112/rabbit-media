@@ -13,6 +13,16 @@
             content: '{{substr($user->name,0,1)}}';
         }
 
+        .accordion .panel-heading .accordion-toggle::before {
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+        }
+
+        .accordion .panel-heading .accordion-toggle.collapsed::before {
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+        }
+
         .rating {
             border: none;
             float: left;

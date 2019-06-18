@@ -62,6 +62,11 @@
             background-color: #000;
         }
 
+        .anim-icon label {
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+        }
+
         @if(\Illuminate\Support\Facades\Request::is('/*'))
         .to-top {
             left: 1%;
