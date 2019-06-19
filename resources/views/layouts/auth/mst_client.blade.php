@@ -35,7 +35,8 @@
         .rating > label:before {
             margin: 5px;
             font-size: 1.25em;
-            font-family: FontAwesome;
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
             display: inline-block;
             content: "\f005";
         }
@@ -43,6 +44,8 @@
         .rating > .half:before {
             content: "\f089";
             position: absolute;
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
         }
 
         .rating > label {

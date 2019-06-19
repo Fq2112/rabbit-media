@@ -2,6 +2,17 @@
 @section('title', 'Feedback | Rabbit Media – Digital Creative Service')
 @push('styles')
     <link rel="stylesheet" href="{{asset('css/feedback.css')}}">
+    <style>
+        .rating > label:before {
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+        }
+
+        .rating > .half:before {
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+        }
+    </style>
 @endpush
 @section('content')
     <div class="site-section" data-aos="fade">
