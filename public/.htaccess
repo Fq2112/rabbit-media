@@ -1,3 +1,5 @@
+
+RewriteOptions inherit
 <IfModule mod_rewrite.c>
     <IfModule mod_negotiation.c>
         Options -MultiViews -Indexes
@@ -19,3 +21,6 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 </IfModule>
+RewriteCond %{HTTP_HOST} ^rabbit\-media\.net$ [OR]
+RewriteCond %{HTTP_HOST} ^www\.rabbit\-media\.net$
+RewriteRule ^(.*)$ "https\:\/\/rabbit\-media\.net\/$1" [R=301,L]
