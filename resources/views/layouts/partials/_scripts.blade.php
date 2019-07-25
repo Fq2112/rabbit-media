@@ -9,6 +9,10 @@
             cursorborder: "1px solid #312855",
         });
 
+        window.FontAwesomeConfig = {
+            searchPseudoElements: true
+        }
+        
         $('#lightgallery').lightGallery({
             loadYoutubeThumbnail: true,
             youtubeThumbSize: 'default',
@@ -262,11 +266,11 @@
     (function () {
         var options = {
             whatsapp: "+6282234389870",
-            line: "//line.me/ti/p/fqnkk",
+            telegram: "LeopardSierra",
             call_to_action: "Contact us",
             button_color: "#592f83",
             position: "{{\Illuminate\Support\Facades\Request::is('/*') ? 'right' : 'left'}}",
-            order: "line,whatsapp",
+            order: "whatsapp,telegram",
         };
         var proto = document.location.protocol, host = "whatshelp.io", url = proto + "//static." + host;
         var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = url + '/widget-send-button/js/init.js';

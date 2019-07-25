@@ -1,0 +1,1317 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="bf4c549e-9793-46e7-a871-2d1ba38e6fae" name="Default Changelist" comment="" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings" doNotAsk="true" synchronizationState="SYNCHRONIZE">
+    <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
+    <execution>
+      <executable />
+    </execution>
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="rabbitme_rabbits@rabbit-media.net" type="feb32156:DbDataSourceImpl" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="FileEditorManager">
+    <leaf />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+        <option value="CSS File" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>.outcomes</find>
+      <find>Order Outcomes</find>
+      <find>order-outcomes</find>
+      <find>form-outcome</find>
+      <find>input-item</find>
+      <find>http://localhost:8000</find>
+      <find>twilio</find>
+      <find>linkedin</find>
+      <find>instagram</find>
+      <find>socialite</find>
+      <find>captch</find>
+      <find>recaptcha-login</find>
+      <find>reca</find>
+      <find>&lt;script src='https://www.google.com/recaptcha/api.js?onload=recaptchaCallback&amp;render=explicit' async defer&gt;&lt;/script&gt;</find>
+      <find>logo_1</find>
+      <find>https://</find>
+      <find>laras</find>
+      <find>files[]</find>
+      <find>users/ava</find>
+      <find>pay</find>
+      <find>price_per_studio</find>
+      <find>feedback.css</find>
+      <find>review</find>
+      <find>feedback</find>
+      <find>content</find>
+      <find>getuser</find>
+      <find>getUser</find>
+      <find>logo_circle</find>
+      <find>logo_circle2</find>
+      <find>$row-&gt;getPortofolio</find>
+    </findStrings>
+    <replaceStrings>
+      <replace>Schedule</replace>
+      <replace>Edit Schedule</replace>
+      <replace>scheduleModalLabel</replace>
+      <replace>scheduleModal</replace>
+      <replace>form-schedule</replace>
+      <replace>findSchedule</replace>
+      <replace>start</replace>
+      <replace>end</replace>
+      <replace>deskripsi</replace>
+      <replace>info.event.extendedProps.status</replace>
+      <replace>extendedProps.status</replace>
+      <replace>Order Outcomes</replace>
+      <replace>Outcomes</replace>
+      <replace>oucome</replace>
+      <replace>outcome</replace>
+      <replace>price_total</replace>
+      <replace>+id</replace>
+      <replace>Logs</replace>
+      <replace>logs</replace>
+      <replace>Log</replace>
+      <replace>log</replace>
+      <replace>$row</replace>
+      <replace>$total_order</replace>
+      <replace>.custom-file</replace>
+      <replace>outcomes</replace>
+      <replace>dt-orderOutcomes</replace>
+      <replace>dt-buttons</replace>
+      <replace>.order-outcomes</replace>
+      <replace>nonOrder-outcomes</replace>
+      <replace>https://rabbit-media.net</replace>
+    </replaceStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="Fiqy Ainuzzaqy" />
+      </list>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/app/Mail/Clients/OrderLogEmail.php" />
+        <option value="$PROJECT_DIR$/resources/views/pages/admins/dataMaster/accounts/admin-table.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/pages/admins/schedules.blade.php" />
+        <option value="$PROJECT_DIR$/database/migrations/2019_04_21_234010_create_outcomes_table.php" />
+        <option value="$PROJECT_DIR$/resources/views/pages/admins/dataTransaction/staffs/outcomes-table.blade.php" />
+        <option value="$PROJECT_DIR$/routes/web.php" />
+        <option value="$PROJECT_DIR$/resources/views/layouts/partials/_sidebarMenu.blade.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/Pages/Admins/DataTransaction/TransactionStaffController.php" />
+        <option value="$PROJECT_DIR$/resources/views/pages/admins/dashboard.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/pages/admins/dataTransaction/staffs/orderOutcomes-table.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/pages/admins/dataTransaction/staffs/nonOrderOutcomes-table.blade.php" />
+        <option value="&lt;f7b06644-0155-4237-9d28-f3758dc1a963&gt;/laravel/app/Http/Controllers/Auth/SocialAuthController.php" />
+        <option value="&lt;56db266e-28fb-49fc-af4a-19345c9c4039&gt;/public_html/local/config/services.php" />
+        <option value="&lt;f7b06644-0155-4237-9d28-f3758dc1a963&gt;/css/modal.css" />
+        <option value="&lt;f7b06644-0155-4237-9d28-f3758dc1a963&gt;/laravel/resources/views/layouts/partials/_signUpIn.blade.php" />
+        <option value="&lt;f7b06644-0155-4237-9d28-f3758dc1a963&gt;/laravel/config/database.php" />
+        <option value="&lt;f7b06644-0155-4237-9d28-f3758dc1a963&gt;/laravel/config/mail.php" />
+        <option value="$PROJECT_DIR$/.env" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/Pages/UserController.php" />
+        <option value="&lt;f7b06644-0155-4237-9d28-f3758dc1a963&gt;/laravel/resources/views/layouts/partials/_scripts.blade.php" />
+        <option value="&lt;f7b06644-0155-4237-9d28-f3758dc1a963&gt;/laravel/app/Http/Controllers/Pages/UserController.php" />
+        <option value="&lt;f7b06644-0155-4237-9d28-f3758dc1a963&gt;/laravel/.env" />
+        <option value="&lt;f7b06644-0155-4237-9d28-f3758dc1a963&gt;/laravel/app/Http/Controllers/Auth/ActivationController.php" />
+        <option value="&lt;f7b06644-0155-4237-9d28-f3758dc1a963&gt;/laravel/resources/views/pages/main/service-plan.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/pages/main/service-plan.blade.php" />
+        <option value="&lt;f7b06644-0155-4237-9d28-f3758dc1a963&gt;/laravel/resources/views/layouts/partials/auth/_scripts_ajax-client.blade.php" />
+        <option value="&lt;f7b06644-0155-4237-9d28-f3758dc1a963&gt;/laravel/resources/views/layouts/partials/auth/_form_ava-client.blade.php" />
+        <option value="&lt;f7b06644-0155-4237-9d28-f3758dc1a963&gt;/laravel/app/Http/Controllers/Pages/Client/AccountController.php" />
+        <option value="&lt;f7b06644-0155-4237-9d28-f3758dc1a963&gt;/laravel/app/Http/Controllers/Pages/Client/OrderController.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/Pages/Client/OrderController.php" />
+        <option value="&lt;f7b06644-0155-4237-9d28-f3758dc1a963&gt;/css/loading.css" />
+        <option value="$PROJECT_DIR$/public/css/loading.css" />
+        <option value="&lt;f7b06644-0155-4237-9d28-f3758dc1a963&gt;/laravel/resources/views/layouts/mst_user.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/layouts/mst_user.blade.php" />
+        <option value="&lt;f7b06644-0155-4237-9d28-f3758dc1a963&gt;/laravel/resources/views/pages/clients/orderForm.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/pages/clients/orderForm.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/pages/main/feedback.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/layouts/auth/mst_client.blade.php" />
+        <option value="&lt;f7b06644-0155-4237-9d28-f3758dc1a963&gt;/laravel/resources/views/layouts/auth/mst_client.blade.php" />
+        <option value="&lt;f7b06644-0155-4237-9d28-f3758dc1a963&gt;/laravel/resources/views/pages/main/feedback.blade.php" />
+        <option value="&lt;f7b06644-0155-4237-9d28-f3758dc1a963&gt;/laravel/resources/views/emails/admins/orderDetails.blade.php" />
+        <option value="&lt;f7b06644-0155-4237-9d28-f3758dc1a963&gt;/laravel/resources/views/emails/auth/activation.blade.php" />
+        <option value="&lt;f7b06644-0155-4237-9d28-f3758dc1a963&gt;/laravel/resources/views/emails/auth/reset.blade.php" />
+        <option value="&lt;f7b06644-0155-4237-9d28-f3758dc1a963&gt;/laravel/resources/views/emails/clients/paymentSuccessDetails.blade.php" />
+        <option value="&lt;f7b06644-0155-4237-9d28-f3758dc1a963&gt;/laravel/resources/views/emails/clients/paymentDetails.blade.php" />
+        <option value="&lt;f7b06644-0155-4237-9d28-f3758dc1a963&gt;/laravel/resources/views/emails/clients/paymentAbortedDetails.blade.php" />
+        <option value="&lt;f7b06644-0155-4237-9d28-f3758dc1a963&gt;/laravel/resources/views/emails/clients/orderLogDetails.blade.php" />
+        <option value="&lt;f7b06644-0155-4237-9d28-f3758dc1a963&gt;/laravel/resources/views/emails/clients/confirmOrderDetails.blade.php" />
+        <option value="&lt;f7b06644-0155-4237-9d28-f3758dc1a963&gt;/laravel/resources/views/pages/admins/dataMaster/company/portfolioGalleries-table.blade.php" />
+        <option value="&lt;56db266e-28fb-49fc-af4a-19345c9c4039&gt;/public_html/SiskaLTE/.htaccess" />
+        <option value="&lt;56db266e-28fb-49fc-af4a-19345c9c4039&gt;/public_html/.htaccess" />
+      </list>
+    </option>
+  </component>
+  <component name="PackageJsonUpdateNotifier">
+    <dismissed value="$PROJECT_DIR$/package.json" />
+  </component>
+  <component name="PhpWorkspaceProjectConfiguration">
+    <include_path>
+      <path value="$PROJECT_DIR$/vendor/phpunit/php-text-template" />
+      <path value="$PROJECT_DIR$/vendor/phpunit/php-token-stream" />
+      <path value="$PROJECT_DIR$/vendor/phpunit/php-code-coverage" />
+      <path value="$PROJECT_DIR$/vendor/phpunit/phpunit" />
+      <path value="$PROJECT_DIR$/vendor/phpdocumentor/reflection-docblock" />
+      <path value="$PROJECT_DIR$/vendor/opis/closure" />
+      <path value="$PROJECT_DIR$/vendor/phpdocumentor/type-resolver" />
+      <path value="$PROJECT_DIR$/vendor/phpspec/prophecy" />
+      <path value="$PROJECT_DIR$/vendor/nunomaduro/collision" />
+      <path value="$PROJECT_DIR$/vendor/phpdocumentor/reflection-common" />
+      <path value="$PROJECT_DIR$/vendor/psr/container" />
+      <path value="$PROJECT_DIR$/vendor/psr/log" />
+      <path value="$PROJECT_DIR$/vendor/psr/simple-cache" />
+      <path value="$PROJECT_DIR$/vendor/laravel/tinker" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/instantiator" />
+      <path value="$PROJECT_DIR$/vendor/laravel/framework" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/inflector" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/lexer" />
+      <path value="$PROJECT_DIR$/vendor/sebastian/global-state" />
+      <path value="$PROJECT_DIR$/vendor/sebastian/comparator" />
+      <path value="$PROJECT_DIR$/vendor/sebastian/environment" />
+      <path value="$PROJECT_DIR$/vendor/sebastian/exporter" />
+      <path value="$PROJECT_DIR$/vendor/sebastian/recursion-context" />
+      <path value="$PROJECT_DIR$/vendor/sebastian/object-enumerator" />
+      <path value="$PROJECT_DIR$/vendor/sebastian/object-reflector" />
+      <path value="$PROJECT_DIR$/vendor/sebastian/resource-operations" />
+      <path value="$PROJECT_DIR$/vendor/vlucas/phpdotenv" />
+      <path value="$PROJECT_DIR$/vendor/sebastian/code-unit-reverse-lookup" />
+      <path value="$PROJECT_DIR$/vendor/sebastian/diff" />
+      <path value="$PROJECT_DIR$/vendor/nikic/php-parser" />
+      <path value="$PROJECT_DIR$/vendor/sebastian/version" />
+      <path value="$PROJECT_DIR$/vendor/myclabs/deep-copy" />
+      <path value="$PROJECT_DIR$/vendor/swiftmailer/swiftmailer" />
+      <path value="$PROJECT_DIR$/vendor/webmozart/assert" />
+      <path value="$PROJECT_DIR$/vendor/mockery/mockery" />
+      <path value="$PROJECT_DIR$/vendor/beyondcode/laravel-dump-server" />
+      <path value="$PROJECT_DIR$/vendor/psy/psysh" />
+      <path value="$PROJECT_DIR$/vendor/hamcrest/hamcrest-php" />
+      <path value="$PROJECT_DIR$/vendor/erusev/parsedown" />
+      <path value="$PROJECT_DIR$/vendor/dnoegel/php-xdg-base-dir" />
+      <path value="$PROJECT_DIR$/vendor/fzaninotto/faker" />
+      <path value="$PROJECT_DIR$/vendor/league/flysystem" />
+      <path value="$PROJECT_DIR$/vendor/tijsverkoyen/css-to-inline-styles" />
+      <path value="$PROJECT_DIR$/vendor/egulias/email-validator" />
+      <path value="$PROJECT_DIR$/vendor/dragonmantank/cron-expression" />
+      <path value="$PROJECT_DIR$/vendor/monolog/monolog" />
+      <path value="$PROJECT_DIR$/vendor/filp/whoops" />
+      <path value="$PROJECT_DIR$/vendor/ramsey/uuid" />
+      <path value="$PROJECT_DIR$/vendor/fideloper/proxy" />
+      <path value="$PROJECT_DIR$/vendor/theseer/tokenizer" />
+      <path value="$PROJECT_DIR$/vendor/phar-io/manifest" />
+      <path value="$PROJECT_DIR$/vendor/jakub-onderka/php-console-highlighter" />
+      <path value="$PROJECT_DIR$/vendor/phar-io/version" />
+      <path value="$PROJECT_DIR$/vendor/jakub-onderka/php-console-color" />
+      <path value="$PROJECT_DIR$/vendor/symfony/console" />
+      <path value="$PROJECT_DIR$/vendor/symfony/process" />
+      <path value="$PROJECT_DIR$/vendor/symfony/debug" />
+      <path value="$PROJECT_DIR$/vendor/paragonie/random_compat" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-iconv" />
+      <path value="$PROJECT_DIR$/vendor/symfony/var-dumper" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-intl-idn" />
+      <path value="$PROJECT_DIR$/vendor/composer" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php72" />
+      <path value="$PROJECT_DIR$/vendor/symfony/http-kernel" />
+      <path value="$PROJECT_DIR$/vendor/nesbot/carbon" />
+      <path value="$PROJECT_DIR$/vendor/symfony/contracts" />
+      <path value="$PROJECT_DIR$/vendor/symfony/finder" />
+      <path value="$PROJECT_DIR$/vendor/symfony/routing" />
+      <path value="$PROJECT_DIR$/vendor/symfony/css-selector" />
+      <path value="$PROJECT_DIR$/vendor/symfony/event-dispatcher" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-ctype" />
+      <path value="$PROJECT_DIR$/vendor/symfony/translation" />
+      <path value="$PROJECT_DIR$/vendor/symfony/polyfill-mbstring" />
+      <path value="$PROJECT_DIR$/vendor/phpoption/phpoption" />
+      <path value="$PROJECT_DIR$/vendor/phpunit/php-file-iterator" />
+      <path value="$PROJECT_DIR$/vendor/symfony/http-foundation" />
+      <path value="$PROJECT_DIR$/vendor/phpunit/php-timer" />
+      <path value="$PROJECT_DIR$/vendor/league/oauth1-client" />
+      <path value="$PROJECT_DIR$/vendor/psr/http-message" />
+      <path value="$PROJECT_DIR$/vendor/laravel/socialite" />
+      <path value="$PROJECT_DIR$/vendor/ralouphie/getallheaders" />
+      <path value="$PROJECT_DIR$/vendor/guzzlehttp/guzzle" />
+      <path value="$PROJECT_DIR$/vendor/guzzlehttp/psr7" />
+      <path value="$PROJECT_DIR$/vendor/guzzlehttp/promises" />
+    </include_path>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1376" />
+    <option name="height" value="754" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane" />
+      <pane id="Scope" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DatabaseDriversLRU" value="mysql" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="true" />
+    <property name="WebServerToolWindowPanel.toolwindow.highlight.mappings" value="true" />
+    <property name="WebServerToolWindowPanel.toolwindow.highlight.symlinks" value="true" />
+    <property name="WebServerToolWindowPanel.toolwindow.show.date" value="false" />
+    <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
+    <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
+    <property name="add_unversioned_files" value="$PROJECT_DIR$/.env" />
+    <property name="database.console.LAST_STATE" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../siska-laramen" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="vcs.Git" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\RABBIT MEDIA\Website\htdocs\rabbit-media\resources\views\pages\admins\dataTransaction\clients" />
+      <recent name="D:\RABBIT MEDIA\Website\htdocs\rabbit-media\resources\views\emails\admins" />
+      <recent name="D:\RABBIT MEDIA\Website\htdocs\rabbit-media\app\Http\Middleware\Auth\Pages" />
+      <recent name="D:\RABBIT MEDIA\Website\htdocs\rabbit-media\resources\views\emails" />
+      <recent name="D:\RABBIT MEDIA\Website\htdocs\rabbit-media\public\admins\modules" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\RABBIT MEDIA\Website\htdocs\rabbit-media\resources\views\pages\admins\dataTransaction\staffs" />
+      <recent name="D:\RABBIT MEDIA\Website\htdocs\rabbit-media\resources\views\emails\clients" />
+      <recent name="D:\RABBIT MEDIA\Website\htdocs\rabbit-media\resources\views\pages\admins" />
+      <recent name="D:\RABBIT MEDIA\Website\htdocs\rabbit-media\resources\views\pages\admins\dataTransaction" />
+      <recent name="D:\RABBIT MEDIA\Website\htdocs\rabbit-media\resources\views\pages\admins\dataMaster\features" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="phpunit.xml" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
+      <TestRunner scope="XML" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="bf4c549e-9793-46e7-a871-2d1ba38e6fae" name="Default Changelist" comment="" />
+      <created>1553852444274</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1553852444274</updated>
+      <workItem from="1553852445649" duration="35546000" />
+      <workItem from="1553999447989" duration="1152000" />
+      <workItem from="1554025483921" duration="35741000" />
+      <workItem from="1554092665579" duration="66065000" />
+      <workItem from="1554199240258" duration="10861000" />
+      <workItem from="1554218715099" duration="15501000" />
+      <workItem from="1554275236655" duration="38380000" />
+      <workItem from="1554423491635" duration="1198000" />
+      <workItem from="1554449481719" duration="17546000" />
+      <workItem from="1554477036463" duration="1950000" />
+      <workItem from="1554529294053" duration="27672000" />
+      <workItem from="1554564376407" duration="12891000" />
+      <workItem from="1554627175143" duration="28790000" />
+      <workItem from="1554716220544" duration="16740000" />
+      <workItem from="1554783806108" duration="22907000" />
+      <workItem from="1554962718378" duration="10085000" />
+      <workItem from="1554996356623" duration="8697000" />
+      <workItem from="1555050097034" duration="14935000" />
+      <workItem from="1555123018441" duration="31354000" />
+      <workItem from="1555168315554" duration="11947000" />
+      <workItem from="1555221083423" duration="49543000" />
+      <workItem from="1555307336445" duration="38851000" />
+      <workItem from="1555480913156" duration="38132000" />
+      <workItem from="1555555735402" duration="13144000" />
+      <workItem from="1555574478986" duration="9779000" />
+      <workItem from="1555602649961" duration="1696000" />
+      <workItem from="1555651987333" duration="36171000" />
+      <workItem from="1555740895841" duration="41756000" />
+      <workItem from="1555821259372" duration="22088000" />
+      <workItem from="1555945695732" duration="598000" />
+      <workItem from="1556004374878" duration="2531000" />
+      <workItem from="1556076416900" duration="41722000" />
+      <workItem from="1556161941813" duration="469000" />
+      <workItem from="1556162470053" duration="36684000" />
+      <workItem from="1556336121160" duration="605000" />
+      <workItem from="1556337363518" duration="55508000" />
+      <workItem from="1556431199000" duration="614000" />
+      <workItem from="1556431888102" duration="5767000" />
+      <workItem from="1556453995187" duration="1675000" />
+      <workItem from="1556464130111" duration="5865000" />
+      <workItem from="1556521756287" duration="20103000" />
+      <workItem from="1556548235805" duration="3711000" />
+      <workItem from="1556553059062" duration="8003000" />
+      <workItem from="1556606633691" duration="39504000" />
+      <workItem from="1556688111555" duration="18498000" />
+      <workItem from="1556722806074" duration="10489000" />
+      <workItem from="1556812045662" duration="12582000" />
+      <workItem from="1556868163777" duration="8648000" />
+      <workItem from="1556894577279" duration="7063000" />
+      <workItem from="1556947302353" duration="10303000" />
+      <workItem from="1557028330360" duration="26566000" />
+      <workItem from="1557067392651" duration="9901000" />
+      <workItem from="1557116777727" duration="26091000" />
+      <workItem from="1557153021435" duration="14802000" />
+      <workItem from="1557210024548" duration="21581000" />
+      <workItem from="1557240446960" duration="8888000" />
+      <workItem from="1557291188906" duration="45514000" />
+      <workItem from="1557463368882" duration="635000" />
+      <workItem from="1557466636029" duration="37983000" />
+      <workItem from="1557553387134" duration="651000" />
+      <workItem from="1557555209720" duration="21440000" />
+      <workItem from="1557639379435" duration="52030000" />
+      <workItem from="1557724861067" duration="30819000" />
+      <workItem from="1557803318953" duration="35643000" />
+      <workItem from="1557907016588" duration="40001000" />
+      <workItem from="1557990884287" duration="24209000" />
+      <workItem from="1560656859460" duration="15223000" />
+      <workItem from="1560692343977" duration="6737000" />
+      <workItem from="1560749508133" duration="17644000" />
+      <workItem from="1560849314848" duration="4048000" />
+      <workItem from="1560868036185" duration="347000" />
+      <workItem from="1560868584018" duration="3235000" />
+      <workItem from="1560924605995" duration="132000" />
+      <workItem from="1560948842459" duration="4034000" />
+      <workItem from="1560955365052" duration="473000" />
+      <workItem from="1561535008553" duration="599000" />
+      <workItem from="1561811783704" duration="3772000" />
+      <workItem from="1561829378211" duration="1378000" />
+      <workItem from="1563276613762" duration="918000" />
+      <workItem from="1563289924685" duration="824000" />
+      <workItem from="1563892433918" duration="2616000" />
+      <workItem from="1563934013810" duration="597000" />
+      <workItem from="1563988547906" duration="49000" />
+    </task>
+    <task id="LOCAL-00035" summary="update on:&#10;- mobile device check (added)&#10;- nicescroll (bug fixed)&#10;- form order (bug fixed)&#10;- order status (ongoing)&#10;- portfolio search by title (added)">
+      <created>1556113117308</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1556113117308</updated>
+    </task>
+    <task id="LOCAL-00036" summary="update on:&#10;- order status (70%)">
+      <created>1556133190325</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1556133190325</updated>
+    </task>
+    <task id="LOCAL-00037" summary="- minor update order form (bug fixed)&#10;&#10;Update on order status:&#10;- Pay (ongoing)&#10;- Upload payment proof (ongoing)&#10;- Abort (ongoing)&#10;- Log (added)">
+      <created>1556204327360</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1556204327360</updated>
+    </task>
+    <task id="LOCAL-00038" summary="- minor update order form (bug fixed)&#10;&#10;Update on order status:&#10;- Pay (ongoing)&#10;- Upload payment proof (ongoing)&#10;- Abort (ongoing)&#10;- Log (added)">
+      <created>1556209945363</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1556209945363</updated>
+    </task>
+    <task id="LOCAL-00039" summary="Update on order status:&#10;- Pay (completed)&#10;- Upload payment proof (completed)&#10;- Abort (completed)&#10;- Log (completed)&#10;- Payment Email billing, success and abort (completed)&#10;- Order accepted email (ongoing)&#10;- Invoice (ongoing)">
+      <created>1556398092026</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1556398092027</updated>
+    </task>
+    <task id="LOCAL-00040" summary="Update on order status:&#10;- Order accepted email (ongoing)&#10;- Invoice (ongoing)">
+      <created>1556451418498</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1556451418498</updated>
+    </task>
+    <task id="LOCAL-00041" summary="Update on order status:&#10;- order form (booking minimal h-3)&#10;- Order accepted email (ongoing)&#10;- Invoice (ongoing)">
+      <created>1556474102676</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1556474102676</updated>
+    </task>
+    <task id="LOCAL-00042" summary="Update on order status:&#10;- order payment &amp; abort order rules h-2 startBook (added)&#10;- Order accepted email (ongoing)&#10;- Invoice (ongoing)">
+      <created>1556533492249</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1556533492249</updated>
+    </task>
+    <task id="LOCAL-00043" summary="Update on order status:&#10;- Order accepted email (completed)&#10;- Invoice (completed)">
+      <created>1556561301719</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1556561301719</updated>
+    </task>
+    <task id="LOCAL-00044" summary="Update on main menu:&#10;- how it works (added)">
+      <created>1556642068930</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1556642068930</updated>
+    </task>
+    <task id="LOCAL-00045" summary="Update on main menu:&#10;- how it works (bug fixed)">
+      <created>1556645509077</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1556645509077</updated>
+    </task>
+    <task id="LOCAL-00046" summary="Update on main menu:&#10;- how it works (bug fixed)">
+      <created>1556646488547</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1556646488547</updated>
+    </task>
+    <task id="LOCAL-00047" summary="Update on main menu:&#10;- how it works (bug fixed)">
+      <created>1556646657244</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1556646657244</updated>
+    </task>
+    <task id="LOCAL-00048" summary="Update on order status:&#10;- revision request (ongoing)">
+      <created>1556652119450</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1556652119452</updated>
+    </task>
+    <task id="LOCAL-00049" summary="Update on order status:&#10;- revision request (50%)">
+      <created>1556719633539</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1556719633539</updated>
+    </task>
+    <task id="LOCAL-00050" summary="Update on order status:&#10;- revision request (50%)">
+      <created>1556739075415</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1556739075418</updated>
+    </task>
+    <task id="LOCAL-00051" summary="Update on order status:&#10;- revision request (inshaAllah completed)">
+      <created>1556833448643</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1556833448645</updated>
+    </task>
+    <task id="LOCAL-00052" summary="Update on order status:&#10;- revision request (completed)">
+      <created>1556875196810</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1556875196810</updated>
+    </task>
+    <task id="LOCAL-00053" summary="Update on main page:&#10;- notification (added)">
+      <created>1556885636055</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1556885636056</updated>
+    </task>
+    <task id="LOCAL-00054" summary="Update on admin page:&#10;- notification (bug fixed)">
+      <created>1556908238620</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1556908238621</updated>
+    </task>
+    <task id="LOCAL-00055" summary="Update on admin page:&#10;- admins table management (completed)&#10;- users table management (ongoing)">
+      <created>1557064158218</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1557064158219</updated>
+    </task>
+    <task id="LOCAL-00056" summary="Update on admin page:&#10;- admins table management (completed)&#10;- users table management (completed)&#10;- edit profile &amp; account settings (ongoing)">
+      <created>1557077904913</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1557077904929</updated>
+    </task>
+    <task id="LOCAL-00057" summary="Update on admin page:&#10;- edit profile &amp; account settings (completed)&#10;- Data master: Company Profile management (ongoing)">
+      <created>1557131908097</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1557131908100</updated>
+    </task>
+    <task id="LOCAL-00058" summary="Update on admin page:&#10;- Data master: Company Profile management (completed)&#10;- Data master: faqs (ongoing)">
+      <created>1557149375404</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1557149375404</updated>
+    </task>
+    <task id="LOCAL-00059" summary="Update on admin page - data master (table):&#10;- faqs (completed)&#10;- portfolio types (completed)&#10;- portfolios (completed)&#10;- portfolio galleries (ongoing)">
+      <created>1557172878529</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1557172878531</updated>
+    </task>
+    <task id="LOCAL-00060" summary="Update on admin page - data master (table):&#10;- faqs (completed)&#10;- portfolio types (completed)&#10;- portfolios (completed)&#10;- portfolio galleries (completed)&#10;- Data master Features (ongoing)">
+      <created>1557237203271</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1557237203277</updated>
+    </task>
+    <task id="LOCAL-00061" summary="Update on admin page - data master (table):&#10;- service types (completed)&#10;- service pricing (ongoing)">
+      <created>1557252741917</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1557252741919</updated>
+    </task>
+    <task id="LOCAL-00062" summary="Update on admin page - data master (table):&#10;- how it works (completed)&#10;- service types (completed)&#10;- service pricing (ongoing)">
+      <created>1557308816365</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1557308816367</updated>
+    </task>
+    <task id="LOCAL-00063" summary="Update on admin page - data master (table):&#10;- service pricing (completed)&#10;- studio types (completed)&#10;- studios (completed)&#10;- payment categories (completed)&#10;- payment methods (completed)&#10;- data transaction (ongoing)">
+      <created>1557341860203</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1557341860203</updated>
+    </task>
+    <task id="LOCAL-00064" summary="Update on admin page - data transaction (table):&#10;- clients: feedback (completed)&#10;- clients: orders (ongoing)">
+      <created>1557512957479</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1557512957481</updated>
+    </task>
+    <task id="LOCAL-00065" summary="mass delete:&#10;- data transaction: feedback (completed)&#10;- data master: accounts (completed)&#10;- data master: company profile (ongoing)&#10;- data master: features (ongoing)&#10;&#10;Update on admin page - data transaction (table):&#10;- clients: orders (ongoing)">
+      <created>1557580164505</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1557580164507</updated>
+    </task>
+    <task id="LOCAL-00066" summary="mass delete:&#10;- data master: company profile (completed)&#10;- data master: features (completed)&#10;&#10;Update on admin page - data transaction (table):&#10;- clients: orders (ongoing)">
+      <created>1557647505994</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1557647505996</updated>
+    </task>
+    <task id="LOCAL-00067" summary="Update on admin page - data transaction (table):&#10;- clients: orders (ongoing)">
+      <created>1557651324311</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1557651324312</updated>
+    </task>
+    <task id="LOCAL-00068" summary="Update on admin page - data transaction (table):&#10;- clients: orders (completed)&#10;- clients: order revisions (ongoing)">
+      <created>1557693177146</created>
+      <option name="number" value="00068" />
+      <option name="presentableId" value="LOCAL-00068" />
+      <option name="project" value="LOCAL" />
+      <updated>1557693177147</updated>
+    </task>
+    <task id="LOCAL-00069" summary="Update on admin page - data transaction (table):&#10;- clients: orders (completed)&#10;- clients: order revisions (ongoing)">
+      <created>1557695741001</created>
+      <option name="number" value="00069" />
+      <option name="presentableId" value="LOCAL-00069" />
+      <option name="project" value="LOCAL" />
+      <updated>1557695741001</updated>
+    </task>
+    <task id="LOCAL-00070" summary="Update on admin page - data transaction (table):&#10;- clients: order revisions (completed)&#10;- staffs: order logs (ongoing)">
+      <created>1557737116176</created>
+      <option name="number" value="00070" />
+      <option name="presentableId" value="LOCAL-00070" />
+      <option name="project" value="LOCAL" />
+      <updated>1557737116182</updated>
+    </task>
+    <task id="LOCAL-00071" summary="- update on Admin role &amp; middleware (bug fixed)&#10;- update on data transaction clients (completed)&#10;&#10;Update on admin page - data transaction staffs:&#10;- order logs (ongoing)">
+      <created>1557760629005</created>
+      <option name="number" value="00071" />
+      <option name="presentableId" value="LOCAL-00071" />
+      <option name="project" value="LOCAL" />
+      <updated>1557760629006</updated>
+    </task>
+    <task id="LOCAL-00072" summary="Update on admin page - data transaction staffs:&#10;- schedules (ongoing)&#10;- order logs (ongoing)&#10;- outcomes (ongoing)">
+      <created>1557766883148</created>
+      <option name="number" value="00072" />
+      <option name="presentableId" value="LOCAL-00072" />
+      <option name="project" value="LOCAL" />
+      <updated>1557766883149</updated>
+    </task>
+    <task id="LOCAL-00073" summary="Update on admin page - data transaction staffs:&#10;- schedules (completed)&#10;- order logs (ongoing)&#10;- outcomes (ongoing)">
+      <created>1557832019976</created>
+      <option name="number" value="00073" />
+      <option name="presentableId" value="LOCAL-00073" />
+      <option name="project" value="LOCAL" />
+      <updated>1557832019979</updated>
+    </task>
+    <task id="LOCAL-00074" summary="Update on admin page - data transaction (order outcomes):&#10;- notification main page &amp; admin page (added)&#10;- management/CRUD (ongoing)">
+      <created>1557851189914</created>
+      <option name="number" value="00074" />
+      <option name="presentableId" value="LOCAL-00074" />
+      <option name="project" value="LOCAL" />
+      <updated>1557851189915</updated>
+    </task>
+    <task id="LOCAL-00075" summary="Update on admin page - data transaction:&#10;- order outcomes (completed)&#10;- order logs (ongoing)">
+      <created>1557936278259</created>
+      <option name="number" value="00075" />
+      <option name="presentableId" value="LOCAL-00075" />
+      <option name="project" value="LOCAL" />
+      <updated>1557936278263</updated>
+    </task>
+    <task id="LOCAL-00076" summary="Update on admin page - data transaction:&#10;- order outcomes (completed)&#10;- order logs (complete)">
+      <created>1558027247188</created>
+      <option name="number" value="00076" />
+      <option name="presentableId" value="LOCAL-00076" />
+      <option name="project" value="LOCAL" />
+      <updated>1558027247191</updated>
+    </task>
+    <task id="LOCAL-00077" summary="Update on admin page - data transaction:&#10;- order logs mail notif to client (added)">
+      <created>1558036040739</created>
+      <option name="number" value="00077" />
+      <option name="presentableId" value="LOCAL-00077" />
+      <option name="project" value="LOCAL" />
+      <updated>1558036040739</updated>
+    </task>
+    <task id="LOCAL-00078" summary="- admin table CRUD form (bug fixed)">
+      <created>1560663429382</created>
+      <option name="number" value="00078" />
+      <option name="presentableId" value="LOCAL-00078" />
+      <option name="project" value="LOCAL" />
+      <updated>1560663429384</updated>
+    </task>
+    <task id="LOCAL-00079" summary="- non-order outcomes management (added)&#10;- mobile check full calendar (bug fixed)">
+      <created>1560675643864</created>
+      <option name="number" value="00079" />
+      <option name="presentableId" value="LOCAL-00079" />
+      <option name="project" value="LOCAL" />
+      <updated>1560675643864</updated>
+    </task>
+    <task id="LOCAL-00080" summary="- service plan check auth swal (bug fixed)">
+      <created>1560770119649</created>
+      <option name="number" value="00080" />
+      <option name="presentableId" value="LOCAL-00080" />
+      <option name="project" value="LOCAL" />
+      <updated>1560770119651</updated>
+    </task>
+    <task id="LOCAL-00081" summary="- service plan check auth swal (bug fixed)">
+      <created>1560773744353</created>
+      <option name="number" value="00081" />
+      <option name="presentableId" value="LOCAL-00081" />
+      <option name="project" value="LOCAL" />
+      <updated>1560773744353</updated>
+    </task>
+    <task id="LOCAL-00082" summary="- order form price_per_studio string issue (bug fixed)&#10;- fontawesome 5 pseudo issue (bug fixed)">
+      <created>1560852810797</created>
+      <option name="number" value="00082" />
+      <option name="presentableId" value="LOCAL-00082" />
+      <option name="project" value="LOCAL" />
+      <updated>1560852810798</updated>
+    </task>
+    <task id="LOCAL-00083" summary="- fontawesome 5 pseudo issue (bug fixed)">
+      <created>1560955121780</created>
+      <option name="number" value="00083" />
+      <option name="presentableId" value="LOCAL-00083" />
+      <option name="project" value="LOCAL" />
+      <updated>1560955121782</updated>
+    </task>
+    <option name="localTasksCounter" value="84" />
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="1411440000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1376" height="754" extended-state="6" />
+    <layout>
+      <window_info id="npm" order="0" side_tool="true" />
+      <window_info id="Favorites" order="1" side_tool="true" />
+      <window_info active="true" content_ui="combo" id="Project" order="2" visible="true" weight="0.24012157" />
+      <window_info id="Structure" order="3" side_tool="true" weight="0.25" />
+      <window_info id="Remote Host" order="4" weight="0.1899696" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32941177" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Database Console" order="7" weight="0.32941177" />
+      <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="9" weight="0.3277311" />
+      <window_info anchor="bottom" id="File Transfer" order="10" weight="0.32941177" />
+      <window_info anchor="bottom" id="Database Changes" order="11" weight="0.32941177" />
+      <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.50227964" side_tool="true" weight="0.31260505" />
+      <window_info anchor="bottom" id="Terminal" order="13" sideWeight="0.49772036" weight="0.31092438" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Database" order="3" weight="0.14741641" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="RECENTLY_FILTERED_USER_GROUPS">
+                <collection />
+              </option>
+              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+                <collection />
+              </option>
+              <option name="COLUMN_ORDER">
+                <list>
+                  <option value="0" />
+                  <option value="1" />
+                  <option value="2" />
+                  <option value="3" />
+                </list>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list />
+          </value>
+        </entry>
+        <entry key="User">
+          <value>
+            <list />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <MESSAGE value="Update on admin page:&#10;- edit profile &amp; account settings (completed)&#10;- Data master: Company Profile management (ongoing)" />
+    <MESSAGE value="Update on admin page:&#10;- Data master: Company Profile management (completed)&#10;- Data master: faqs (ongoing)" />
+    <MESSAGE value="Update on admin page - data master (table):&#10;- faqs (completed)&#10;- portfolio types (completed)&#10;- portfolios (completed)&#10;- portfolio galleries (ongoing)" />
+    <MESSAGE value="Update on admin page - data master (table):&#10;- faqs (completed)&#10;- portfolio types (completed)&#10;- portfolios (completed)&#10;- portfolio galleries (completed)&#10;- Data master Features (ongoing)" />
+    <MESSAGE value="Update on admin page - data master (table):&#10;- service types (completed)&#10;- service pricing (ongoing)" />
+    <MESSAGE value="Update on admin page - data master (table):&#10;- how it works (completed)&#10;- service types (completed)&#10;- service pricing (ongoing)" />
+    <MESSAGE value="Update on admin page - data master (table):&#10;- service pricing (completed)&#10;- studio types (completed)&#10;- studios (completed)&#10;- payment categories (completed)&#10;- payment methods (completed)&#10;- data transaction (ongoing)" />
+    <MESSAGE value="Update on admin page - data transaction (table):&#10;- clients: feedback (completed)&#10;- clients: orders (ongoing)" />
+    <MESSAGE value="mass delete:&#10;- data transaction: feedback (completed)&#10;- data master: accounts (completed)&#10;- data master: company profile (ongoing)&#10;- data master: features (ongoing)&#10;&#10;Update on admin page - data transaction (table):&#10;- clients: orders (ongoing)" />
+    <MESSAGE value="mass delete:&#10;- data master: company profile (completed)&#10;- data master: features (completed)&#10;&#10;Update on admin page - data transaction (table):&#10;- clients: orders (ongoing)" />
+    <MESSAGE value="Update on admin page - data transaction (table):&#10;- clients: orders (ongoing)" />
+    <MESSAGE value="Update on admin page - data transaction (table):&#10;- clients: orders (completed)&#10;- clients: order revisions (ongoing)" />
+    <MESSAGE value="Update on admin page - data transaction (table):&#10;- clients: order revisions (completed)&#10;- staffs: order logs (ongoing)" />
+    <MESSAGE value="- update on Admin role &amp; middleware (bug fixed)&#10;- update on data transaction clients (completed)&#10;&#10;Update on admin page - data transaction staffs:&#10;- order logs (ongoing)" />
+    <MESSAGE value="Update on admin page - data transaction staffs:&#10;- schedules (ongoing)&#10;- order logs (ongoing)&#10;- outcomes (ongoing)" />
+    <MESSAGE value="Update on admin page - data transaction staffs:&#10;- schedules (completed)&#10;- order logs (ongoing)&#10;- outcomes (ongoing)" />
+    <MESSAGE value="Update on admin page - data transaction (order outcomes):&#10;- notification main page &amp; admin page (added)&#10;- management/CRUD (ongoing)" />
+    <MESSAGE value="Update on admin page - data transaction:&#10;- order outcomes (completed)&#10;- order logs (ongoing)" />
+    <MESSAGE value="Update on admin page - data transaction:&#10;- order outcomes (completed)&#10;- order logs (complete)" />
+    <MESSAGE value="Update on admin page - data transaction:&#10;- order logs mail notif to client (added)" />
+    <MESSAGE value="- admin table CRUD form (bug fixed)" />
+    <MESSAGE value="- non-order outcomes management (added)&#10;- mobile check full calendar (bug fixed)" />
+    <MESSAGE value="- service plan check auth swal (bug fixed)" />
+    <MESSAGE value="- order form price_per_studio string issue (bug fixed)&#10;- fontawesome 5 pseudo issue (bug fixed)" />
+    <MESSAGE value="- fontawesome 5 pseudo issue (bug fixed)" />
+    <option name="LAST_COMMIT_MESSAGE" value="- fontawesome 5 pseudo issue (bug fixed)" />
+    <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="php">
+          <url>remoteDeploymentFS://&lt;56db266e-28fb-49fc-af4a-19345c9c4039&gt;/public_html/local/app/Http/Controllers/Agencies/AccountController.php</url>
+          <line>471</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>remoteDeploymentFS://&lt;56db266e-28fb-49fc-af4a-19345c9c4039&gt;/public_html/local/app/Http/Controllers/Agencies/AccountController.php</url>
+          <line>371</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="php">
+          <url>remoteDeploymentFS://&lt;56db266e-28fb-49fc-af4a-19345c9c4039&gt;/public_html/local/resources/views/_admins/home-admin.blade.php</url>
+          <line>88</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/../stisla-2.2.0/dist/modules-datatables.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret line="422" column="18" lean-forward="true" selection-start-line="422" selection-start-column="18" selection-end-line="422" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/layouts/partials/_sidebarMenu.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="326">
+          <caret line="100" column="106" selection-start-line="100" selection-start-column="106" selection-end-line="100" selection-end-column="106" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/pages/admins/dataTransaction/staffs/orderLogs-table.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="341">
+          <caret line="442" column="86" lean-forward="true" selection-start-line="442" selection-start-column="86" selection-end-line="442" selection-end-column="86" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/migrations/2019_04_21_234010_create_outcomes_table.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="20" column="52" selection-start-line="20" selection-start-column="52" selection-end-line="20" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/layouts/partials/_alert.blade.php">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/pages/admins/inbox.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2749" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/seeds/OrderSeeder.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1088">
+          <caret line="15" column="6" selection-start-line="15" selection-start-column="6" selection-end-line="15" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/pages/admins/dashboard.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="237" column="41" lean-forward="true" selection-start-line="237" selection-start-column="41" selection-end-line="237" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/pages/admins/dataTransaction/staffs/orderOutcomes-table.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1254">
+          <caret line="379" column="14" selection-start-line="379" selection-start-column="14" selection-end-line="379" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/pages/admins/dataTransaction/staffs/nonOrderOutcomes-table.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-74">
+          <caret line="339" column="52" selection-start-line="339" selection-start-column="52" selection-end-line="339" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Pages/Admins/DataTransaction/TransactionStaffController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-666">
+          <caret line="255" column="29" lean-forward="true" selection-start-line="255" selection-start-column="29" selection-end-line="255" selection-end-column="29" />
+          <folding>
+            <element signature="e#69#104#0#PHP" expanded="true" />
+            <element signature="e#5567#6069#0#PHP" />
+            <element signature="e#6075#7490#0#PHP" />
+            <element signature="e#7466#8356#0#PHP" />
+            <element signature="e#8362#8981#0#PHP" />
+            <element signature="e#8987#9481#0#PHP" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/layouts/partials/_signUpIn.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="256">
+          <caret line="16" column="69" lean-forward="true" selection-start-line="16" selection-start-column="69" selection-end-line="16" selection-end-column="69" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/laravel/socialite/src/Facades/Socialite.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="10" column="6" selection-start-line="10" selection-start-column="6" selection-end-line="10" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Mail/Clients/OrderDetailsEmail.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="16">
+          <caret line="9" column="6" selection-start-line="9" selection-start-column="6" selection-end-line="9" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Mail/Clients/OrderLogEmail.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="301">
+          <caret line="36" column="81" lean-forward="true" selection-start-line="36" selection-start-column="42" selection-end-line="36" selection-end-column="81" />
+          <folding>
+            <element signature="e#36#65#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/images/logo_black.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/images/logo_circle3.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.env">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="393">
+          <caret line="45" column="21" lean-forward="true" selection-start-line="45" selection-start-column="21" selection-end-line="45" selection-end-column="21" />
+          <caret line="46" column="23" lean-forward="true" selection-start-line="46" selection-start-column="23" selection-end-line="46" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Pages/UserController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="160">
+          <caret line="22" selection-start-line="22" selection-end-line="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/layouts/partials/auth/_scripts_ajax-client.blade.php">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/layouts/partials/_scripts.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="35" selection-start-line="35" selection-end-line="36" />
+          <folding>
+            <element signature="e#126#133#1" expanded="true" />
+            <element signature="e#126#133#1" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/web.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="233">
+          <caret line="30" column="16" selection-start-line="30" selection-start-column="16" selection-end-line="30" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/User.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-122">
+          <caret line="14" column="6" selection-start-line="14" selection-start-column="6" selection-end-line="14" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Auth/ActivationController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="160">
+          <caret line="13" column="18" lean-forward="true" selection-start-line="13" selection-start-column="18" selection-end-line="13" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/images/mail.jpg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/layouts/partials/_confirm.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="256">
+          <caret line="16" column="11" lean-forward="true" selection-start-line="11" selection-start-column="8" selection-end-line="16" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Providers/AppServiceProvider.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="96">
+          <caret line="7" column="6" selection-start-line="7" selection-start-column="6" selection-end-line="7" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/pages/main/service-plan.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="432">
+          <caret line="183" column="15" selection-start-line="183" selection-start-column="15" selection-end-line="183" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/seeds/UserSeeder.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-266">
+          <caret line="10" column="6" selection-start-line="10" selection-start-column="6" selection-end-line="10" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Pages/Client/AccountController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="96">
+          <caret line="71" column="11" lean-forward="true" selection-start-line="69" selection-start-column="8" selection-end-line="71" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Pages/Client/OrderController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="278">
+          <caret line="144" column="41" selection-start-line="144" selection-start-column="41" selection-end-line="144" selection-end-column="41" />
+          <folding>
+            <element signature="n#style#0;n#span#0;n#!!top" expanded="true" />
+            <element signature="e#44#51#1" expanded="true" />
+            <element signature="n#style#0;n#span#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/css/loading.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="310">
+          <caret line="7243" column="50" lean-forward="true" selection-start-line="7243" selection-start-column="50" selection-end-line="7243" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/css/myAccordion.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="438">
+          <caret line="54" column="1" lean-forward="true" selection-start-line="39" selection-end-line="54" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/pages/clients/orderForm.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="182">
+          <caret line="1087" column="67" lean-forward="true" selection-start-line="1087" selection-start-column="67" selection-end-line="1087" selection-end-column="67" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/116a34bb-7bbb-443d-a8d7-13471fe6544e/console.sql">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/images/logo_circle2.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/pages/admins/dataTransaction/clients/feedback-table.blade.php">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/pages/clients/dashboard.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="24">
+          <caret line="1" column="30" lean-forward="true" selection-start-line="1" selection-start-column="30" selection-end-line="1" selection-end-column="30" />
+          <folding>
+            <element signature="e#56#64#0" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#a#0;n#li#0;n#!!top" expanded="true" />
+            <element signature="e#79#87#1" expanded="true" />
+            <element signature="n#style#0;n#a#0;n#li#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#a#0;n#li#0;n#!!top" expanded="true" />
+            <element signature="e#79#87#1" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#2;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/layouts/mst_user.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="64" column="8" lean-forward="true" selection-start-line="64" selection-start-column="8" selection-end-line="67" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/css/feedback.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="78">
+          <caret line="87" selection-start-line="87" selection-end-line="98" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/pages/main/feedback.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="336">
+          <caret line="14" column="4" selection-start-line="14" selection-start-column="4" selection-end-line="14" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/migrations/2018_05_15_160931_create_feedback_table.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="264">
+          <caret line="16" column="37" lean-forward="true" selection-start-line="16" selection-start-column="37" selection-end-line="16" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/layouts/auth/mst_client.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="96">
+          <caret line="37" column="30" lean-forward="true" selection-start-line="37" selection-start-column="30" selection-end-line="37" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/images/logo_circle.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="uml://DATABASE/28641fa4-5d2e-4638-917f-a4ca2eb6f0f0.SCHEMA:u518201485_siska">
+      <provider selected="true" editor-type-id="UmlEditorProvider">
+        <state>
+          <ID>DATABASE</ID>
+          <OriginalElement>28641fa4-5d2e-4638-917f-a4ca2eb6f0f0.SCHEMA:u518201485_siska</OriginalElement>
+          <nodes>
+            <node x="" y="">28641fa4-5d2e-4638-917f-a4ca2eb6f0f0.TABLE:u518201485_siska.quiz_options</node>
+            <node x="" y="">28641fa4-5d2e-4638-917f-a4ca2eb6f0f0.TABLE:u518201485_siska.partner_credentials</node>
+            <node x="" y="">28641fa4-5d2e-4638-917f-a4ca2eb6f0f0.TABLE:u518201485_siska.migrations</node>
+            <node x="" y="">28641fa4-5d2e-4638-917f-a4ca2eb6f0f0.TABLE:u518201485_siska.quiz_questions</node>
+            <node x="" y="">28641fa4-5d2e-4638-917f-a4ca2eb6f0f0.TABLE:u518201485_siska.carousels</node>
+            <node x="" y="">28641fa4-5d2e-4638-917f-a4ca2eb6f0f0.TABLE:u518201485_siska.quiz_results</node>
+            <node x="" y="">28641fa4-5d2e-4638-917f-a4ca2eb6f0f0.TABLE:u518201485_siska.payment_category</node>
+            <node x="" y="">28641fa4-5d2e-4638-917f-a4ca2eb6f0f0.TABLE:u518201485_siska.provinces</node>
+            <node x="" y="">28641fa4-5d2e-4638-917f-a4ca2eb6f0f0.TABLE:u518201485_siska.plans</node>
+            <node x="" y="">28641fa4-5d2e-4638-917f-a4ca2eb6f0f0.TABLE:u518201485_siska.user_verifications</node>
+            <node x="" y="">28641fa4-5d2e-4638-917f-a4ca2eb6f0f0.TABLE:u518201485_siska.payment_method</node>
+            <node x="" y="">28641fa4-5d2e-4638-917f-a4ca2eb6f0f0.TABLE:u518201485_siska.tingkatpends</node>
+            <node x="" y="">28641fa4-5d2e-4638-917f-a4ca2eb6f0f0.TABLE:u518201485_siska.quiz_infos</node>
+            <node x="" y="">28641fa4-5d2e-4638-917f-a4ca2eb6f0f0.TABLE:u518201485_siska.job_levels</node>
+            <node x="" y="">28641fa4-5d2e-4638-917f-a4ca2eb6f0f0.TABLE:u518201485_siska.invitations</node>
+            <node x="" y="">28641fa4-5d2e-4638-917f-a4ca2eb6f0f0.TABLE:u518201485_siska.trainings</node>
+            <node x="" y="">28641fa4-5d2e-4638-917f-a4ca2eb6f0f0.TABLE:u518201485_siska.galleries</node>
+            <node x="" y="">28641fa4-5d2e-4638-917f-a4ca2eb6f0f0.TABLE:u518201485_siska.nations</node>
+            <node x="" y="">28641fa4-5d2e-4638-917f-a4ca2eb6f0f0.TABLE:u518201485_siska.admins</node>
+            <node x="" y="">28641fa4-5d2e-4638-917f-a4ca2eb6f0f0.TABLE:u518201485_siska.jenisblog</node>
+            <node x="" y="">28641fa4-5d2e-4638-917f-a4ca2eb6f0f0.TABLE:u518201485_siska.skills</node>
+            <node x="" y="">28641fa4-5d2e-4638-917f-a4ca2eb6f0f0.TABLE:u518201485_siska.vacancy</node>
+            <node x="" y="">28641fa4-5d2e-4638-917f-a4ca2eb6f0f0.TABLE:u518201485_siska.users</node>
+            <node x="" y="">28641fa4-5d2e-4638-917f-a4ca2eb6f0f0.TABLE:u518201485_siska.blog</node>
+            <node x="" y="">28641fa4-5d2e-4638-917f-a4ca2eb6f0f0.TABLE:u518201485_siska.languages</node>
+            <node x="" y="">28641fa4-5d2e-4638-917f-a4ca2eb6f0f0.TABLE:u518201485_siska.jurusanpends</node>
+            <node x="" y="">28641fa4-5d2e-4638-917f-a4ca2eb6f0f0.TABLE:u518201485_siska.favorite_agencies</node>
+            <node x="" y="">28641fa4-5d2e-4638-917f-a4ca2eb6f0f0.TABLE:u518201485_siska.social_providers</node>
+            <node x="" y="">28641fa4-5d2e-4638-917f-a4ca2eb6f0f0.TABLE:u518201485_siska.feedback</node>
+            <node x="" y="">28641fa4-5d2e-4638-917f-a4ca2eb6f0f0.TABLE:u518201485_siska.organizations</node>
+            <node x="" y="">28641fa4-5d2e-4638-917f-a4ca2eb6f0f0.TABLE:u518201485_siska.agencies</node>
+            <node x="" y="">28641fa4-5d2e-4638-917f-a4ca2eb6f0f0.TABLE:u518201485_siska.attachments</node>
+            <node x="" y="">28641fa4-5d2e-4638-917f-a4ca2eb6f0f0.TABLE:u518201485_siska.educations</node>
+            <node x="" y="">28641fa4-5d2e-4638-917f-a4ca2eb6f0f0.TABLE:u518201485_siska.seekers</node>
+            <node x="" y="">28641fa4-5d2e-4638-917f-a4ca2eb6f0f0.TABLE:u518201485_siska.acc</node>
+            <node x="" y="">28641fa4-5d2e-4638-917f-a4ca2eb6f0f0.TABLE:u518201485_siska.psycho_test_results</node>
+            <node x="" y="">28641fa4-5d2e-4638-917f-a4ca2eb6f0f0.TABLE:u518201485_siska.job_types</node>
+            <node x="" y="">28641fa4-5d2e-4638-917f-a4ca2eb6f0f0.TABLE:u518201485_siska.industris</node>
+            <node x="" y="">28641fa4-5d2e-4638-917f-a4ca2eb6f0f0.TABLE:u518201485_siska.salaries</node>
+            <node x="" y="">28641fa4-5d2e-4638-917f-a4ca2eb6f0f0.TABLE:u518201485_siska.confirm_agencies</node>
+            <node x="" y="">28641fa4-5d2e-4638-917f-a4ca2eb6f0f0.TABLE:u518201485_siska.experiences</node>
+            <node x="" y="">28641fa4-5d2e-4638-917f-a4ca2eb6f0f0.TABLE:u518201485_siska.fungsi_kerja</node>
+            <node x="" y="">28641fa4-5d2e-4638-917f-a4ca2eb6f0f0.TABLE:u518201485_siska.partner_vacancies</node>
+            <node x="" y="">28641fa4-5d2e-4638-917f-a4ca2eb6f0f0.TABLE:u518201485_siska.cities</node>
+            <node x="" y="">28641fa4-5d2e-4638-917f-a4ca2eb6f0f0.TABLE:u518201485_siska.password_resets</node>
+            <node x="" y="">28641fa4-5d2e-4638-917f-a4ca2eb6f0f0.TABLE:u518201485_siska.quiz_types</node>
+            <node x="" y="">28641fa4-5d2e-4638-917f-a4ca2eb6f0f0.TABLE:u518201485_siska.psycho_test_infos</node>
+          </nodes>
+          <notes />
+          <edges />
+          <settings layout="Hierarchic Group" zoom="1.4636363636363638" x="1310.0" y="101.0" />
+          <SelectedNodes />
+          <Categories>
+            <Category>Key columns</Category>
+            <Category>Columns</Category>
+          </Categories>
+          <SCOPE>All</SCOPE>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/seeds/DatabaseSeeder.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="24">
+          <caret line="4" column="6" selection-start-line="4" selection-start-column="6" selection-end-line="4" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/seeds/AdminSeeder.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="486">
+          <caret line="65" column="56" selection-start-line="65" selection-start-column="32" selection-end-line="65" selection-end-column="56" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../apsd-master/local/database/seeds/UserSeeder.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="486">
+          <caret line="25" column="47" selection-start-line="25" selection-start-column="47" selection-end-line="25" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Temp/7zE4D4E76C9/.htaccess" />
+    <entry file="file://D:/College/UNESA (D3-MI'15)/Tugas Akhir/Siska/web/.htaccess">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="384">
+          <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/College/UNESA (D3-MI'15)/Tugas Akhir/Siska/web/siska-laramen (hosting)/.htaccess">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="5" column="20" selection-end-line="21" />
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

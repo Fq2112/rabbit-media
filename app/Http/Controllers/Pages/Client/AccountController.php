@@ -67,10 +67,6 @@ class AccountController extends Controller
         $user = User::findOrFail(Auth::id());
         $img = $request->file('ava');
 
-        $this->validate($request, [
-            'ava' => 'image|mimes:jpg,jpeg,gif,png|max:2048',
-        ]);
-
         if ($img == null) {
             $input = $request->all();
             if (!Hash::check($input['password'], $user->password)) {
@@ -84,6 +80,10 @@ class AccountController extends Controller
                 }
             }
         } else {
+            $this->validate($request, [
+                'ava' => 'image|mimes:jpg,jpeg,gif,png|max:2048',
+            ]);
+            
             $name = $img->getClientOriginalName();
 
             if ($user->ava != '' || $user->ava != 'agency.png') {

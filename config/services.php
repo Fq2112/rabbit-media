@@ -73,4 +73,10 @@ return [
         'redirect' => env('LinkedIn_REDIRECT'),
     ],
 
+    'instagram' => [
+        'client_id' => env('IG_CLIENT_ID'),
+        'client_secret' => env('IG_CLIENT_SECRET'),
+        'redirect' => env('IG_REDIRECT'),
+    ],
+
 ];

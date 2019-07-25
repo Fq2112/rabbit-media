@@ -374,9 +374,8 @@
                                             <td align="center" width="660">
                                                 <a name="Logo" style="display:block" href="{{route('home')}}"
                                                    target="_blank">
-                                                    <img src="https://cdn1.imggmi.com/uploads/2019/3/31/ce87edc5c38037e4f9a2c74dc80bc699-full.png"
-                                                         border="0" style="display:block;width: 40%;margin: 1em"
-                                                         class="logo"></a>
+                                                    <img src="{{asset('images/logo_black.png')}}" border="0"
+                                                         style="display:block;width: 40%;margin: 1em" class="logo"></a>
                                             </td>
                                         </tr>
                                         <tr>
@@ -655,8 +654,7 @@
                                             <td align="center" valign="top" width="660" bgcolor="#1a1c21">
                                                 <a name="Logo_1" style="display:block;" href="{{route('home')}}"
                                                    target="_blank">
-                                                    <img src="https://cdn1.imggmi.com/uploads/2019/3/31/9351b2d132efd335ceae6c6e492fc93d-full.png"
-                                                         alt="logo"
+                                                    <img src="{{asset('images/logo_circle.png')}}" alt="logo"
                                                          border="0" style="display:block;width: 15%;"></a>
                                             </td>
                                             <td valign="top" width="20" class="hide">&nbsp;</td>

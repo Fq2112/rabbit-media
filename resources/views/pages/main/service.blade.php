@@ -111,10 +111,17 @@
                                         <img class="icon img-fluid" src="{{asset('images/services/'.$type->icon)}}">
                                         <h3 class="card-title">{{$type->nama}}</h3>
                                         <p class="card-text">{{$type->deskripsi}}</p>
-                                        <a class="read-more" href="{{route('show.service.pricing', [
-                                        'jenis' => strtolower(str_replace(' ', '-', $type->nama)),
-                                        'id' =>encrypt($type->id)])}}">Read more<i class="fa fa-chevron-right ml-2"></i>
-                                        </a>
+                                        @if($type->nama == 'Design Pack')
+                                            <a class="read-more" href="javascript:void(0)" onclick="comingSoon()">Read
+                                                more<i class="fa fa-chevron-right ml-2"></i>
+                                            </a>
+                                        @else
+                                            <a class="read-more" href="{{route('show.service.pricing', [
+                                            'jenis' => strtolower(str_replace(' ', '-', $type->nama)),
+                                            'id' =>encrypt($type->id)])}}">Read more<i
+                                                        class="fa fa-chevron-right ml-2"></i>
+                                            </a>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -141,5 +148,9 @@
                 $('.use-nicescroll').getNiceScroll().resize()
             }, 600);
         });
+
+        function comingSoon() {
+            swal('Coming Soon!', 'Layanan ini masih dalam proses pengembangan.', 'info');
+        }
     </script>
 @endpush
