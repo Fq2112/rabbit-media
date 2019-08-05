@@ -563,6 +563,16 @@ Route::group(['namespace' => 'Pages\Admins', 'prefix' => 'admin', 'middleware' =
                         'as' => 'delete.orders'
                     ]);
 
+                    Route::post('net-incomes', [
+                        'uses' => 'TransactionClientController@netIncomesOrders',
+                        'as' => 'netIncomes.orders'
+                    ]);
+
+                    Route::post('recap', [
+                        'uses' => 'TransactionClientController@recapOrders',
+                        'as' => 'recap.orders'
+                    ]);
+
                     Route::post('deletes', [
                         'uses' => 'TransactionClientController@massDeleteOrders',
                         'as' => 'massDelete.orders'

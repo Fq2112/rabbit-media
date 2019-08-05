@@ -119,7 +119,7 @@
                                             <a class="read-more" href="{{route('show.service.pricing', [
                                             'jenis' => strtolower(str_replace(' ', '-', $type->nama)),
                                             'id' =>encrypt($type->id)])}}">Read more<i
-                                                        class="fa fa-chevron-right ml-2"></i>
+                                                    class="fa fa-chevron-right ml-2"></i>
                                             </a>
                                         @endif
                                     </div>

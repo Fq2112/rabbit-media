@@ -1,9 +1,4 @@
 <?php
-
-use App\Support\Facades\GlobalAuth;
-use Laravel\Socialite\Facades\Socialite;
-use Laravel\Socialite\SocialiteServiceProvider;
-
 return [
 
     /*
@@ -169,8 +164,9 @@ return [
         /*
          * Package Service Providers...
          */
-//        Laravel\Socialite\SocialiteServiceProvider::class,
+//         Laravel\Socialite\SocialiteServiceProvider::class,
         \SocialiteProviders\Manager\ServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -233,6 +229,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         'GlobalAuth' => App\Support\Facades\GlobalAuth::class,
+        'PDF' => Barryvdh\DomPDF\Facade::class,
     ],
 
 ];
