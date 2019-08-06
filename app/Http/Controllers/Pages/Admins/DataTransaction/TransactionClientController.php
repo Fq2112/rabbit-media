@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Pages\Admins\DataTransaction;
 
+use App\Models\layanan;
 use Barryvdh\DomPDF\Facade as PDF;
 use App\Events\Clients\PaymentDetails;
 use App\Http\Controllers\Pages\Client\OrderController as OrderMail;
@@ -171,14 +172,18 @@ class TransactionClientController extends Controller
 
     public function recapOrders(Request $request)
     {
-        $orders = Pemesanan::whereIn('id', explode(",", $request->order_ids))->get();
-        $string = explode('-', $request->period);
-        $month = $string[0];
-        $year = $string[1];
-        $period = Carbon::createFromDate($year, $month, 1)->format('F Y');
+        $order_ids = explode(",", $request->order_ids);
+        $service_ids = layanan::whereIn('id', Pemesanan::whereIn('id', $order_ids)->pluck('layanan_id')->toArray())->pluck('jenis_id')->toArray();
+        $types = JenisLayanan::whereIn('id', $service_ids)->orderBy('nama')->get();
 
-        $pdf = PDF::loadView('reports.recap-orders', compact('orders', 'period'));
-        return $pdf->stream('Recap Orders Report of ' . $period . '.pdf');
+        $period = $request->period;
+        $arr = explode('-', $period);
+        $month = $arr[0];
+        $year = $arr[1];
+        $str_period = Carbon::createFromDate($year, $month, 1)->format('F Y');
+
+        $pdf = PDF::loadView('reports.recap-orders', compact('types', 'period', 'str_period'));
+        return $pdf->stream('Recap Orders Report of ' . $str_period . '.pdf');
     }
 
     public function massDeleteOrders(Request $request)
