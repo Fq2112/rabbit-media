@@ -14,6 +14,20 @@
     <style>
         @import url("https://fonts.googleapis.com/css?family=Dosis:300,400,700,800");
 
+        body::-webkit-scrollbar-track {
+            background: rgba(222, 222, 222, .75);
+        }
+
+        body::-webkit-scrollbar {
+            width: 8px;
+            background-color: #F5F5F5;
+        }
+
+        body::-webkit-scrollbar-thumb {
+            width: 8px;
+            background: rgba(0, 0, 0, .5);
+            border-radius: 4px;
+        }
         /** Styles for the 403 Page **/
 
         .particle-error,
@@ -261,7 +275,7 @@
         }
     </style>
 </head>
-<body class="permission_denied">
+<body class="permission_denied use-nicescroll">
 <div id="particles-js"></div>
 <div class="denied__wrapper">
     <h1>403</h1>
@@ -409,13 +423,30 @@
     @endauth
 </div>
 </body>
+<!-- jQuery -->
+<script src="{{asset('js/jquery-3.3.1.min.js')}}"></script>
+<script src="{{asset('admins/modules/checkMobileDevice.js')}}"></script>
+<!-- Nicescroll -->
+<script src="{{asset('admins/modules/nicescroll/jquery.nicescroll.js')}}"></script>
 <script src="{{asset('admins/modules/particles.min.js')}}"></script>
 <script>
+    $(function () {
+        window.mobilecheck() ? $("body").removeClass('use-nicescroll') : '';
+        $(".use-nicescroll").niceScroll({
+            cursorcolor: "rgba(0, 0, 0, .5)",
+            cursorwidth: "8px",
+            background: "rgba(222, 222, 222, .75)",
+            cursorborder: 'none',
+            cursorborderradius: 0,
+            autohidemode: 'leave',
+            zindex: 99999999,
+        });
+    });
     @if(\Illuminate\Support\Facades\Request::is('admin*'))
     swal('ATTENTION!', 'You\'re redirected here because you didn\'t signed in as an Admin or ROOT.', 'warning');
     @else
     swal('ATTENTION!', 'You\'re redirected here because you didn\'t signed in as a Customer.', 'warning');
-            @endif
+        @endif
 
     var title = document.getElementsByTagName("title")[0].innerHTML;
     (function titleScroller(text) {

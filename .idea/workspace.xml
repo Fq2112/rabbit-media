@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="bf4c549e-9793-46e7-a871-2d1ba38e6fae" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Pages/Admins/DataTransaction/TransactionClientController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Pages/Admins/DataTransaction/TransactionClientController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/reports/recap-orders.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/reports/recap-orders.blade.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -159,7 +157,7 @@
     <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
     <property name="add_unversioned_files" value="$PROJECT_DIR$/.env" />
     <property name="database.console.LAST_STATE" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/views/reports" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -294,14 +292,7 @@
       <workItem from="1563934013810" duration="597000" />
       <workItem from="1563988547906" duration="49000" />
       <workItem from="1565003670186" duration="10396000" />
-      <workItem from="1565069124704" duration="3079000" />
-    </task>
-    <task id="LOCAL-00036" summary="update on:&#10;- order status (70%)">
-      <created>1556133190325</created>
-      <option name="number" value="00036" />
-      <option name="presentableId" value="LOCAL-00036" />
-      <option name="project" value="LOCAL" />
-      <updated>1556133190325</updated>
+      <workItem from="1565069124704" duration="5445000" />
     </task>
     <task id="LOCAL-00037" summary="- minor update order form (bug fixed)&#10;&#10;Update on order status:&#10;- Pay (ongoing)&#10;- Upload payment proof (ongoing)&#10;- Abort (ongoing)&#10;- Log (added)">
       <created>1556204327360</created>
@@ -639,7 +630,14 @@
       <option name="project" value="LOCAL" />
       <updated>1565012496393</updated>
     </task>
-    <option name="localTasksCounter" value="85" />
+    <task id="LOCAL-00085" summary="- recap orders report (bug fixed)">
+      <created>1565075816853</created>
+      <option name="number" value="00085" />
+      <option name="presentableId" value="LOCAL-00085" />
+      <option name="project" value="LOCAL" />
+      <updated>1565075816854</updated>
+    </task>
+    <option name="localTasksCounter" value="86" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -674,7 +672,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
-    <MESSAGE value="Update on admin page:&#10;- Data master: Company Profile management (completed)&#10;- Data master: faqs (ongoing)" />
     <MESSAGE value="Update on admin page - data master (table):&#10;- faqs (completed)&#10;- portfolio types (completed)&#10;- portfolios (completed)&#10;- portfolio galleries (ongoing)" />
     <MESSAGE value="Update on admin page - data master (table):&#10;- faqs (completed)&#10;- portfolio types (completed)&#10;- portfolios (completed)&#10;- portfolio galleries (completed)&#10;- Data master Features (ongoing)" />
     <MESSAGE value="Update on admin page - data master (table):&#10;- service types (completed)&#10;- service pricing (ongoing)" />
@@ -699,7 +696,8 @@
     <MESSAGE value="- order form price_per_studio string issue (bug fixed)&#10;- fontawesome 5 pseudo issue (bug fixed)" />
     <MESSAGE value="- fontawesome 5 pseudo issue (bug fixed)" />
     <MESSAGE value="- net income &amp; recap orders report (added)" />
-    <option name="LAST_COMMIT_MESSAGE" value="- net income &amp; recap orders report (added)" />
+    <MESSAGE value="- recap orders report (bug fixed)" />
+    <option name="LAST_COMMIT_MESSAGE" value="- recap orders report (bug fixed)" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
