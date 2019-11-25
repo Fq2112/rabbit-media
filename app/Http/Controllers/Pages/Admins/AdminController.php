@@ -31,14 +31,19 @@ class AdminController extends Controller
             $service = null;
         }
 
+        if ($request->has('visitor')) {
+            $visitor = $request->visitor;
+        } else {
+            $visitor = null;
+        }
+        
         if ($request->has('period')) {
             $period = $request->period;
         } else {
             $period = null;
         }
 
-        return view('pages.admins.dashboard', compact('admins', 'users', 'orders', 'feedback',
-            'service', 'period'));
+        return view('pages.admins.dashboard', compact('admins', 'users', 'orders', 'feedback', 'service', 'visitor', 'period'));
     }
 
     public function showSchedules()

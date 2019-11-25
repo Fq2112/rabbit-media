@@ -50,6 +50,16 @@
     <link rel="stylesheet" href="{{asset('admins/modules/chocolat/dist/css/chocolat.css')}}">
 
     <style>
+        ::selection {
+            background: #592f83;
+            color: #fff;
+        }
+
+        ::-moz-selection {
+            background: #592f83;
+            color: #fff;
+        }
+
         .bootstrap-select .dropdown-menu {
             min-width: 100% !important;
         }
@@ -65,6 +75,94 @@
         .anim-icon label {
             font-family: 'Font Awesome 5 Free';
             font-weight: 900;
+        }
+
+        .images-preloader {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            z-index: 10000000;
+            background-color: #fff;
+        }
+
+        .images-preloader .preloader {
+            display: block;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            height: 50px;
+            width: 50px;
+            margin: -25px 0 0 -25px;
+            border-radius: 50%;
+        }
+
+        .images-preloader .preloader:before,
+        .images-preloader .preloader:after {
+            content: "";
+            border: 3px solid #592f83;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            position: absolute;
+            left: 0;
+        }
+
+        .images-preloader .preloader:before {
+            transform: scale(1, 1);
+            opacity: 1;
+            -webkit-animation: outside .6s infinite linear;
+            animation: outside .6s infinite linear
+        }
+
+        .images-preloader .preloader:after {
+            transform: scale(0, 0);
+            opacity: 0;
+            -webkit-animation: inside .6s infinite linear;
+            animation: inside .6s infinite linear
+        }
+
+        @-webkit-keyframes inside {
+            from {
+                -webkit-transform: scale(.5, .5);
+                opacity: 0
+            }
+            to {
+                -webkit-transform: scale(1, 1);
+                opacity: 1
+            }
+        }
+
+        @keyframes inside {
+            from {
+                transform: scale(.5, .5);
+                opacity: 0
+            }
+            to {
+                transform: scale(1, 1);
+                opacity: 1
+            }
+        }
+
+        @-webkit-keyframes outside {
+            from {
+                -webkit-transform: scale(1, 1);
+                opacity: 1
+            }
+            to {
+                -webkit-transform: scale(1.5, 1.5);
+                opacity: 0
+            }
+        }
+
+        @keyframes outside {
+            from {
+                -webkit-transform: scale(1, 1);
+                opacity: 1
+            }
+            to {
+                -webkit-transform: scale(1.5, 1.5);
+                opacity: 0
+            }
         }
 
         @if(\Illuminate\Support\Facades\Request::is('/*'))
@@ -83,6 +181,9 @@
     <script src='https://www.google.com/recaptcha/api.js?onload=recaptchaCallback&render=explicit' async defer></script>
 </head>
 <body class="use-nicescroll">
+<div class="images-preloader">
+    <div class="preloader"></div>
+</div>
 <a href="javascript:void(0)" onclick="scrollToTop()" title="Go to top">
     <strong class="to-top" style="color: #fff">TOP</strong></a>
 
@@ -138,8 +239,7 @@
 
     @yield('content')
 
-    <div class="footer py-4 {{\Illuminate\Support\Facades\Request::is(['/*','account*']) ? 'box-shadow' : ''}}"
-         data-aos="{{\Illuminate\Support\Facades\Request::is(['info*','services/*']) ? '' : 'fade-up'}}">
+    <div class="footer py-4 {{\Illuminate\Support\Facades\Request::is(['/*','account*']) ? 'box-shadow' : ''}}">
         <div class="container-fluid {{\Illuminate\Support\Facades\Request::is('/*') ? '' : 'text-center'}}">
             <p>
                 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->

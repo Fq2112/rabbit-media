@@ -59,44 +59,49 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <a href="javascript:void(0)" data-toggle-slide="#message-items"
-                               class="btn btn-primary btn-icon icon-left btn-lg btn-block mb-4 d-md-none">
-                                <i class="fas fa-list"></i> All Message</a>
-                            <div class="tickets">
-                                <div class="ticket-items" id="message-items" style="height: 800px">
-                                    @foreach($contacts as $row)
-                                        @php
-                                            $user = \App\User::where('email',$row->email);
-                                            if($user->count()){
-                                                if($user->first()->ava == ""){
-                                                    $ava = asset('admins/img/avatar/avatar-'.rand(1,5).'.png');
+                            @if(count($contacts) > 0)
+                                <a href="javascript:void(0)" data-toggle-slide="#message-items"
+                                   class="btn btn-primary btn-icon icon-left btn-lg btn-block mb-4 d-md-none">
+                                    <i class="fas fa-list"></i> All Message</a>
+                                <div class="tickets">
+                                    <div class="ticket-items" id="message-items" style="height: 800px">
+                                        @foreach($contacts as $row)
+                                            @php
+                                                $user = \App\User::where('email',$row->email);
+                                                if($user->count()){
+                                                    if($user->first()->ava == ""){
+                                                        $ava = asset('admins/img/avatar/avatar-'.rand(1,5).'.png');
+                                                    } else{
+                                                        $ava = asset('storage/users/ava/'.$user->first()->ava);
+                                                    }
                                                 } else{
-                                                    $ava = asset('storage/users/ava/'.$user->first()->ava);
+                                                    $ava = asset('admins/img/avatar/avatar-'.rand(1,5).'.png');
                                                 }
-                                            } else{
-                                                $ava = asset('admins/img/avatar/avatar-'.rand(1,5).'.png');
-                                            }
-                                        @endphp
-                                        <div class="ticket-item" style="cursor: pointer" id="{{$row->id}}"
-                                             onclick="viewMail('{{$row->id}}','{{$row->name}}','{{$row->email}}',
-                                                     '{{$ava}}','{{$row->subject}}','{{$row->message}}',
+                                            @endphp
+                                            <div class="ticket-item" style="cursor: pointer" id="{{$row->id}}"
+                                                 onclick="viewMail('{{$row->id}}','{{$row->name}}','{{$row->email}}',
+                                                     '{{$ava}}','{{$row->subject}}','{{str_replace('\'', "’",$row->message)}}',
                                                      '{{\Carbon\Carbon::parse($row->created_at)->format('l, j F Y').
                                                      ' at '.\Carbon\Carbon::parse($row->created_at)->format('H:i')}}',
                                                      '{{encrypt($row->id)}}')">
-                                            <div class="ticket-title">
-                                                <h4>{{ucfirst($row->subject)}}</h4>
+                                                <div class="ticket-title">
+                                                    <h4>{{ucfirst($row->subject)}}</h4>
+                                                </div>
+                                                <div class="ticket-desc">
+                                                    <div>{{$row->name}}</div>
+                                                    <div class="bullet"></div>
+                                                    <div>{{\Carbon\Carbon::parse($row->created_at)->diffForHumans()}}</div>
+                                                </div>
                                             </div>
-                                            <div class="ticket-desc">
-                                                <div>{{$row->name}}</div>
-                                                <div class="bullet"></div>
-                                                <div>{{\Carbon\Carbon::parse($row->created_at)->diffForHumans()}}</div>
-                                            </div>
-                                        </div>
-                                    @endforeach
+                                        @endforeach
+                                    </div>
+                                    <div class="ticket-content" id="message-contents"
+                                         style="height: 800px;display: none"></div>
                                 </div>
-                                <div class="ticket-content" id="message-contents"
-                                     style="height: 800px;display: none"></div>
-                            </div>
+                            @else
+                                <img class="img-fluid float-left" src="{{asset('images/searchPlace.png')}}" width="128">
+                                <h5><em>There seems to be none of the feedback was found&hellip;</em></h5>
+                            @endif
                         </div>
                     </div>
                 </div>

@@ -2,23 +2,9 @@
     $(function () {
         window.mobilecheck() ? $("body").removeClass('use-nicescroll') : '';
 
-        $(".use-nicescroll").niceScroll({
-            cursorcolor: "rgba(49, 40, 85, 1)",
-            cursorwidth: "8px",
-            background: "rgba(222, 222, 222, .75)",
-            cursorborder: "1px solid #312855",
-        });
-
         window.FontAwesomeConfig = {
             searchPseudoElements: true
-        }
-        
-        $('#lightgallery').lightGallery({
-            loadYoutubeThumbnail: true,
-            youtubeThumbSize: 'default',
-        });
-
-        $('.grid').masonry();
+        };
 
         $('[data-toggle="tooltip"]').tooltip();
         $('[data-toggle="popover"]').popover();
@@ -262,8 +248,23 @@
 
     $(document).on('scroll', progress);
 
-    <!-- WhatsHelp.io widget -->
-    (function () {
+    window.onload = function() {
+        $('.images-preloader').fadeOut();
+        
+        $(".use-nicescroll").niceScroll({
+            cursorcolor: "rgba(49, 40, 85, 1)",
+            cursorwidth: "8px",
+            background: "rgba(222, 222, 222, .75)",
+            cursorborder: "1px solid #312855",
+        });
+
+        $('#lightgallery').lightGallery({
+            loadYoutubeThumbnail: true,
+            youtubeThumbSize: 'default',
+        });
+
+        $('.grid').masonry();
+
         var options = {
             whatsapp: "+6282234389870",
             telegram: "LeopardSierra",
@@ -276,6 +277,5 @@
         var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = url + '/widget-send-button/js/init.js';
         s.onload = function () { WhWidgetSendButton.init(host, proto, options); };
         var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x);
-    })();
-
+    };
 </script>

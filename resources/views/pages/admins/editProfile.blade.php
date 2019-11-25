@@ -119,8 +119,7 @@
                                                 <span class="input-group-text"><i class="fa fa-user"></i></span>
                                             </div>
                                             <div class="custom-file">
-                                                <input type="file" name="ava" class="custom-file-input" id="ava"
-                                                       required>
+                                                <input type="file" name="ava" class="custom-file-input" id="ava">
                                                 <label class="custom-file-label" id="txt_ava">
                                                     {{$admin->ava != "" ? $admin->ava : 'Choose File'}}</label>
                                             </div>

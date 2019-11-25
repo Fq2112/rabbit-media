@@ -208,10 +208,10 @@
                         {
                             id: '{{$row->id}}',
                             status: 'booked',
-                            title: '{{$row->getPemesanan->judul}}',
-                            start: '{{$row->getPemesanan->start}}',
-                            end: '{{$row->getPemesanan->end}}',
-                            description: '{{$row->getPemesanan->deskripsi}}',
+                            title: '{{$row->getPemesanan != null ? $row->getPemesanan->judul : 'kosong'}}',
+                            start: '{{$row->getPemesanan != null ? $row->getPemesanan->start : 'kosong'}}',
+                            end: '{{$row->getPemesanan != null ? $row->getPemesanan->end : 'kosong'}}',
+                            description: '{{$row->getPemesanan != null ? $row->getPemesanan->deskripsi : 'kosong'}}',
                             color: '#17a2b8'
                         },
                             @else

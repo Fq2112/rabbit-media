@@ -426,7 +426,7 @@
             cursorwidth: "8px",
             background: "rgba(222, 222, 222, .75)",
             cursorborder: 'none',
-            cursorborderradius: 0,
+            cursorborderradius:0,
             autohidemode: 'leave',
             zindex: 99999999,
         });

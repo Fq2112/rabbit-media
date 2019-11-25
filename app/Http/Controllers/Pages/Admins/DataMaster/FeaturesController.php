@@ -197,9 +197,9 @@ class FeaturesController extends Controller
     public function deleteServiceTypes($id)
     {
         $type = JenisLayanan::find(decrypt($id));
-        if ($type->icon != '') {
+        /*if ($type->icon != '') {
             unlink(public_path('images\services/' . $type->icon));
-        }
+        }*/
         $type->delete();
 
         return back()->with('success', 'Service type (' . $type->nama . ') is successfully deleted!');

@@ -185,8 +185,7 @@
                                         <tbody>
                                         <tr>
                                             <td align="center" width="660">
-                                                <a name="Logo" style="display:block" href="{{route('home')}}"
-                                                   target="_blank">
+                                                <a name="Logo" style="display:block" href="{{route('home')}}" target="_blank">
                                                     <img src="{{asset('images/logo_black.png')}}" border="0"
                                                          style="display:block;width: 40%;margin: 1em" class="logo"></a>
                                             </td>
@@ -204,8 +203,7 @@
                                         </tr>
                                         <tr>
                                             <td align="center" width="660">
-                                                <img src="{{asset('images/mail.jpg')}}"
-                                                     style="display: block;width: 70%" border="0"></td>
+                                                <img src="{{asset('images/mail.jpg')}}" style="display: block;width: 70%" border="0"></td>
                                         </tr>
                                         <tr>
                                             <td>
@@ -403,8 +401,7 @@
                                         <tr>
                                             <td valign="top" width="20" class="hide">&nbsp;</td>
                                             <td align="center" valign="top" width="660" bgcolor="#1a1c21">
-                                                <a name="Logo_1" style="display:block;" href="{{route('home')}}"
-                                                   target="_blank">
+                                                <a name="Logo_1" style="display:block;" href="{{route('home')}}" target="_blank">
                                                     <img src="{{asset('images/logo_circle.png')}}" alt="logo"
                                                          border="0" style="display:block;width: 15%;"></a>
                                             </td>
@@ -456,12 +453,10 @@
                                                                 <tr>
                                                                     <td align="center" bgcolor="#1a1c21">
                                                                         <a href="https://play.google.com/store/apps/details?id=com.rabbitmedia.mobile">
-                                                                            <img class="zoom"
-                                                                                 src="http://i67.tinypic.com/2n8nadu.png"
+                                                                            <img class="zoom" src="http://i67.tinypic.com/2n8nadu.png"
                                                                                  style="width: 15%"></a>&nbsp;&nbsp;&nbsp;&nbsp;
                                                                         <a href="https://itunes.apple.com/id/app/rabbitmedia.com/id1143444473?mt=8">
-                                                                            <img class="zoom"
-                                                                                 src="http://i67.tinypic.com/34sfhg7.png"
+                                                                            <img class="zoom" src="http://i67.tinypic.com/34sfhg7.png"
                                                                                  style="width: 15%"></a>
                                                                     </td>
                                                                 </tr>
@@ -509,10 +504,8 @@
                                                                     <td align="center">
                                                                         <a href="https://fb.com/RabbitMedia"
                                                                            name="Facebook" target="_blank">
-                                                                            <img class="social-icons"
-                                                                                 src="https://cdn.shazam.com/shazamauth/facebook.jpg"
-                                                                                 width="34" height="50"
-                                                                                 style="display:block"
+                                                                            <img class="social-icons" src="https://cdn.shazam.com/shazamauth/facebook.jpg"
+                                                                                 width="34" height="50" style="display:block"
                                                                                  border="0" alt="Facebook"></a>
                                                                     </td>
                                                                     <td>

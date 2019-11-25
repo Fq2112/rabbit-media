@@ -1,6 +1,7 @@
 @extends('layouts.mst_user')
 @section('title', 'Portfolios | Rabbit Media – Digital Creative Service')
 @push('styles')
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
     <style>
         #tabs .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
             color: #592f83 !important;
@@ -15,20 +16,32 @@
             border-top-right-radius: .25rem;
         }
 
-        .dropdown {
-            transform-style: preserve-3d;
-            transform: translate3d(0, 0, 10px) !important;
+        ul.ui-autocomplete {
+            color: #592f83;
+            border-radius: 0 0 1rem 1rem;
         }
 
-        .dropdown-menu {
-            height: auto !important;
-            position: relative !important;
-            transform: translate3d(0, 0, 10px) !important;
+        ul.ui-autocomplete .ui-menu-item .ui-state-active,
+        ul.ui-autocomplete .ui-menu-item .ui-state-active:hover,
+        ul.ui-autocomplete .ui-menu-item .ui-state-active:focus {
+            background: #592f83;
+            color: #fff;
+            border: 1px solid #592f83;
         }
 
-        ul.typeahead {
-            top: 0 !important;
-            left: 0 !important;
+        ul.ui-autocomplete .ui-menu-item:last-child .ui-state-active,
+        ul.ui-autocomplete .ui-menu-item:last-child .ui-state-active:hover,
+        ul.ui-autocomplete .ui-menu-item:last-child .ui-state-active:focus {
+            border-radius: 0 0 1rem 1rem;
+        }
+
+        .pagination > .disabled > a,
+        .pagination > .disabled > a:focus,
+        .pagination > .disabled > a:hover,
+        .pagination > .disabled > span,
+        .pagination > .disabled > span:focus,
+        .pagination > .disabled > span:hover {
+            pointer-events: none;
         }
     </style>
 @endpush
@@ -50,11 +63,10 @@
                 <div class="col-xl-5 col-lg-5 col-md-7 col-sm-7">
                     <form id="form-loadPortfolio">
                         <input type="hidden" name="category" id="jenis">
-                        <div class="row form-group has-feedback dropdown">
+                        <div class="row form-group has-feedback">
                             <div class="col-12">
                                 <input id="keyword" type="text" name="q" class="form-control" autocomplete="off"
-                                       value="{{$keyword}}" style="border-radius: 1rem" placeholder="Cari&hellip;"
-                                       data-provide="typeahead">
+                                       value="{{$keyword}}" style="border-radius: 1rem" placeholder="Cari&hellip;">
                                 <span class="glyphicon glyphicon-search form-control-feedback"></span>
                             </div>
                         </div>
@@ -101,7 +113,7 @@
     </div>
 @endsection
 @push('scripts')
-    <script src="{{asset('admins/modules/bootstrap3-typeahead.min.js')}}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <script>
         var last_page, $keyword = $("#keyword");
 
@@ -121,21 +133,22 @@
             @endif
         });
 
-        $keyword.typeahead({
-            source: [
-                    @foreach(\App\Models\Portofolio::all() as $row)
-                {
-                    id: "{{$row->id}}", name: "{{$row->nama}}", jenis_id: "{{$row->jenis_id}}"
-                },
-                @endforeach
-            ],
-            items: 5,
-            updater: function (item) {
-                $keyword.val(item);
-                loadPortfolios();
-                $("#tabList-" + item.jenis_id).click();
-                $("#tabList-" + item.jenis_id + " span").addClass('badge-primary').removeClass('badge-secondary');
-                return item;
+        $keyword.autocomplete({
+            source: function (request, response) {
+                $.getJSON('{{route('get.title.portfolios', ['title' => ''])}}/' + $keyword.val(), {
+                    name: request.term,
+                }, function (data) {
+                    response(data);
+                });
+            },
+            focus: function (event, ui) {
+                event.preventDefault();
+            },
+            select: function (event, ui) {
+                event.preventDefault();
+                $keyword.val(ui.item.nama);
+                $("#tabList-" + ui.item.jenis_id).click();
+                $("#tabList-" + ui.item.jenis_id + " span").addClass('badge-primary').removeClass('badge-secondary');
             }
         });
 
@@ -151,6 +164,12 @@
             e.preventDefault();
             loadPortfolios();
         });
+
+        function decodeHtml(html) {
+            var txt = document.createElement("textarea");
+            txt.innerHTML = html;
+            return txt.value;
+        }
 
         function filterPortfolio(id) {
             $("#nav-tab a").removeClass('show active');

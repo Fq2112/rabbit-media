@@ -187,9 +187,9 @@ class TransactionStaffController extends Controller
         $outcomes = Outcomes::wherenotnull('pemesanan_id')->when($service, function ($query) use ($service) {
             $query->whereHas('getPemesanan', function ($query) use ($service) {
                 $query->whereHas('getLayanan', function ($query) use ($service) {
-                    if ($service != 'any') {
+                    if($service != 'any'){
                         $query->where('jenis_id', $service);
-                    } else {
+                    } else{
                         $query->whereIn('jenis_id', JenisLayanan::pluck('id')->toArray());
                     }
                 });

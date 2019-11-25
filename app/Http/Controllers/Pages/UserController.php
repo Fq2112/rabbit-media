@@ -74,7 +74,7 @@ class UserController extends Controller
         $category = $request->category;
         $page = $request->page;
 
-        return view('pages.main.portofolio', compact('portfolios', 'types', 'keyword', 'category', 'page'));
+        return view('pages.main.portofolio', compact('types', 'keyword', 'category', 'page'));
     }
 
     public function getPortfolios(Request $request)
@@ -101,6 +101,17 @@ class UserController extends Controller
 
             $portfolios['data'][$i] = array_replace($jenis, $portfolios['data'][$i], $galleries, $encrypt, $cover);
             $i = $i + 1;
+        }
+
+        return $portfolios;
+    }
+
+    public function getTitlePortfolios($title)
+    {
+        $portfolios = Portofolio::where('nama', 'LIKE', '%' . $title . '%')->get();
+
+        foreach ($portfolios as $portfolio) {
+            $portfolio->label = strtoupper($portfolio->getJenisPortofolio->nama) . ' - ' . $portfolio->nama;
         }
 
         return $portfolios;

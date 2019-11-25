@@ -372,8 +372,7 @@
                                         <tbody>
                                         <tr>
                                             <td align="center" width="660">
-                                                <a name="Logo" style="display:block" href="{{route('home')}}"
-                                                   target="_blank">
+                                                <a name="Logo" style="display:block" href="{{route('home')}}" target="_blank">
                                                     <img src="{{asset('images/logo_black.png')}}" border="0"
                                                          style="display:block;width: 40%;margin: 1em" class="logo"></a>
                                             </td>
@@ -418,7 +417,7 @@
                                                     <tr>
                                                         <td>
                                                             <small>
-                                                                <a href="{{route('invoice.order', ['id' =>
+                                                                <a href="{{route('invoice.order', ['id' => 
                                                                 encrypt($data['order']->id)])}}"
                                                                    style="text-decoration: none;color: #592f83">
                                                                     <strong>{{$data['invoice']}}</strong></a>
@@ -708,8 +707,7 @@
                                         <tr>
                                             <td valign="top" width="20" class="hide">&nbsp;</td>
                                             <td align="center" valign="top" width="660" bgcolor="#1a1c21">
-                                                <a name="Logo_1" style="display:block;" href="{{route('home')}}"
-                                                   target="_blank">
+                                                <a name="Logo_1" style="display:block;" href="{{route('home')}}" target="_blank">
                                                     <img src="{{asset('images/logo_circle.png')}}" alt="logo"
                                                          border="0" style="display:block;width: 15%;"></a>
                                             </td>

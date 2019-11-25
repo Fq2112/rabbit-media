@@ -22,7 +22,7 @@
             font-family: 'Font Awesome 5 Free';
             font-weight: 900;
         }
-
+        
         .rating {
             border: none;
             float: left;

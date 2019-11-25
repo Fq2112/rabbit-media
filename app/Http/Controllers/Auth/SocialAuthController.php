@@ -64,7 +64,7 @@ class SocialAuthController extends Controller
 
             if ($provider == 'facebook') {
                 return back()->with('signed', 'Anda telah masuk.');
-            } else {
+            } else{
                 return redirect()->route('home')->with('signed', 'Anda telah masuk.');
             }
 

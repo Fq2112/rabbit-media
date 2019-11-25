@@ -2,6 +2,15 @@
 @section('title', 'The Rabbits: Dashboard | Rabbit Media – Digital Creative Service')
 @push('styles')
     <link rel="stylesheet" href="{{asset('css/bootstrap-datepicker.css')}}">
+    <style>
+        .bootstrap-select {
+            padding: 0 !important;
+        }
+
+        .bootstrap-select button {
+            border-color: #e4e6fc;
+        }
+    </style>
 @endpush
 @php $role = Auth::guard('admin')->user(); @endphp
 @section('content')
@@ -77,6 +86,30 @@
                         </div>
                     </div>
                 </a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Visitors Traffic</h4>
+                        <div class="card-header-form" style="margin-left: auto;">
+                            <form id="form-visitor" action="{{route('home-admin')}}">
+                                <div class="row">
+                                    <div class="col">
+                                        <input id="visitor" type="text" class="form-control yearpicker"
+                                               placeholder="Period Filter (yyyy)" name="visitor"
+                                               autocomplete="off" readonly>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="visitor_graph" height="100"></canvas>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -207,7 +240,7 @@
     <script src="{{asset('js/bootstrap-datepicker.js')}}"></script>
     <script>
         $(function () {
-            $("#period").datepicker({
+            $("#visitor, #period").datepicker({
                 format: "yyyy",
                 viewMode: "years",
                 minViewMode: "years",
@@ -217,9 +250,81 @@
             @if($service != "")
             $("#jenisLayanan_id").val('{{$service}}').selectpicker('refresh');
             @endif
+            @if($visitor != "")
+            $("#visitor").val('{{$visitor}}');
+            @endif
             @if($period != "")
             $("#period").val('{{$period}}');
             @endif
+        });
+        
+        var visitorGraph = document.getElementById("visitor_graph").getContext('2d');
+
+        new Chart(visitorGraph, {
+            type: 'line',
+            data: {
+                labels: [
+                    'January', 'February', 'March', 'April', 'May', 'June', 'July',
+                    'August', 'September', 'October', 'November', 'December'
+                ],
+                datasets: [{
+                    label: 'Visits',
+                    data: [
+                        @php $total = 0; @endphp
+                        @for($i=1;$i<=12;$i++)
+                        @php
+                            $total = 0;
+                            $visitors = \App\Models\Visitor::when($visitor, function ($query) use ($visitor) {
+                                $query->whereYear('date', $visitor);
+                            })->whereMonth('date',$i)->get();
+                            foreach ($visitors as $row){
+                                $total += $row->hits;
+                            }
+                        @endphp
+                        {{$total}},
+                        @endfor
+                    ],
+                    borderWidth: 2,
+                    backgroundColor: 'rgba(89,47,131,0.8)',
+                    borderWidth: 0,
+                    borderColor: 'transparent',
+                    pointBorderWidth: 0,
+                    pointRadius: 3.5,
+                    pointBackgroundColor: 'transparent',
+                    pointHoverBackgroundColor: 'rgba(89,47,131,0.8)',
+                }]
+            },
+            options: {
+                legend: {
+                    display: false
+                },
+                scales: {
+                    yAxes: [{
+                        gridLines: {
+                            display: true,
+                            drawBorder: false,
+                            color: '#f2f2f2',
+                        },
+                        ticks: {
+                            beginAtZero: true,
+                            stepSize: 100,
+                            callback: function (value, index, values) {
+                                return value;
+                            }
+                        }
+                    }],
+                    xAxes: [{
+                        gridLines: {
+                            display: false,
+                            tickMarkLength: 15,
+                        }
+                    }]
+                },
+            }
+        });
+
+        $("#visitor").on('change', function () {
+            $("#form-visitor")[0].submit();
         });
 
         var incomeGraph = document.getElementById("income_graph").getContext('2d');
